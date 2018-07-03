@@ -1,4 +1,5 @@
 import os
+import logging
 
 config = {
     "connector": {},
@@ -6,6 +7,8 @@ config = {
     "converter": {},
     "publisher": {
         "connection_address": os.environ["MESSAGE_BROKER_ADDRESS"],
-        "queue": "import"
+        "queue": "gob.workflow"
     }
 }
+
+LOGLEVEL = logging.WARNING

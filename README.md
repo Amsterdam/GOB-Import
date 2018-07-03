@@ -43,5 +43,5 @@ Or activate the previously created virtual environment
     
 Start the client:
 
-    cd src/client
-    python main.py
+    cd src
+    python client
