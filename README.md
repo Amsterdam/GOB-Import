@@ -28,8 +28,7 @@ Start the [GOB Message Broker](https://github.com/Amsterdam/GOB-Message-Broker)
 Expose the IP address of the message broker in the environment:
 
 ```bash
-docker inspect rabbitmq | grep IPAddress
-export MESSAGE_BROKER_ADDRESS=[ip-address]
+export MESSAGE_BROKER_ADDRESS=localhost
 ```
 
 Create a virtual environment:
@@ -44,4 +43,4 @@ Or activate the previously created virtual environment
 Start the client:
 
     cd src
-    python client
+    python -m client

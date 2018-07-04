@@ -2,39 +2,35 @@ import json
 import pika
 import atexit
 
-from config import config
-
 _connection = None
 _channel = None
 
 
-def connect():
-    '''
-    Connect to the RabbitMQ message broker.
+def connect(address):
+    """Connect to the RabbitMQ message broker.
     The connection is automatically closed at the end of the program
 
     :return: None
-    '''
+    """
     global _connection
     global _channel
 
-    _connection = pika.BlockingConnection(pika.ConnectionParameters(config["publisher"]["connection_address"]))
+    _connection = pika.BlockingConnection(pika.ConnectionParameters(address))
     _channel = _connection.channel()
 
     atexit.register(_disconnect)
 
 
-def publish(queue, key, msg):
-    '''
-    Publish a message on a message queue with the specific key
+def publish(config, queue, key, msg):
+    """Publish a message on a message queue with the specific key
 
     :param queue: name of the queue
     :param key: identifying key
     :param msg: message object (this will be translated to json before publishing it on the bus)
     :return: None
-    '''
+    """
     if _channel is None:
-        connect()
+        connect(address=config["connection_address"])
 
     json_msg = json.dumps(msg)
 
@@ -49,11 +45,10 @@ def publish(queue, key, msg):
 
 
 def _disconnect():
-    '''
-    Disconnect from the RabbitMQ message broker
+    """Disconnect from the RabbitMQ message broker
 
     :return: None
-    '''
+    """
     global _connection
     global _channel
 
