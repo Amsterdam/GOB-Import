@@ -10,4 +10,10 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 RUN rm requirements.txt
 
 # Copy client module
-COPY ./client client
+COPY client client
+
+# Copy tests
+COPY test.sh .flake8 ./
+
+# Copy jenkins files
+COPY jenkins jenkins
