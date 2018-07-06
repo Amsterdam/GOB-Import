@@ -19,8 +19,6 @@ Importing data consists of the following steps:
     * docker ce >= 18.03
     * python >= 3.6
     
-# Prerequisites
-
 # Local Installation
 
 Start the [GOB Message Broker](https://github.com/Amsterdam/GOB-Message-Broker)
@@ -34,7 +32,7 @@ export MESSAGE_BROKER_ADDRESS=localhost
 Create a virtual environment:
 
     python3 -m venv venv
-    pip install -r requirements.txt
+    pip install -r src/requirements.txt
     
 Or activate the previously created virtual environment
 
@@ -44,3 +42,16 @@ Start the client:
 
     cd src
     python -m client
+    
+# Docker
+
+Start the message broker, as described in the previous paragraph.
+
+No need to set MESSAGE_BROKER_ADDRESS, this is set to rabbitmq in docker-compose.yml.
+The message broker is accessed via the docker network "gob_network".
+
+docker-compose build
+docker-compose up
+
+the docker container is named import_client.
+ 
