@@ -1,0 +1,7 @@
+version: "3.0"
+
+services:
+  test:
+    build: ..
+    command: >
+      bash -c "echo Define lint, unit test and coverage tests"
