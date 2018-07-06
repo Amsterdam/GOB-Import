@@ -37,7 +37,7 @@ node {
             def image = docker.build("build.datapunt.amsterdam.nl:5000/datapunt/gob_import_client:${env.BUILD_NUMBER}",
                 "--shm-size 1G " +
                 "--build-arg BUILD_ENV=acc" +
-                " web")
+                " src")
             image.push()
         }
     }
