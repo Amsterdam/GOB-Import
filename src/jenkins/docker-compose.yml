@@ -4,4 +4,4 @@ services:
   test:
     build: ..
     command: >
-      bash -c "echo Define lint, unit test and coverage tests"
+      bash -c "./test.sh"

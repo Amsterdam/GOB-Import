@@ -55,3 +55,16 @@ docker-compose up
 
 the docker container is named import_client.
  
+# Tests
+
+Three kind of tests are run:
+  * Style checks ([flake8](http://flake8.pycqa.org/en/latest/))
+  * Unit tests
+  * Code Coverage tests
+ 
+The tests can be started by the test.sh script in the src directory:
+
+```bash
+cd src
+sh test.sh
+```
