@@ -38,7 +38,7 @@ def publish(config, queue, key, msg):
         exchange=queue,
         routing_key=key,
         properties=pika.BasicProperties(
-            delivery_mode=2 # Make messages persistent
+          delivery_mode=2  # Make messages persistent
         ),
         body=json_msg
     )
