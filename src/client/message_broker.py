@@ -21,7 +21,7 @@ def connect(address):
     atexit.register(_disconnect)
 
 
-def publish(config, queue, key, msg):
+def publish(config, key, msg):
     """Publish a message on a message queue with the specific key
 
     :param queue: name of the queue
@@ -35,7 +35,7 @@ def publish(config, queue, key, msg):
     json_msg = json.dumps(msg)
 
     _channel.basic_publish(
-        exchange=queue,
+        exchange=config["exchange"],
         routing_key=key,
         properties=pika.BasicProperties(
           delivery_mode=2  # Make messages persistent

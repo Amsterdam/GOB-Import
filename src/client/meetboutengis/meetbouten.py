@@ -1,3 +1,8 @@
+"""The meetboutengis Meetbouten import client
+
+The import is implemented by deriving from the abstract ImportClient class.
+
+"""
 import datetime
 import os.path
 
@@ -8,15 +13,34 @@ from client.import_client import ImportClient
 
 
 class Meetbouten(ImportClient):
+    """The Meetbouten class implements the ImportClient interface to import the Meetbouten data
+
+    """
+
     def __init__(self, config, input_dir):
+        """Initialize the import client
+
+        :param config: The configuration object for imports
+        :param input_dir: The directort where the import file resides, e.g. /download
+        """
         self._file_path = os.path.join(input_dir, "MEETBOUT.csv")
         self._meetbouten = None
         super().__init__(config)
 
     def id(self):
+        """Provide for an identification of this import client
+
+        :return:
+        """
         return f"Import Meetbouten from {self._file_path}"
 
     def connect(self):
+        """Connect to the datasource
+
+        The pandas library is used to connect to the data source
+
+        :return:
+        """
         self._data = pandas.read_csv(
             filepath_or_buffer=self._file_path,
             sep=";",
@@ -24,10 +48,19 @@ class Meetbouten(ImportClient):
             dtype=str)
 
     def read(self):
-        # No action required, data is read by pandas in self._data
+        """Read the data from the data source
+
+        No action required here, data is read by pandas in self._data
+
+        :return:
+        """
         pass
 
     def convert(self):
+        """Convert the input data to GOB format
+
+        :return:
+        """
         self._meetbouten = []
         for index, row in self._data.iterrows():
             xcoordinaat = as_decimal(row["BOUT_XCOORD"])
@@ -50,23 +83,31 @@ class Meetbouten(ImportClient):
                 "indicatie_beveiligd": as_str(row["BOUT_BEVEILIGD"]) != "N",
                 "eigenaar": as_str(row["BOUT_EIGENAAR"]),
                 "geometrie": f"POINT({xcoordinaat}, {ycoordinaat})",
-                "nabij_ref_adres": as_str(row["BOUT_ADRES"]),
-                "ligt_in_ref_bouwblok": as_str(row["BOUT_BLOKNR"]),
-                "ligt_in_ref_stadsdeel": as_str(row["BOUT_DEELRAAD"]),
+                "nabij_ref_adressen": as_str(row["BOUT_ADRES"]),
+                "ligt_in_ref_bouwblokken": as_str(row["BOUT_BLOKNR"]),
+                "ligt_in_ref_stadsdelen": as_str(row["BOUT_DEELRAAD"]),
                 "hoogte_tov_nap": as_decimal(row["BOUT_HOOGTENAP"]),
                 "zakking_cumulatief": as_decimal(row["BOUT_ZAKKINGCUM"]),
                 "zakkingssnelheid": as_decimal(row["BOUT_ZAKSNELH"]),
                 "datum": as_date(row["BOUT_DATUM"], "%Y%m%d"),
             }
             self._meetbouten.append(meetbout)
-            break
 
     def publish(self):
-        results = {
-            "source": "meetboutengis",
-            "entity": "meetbouten",
-            "version": "0.1",
-            "timestamp": datetime.datetime.now().isoformat(),
+        """Publish the import result
+
+        :return:
+        """
+        result = {
+            "header": {
+                "version": "0.1",   # This version is used in the system to allow for migrations
+                "entity": "meetbouten",
+                "entity_id": "meetboutid",
+                "source": "meetboutengis",
+                "source_id": "meetboutid",
+                "timestamp": datetime.datetime.now().isoformat(),
+            },
+            "summary": None,  # No log, metrics and qa indicators for now
             "contents": self._meetbouten
         }
-        self.publish_results(results)
+        self.publish_result(result)
