@@ -44,6 +44,20 @@ Start the client:
     cd src
     python -m client
     
+## Meetboutengis
+
+An import client is available for meetboutengis.
+In its first version, only meetbouten are imported.
+
+The import is started by:
+
+    python -m client.meetboutengis <directory>
+    
+The directory points to a directory where the meetboutengis dumps are located.
+
+In the next version the meetobouten will be read from the database.
+The current version serves as a working demo of an actual import client
+
 # Docker
 
 Start the message broker, as described in the previous paragraph.

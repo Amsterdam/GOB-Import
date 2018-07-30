@@ -25,7 +25,7 @@ class RequestsHandler(logging.Handler):
         }
 
         publish(
-            queue=self.config['queue'],
+            config=self.config,
             key=record.levelname,
             msg=log_msg
         )
