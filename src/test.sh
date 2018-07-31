@@ -14,4 +14,4 @@ export COVERAGE_FILE=/tmp/.coverage
 coverage erase
 coverage run -m unittest
 
-coverage report --include=./client/*.py # --fail-under=80
+coverage report --include=./gobimportclient/*.py # --fail-under=80

@@ -1,4 +1,4 @@
-"""The meetboutengis Meetbouten import client
+"""The meetboutengis Meetbouten import gobimportclient
 
 The import is implemented by deriving from the abstract ImportClient class.
 
@@ -9,7 +9,7 @@ import os.path
 from pandas import pandas
 from .util import as_str, as_decimal, as_date
 
-from client.import_client import ImportClient
+from gobimportclient.import_client import ImportClient
 
 
 class Meetbouten(ImportClient):
@@ -18,7 +18,7 @@ class Meetbouten(ImportClient):
     """
 
     def __init__(self, config, input_dir):
-        """Initialize the import client
+        """Initialize the import gobimportclient
 
         :param config: The configuration object for imports
         :param input_dir: The directort where the import file resides, e.g. /download
@@ -28,7 +28,7 @@ class Meetbouten(ImportClient):
         super().__init__(config)
 
     def id(self):
-        """Provide for an identification of this import client
+        """Provide for an identification of this import gobimportclient
 
         :return:
         """

@@ -1,12 +1,12 @@
-"""Meetboutengis import client
+"""Meetboutengis import gobimportclient
 
-The meetboutengis import client imports meetbouten related data from meetboutengis in GOB
+The meetboutengis import gobimportclient imports meetbouten related data from meetboutengis in GOB
 """
 import argparse
 
-from client.config import config
-from client.log import get_logger
-from client.meetboutengis.meetbouten import Meetbouten
+from gobimportclient.config import config
+from gobimportclient.log import get_logger
+from gobimportclient.meetboutengis.meetbouten import Meetbouten
 
 # Instantiate a logger for this import
 logger = get_logger(config=config["logger"], name="meetboutengis import")
@@ -19,7 +19,7 @@ parser.add_argument('datasource_dir',
 args = parser.parse_args()
 input_dir = args.datasource_dir
 
-# Which datasources are imported by this client
+# Which datasources are imported by this gobimportclient
 sources = [
     Meetbouten(config=config, input_dir=input_dir),
     # Metingen

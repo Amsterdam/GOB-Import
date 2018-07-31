@@ -2,7 +2,7 @@
 
 Template for a GOB Import Client
 
-The responsabiliy of a GOB import client is to import and convert data to GOB format and publish the results on the GOB Message Broker.
+The responsabiliy of a GOB import gobimportclient is to import and convert data to GOB format and publish the results on the GOB Message Broker.
 
 Importing data consists of the following steps:
 
@@ -39,24 +39,24 @@ Or activate the previously created virtual environment
 
     source venv/bin/activate
     
-Start the client:
+Start the gobimportclient:
 
     cd src
-    python -m client
+    python -m gobimportclient
     
 ## Meetboutengis
 
-An import client is available for meetboutengis.
+An import gobimportclient is available for meetboutengis.
 In its first version, only meetbouten are imported.
 
 The import is started by:
 
-    python -m client.meetboutengis <directory>
+    python -m gobimportclient.meetboutengis <directory>
     
 The directory points to a directory where the meetboutengis dumps are located.
 
 In the next version the meetobouten will be read from the database.
-The current version serves as a working demo of an actual import client
+The current version serves as a working demo of an actual import gobimportclient
 
 # Docker
 

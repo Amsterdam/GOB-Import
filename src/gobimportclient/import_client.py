@@ -1,4 +1,4 @@
-"""Abstract base class for an import client
+"""Abstract base class for an import gobimportclient
 
 Import clients should derive from this class.
 This allows for a generic control of imports
@@ -6,13 +6,13 @@ This allows for a generic control of imports
 """
 from abc import ABC, abstractmethod
 
-from client.message_broker import publish
+from gobimportclient.message_broker import publish
 
 
 class ImportClient(ABC):
-    """Abstract base class for an import client
+    """Abstract base class for an import gobimportclient
 
-    This class serves as an interface that needs to be implemented for every individual import client
+    This class serves as an interface that needs to be implemented for every individual import gobimportclient
 
     """
     def __init__(self, config):
@@ -20,9 +20,9 @@ class ImportClient(ABC):
 
     @abstractmethod
     def id(self):
-        """Every import client should be able to identify itself
+        """Every import gobimportclient should be able to identify itself
 
-        :return: The identification of the import client, e.g. Meetboutengis - meetbouten
+        :return: The identification of the import gobimportclient, e.g. Meetboutengis - meetbouten
         """
         pass
 

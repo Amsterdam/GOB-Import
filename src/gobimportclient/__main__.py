@@ -1,14 +1,14 @@
-"""Main program structure for an import client
+"""Main program structure for an import gobimportclient
 
 :return: None
 """
-from client.config import config
+from gobimportclient.config import config
 
-from client.connector import connect
-from client.reader import read
-from client.converter import convert
-from client.publisher import publish
-from client.log import get_logger
+from gobimportclient.connector import connect
+from gobimportclient.reader import read
+from gobimportclient.converter import convert
+from gobimportclient.publisher import publish
+from gobimportclient.log import get_logger
 
 
 logger = get_logger(config=config["logger"], name=__name__)
