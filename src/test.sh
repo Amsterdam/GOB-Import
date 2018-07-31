@@ -6,13 +6,12 @@ set -e # stop on any error
 echo "Running style checks"
 flake8
 
-ls -ahl
-
 echo "Running unit tests - MISSING!"
 python -m unittest
 
 echo "Running coverage tests - MISSING!"
 export COVERAGE_FILE=/tmp/.coverage
-#coverage erase
-#coverage run -m unittest
-#coverage report --include=./client/*.py --fail-under=80
+coverage erase
+coverage run -m unittest
+
+coverage report --include=./client/*.py # --fail-under=80
