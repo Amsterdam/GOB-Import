@@ -1,0 +1,110 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "version": {
+      "$id": "/properties/version",
+      "type": "string",
+      "title": "The Version Schema ",
+      "default": "",
+      "examples": [
+        "0.1"
+      ]
+    },
+    "entity": {
+      "$id": "/properties/entity",
+      "type": "string",
+      "title": "The Entity Schema ",
+      "default": "",
+      "examples": [
+        "meetbouten"
+      ]
+    },
+    "entity_id": {
+      "$id": "/properties/entity_id",
+      "type": "string",
+      "title": "The Entity_id Schema ",
+      "default": "",
+      "examples": [
+        "meetboutid"
+      ]
+    },
+    "source": {
+      "$id": "/properties/source",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$id": "/properties/source/properties/name",
+          "type": "string",
+          "title": "The Name Schema ",
+          "default": "",
+          "examples": [
+            "meetboutengis"
+          ]
+        },
+        "type": {
+          "$id": "/properties/source/properties/type",
+          "type": "string",
+          "title": "The Type Schema ",
+          "default": "",
+          "examples": [
+            "file"
+          ]
+        },
+        "config": {
+          "$id": "/properties/source/properties/config",
+          "type": "object",
+          "properties": {
+            "filetype": {
+              "$id": "/properties/source/properties/config/properties/filetype",
+              "type": "string",
+              "title": "The Filetype Schema ",
+              "default": "",
+              "examples": [
+                "CSV"
+              ]
+            },
+            "filename": {
+              "$id": "/properties/source/properties/config/properties/filename",
+              "type": "string",
+              "title": "The Filename Schema ",
+              "default": "",
+              "examples": [
+                "MEETBOUT.csv"
+              ]
+            },
+            "separator": {
+              "$id": "/properties/source/properties/config/properties/separator",
+              "type": "string",
+              "title": "The Separator Schema ",
+              "default": "",
+              "examples": [
+                ";"
+              ]
+            },
+            "encoding": {
+              "$id": "/properties/source/properties/config/properties/encoding",
+              "type": "string",
+              "title": "The Encoding Schema ",
+              "default": "",
+              "examples": [
+                "ISO-8859-1"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "source_id": {
+      "$id": "/properties/source_id",
+      "type": "string",
+      "title": "The Source_id Schema ",
+      "default": "",
+      "examples": [
+        "meetboutid"
+      ]
+    }
+  }
+}

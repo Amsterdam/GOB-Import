@@ -4,54 +4,64 @@ Import clients should derive from this class.
 This allows for a generic control of imports
 
 """
-from abc import ABC, abstractmethod
 
+from gobimportclient.connector import connect_to_file
+from gobimportclient.converter import convert_from_file
 from gobimportclient.message_broker import publish
+import datetime
 
 
-class ImportClient(ABC):
-    """Abstract base class for an import gobimportclient
+class ImportClient:
+    """Main class for an import gobimportclient
 
-    This class serves as an interface that needs to be implemented for every individual import gobimportclient
+    This class serves as an interface for every individual import gobimportclient
 
     """
-    def __init__(self, config):
+    def __init__(self, config, dataset):
         self._config = config
+        self._dataset = dataset
 
-    @abstractmethod
-    def id(self):
-        """Every import gobimportclient should be able to identify itself
+        self.source = self._dataset['source']
 
-        :return: The identification of the import gobimportclient, e.g. Meetboutengis - meetbouten
-        """
-        pass
+        self._data = None
+        self._gob_data = None
 
-    @abstractmethod
     def connect(self):
         """The first step of every import is a technical step. A connection need to be setup to
         connect to a database, filesystem, API, ...
 
         :return:
         """
-        pass
+        if self.source['type'] == "file":
+            self._data = connect_to_file(config=self.source['config'])
+        else:
+            raise NotImplementedError
 
-    @abstractmethod
     def read(self):
-        """The next step is to read the data from the external source
+        """Read the data from the data source
 
         :return:
         """
-        pass
+        if self.source['type'] == "file":
+            #  No action required here, data is read by pandas in self._data
+            pass
+        else:
+            raise NotImplementedError
 
-    @abstractmethod
     def convert(self):
-        """The data that is read by the read method needs to be converted to GOB format
+        """Convert the input data to GOB format
 
         :return:
         """
-        pass
+        """Read the data from the data source
 
-    @abstractmethod
+        :return:
+        """
+        if self.source['type'] == "file":
+            self._gob_data = convert_from_file(self._data, dataset=self._dataset)
+        else:
+            raise NotImplementedError
+
     def publish(self):
         """The result of the import needs to be published.
 
@@ -62,7 +72,19 @@ class ImportClient(ABC):
 
         :return:
         """
-        pass
+        result = {
+            "header": {
+                "version": self._dataset['version'],
+                "entity": self._dataset['entity'],
+                "entity_id": self._dataset['entity_id'],
+                "source": self._dataset['source']['name'],
+                "source_id": self._dataset['source']['entity_id'],
+                "timestamp": datetime.datetime.now().isoformat(),
+            },
+            "summary": None,  # No log, metrics and qa indicators for now
+            "contents": self._gob_data
+        }
+        self.publish_result(result)
 
     def publish_result(self, result):
         """Publish the results on the appropriate message broker queue

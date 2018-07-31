@@ -51,10 +51,15 @@ In its first version, only meetbouten are imported.
 
 The import is started by:
 
-    python -m gobimportclient.meetboutengis <directory>
+    python -m gobimportclient example/meetbouten.json
     
-The directory points to a directory where the meetboutengis dumps are located.
+This specific example requires an import-file, this can be placed in any directory you like,
+but the importclient will automatically look for it in the `src/data` directory:
 
+	# Custom datadir:
+	export LOCAL_DATADIR=/any/directory/you/like
+    python -m gobimportclient example/meetbouten.json
+	
 In the next version the meetobouten will be read from the database.
 The current version serves as a working demo of an actual import gobimportclient
 
