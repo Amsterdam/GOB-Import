@@ -16,4 +16,4 @@ COPY client client
 COPY test.sh .flake8 ./
 
 # Copy jenkins files
-COPY jenkins jenkins
+COPY .jenkins /.jenkins

@@ -80,6 +80,7 @@ Three kind of tests are run:
 The tests can be started by the test.sh script in the src directory:
 
 ```bash
+source venv/bin/activate
 cd src
 sh test.sh
 ```
