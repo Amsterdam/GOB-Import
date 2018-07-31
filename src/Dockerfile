@@ -12,6 +12,9 @@ RUN rm requirements.txt
 # Copy client module
 COPY client client
 
+# Copy test module
+COPY tests tests
+
 # Copy tests
 COPY test.sh .flake8 ./
 

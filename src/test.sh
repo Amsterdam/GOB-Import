@@ -6,6 +6,8 @@ set -e # stop on any error
 echo "Running style checks"
 flake8
 
+ls -ahl
+
 echo "Running unit tests - MISSING!"
 python -m unittest
 
