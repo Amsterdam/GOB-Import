@@ -2,6 +2,8 @@ version: "3.0"
 
 services:
   test:
-    build: ../../Dockerfile.test
+    build:
+      context: ../..
+      dockerfile: Dockerfile.test
     command: >
       bash -c "./test.sh"
