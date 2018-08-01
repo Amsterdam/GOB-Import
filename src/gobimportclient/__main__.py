@@ -8,9 +8,6 @@ Requires a dataset description-file to run:
 """
 import argparse
 import json
-import os
-
-from jsonschema import validate
 
 from gobimportclient.config import config
 from gobimportclient.import_client import ImportClient
