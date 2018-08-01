@@ -33,13 +33,6 @@ logger.info("Reading dataset description")
 with open(input_file) as file:
     dataset = json.load(file)
 
-current_dir = os.path.dirname(__file__)
-schema_file = os.path.join(current_dir, SCHEMA_FILE)
-with open(schema_file) as file:
-    schema = json.load(file)
-
-validate(dataset, schema)
-
 logger.info(f"Import dataset {dataset['entity']} starts")
 
 import_client = ImportClient(config=config, dataset=dataset)
