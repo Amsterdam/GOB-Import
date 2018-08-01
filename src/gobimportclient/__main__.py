@@ -35,17 +35,11 @@ for input_file in args.datasource_description:
 
     import_client = ImportClient(config=config, dataset=dataset)
 
-    import_client.connect()
-    import_client.read()
-    import_client.convert()
-    import_client.publish()
-    logger.info(f"Import dataset {dataset['entity']} ended")
-
-    # try:
-    #     import_client.connect()
-    #     import_client.read()
-    #     import_client.convert()
-    #     import_client.publish()
-    #     logger.info(f"Import dataset {dataset['entity']} ended")
-    # except Exception as e:
-    #     logger.error(f"Import dataset {dataset['entity']} failed: {str(e)}")
+    try:
+        import_client.connect()
+        import_client.read()
+        import_client.convert()
+        import_client.publish()
+        logger.info(f"Import dataset {dataset['entity']} ended")
+    except Exception as e:
+        logger.error(f"Import dataset {dataset['entity']} failed: {str(e)}")
