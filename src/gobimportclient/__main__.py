@@ -1,4 +1,4 @@
-"""Main program structure for an import gobimportclient
+"""Main program structure for an import client
 
 Requires a dataset description-file to run:
 

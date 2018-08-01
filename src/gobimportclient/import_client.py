@@ -1,20 +1,21 @@
-"""Abstract base class for an import gobimportclient
+"""Abstract base class for an import client
 
 Import clients should derive from this class.
 This allows for a generic control of imports
 
 """
 
+import datetime
+
 from gobimportclient.connector import connect_to_file
 from gobimportclient.converter import convert_from_file
 from gobimportclient.message_broker import publish
-import datetime
 
 
 class ImportClient:
-    """Main class for an import gobimportclient
+    """Main class for an import client
 
-    This class serves as an interface for every individual import gobimportclient
+    This class serves as the main client for which the import can be configured in a dataset.json
 
     """
     def __init__(self, config, dataset):
