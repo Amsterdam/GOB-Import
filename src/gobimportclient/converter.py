@@ -10,36 +10,45 @@ def as_decimal(value):
     return str(value).strip().replace(",", ".") if not pandas.isnull(value) else None
 
 
+def as_number(value):
+    decimal = as_decimal(value)
+    return str.split(decimal, ".")[0] if decimal is not None else None
+
+
 def as_str(value):
     return str(value) if not pandas.isnull(value) else None
+
+
+def as_char(value):
+    return str(value)[0] if not pandas.isnull(value) else None
 
 
 def as_boolean(value):
     return str(False) if value == 'N' else str(True)
 
 
-def as_date(value, format):
-    return datetime.datetime.strptime(str(value), format).date().strftime("%Y-%m-%d") \
+def as_date(value):
+    return datetime.datetime.strptime(str(value), "%Y%m%d").date().strftime("%Y-%m-%d") \
         if not pandas.isnull(value) else None
 
 
-def converted_value(value, type):
-    if type == "string":
-        return as_str(value)
-    elif type == "decimal":
-        return as_decimal(value)
-    elif type == "boolean":
-        return as_boolean(value)
-    elif type == "date":
-        return as_date(value, "%Y%m%d")
-    else:
-        raise NotImplementedError
+type_mapper = {
+    "string": as_str,
+    "char": as_char,
+    "decimal": as_decimal,
+    "number": as_number,
+    "boolean": as_boolean,
+    "date": as_date
+}
 
 
-def extract_from_source(row, metadata):
+def extract_field(row, metadata):
     field = metadata['source_mapping']
+    type = metadata['type']
     value = row[field]
-    return converted_value(value, metadata['type'])
+    if type in type_mapper:
+        return type_mapper[type](value)
+    raise NotImplementedError("Undefined type")
 
 
 def calculate_field(entity, metadata):
@@ -61,7 +70,7 @@ def convert_from_file(data, dataset):
         calculate_fields = [field for field, desc in model.items() if 'calculated' in desc]
 
         for index, row in data.iterrows():
-            target_entity = {field: extract_from_source(row, model[field]) for field in extract_fields}
+            target_entity = {field: extract_field(row, model[field]) for field in extract_fields}
 
             for field in calculate_fields:
                 target_entity[field] = calculate_field(target_entity, model[field])

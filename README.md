@@ -47,18 +47,18 @@ Start the client:
 ## Meetboutengis
 
 An import client is available for meetboutengis.
-In its first version, only meetbouten are imported.
+In its first version, only meetbouten and metingen are imported.
 
 The import is started by:
 
-    python -m gobimportclient example/meetbouten.json
+    python -m gobimportclient example/meetbouten.json example/metingen.json
     
-This specific example requires an import-file, this can be placed in any directory you like,
+This specific example require an import-files, these can be placed in any directory you like,
 but the importclient will automatically look for it in the `src/data` directory:
 
 	# Custom datadir:
 	export LOCAL_DATADIR=/any/directory/you/like
-    python -m gobimportclient example/meetbouten.json
+    python -m gobimportclient example/meetbouten.json example/metingen.json
 	
 In the next version the meetobouten will be read from the database.
 The current version serves as a working demo of an actual import client

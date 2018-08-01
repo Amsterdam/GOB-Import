@@ -75,7 +75,7 @@
       "source_mapping": "BOUT_ZAKSNELH"
     },
     "datum": {
-      "type": "decimal",
+      "type": "date",
       "source_mapping": "BOUT_DATUM"
     },
     "geometrie": {

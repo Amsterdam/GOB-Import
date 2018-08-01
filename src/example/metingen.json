@@ -1,0 +1,75 @@
+{
+  "version": "0.1",
+  "entity": "meting",
+  "entity_id": "metingid",
+  "source": {
+    "name": "meetboutengis",
+    "entity": "meting",
+    "entity_id": "mebo_id",
+    "type": "file",
+    "config": {
+      "filetype": "CSV",
+      "filename": "METINGBOUT.csv",
+      "separator": ";",
+      "encoding": "ISO-8859-1"
+    }
+  },
+  "gob_model": {
+    "metingid": {
+      "type": "string",
+      "source_mapping": "MEBO_ID"
+    },
+    "datum": {
+      "type": "date",
+      "source_mapping": "MEBO_DATUM"
+    },
+    "type": {
+      "type": "char",
+      "source_mapping": "MEBO_TYPE"
+    },
+    "hoogtenap": {
+      "type": "decimal",
+      "source_mapping": "MEBO_HOOGTENAP"
+    },
+    "zakking": {
+      "type": "decimal",
+      "source_mapping": "MEBO_ZAKKING"
+    },
+    "hoort_bij_ref_meetbout": {
+      "type": "string",
+      "source_mapping": "BOUT_NR"
+    },
+    "refereert_aan_ref_refpunt1": {
+      "type": "string",
+      "source_mapping": "REFP1_NR"
+    },
+    "refereert_aan_ref_refpunt2": {
+      "type": "string",
+      "source_mapping": "REFP2_NR"
+    },
+    "refereert_aan_ref_refpunt3": {
+      "type": "string",
+      "source_mapping": "REFP3_NR"
+    },
+    "zakkingssnelheid": {
+      "type": "decimal",
+      "source_mapping": "MEBO_ZAKSNELH"
+    },
+    "zakkingcumulatief": {
+      "type": "decimal",
+      "source_mapping": "MEBO_ZAKKINGCUM"
+    },
+    "is_gemeten_door_ref_onderneming": {
+      "type": "string",
+      "source_mapping": "MEBO_PLOEG"
+    },
+    "aantaldagen": {
+      "type": "number",
+      "source_mapping": "AANTALDAGEN"
+    },
+    "wijzevaninwinnen": {
+      "type": "char",
+      "source_mapping": "WVI"
+    }
+  }
+}
