@@ -52,9 +52,7 @@ class ImportClient:
     def convert(self):
         """Convert the input data to GOB format
 
-        :return:
-        """
-        """Read the data from the data source
+        Todo: quality check (where should that be implemented) make sure no double id's are imported.
 
         :return:
         """
@@ -79,7 +77,6 @@ class ImportClient:
                 "entity": self._dataset['entity'],
                 "entity_id": self._dataset['entity_id'],
                 "source": self._dataset['source']['name'],
-                "source_id": self._dataset['source']['entity_id'],
                 "timestamp": datetime.datetime.now().isoformat(),
             },
             "summary": None,  # No log, metrics and qa indicators for now

@@ -5,7 +5,7 @@
   "source": {
     "name": "meetboutengis",
     "entity": "meting",
-    "entity_id": "mebo_id",
+    "entity_id": "MEBO_ID",
     "type": "file",
     "config": {
       "filetype": "CSV",

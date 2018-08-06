@@ -71,7 +71,7 @@ if (BRANCH == "master") {
     }
 
     stage('Waiting for approval') {
-        slackSend channel: '#ci-channel', color: 'warning', message: 'gob_import_client API is waiting for Production Release - please confirm'
+        slackSend channel: '#ci-channel', color: 'warning', message: 'gob_import_client service is waiting for Production Release - please confirm'
         input "Deploy to Production?"
     }
 

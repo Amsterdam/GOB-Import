@@ -53,9 +53,9 @@ def extract_field(row, metadata):
 
 def calculate_field(entity, metadata):
     if metadata['type'] == "geo_point":
-        x_source = metadata['calculated'][0]
-        y_source = metadata['calculated'][1]
-        return f"POINT({entity[x_source]}, {entity[y_source]})",
+        x_source_field = metadata['calculated'][0]
+        y_source_field = metadata['calculated'][1]
+        return f"POINT({entity[x_source_field]}, {entity[y_source_field]})"
     else:
         raise NotImplementedError
 
@@ -70,7 +70,12 @@ def convert_from_file(data, dataset):
         calculate_fields = [field for field, desc in model.items() if 'calculated' in desc]
 
         for index, row in data.iterrows():
+            # extract source fields into target entity
             target_entity = {field: extract_field(row, model[field]) for field in extract_fields}
+
+            # add explicit source id, as string, to target_entity
+            source_id_field = dataset['source']['entity_id']
+            target_entity['_source_id'] = type_mapper["string"](row[source_id_field])
 
             for field in calculate_fields:
                 target_entity[field] = calculate_field(target_entity, model[field])

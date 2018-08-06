@@ -4,7 +4,7 @@
   "entity_id": "meetboutid",
   "source": {
     "name": "meetboutengis",
-    "entity_id": "meetboutid",
+    "entity_id": "BOUT_NR",
     "type": "file",
     "config": {
       "filetype": "CSV",
