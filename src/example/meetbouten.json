@@ -1,0 +1,90 @@
+{
+  "version": "0.1",
+  "entity": "meetbouten",
+  "entity_id": "meetboutid",
+  "source": {
+    "name": "meetboutengis",
+    "entity_id": "BOUT_NR",
+    "type": "file",
+    "config": {
+      "filetype": "CSV",
+      "filename": "MEETBOUT.csv",
+      "separator": ";",
+      "encoding": "ISO-8859-1"
+    }
+  },
+  "gob_model": {
+    "meetboutid": {
+      "type": "string",
+      "source_mapping": "BOUT_NR"
+    },
+    "xcoordinaat": {
+      "type": "decimal",
+      "source_mapping": "BOUT_XCOORD"
+    },
+    "ycoordinaat": {
+      "type": "decimal",
+      "source_mapping": "BOUT_YCOORD"
+    },
+    "locatie": {
+      "type": "string",
+      "source_mapping": "BOUT_LOCATIE"
+    },
+    "bouwblokzijde": {
+      "type": "string",
+      "source_mapping": "BOUT_BLOKZIJDE"
+    },
+    "blokeenheid": {
+      "type": "string",
+      "source_mapping": "BOUT_BLOKEENH"
+    },
+    "status": {
+      "type": "string",
+      "source_mapping": "BOUT_STATUS"
+    },
+    "indicatie_beveiligd": {
+      "type": "boolean",
+      "source_mapping": "BOUT_BEVEILIGD"
+    },
+    "eigenaar": {
+      "type": "string",
+      "source_mapping": "BOUT_EIGENAAR"
+    },
+    "nabij_ref_adressen": {
+      "type": "string",
+      "source_mapping": "BOUT_ADRES"
+    },
+    "ligt_in_ref_bouwblokken": {
+      "type": "string",
+      "source_mapping": "BOUT_BLOKNR"
+    },
+    "ligt_in_ref_stadsdelen": {
+      "type": "string",
+      "source_mapping": "BOUT_DEELRAAD"
+    },
+    "hoogte_tov_nap": {
+      "type": "decimal",
+      "source_mapping": "BOUT_HOOGTENAP"
+    },
+    "zakking_cumulatief": {
+      "type": "decimal",
+      "source_mapping": "BOUT_ZAKKINGCUM"
+    },
+    "zakkingssnelheid": {
+      "type": "decimal",
+      "source_mapping": "BOUT_ZAKSNELH"
+    },
+    "datum": {
+      "type": "date",
+      "source_mapping": "BOUT_DATUM"
+    },
+    "geometrie": {
+      "type": "geo_point",
+      "srid": "RD",
+      "calculated": [
+        "xcoordinaat",
+        "ycoordinaat"
+      ]
+    }
+  }
+}

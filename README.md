@@ -42,19 +42,24 @@ Or activate the previously created virtual environment
 Start the client:
 
     cd src
-    python -m client
+    python -m gobimportclient
     
 ## Meetboutengis
 
 An import client is available for meetboutengis.
-In its first version, only meetbouten are imported.
+In its first version, only meetbouten and metingen are imported.
 
 The import is started by:
 
-    python -m client.meetboutengis <directory>
+    python -m gobimportclient example/meetbouten.json example/metingen.json
     
-The directory points to a directory where the meetboutengis dumps are located.
+This specific example require an import-files, these can be placed in any directory you like,
+but the importclient will automatically look for it in the `src/data` directory:
 
+	# Custom datadir:
+	export LOCAL_DATADIR=/any/directory/you/like
+    python -m gobimportclient example/meetbouten.json example/metingen.json
+	
 In the next version the meetobouten will be read from the database.
 The current version serves as a working demo of an actual import client
 
@@ -80,6 +85,7 @@ Three kind of tests are run:
 The tests can be started by the test.sh script in the src directory:
 
 ```bash
+source venv/bin/activate
 cd src
 sh test.sh
 ```

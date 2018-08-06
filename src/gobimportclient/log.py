@@ -1,8 +1,8 @@
 import logging
 import datetime
 
-from client.message_broker import publish
-from client.config import LOGFORMAT, LOGLEVEL
+from gobimportclient.message_broker import publish
+from gobimportclient.config import LOGFORMAT, LOGLEVEL
 
 
 class RequestsHandler(logging.Handler):

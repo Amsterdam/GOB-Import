@@ -11,3 +11,12 @@ RUN rm requirements.txt
 
 # Copy gobimportclient module
 COPY gobimportclient gobimportclient
+
+# Copy test module
+COPY tests tests
+
+# Copy tests
+COPY test.sh .flake8 ./
+
+# Copy jenkins files
+COPY .jenkins /.jenkins
