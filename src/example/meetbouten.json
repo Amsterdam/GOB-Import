@@ -15,71 +15,71 @@
   },
   "gob_model": {
     "meetboutid": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_NR"
     },
     "xcoordinaat": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "BOUT_XCOORD"
     },
     "ycoordinaat": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "BOUT_YCOORD"
     },
     "locatie": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_LOCATIE"
     },
     "bouwblokzijde": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_BLOKZIJDE"
     },
     "blokeenheid": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_BLOKEENH"
     },
     "status": {
-      "type": "string",
+      "type": "GOB.Character",
       "source_mapping": "BOUT_STATUS"
     },
     "indicatie_beveiligd": {
-      "type": "boolean",
+      "type": "GOB.Boolean",
       "source_mapping": "BOUT_BEVEILIGD"
     },
     "eigenaar": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_EIGENAAR"
     },
     "nabij_ref_adressen": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_ADRES"
     },
     "ligt_in_ref_bouwblokken": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_BLOKNR"
     },
     "ligt_in_ref_stadsdelen": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_DEELRAAD"
     },
     "hoogte_tov_nap": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "BOUT_HOOGTENAP"
     },
     "zakking_cumulatief": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "BOUT_ZAKKINGCUM"
     },
     "zakkingssnelheid": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "BOUT_ZAKSNELH"
     },
     "datum": {
-      "type": "date",
+      "type": "GOB.Date",
       "source_mapping": "BOUT_DATUM"
     },
     "geometrie": {
-      "type": "geo_point",
+      "type": "GOB.Geo.Point",
       "srid": "RD",
       "calculated": [
         "xcoordinaat",

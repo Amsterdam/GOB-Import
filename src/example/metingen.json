@@ -16,59 +16,59 @@
   },
   "gob_model": {
     "metingid": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "MEBO_ID"
     },
     "datum": {
-      "type": "date",
+      "type": "GOB.Date",
       "source_mapping": "MEBO_DATUM"
     },
     "type": {
-      "type": "char",
+      "type": "GOB.Character",
       "source_mapping": "MEBO_TYPE"
     },
     "hoogtenap": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "MEBO_HOOGTENAP"
     },
     "zakking": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "MEBO_ZAKKING"
     },
     "hoort_bij_ref_meetbout": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "BOUT_NR"
     },
     "refereert_aan_ref_refpunt1": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "REFP1_NR"
     },
     "refereert_aan_ref_refpunt2": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "REFP2_NR"
     },
     "refereert_aan_ref_refpunt3": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "REFP3_NR"
     },
     "zakkingssnelheid": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "MEBO_ZAKSNELH"
     },
     "zakkingcumulatief": {
-      "type": "decimal",
+      "type": "GOB.Decimal",
       "source_mapping": "MEBO_ZAKKINGCUM"
     },
     "is_gemeten_door_ref_onderneming": {
-      "type": "string",
+      "type": "GOB.String",
       "source_mapping": "MEBO_PLOEG"
     },
     "aantaldagen": {
-      "type": "number",
+      "type": "GOB.Number",
       "source_mapping": "AANTALDAGEN"
     },
     "wijzevaninwinnen": {
-      "type": "char",
+      "type": "GOB.Character",
       "source_mapping": "WVI"
     }
   }

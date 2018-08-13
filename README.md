@@ -21,9 +21,11 @@ Importing data consists of the following steps:
     
 # Local Installation
 
-Start the [GOB Message Broker](https://github.com/Amsterdam/GOB-Message-Broker)
+Start the [GOB Workflow](https://github.com/Amsterdam/GOB-Workflow)
 
-Expose the IP address of the message broker in the environment:
+You will end up with a running RabbitMQ instance, and a workflow manager listening to it.
+
+Expose the IP address of the message queue in the environment:
 
 ```bash
 export MESSAGE_BROKER_ADDRESS=localhost

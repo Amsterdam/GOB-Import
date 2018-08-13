@@ -33,12 +33,12 @@ def as_date(value):
 
 
 type_mapper = {
-    "string": as_str,
-    "char": as_char,
-    "decimal": as_decimal,
-    "number": as_number,
-    "boolean": as_boolean,
-    "date": as_date
+    "GOB.String": as_str,
+    "GOB.Character": as_char,
+    "GOB.Decimal": as_decimal,
+    "GOB.Number": as_number,
+    "GOB.Boolean": as_boolean,
+    "GOB.Date": as_date
 }
 
 
@@ -52,7 +52,7 @@ def extract_field(row, metadata):
 
 
 def calculate_field(entity, metadata):
-    if metadata['type'] == "geo_point":
+    if metadata['type'] == "GOB.Geo.Point":
         x_source_field = metadata['calculated'][0]
         y_source_field = metadata['calculated'][1]
         return f"POINT({entity[x_source_field]}, {entity[y_source_field]})"
@@ -75,7 +75,7 @@ def convert_from_file(data, dataset):
 
             # add explicit source id, as string, to target_entity
             source_id_field = dataset['source']['entity_id']
-            target_entity['_source_id'] = type_mapper["string"](row[source_id_field])
+            target_entity['_source_id'] = type_mapper["GOB.String"](row[source_id_field])
 
             for field in calculate_fields:
                 target_entity[field] = calculate_field(target_entity, model[field])
