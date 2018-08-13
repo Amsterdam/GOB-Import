@@ -77,6 +77,7 @@ class ImportClient:
                 "entity": self._dataset['entity'],
                 "entity_id": self._dataset['entity_id'],
                 "source": self._dataset['source']['name'],
+                "gob_model": self._dataset['gob_model'],
                 "timestamp": datetime.datetime.now().isoformat(),
             },
             "summary": None,  # No log, metrics and qa indicators for now
