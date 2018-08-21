@@ -1,3 +1,9 @@
+"""Implementation of data input connectors
+
+The following connectors are implemented in this module:
+    CSV - Connects to a csv formatted file, using the separator and encoding as specified in the config parameter
+
+"""
 import os
 import pandas
 
@@ -7,7 +13,7 @@ from gobimportclient.config import LOCAL_DATADIR
 def connect_to_file(config):
     """Connect to the datasource
 
-    The pandas library is used to connect to the data source
+    The pandas library is used to connect to the data source for CSV data files
 
     :return:
     """

@@ -1,3 +1,8 @@
+"""Message Broker
+
+This module implements a synchronous message broker connection on which messages can be published
+
+"""
 import json
 import pika
 import atexit
@@ -24,7 +29,7 @@ def connect(address):
 def publish(config, key, msg):
     """Publish a message on a message queue with the specific key
 
-    :param queue: name of the queue
+    :param config: message broker config
     :param key: identifying key
     :param msg: message object (this will be translated to json before publishing it on the bus)
     :return: None
