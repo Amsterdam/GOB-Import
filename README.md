@@ -41,21 +41,15 @@ Or activate the previously created virtual environment
 
     source venv/bin/activate
     
-Start the client:
+## Meetbouten and Metingen
 
-    cd src
-    python -m gobimportclient
-    
-## Meetboutengis
-
-An import client is available for meetboutengis.
 In its first version, only meetbouten and metingen are imported.
 
 The import is started by:
 
     python -m gobimportclient example/meetbouten.json example/metingen.json
     
-This specific example require an import-files, these can be placed in any directory you like,
+This specific example require import-files, these can be placed in any directory you like,
 but the importclient will automatically look for it in the `src/data` directory:
 
 	# Custom datadir:
