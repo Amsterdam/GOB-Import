@@ -1,3 +1,13 @@
+"""Logging
+
+This module contains the logging methods.
+
+Logging is published on the message broker to allow for central collecting and overall reporting
+
+Todo:
+    The technical logging should be routed to the technical logging environment (eg Kibana)
+
+"""
 import logging
 import datetime
 

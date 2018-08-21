@@ -1,3 +1,12 @@
+"""Configuration for an import client
+
+This module contains the configuration for the data import.
+
+Two environment variables are used:
+    MESSAGE_BROKER_ADDRESS - The address of the message broker (localhost when running locally)
+    LOCAL_DATADIR - The directory in which any input data files are located (default src/data)
+
+"""
 import os
 import logging
 

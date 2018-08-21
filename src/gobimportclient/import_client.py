@@ -1,8 +1,11 @@
-"""Abstract base class for an import client
+"""ImportClient class
 
-Import clients should derive from this class.
-This allows for a generic control of imports
+An ImportClient is instantiated using a configuration and dataset definition.
+The configuration is shared between import clients and contains for instance the message broker to
+publish the results
+The dataset is specific for each import client and tells for instance which fields should be extracted
 
+The current implementation assumes csv-file based imports
 """
 
 import datetime
@@ -24,8 +27,8 @@ class ImportClient:
 
         self.source = self._dataset['source']
 
-        self._data = None
-        self._gob_data = None
+        self._data = None       # Holds the data in imput format
+        self._gob_data = None   # Holds the imported data in GOB format
 
     def connect(self):
         """The first step of every import is a technical step. A connection need to be setup to
