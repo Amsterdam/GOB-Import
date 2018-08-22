@@ -47,6 +47,7 @@ In its first version, only meetbouten and metingen are imported.
 
 The import is started by:
 
+    cd src
     python -m gobimportclient example/meetbouten.json example/metingen.json
     
 This specific example require import-files, these can be placed in any directory you like,
