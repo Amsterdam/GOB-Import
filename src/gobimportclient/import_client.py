@@ -6,6 +6,10 @@ publish the results
 The dataset is specific for each import client and tells for instance which fields should be extracted
 
 The current implementation assumes csv-file based imports
+
+Todo: improve type conversion
+    e.g. for bools the true and false values are hardcoded.
+    N = False, else is True, but this can vary per import
 """
 
 import datetime
