@@ -18,5 +18,5 @@ config = {
 LOGFORMAT = "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
 LOGLEVEL = logging.INFO
 
-LOCAL_DATADIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+LOCAL_DATADIR = os.path.join(os.path.dirname(__file__), '..', 'example', 'data')
 LOCAL_DATADIR = os.getenv('LOCAL_DATADIR', LOCAL_DATADIR)
