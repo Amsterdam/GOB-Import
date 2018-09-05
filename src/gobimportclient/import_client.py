@@ -14,9 +14,11 @@ Todo: improve type conversion
 
 import datetime
 
+from gobcore.events.import_message import MessageMetaData, ImportMessage
+from gobcore.message_broker import publish
+
 from gobimportclient.connector import connect_to_file
 from gobimportclient.converter import convert_from_file
-from gobimportclient.message_broker import publish
 
 
 class ImportClient:
@@ -25,10 +27,8 @@ class ImportClient:
     This class serves as the main client for which the import can be configured in a dataset.json
 
     """
-    def __init__(self, config, dataset):
-        self._config = config
+    def __init__(self, dataset):
         self._dataset = dataset
-
         self.source = self._dataset['source']
 
         self._data = None       # Holds the data in imput format
@@ -78,27 +78,15 @@ class ImportClient:
 
         :return:
         """
-        result = {
-            "header": {
-                "version": self._dataset['version'],
-                "entity": self._dataset['entity'],
-                "entity_id": self._dataset['entity_id'],
-                "source": self._dataset['source']['name'],
-                "gob_model": self._dataset['gob_model'],
-                "timestamp": datetime.datetime.now().isoformat(),
-            },
-            "summary": None,  # No log, metrics and qa indicators for now
-            "contents": self._gob_data
-        }
-        self.publish_result(result)
+        metadata = MessageMetaData(
+            source=self._dataset['source']['name'],
+            id_column=self._dataset['entity_id'],
+            entity=self._dataset['entity'],
+            version=self._dataset['version'],
+            model=self._dataset['gob_model'],
+            timestamp=datetime.datetime.now().isoformat()
+        )
 
-    def publish_result(self, result):
-        """Publish the results on the appropriate message broker queue
+        import_message = ImportMessage.create_import_message(metadata.as_header, None, self._gob_data)
 
-        :param result:
-        :return:
-        """
-        publish(
-            config=self._config["publisher"],
-            key="fullimport.proposal",
-            msg=result)
+        publish("gob.workflow.proposal", "fullimport.proposal", import_message)
