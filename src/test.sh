@@ -13,5 +13,4 @@ echo "Running coverage tests - MISSING!"
 export COVERAGE_FILE=/tmp/.coverage
 coverage erase
 coverage run -m unittest
-
-coverage report --include=./gobimportclient/*.py # --fail-under=80
+coverage report --fail-under=0 gobimportclient/*.py
