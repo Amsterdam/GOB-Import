@@ -40,7 +40,6 @@ def _extract_field(row, metadata):
     field_source = metadata['source_mapping']
 
     gob_type = get_gob_type(field_type)
-    value = row[field_source]
 
     if gob_type.is_composite:
         # extract multiple key, value pairs to offer to gob_type
@@ -50,6 +49,7 @@ def _extract_field(row, metadata):
 
         return gob_type.to_str_or_none(**values)
     else:
+        value = row[field_source]
         return gob_type.to_str_or_none(value)
 
 
