@@ -12,6 +12,7 @@ from gobcore.log import get_logger
 from gobcore.model import GOBModel
 
 from gobimportclient.import_client import ImportClient
+from gobimportclient.mapping import get_mapping
 
 logger = get_logger(name=__name__)
 
@@ -29,7 +30,7 @@ for input_name in args.datasource_description:
 
     logger.info(f"Import dataset {input_name} starts")
 
-    import_client = ImportClient(dataset=gob_model.get_model)
+    import_client = ImportClient(dataset=get_mapping(input_name))
 
     try:
         import_client.connect()
