@@ -21,7 +21,8 @@
     },
     "datum": {
       "type": "GOB.Date",
-      "source_mapping": "MEBO_DATUM"
+      "source_mapping": "MEBO_DATUM",
+      "format": "%Y%m%d"
     },
     "type": {
       "type": "GOB.Character",
@@ -29,11 +30,13 @@
     },
     "hoogtenap": {
       "type": "GOB.Decimal",
-      "source_mapping": "MEBO_HOOGTENAP"
+      "source_mapping": "MEBO_HOOGTENAP",
+      "decimal_separator": ","
     },
     "zakking": {
       "type": "GOB.Decimal",
-      "source_mapping": "MEBO_ZAKKING"
+      "source_mapping": "MEBO_ZAKKING",
+      "decimal_separator": ","
     },
     "hoort_bij_ref_meetbout": {
       "type": "GOB.String",
@@ -53,18 +56,20 @@
     },
     "zakkingssnelheid": {
       "type": "GOB.Decimal",
-      "source_mapping": "MEBO_ZAKSNELH"
+      "source_mapping": "MEBO_ZAKSNELH",
+      "decimal_separator": ","
     },
     "zakkingcumulatief": {
       "type": "GOB.Decimal",
-      "source_mapping": "MEBO_ZAKKINGCUM"
+      "source_mapping": "MEBO_ZAKKINGCUM",
+      "decimal_separator": ","
     },
     "is_gemeten_door_ref_onderneming": {
       "type": "GOB.String",
       "source_mapping": "MEBO_PLOEG"
     },
     "aantaldagen": {
-      "type": "GOB.Number",
+      "type": "GOB.Integer",
       "source_mapping": "AANTALDAGEN"
     },
     "wijzevaninwinnen": {
