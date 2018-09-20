@@ -47,10 +47,11 @@ def _extract_field(row, metadata):
         for key, source in metadata['source_mapping'].items():
             values[key] = row[source]
 
-        return gob_type.to_str_or_none(**values)
+        return gob_type.from_values(**values)
     else:
+        kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping']}
         value = row[field_source]
-        return gob_type.to_str_or_none(value)
+        return gob_type.from_value(value, **kwargs)
 
 
 def convert_from_file(data, dataset):
@@ -76,7 +77,7 @@ def convert_from_file(data, dataset):
             # add explicit source id, as string, to target_entity
             source_id_field = dataset['source']['entity_id']
             source_id_value = row[source_id_field]
-            source_id_str_value = get_gob_type("GOB.String").to_str_or_none(source_id_value)
+            source_id_str_value = str(get_gob_type("GOB.String").from_value(source_id_value))
 
             target_entity['_source_id'] = source_id_str_value
 
