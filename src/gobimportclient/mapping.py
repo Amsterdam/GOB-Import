@@ -5,6 +5,7 @@ Reads a mapping from a file
 """
 import json
 
+
 def get_mapping(input_name):
     """
     Read a mapping from a file
