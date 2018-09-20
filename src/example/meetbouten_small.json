@@ -8,7 +8,7 @@
     "type": "file",
     "config": {
       "filetype": "CSV",
-      "filename": "MEETBOUT.csv",
+      "filename": "MEETBOUT.small.csv",
       "separator": ";",
       "encoding": "ISO-8859-1"
     }
