@@ -8,7 +8,7 @@
     "type": "file",
     "config": {
       "filetype": "CSV",
-      "filename": "MEETBOUT.csv",
+      "filename": "MEETBOUT.small.csv",
       "separator": ";",
       "encoding": "ISO-8859-1"
     }
@@ -20,11 +20,13 @@
     },
     "xcoordinaat": {
       "type": "GOB.Decimal",
-      "source_mapping": "BOUT_XCOORD"
+      "source_mapping": "BOUT_XCOORD",
+      "decimal_separator": ","
     },
     "ycoordinaat": {
       "type": "GOB.Decimal",
-      "source_mapping": "BOUT_YCOORD"
+      "source_mapping": "BOUT_YCOORD",
+      "decimal_separator": ","
     },
     "locatie": {
       "type": "GOB.String",
@@ -44,7 +46,8 @@
     },
     "indicatie_beveiligd": {
       "type": "GOB.Boolean",
-      "source_mapping": "BOUT_BEVEILIGD"
+      "source_mapping": "BOUT_BEVEILIGD",
+      "format": "JN"
     },
     "eigenaar": {
       "type": "GOB.String",
@@ -64,27 +67,32 @@
     },
     "hoogte_tov_nap": {
       "type": "GOB.Decimal",
-      "source_mapping": "BOUT_HOOGTENAP"
+      "source_mapping": "BOUT_HOOGTENAP",
+      "decimal_separator": ","
     },
     "zakking_cumulatief": {
       "type": "GOB.Decimal",
-      "source_mapping": "BOUT_ZAKKINGCUM"
+      "source_mapping": "BOUT_ZAKKINGCUM",
+      "decimal_separator": ","
     },
     "zakkingssnelheid": {
       "type": "GOB.Decimal",
-      "source_mapping": "BOUT_ZAKSNELH"
+      "source_mapping": "BOUT_ZAKSNELH",
+      "decimal_separator": ","
     },
     "datum": {
       "type": "GOB.Date",
-      "source_mapping": "BOUT_DATUM"
+      "source_mapping": "BOUT_DATUM",
+      "format": "%Y%m%d"
     },
     "geometrie": {
       "type": "GOB.Geo.Point",
       "srid": "RD",
-      "calculated": [
-        "xcoordinaat",
-        "ycoordinaat"
-      ]
+      "decimal_separator": ",",
+      "source_mapping": {
+        "x": "BOUT_XCOORD",
+        "y": "BOUT_YCOORD"
+      }
     }
   }
 }
