@@ -8,7 +8,7 @@
     "type": "file",
     "config": {
       "filetype": "CSV",
-      "filename": "MEETBOUT.csv",
+      "filename": "MEETBOUT.small.csv",
       "separator": ";",
       "encoding": "ISO-8859-1"
     }
@@ -81,10 +81,10 @@
     "geometrie": {
       "type": "GOB.Geo.Point",
       "srid": "RD",
-      "calculated": [
-        "xcoordinaat",
-        "ycoordinaat"
-      ]
+      "source_mapping": {
+        "x": "BOUT_XCOORD",
+        "y": "BOUT_YCOORD"
+      }
     }
   }
 }
