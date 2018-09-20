@@ -11,3 +11,5 @@ RUN rm requirements.txt
 
 # Copy gobimportclient module
 COPY gobimportclient gobimportclient
+
+CMD ["python", "-m", "gobimportclient"]
