@@ -1,0 +1,98 @@
+{
+  "version": "0.1",
+  "entity": "meetbouten",
+  "entity_id": "meetboutid",
+  "source": {
+    "name": "meetboutengis",
+    "entity_id": "BOUT_NR",
+    "type": "file",
+    "config": {
+      "filetype": "CSV",
+      "filename": "MEETBOUT.small.csv",
+      "separator": ";",
+      "encoding": "ISO-8859-1"
+    }
+  },
+  "gob_model": {
+    "meetboutid": {
+      "type": "GOB.String",
+      "source_mapping": "BOUT_NR"
+    },
+    "xcoordinaat": {
+      "type": "GOB.Decimal",
+      "source_mapping": "BOUT_XCOORD",
+      "decimal_separator": ","
+    },
+    "ycoordinaat": {
+      "type": "GOB.Decimal",
+      "source_mapping": "BOUT_YCOORD",
+      "decimal_separator": ","
+    },
+    "locatie": {
+      "type": "GOB.String",
+      "source_mapping": "BOUT_LOCATIE"
+    },
+    "bouwblokzijde": {
+      "type": "GOB.String",
+      "source_mapping": "BOUT_BLOKZIJDE"
+    },
+    "blokeenheid": {
+      "type": "GOB.String",
+      "source_mapping": "BOUT_BLOKEENH"
+    },
+    "status": {
+      "type": "GOB.Character",
+      "source_mapping": "BOUT_STATUS"
+    },
+    "indicatie_beveiligd": {
+      "type": "GOB.Boolean",
+      "source_mapping": "BOUT_BEVEILIGD",
+      "format": "JN"
+    },
+    "eigenaar": {
+      "type": "GOB.String",
+      "source_mapping": "BOUT_EIGENAAR"
+    },
+    "nabij_ref_adressen": {
+      "type": "GOB.String",
+      "source_mapping": "BOUT_ADRES"
+    },
+    "ligt_in_ref_bouwblokken": {
+      "type": "GOB.String",
+      "source_mapping": "BOUT_BLOKNR"
+    },
+    "ligt_in_ref_stadsdelen": {
+      "type": "GOB.String",
+      "source_mapping": "BOUT_DEELRAAD"
+    },
+    "hoogte_tov_nap": {
+      "type": "GOB.Decimal",
+      "source_mapping": "BOUT_HOOGTENAP",
+      "decimal_separator": ","
+    },
+    "zakking_cumulatief": {
+      "type": "GOB.Decimal",
+      "source_mapping": "BOUT_ZAKKINGCUM",
+      "decimal_separator": ","
+    },
+    "zakkingssnelheid": {
+      "type": "GOB.Decimal",
+      "source_mapping": "BOUT_ZAKSNELH",
+      "decimal_separator": ","
+    },
+    "datum": {
+      "type": "GOB.Date",
+      "source_mapping": "BOUT_DATUM",
+      "format": "%Y%m%d"
+    },
+    "geometrie": {
+      "type": "GOB.Geo.Point",
+      "srid": "RD",
+      "decimal_separator": ",",
+      "source_mapping": {
+        "x": "BOUT_XCOORD",
+        "y": "BOUT_YCOORD"
+      }
+    }
+  }
+}
