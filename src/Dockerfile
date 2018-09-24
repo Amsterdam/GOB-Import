@@ -12,4 +12,7 @@ RUN rm requirements.txt
 # Copy gobimportclient module
 COPY gobimportclient gobimportclient
 
+# For the current test period, add the datafiles
+COPY example example
+
 CMD ["python", "-m", "gobimportclient"]
