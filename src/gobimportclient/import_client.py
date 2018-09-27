@@ -17,8 +17,9 @@ import datetime
 from gobcore.events.import_message import MessageMetaData, ImportMessage
 from gobcore.message_broker import publish
 
-from gobimportclient.connector import connect_to_file
-from gobimportclient.converter import convert_from_file
+from gobimportclient.converter import convert_data
+from gobimportclient.connector import connect_to_database, connect_to_file
+from gobimportclient.reader import read_from_database, read_from_file
 
 
 class ImportClient:
@@ -31,8 +32,9 @@ class ImportClient:
         self._dataset = dataset
         self.source = self._dataset['source']
 
-        self._data = None       # Holds the data in imput format
-        self._gob_data = None   # Holds the imported data in GOB format
+        self._connection = None     # Holds the connection to the source
+        self._data = None           # Holds the data in imput format
+        self._gob_data = None       # Holds the imported data in GOB format
 
     def connect(self):
         """The first step of every import is a technical step. A connection need to be setup to
@@ -41,7 +43,9 @@ class ImportClient:
         :return:
         """
         if self.source['type'] == "file":
-            self._data = connect_to_file(config=self.source['config'])
+            self._connection = connect_to_file(config=self.source['config'])
+        elif self.source['type'] == "database":
+            self._connection = connect_to_database(self.source['name'])
         else:
             raise NotImplementedError
 
@@ -51,8 +55,10 @@ class ImportClient:
         :return:
         """
         if self.source['type'] == "file":
-            #  No action required here, data is read by pandas in self._data
+            self._data = read_from_file(self._connection)
             pass
+        elif self.source['type'] == "database":
+            self._data = read_from_database(self._connection, self.source['table'])
         else:
             raise NotImplementedError
 
@@ -63,10 +69,8 @@ class ImportClient:
 
         :return:
         """
-        if self.source['type'] == "file":
-            self._gob_data = convert_from_file(self._data, dataset=self._dataset)
-        else:
-            raise NotImplementedError
+        # Convert the input data to GOB data using the import mapping
+        self._gob_data = convert_data(self._data, dataset=self._dataset)
 
     def publish(self):
         """The result of the import needs to be published.

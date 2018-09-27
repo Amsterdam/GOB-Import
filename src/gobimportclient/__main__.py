@@ -31,6 +31,7 @@ parser.add_argument('datasource_description',
 args = parser.parse_args()
 
 if len(args.datasource_description) > 0:
+    # If we receive a datasource as an argument, start processing the batch
     gob_model = GOBModel()
 
     for input_name in args.datasource_description:
