@@ -2,3 +2,8 @@
 
 **/__pycache__/
 **/*.pyc
+
+# ignore local pyenv settings
+.python-version
+
+.env

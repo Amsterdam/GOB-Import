@@ -1,0 +1,93 @@
+{
+  "version": "0.1",
+  "entity": "meetbouten",
+  "entity_id": "meetboutid",
+  "source": {
+    "name": "DBIMBP01",
+    "entity_id": "bout_nr",
+    "type": "database",
+    "table": "MEETBOUT"
+  },
+  "gob_model": {
+    "meetboutid": {
+      "type": "GOB.String",
+      "source_mapping": "bout_nr"
+    },
+    "xcoordinaat": {
+      "type": "GOB.Decimal",
+      "source_mapping": "bout_xcoord",
+      "decimal_separator": ","
+    },
+    "ycoordinaat": {
+      "type": "GOB.Decimal",
+      "source_mapping": "bout_ycoord",
+      "decimal_separator": ","
+    },
+    "locatie": {
+      "type": "GOB.String",
+      "source_mapping": "bout_locatie"
+    },
+    "bouwblokzijde": {
+      "type": "GOB.String",
+      "source_mapping": "bout_blokzijde"
+    },
+    "blokeenheid": {
+      "type": "GOB.String",
+      "source_mapping": "bout_blokeenh"
+    },
+    "status": {
+      "type": "GOB.Character",
+      "source_mapping": "bout_status"
+    },
+    "indicatie_beveiligd": {
+      "type": "GOB.Boolean",
+      "source_mapping": "bout_beveiligd",
+      "format": "JN"
+    },
+    "eigenaar": {
+      "type": "GOB.String",
+      "source_mapping": "bout_eigenaar"
+    },
+    "nabij_ref_adressen": {
+      "type": "GOB.String",
+      "source_mapping": "bout_adres"
+    },
+    "ligt_in_ref_bouwblokken": {
+      "type": "GOB.String",
+      "source_mapping": "bout_bloknr"
+    },
+    "ligt_in_ref_stadsdelen": {
+      "type": "GOB.String",
+      "source_mapping": "bout_deelraad"
+    },
+    "hoogte_tov_nap": {
+      "type": "GOB.Decimal",
+      "source_mapping": "bout_hoogtenap",
+      "decimal_separator": ","
+    },
+    "zakking_cumulatief": {
+      "type": "GOB.Decimal",
+      "source_mapping": "bout_zakkingcum",
+      "decimal_separator": ","
+    },
+    "zakkingssnelheid": {
+      "type": "GOB.Decimal",
+      "source_mapping": "bout_zaksnelh",
+      "decimal_separator": ","
+    },
+    "datum": {
+      "type": "GOB.Date",
+      "source_mapping": "bout_datum",
+      "format": "%Y%m%d"
+    },
+    "geometrie": {
+      "type": "GOB.Geo.Point",
+      "srid": "RD",
+      "decimal_separator": ",",
+      "source_mapping": {
+        "x": "bout_xcoord",
+        "y": "bout_ycoord"
+      }
+    }
+  }
+}

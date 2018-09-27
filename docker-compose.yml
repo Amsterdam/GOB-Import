@@ -7,6 +7,8 @@ services:
     container_name: import_client
     environment:
       MESSAGE_BROKER_ADDRESS: rabbitmq
+    env_file: .env
+
 
 networks:
   default:
