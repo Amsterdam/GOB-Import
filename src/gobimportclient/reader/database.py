@@ -1,6 +1,3 @@
-from sqlalchemy.sql import text
-
-
 def read_from_database(connection, table):
     """Reads from the database
 
@@ -8,8 +5,9 @@ def read_from_database(connection, table):
 
     :return: a list of data
     """
-    query = text("SELECT * FROM MEETBOUT")
-    result = connection.execute(query).fetchall()
+
+    statement = table.select()
+    result = connection.execute(statement).fetchall()
 
     data = []
     for row in result:
