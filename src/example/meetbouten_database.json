@@ -6,7 +6,8 @@
     "name": "DBIMBP01",
     "entity_id": "bout_nr",
     "type": "database",
-    "table": "MEETBOUT"
+    "table": "meetbout",
+    "schema": "beheerder"
   },
   "gob_model": {
     "meetboutid": {
