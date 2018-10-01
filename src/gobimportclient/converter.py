@@ -42,17 +42,9 @@ def _extract_field(row, metadata, typeinfo):
 
     gob_type = get_gob_type(field_type)
 
-    if gob_type.is_composite:
-        # extract multiple key, value pairs to offer to gob_type
-        values = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping']}
-        for key, source in metadata['source_mapping'].items():
-            values[key] = row[source]
-
-        return gob_type.from_values(**values)
-    else:
-        kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping']}
-        value = row[field_source]
-        return gob_type.from_value(value, **kwargs)
+    kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping']}
+    value = row[field_source]
+    return gob_type.from_value(value, **kwargs)
 
 
 def convert_data(data, dataset):
