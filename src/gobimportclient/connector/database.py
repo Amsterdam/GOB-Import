@@ -4,7 +4,7 @@ The following connectors are implemented in this module:
     Database - Connects to a (oracle) database using connection details
 
 """
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
 from sqlalchemy.exc import DBAPIError
 
