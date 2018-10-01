@@ -1,4 +1,4 @@
-def read_from_database(connection, table):
+def read_from_database(connection, query):
     """Reads from the database
 
     The SQLAlchemy library is used to connect to the data source for databases
@@ -6,8 +6,7 @@ def read_from_database(connection, table):
     :return: a list of data
     """
 
-    statement = table.select()
-    result = connection.execute(statement).fetchall()
+    result = connection.execute(query).fetchall()
 
     data = []
     for row in result:
