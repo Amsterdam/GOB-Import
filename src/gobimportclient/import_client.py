@@ -33,7 +33,7 @@ class ImportClient:
         self.source = self._dataset['source']
 
         self._connection = None     # Holds the connection to the source
-        self._table = None         # Holds the SQLAlchemy table
+        self._query = None          # Holds the SQLAlchemy query
         self._data = None           # Holds the data in imput format
         self._gob_data = None       # Holds the imported data in GOB format
 
@@ -46,7 +46,7 @@ class ImportClient:
         if self.source['type'] == "file":
             self._connection = connect_to_file(config=self.source['config'])
         elif self.source['type'] == "database":
-            self._connection, self._table = connect_to_database(self.source)
+            self._connection, self._query = connect_to_database(self.source)
         else:
             raise NotImplementedError
 
@@ -58,7 +58,7 @@ class ImportClient:
         if self.source['type'] == "file":
             self._data = read_from_file(self._connection)
         elif self.source['type'] == "database":
-            self._data = read_from_database(self._connection, self._table)
+            self._data = read_from_database(self._connection, self._query)
         else:
             raise NotImplementedError
 

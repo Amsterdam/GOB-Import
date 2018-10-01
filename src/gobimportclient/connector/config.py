@@ -1,7 +1,7 @@
 import os
 
 DATABASE_CONFIGS = {
-    'DBIMBP01': {
+    'Grondslag': {
         'drivername': 'oracle+cx_oracle',
         'username': os.getenv("DBIMBP01_DATABASE_USER", "gob"),
         'password': os.getenv("DBIMBP01_DATABASE_PASSWORD", "insecure"),

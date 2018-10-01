@@ -30,17 +30,8 @@ def connect_to_database(source):
         engine = create_engine(URL(**DB))
         connection = engine.connect()
 
-        db_schema = source['schema']
-        table_name_suffix = f'{db_schema}.' if db_schema else ''
-        table_name = f"{table_name_suffix}{source['table']}"
-
-        # Create a metadata instance
-        metadata = MetaData(engine, schema=db_schema)
-        metadata.reflect(bind=engine, only=['meetbout'])
-
-        # Get the required table from the metadata
-        table = metadata.tables[table_name]
+        query = "\n".join(source['query'])
     except DBAPIError as e:
         raise GOBException(f'Database connection failed. Error: {e}.')
     else:
-        return connection, table
+        return connection, query
