@@ -87,7 +87,7 @@ class ImportClient:
             id_column=self._dataset['entity_id'],
             entity=self._dataset['entity'],
             version=self._dataset['version'],
-            model=self._dataset['gob_model'],
+            model={},
             timestamp=datetime.datetime.now().isoformat()
         )
 

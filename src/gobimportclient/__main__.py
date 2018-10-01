@@ -13,7 +13,6 @@ import argparse
 
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 from gobcore.log import get_logger
-from gobcore.model import GOBModel
 
 from gobimportclient.import_client import ImportClient
 from gobimportclient.mapping import get_mapping
@@ -32,8 +31,6 @@ args = parser.parse_args()
 
 if len(args.datasource_description) > 0:
     # If we receive a datasource as an argument, start processing the batch
-    gob_model = GOBModel()
-
     for input_name in args.datasource_description:
 
         logger.info("Reading dataset description")
