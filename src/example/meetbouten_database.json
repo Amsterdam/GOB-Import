@@ -69,6 +69,9 @@
     "ligt_in_bouwblok": {
       "source_mapping": "bouwblok_code"
     },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    },
     "publiceerbaar": {
       "source_mapping": "publiceerbaar",
       "format": "JN"
