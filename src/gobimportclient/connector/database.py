@@ -30,8 +30,7 @@ def connect_to_database(source):
         engine = create_engine(URL(**DB))
         connection = engine.connect()
 
-        query = "\n".join(source['query'])
     except DBAPIError as e:
         raise GOBException(f'Database connection failed. Error: {e}.')
     else:
-        return connection, query
+        return connection

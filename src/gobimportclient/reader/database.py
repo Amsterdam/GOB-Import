@@ -5,8 +5,7 @@ def read_from_database(connection, query):
 
     :return: a list of data
     """
-
-    result = connection.execute(query).fetchall()
+    result = connection.execute("\n".join(query)).fetchall()
 
     data = []
     for row in result:
