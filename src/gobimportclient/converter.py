@@ -7,9 +7,10 @@ Todo:
 
 """
 from gobcore.typesystem import get_gob_type
+from gobcore.model import GOBModel
 
 
-def _extract_field(row, metadata):
+def _extract_field(row, metadata, typeinfo):
     """
     Extract a field from a row given the corresponding metadata
 
@@ -36,7 +37,7 @@ def _extract_field(row, metadata):
     :param metadata:
     :return: the string value of a field specified by the field's metadata, based on the values in row
     """
-    field_type = metadata['type']
+    field_type = typeinfo['type']
     field_source = metadata['source_mapping']
 
     gob_type = get_gob_type(field_type)
@@ -64,14 +65,17 @@ def convert_data(data, dataset):
     """
     entities = []
 
-    model = dataset['gob_model']
+    gob_model = GOBModel()
+    entity_model = gob_model.get_model(dataset["entity"])["attributes"]
+
+    mapping = dataset['gob_mapping']
 
     # Extract the fields that have a source mapping defined
-    extract_fields = [field for field, meta in model.items() if 'source_mapping' in meta]
+    extract_fields = [field for field, meta in mapping.items() if 'source_mapping' in meta]
 
     for row in data:
         # extract source fields into target entity
-        target_entity = {field: _extract_field(row, model[field]) for field in extract_fields}
+        target_entity = {field: _extract_field(row, mapping[field], entity_model[field]) for field in extract_fields}
 
         # add explicit source id, as string, to target_entity
         source_id_field = dataset['source']['entity_id']

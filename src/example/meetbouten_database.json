@@ -28,65 +28,48 @@
 "        LEFT OUTER JOIN   grs_merken       m ON h.mer_id = m.id",
 "        LEFT OUTER JOIN   grs_status       s ON h.sta_id = s.id",
 "        WHERE  h.typ_nummer IN (7, 8)",
-"      ) WHERE rownum <= 500"
+"      ) WHERE rownum <= 5"
     ]
   },
-  "gob_model": {
+  "gob_mapping": {
     "meetboutid": {
-      "type": "GOB.String",
       "source_mapping": "meetboutid"
     },
     "nabij_adres": {
-      "type": "GOB.String",
       "source_mapping": "adres"
     },
     "locatie": {
-      "type": "GOB.String",
       "source_mapping": "locatie"
     },
     "status_id": {
-      "type": "GOB.String",
       "source_mapping": "status_id"
     },
     "status_omschrijving": {
-      "type": "GOB.String",
       "source_mapping": "status_omschrijving"
     },
     "vervaldatum": {
-      "type": "GOB.Date",
       "source_mapping": "vervaldatum",
       "format": "%Y-%m-%d"
     },
     "merk_id": {
-      "type": "GOB.String",
       "source_mapping": "merk_id"
     },
     "merk_omschrijving": {
-      "type": "GOB.String",
       "source_mapping": "merk_omschrijving"
     },
     "xmuurvlak": {
-      "type": "GOB.Decimal",
       "source_mapping": "xmuur"
     },
     "ymuurvlak": {
-      "type": "GOB.Decimal",
       "source_mapping": "ymuur"
     },
     "windrichting": {
-      "type": "GOB.String",
       "source_mapping": "windrichting"
     },
     "ligt_in_bouwblok": {
-      "type": "GOB.String",
       "source_mapping": "bouwblok_code"
     },
-    "geometrie": {
-      "type": "GOB.String",
-      "source_mapping": "geometrie"
-    },
     "publiceerbaar": {
-      "type": "GOB.Boolean",
       "source_mapping": "publiceerbaar",
       "format": "JN"
     }
