@@ -28,7 +28,7 @@
 "        LEFT OUTER JOIN   grs_merken       m ON h.mer_id = m.id",
 "        LEFT OUTER JOIN   grs_status       s ON h.sta_id = s.id",
 "        WHERE  h.typ_nummer IN (7, 8)",
-"      ) WHERE rownum <= 10"
+"      ) WHERE rownum <= 500"
     ]
   },
   "gob_model": {
