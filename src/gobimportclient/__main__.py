@@ -43,6 +43,7 @@ if len(args.datasource_description) > 0:
             import_client.connect()
             import_client.read()
             import_client.convert()
+            import_client.validate()
             import_client.publish()
             logger.info(f"Import dataset {input_name} ended")
         except Exception as e:

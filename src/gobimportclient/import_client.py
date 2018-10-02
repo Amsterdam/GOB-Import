@@ -20,6 +20,7 @@ from gobcore.message_broker import publish
 from gobimportclient.converter import convert_data
 from gobimportclient.connector import connect_to_database, connect_to_file
 from gobimportclient.reader import read_from_database, read_from_file
+from gobimportclient.validator import validate
 
 
 class ImportClient:
@@ -70,6 +71,9 @@ class ImportClient:
         """
         # Convert the input data to GOB data using the import mapping
         self._gob_data = convert_data(self._data, dataset=self._dataset)
+
+    def validate(self):
+        validate(self._dataset['entity'], self._gob_data)
 
     def publish(self):
         """The result of the import needs to be published.
