@@ -38,7 +38,7 @@
     "meetboutid": {
       "source_mapping": "meetboutid"
     },
-    "nabij_adres": {
+    "nabij_adres_text": {
       "source_mapping": "adres"
     },
     "locatie": {
@@ -69,7 +69,7 @@
     "windrichting": {
       "source_mapping": "windrichting"
     },
-    "ligt_in_bouwblok": {
+    "ligt_in_bouwblok_text": {
       "source_mapping": "bouwblok_code"
     },
     "xcoordinaat": {
