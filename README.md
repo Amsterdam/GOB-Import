@@ -73,7 +73,7 @@ based on the .env.example.
     
 Set the required shell variables:
 
-    . .env
+    export $(cat .env | xargs)
 
 The import is started by:
 
