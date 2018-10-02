@@ -58,7 +58,7 @@ def convert_data(data, dataset):
     entities = []
 
     gob_model = GOBModel()
-    entity_model = gob_model.get_model(dataset["entity"])["attributes"]
+    entity_model = gob_model.get_model(dataset["entity"])["fields"]
 
     mapping = dataset['gob_mapping']
 
