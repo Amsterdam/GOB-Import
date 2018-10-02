@@ -1,0 +1,30 @@
+{
+  "version": "0.1",
+  "entity": "metingen",
+  "entity_id": "metingid",
+  "source": {
+    "name": "Grondslag",
+    "entity_id": "metingid",
+    "type": "database",
+    "schema": "grondslag",
+    "query": [
+"    SELECT m.id                                AS metingid",
+"    ,      h.nummer                            AS hoort_bij_meetbout",
+"    ,      to_char(m.inwindatum, 'YYYY-MM-DD') AS datum",
+"    ,      m.wijze_inwinning                   AS wijze_van_inwinnen_id",
+"    ,      i.omschrijving                      AS wijze_van_inwinnen",
+"    ,      m.hoogte                            AS hoogte_tov_nap",
+"  --,      referentiepunt_id  --join met grs_met_ref_punten_herz (relatietabel tussen meting en referentiepunt(en)), kunnen er meer zijn",
+"    ,      m.bro_id                            AS is_gemeten_door_onderneming_id",
+"    ,      b.omschrijving                      AS is_gemeten_door_onderneming",
+"    FROM              grs_hoogtepunten       h",
+"    LEFT OUTER JOIN   grs_metingen_herz      m ON h.id = m.hoo_id",
+"    LEFT OUTER JOIN   grs_wijzen_inwinning   i ON m.wijze_inwinning = i.id",
+"    LEFT OUTER JOIN   grs_bronnen            b ON m.bro_id = b.id",
+"    WHERE             h.typ_nummer IN (7, 8) --deformatiebout of referentiebout",
+"                  AND rownum <= 150"
+    ]
+  },
+  "gob_mapping": {
+  }
+}
