@@ -11,6 +11,7 @@ Requires a dataset description-file to run an import:
 """
 import argparse
 
+from gobcore.message_broker.config import WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 from gobcore.log import get_logger
 
@@ -52,12 +53,16 @@ if len(args.datasource_description) > 0:
 else:
     # Start message driven service to keep the docker alive
     SERVICEDEFINITION = {
-        'dataimport.proposal': {
-            'queue': "gob.workflow.proposal",
-            # for now only pass through the message-content:
+        'dataimport_proposal': {
+            'exchange': WORKFLOW_EXCHANGE,
+            'queue': 'gob.workflow.proposal',
+            'key': 'fullupdate.proposal',
             'handler': lambda msg: msg,
-            'report_back': 'dataimport.request',
-            'report_queue': 'gob.workflow.request'
+            'report': {
+                'exchange': WORKFLOW_EXCHANGE,
+                'queue': 'gob.workflow.request',
+                'key': 'dataimport.request'
+            }
         },
     }
 
