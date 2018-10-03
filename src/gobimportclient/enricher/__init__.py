@@ -14,7 +14,8 @@ from gobcore.model import GOBModel
 gob_model = GOBModel()
 entity_model = None
 
-def _enrich_metingen(entities):
+
+def _enrich_metingen(entities):     # noqa: C901
     """
     Enrich a metingen dataset.
 
@@ -23,7 +24,14 @@ def _enrich_metingen(entities):
     """
     global entity_model
 
-    update_attributes = ['type_meting', 'hoeveelste_meting', 'aantal_dagen', 'zakking', 'zakking_cumulatief', 'zakkingssnelheid']
+    update_attributes = [
+        'type_meting',
+        'hoeveelste_meting',
+        'aantal_dagen',
+        'zakking',
+        'zakking_cumulatief',
+        'zakkingssnelheid'
+    ]
 
     # Keep a dict of metingen by meetboutid
     meetbouten = {}
@@ -65,7 +73,8 @@ def _enrich_metingen(entities):
 
         # Calculate zakkingssnelheid
         aantal_dagen_sinds_eerste_meting = _calculate_days_since(meetbout['_eerste_datum'], huidige_datum)
-        meetbout['zakkingssnelheid'] = _calculate_zakkingssnelheid(meetbout['zakking_cumulatief'], aantal_dagen_sinds_eerste_meting)
+        meetbout['zakkingssnelheid'] = _calculate_zakkingssnelheid(meetbout['zakking_cumulatief'],
+                                                                   aantal_dagen_sinds_eerste_meting)
 
         for attr in update_attributes:
             entity[attr] = meetbout[attr]
@@ -109,7 +118,7 @@ def _calculate_zakkingssnelheid(zakking, aantal_dagen):
     :return: the amount of zakking per year in mm/j
     """
     try:
-         zakkingssnelheid = decimal.Decimal(str(365 / aantal_dagen)) * zakking
+        zakkingssnelheid = decimal.Decimal(str(365 / aantal_dagen)) * zakking
     except ZeroDivisionError:
         zakkingssnelheid = 0
     return zakkingssnelheid
