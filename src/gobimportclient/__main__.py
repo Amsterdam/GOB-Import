@@ -43,6 +43,7 @@ if len(args.datasource_description) > 0:
         try:
             import_client.connect()
             import_client.read()
+            import_client.enrich()
             import_client.convert()
             import_client.validate()
             import_client.publish()
