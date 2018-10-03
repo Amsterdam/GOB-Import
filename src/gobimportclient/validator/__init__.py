@@ -44,8 +44,10 @@ def validate(entity_name, entities):
     validators = {
         "meetbouten": _validate_meetbouten
     }
-
-    validate_entity = validators[entity_name]
+    try:
+        validate_entity = validators[entity_name]
+    except KeyError:
+        return
 
     for entity in entities:
         validate_entity(entity)

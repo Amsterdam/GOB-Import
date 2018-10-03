@@ -21,6 +21,7 @@ from gobimportclient.converter import convert_data
 from gobimportclient.connector import connect_to_database, connect_to_file
 from gobimportclient.reader import read_from_database, read_from_file
 from gobimportclient.validator import validate
+from gobimportclient.enricher import enrich
 
 
 class ImportClient:
@@ -61,6 +62,9 @@ class ImportClient:
             self._data = read_from_database(self._connection, self.source["query"])
         else:
             raise NotImplementedError
+
+    def enrich(self):
+        enrich(self._dataset['entity'], self._data)
 
     def convert(self):
         """Convert the input data to GOB format
