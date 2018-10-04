@@ -3,96 +3,87 @@
   "entity": "meetbouten",
   "entity_id": "meetboutid",
   "source": {
-    "name": "meetboutengis",
-    "entity_id": "BOUT_NR",
-    "type": "file",
-    "config": {
-      "filetype": "CSV",
-      "filename": "MEETBOUT.csv",
-      "separator": ";",
-      "encoding": "ISO-8859-1"
-    }
+    "name": "Grondslag",
+    "entity_id": "meetboutid",
+    "type": "database",
+    "schema": "grondslag",
+    "query": [
+"    SELECT * FROM (",
+"    SELECT h.nummer                                                        AS meetboutid",
+"    ,       substr( h.omschrijving, 1, instr(h.omschrijving, chr(10)) -1 ) AS adres",
+"    ,       substr( h.omschrijving, instr(h.omschrijving, chr(10)) + 1 )   AS locatie",
+"    ,       h.sta_id                                                       AS status_id -- 1=actueel 2=niet te meten 3=vervallen",
+"    ,       s.omschrijving                                                 AS status_omschrijving",
+"    ,       to_char(h.vervaldatum, 'YYYY-MM-DD')                           AS vervaldatum",
+"    ,       h.mer_id                                                       AS merk_id -- 0, 1, 2, 7, 10, 14, 15, 16, 17, 20, 99",
+"    ,       m.omschr_verkort                                               AS merk_omschrijving",
+"    ,       h.xmuur                                                        AS xmuurvlak",
+"    ,       h.ymuur                                                        AS ymuurvlak",
+"    ,       h.windr                                                        AS windrichting",
+"    ,       k.bou_nummer                                                   AS bouwblok_code",
+"    ,       h.geom.sdo_point.x                                             AS xcoordinaat",
+"    ,       h.geom.sdo_point.y                                             AS ycoordinaat",
+"    ,       to_char(sdo_util.to_wktgeometry(h.geom))                       AS geometrie",
+"    ,       CASE WHEN h.orde = 1 THEN 'J' ELSE 'N' END                     AS publiceerbaar -- publiceren ja (1) of nee (0)",
+"    FROM              grs_hoogtepunten h",
+"    LEFT OUTER JOIN   grs_kringpunten  k ON h.id = k.hoo_id",
+"    LEFT OUTER JOIN   grs_merken       m ON h.mer_id = m.id",
+"    LEFT OUTER JOIN   grs_status       s ON h.sta_id = s.id",
+"    WHERE     h.typ_nummer = 7                -- deformatiebout",
+"          OR  (h.typ_nummer = 8 AND orde = 1) -- referentiebout",
+"    ) WHERE rownum <= 50"
+    ]
   },
-  "gob_model": {
+  "gob_mapping": {
     "meetboutid": {
-      "type": "GOB.String",
-      "source_mapping": "BOUT_NR"
+      "source_mapping": "meetboutid"
     },
-    "xcoordinaat": {
-      "type": "GOB.Decimal",
-      "source_mapping": "BOUT_XCOORD",
-      "decimal_separator": ","
-    },
-    "ycoordinaat": {
-      "type": "GOB.Decimal",
-      "source_mapping": "BOUT_YCOORD",
-      "decimal_separator": ","
+    "nabij_adres_text": {
+      "source_mapping": "adres"
     },
     "locatie": {
-      "type": "GOB.String",
-      "source_mapping": "BOUT_LOCATIE"
+      "source_mapping": "locatie"
     },
-    "bouwblokzijde": {
-      "type": "GOB.String",
-      "source_mapping": "BOUT_BLOKZIJDE"
+    "status_id": {
+      "source_mapping": "status_id"
     },
-    "blokeenheid": {
-      "type": "GOB.String",
-      "source_mapping": "BOUT_BLOKEENH"
+    "status_omschrijving": {
+      "source_mapping": "status_omschrijving"
     },
-    "status": {
-      "type": "GOB.Character",
-      "source_mapping": "BOUT_STATUS"
+    "vervaldatum": {
+      "source_mapping": "vervaldatum",
+      "format": "%Y-%m-%d"
     },
-    "indicatie_beveiligd": {
-      "type": "GOB.Boolean",
-      "source_mapping": "BOUT_BEVEILIGD",
-      "format": "JN"
+    "merk_id": {
+      "source_mapping": "merk_id"
     },
-    "eigenaar": {
-      "type": "GOB.String",
-      "source_mapping": "BOUT_EIGENAAR"
+    "merk_omschrijving": {
+      "source_mapping": "merk_omschrijving"
     },
-    "nabij_ref_adressen": {
-      "type": "GOB.String",
-      "source_mapping": "BOUT_ADRES"
+    "xmuurvlak": {
+      "source_mapping": "xmuurvlak"
     },
-    "ligt_in_ref_bouwblokken": {
-      "type": "GOB.String",
-      "source_mapping": "BOUT_BLOKNR"
+    "ymuurvlak": {
+      "source_mapping": "ymuurvlak"
     },
-    "ligt_in_ref_stadsdelen": {
-      "type": "GOB.String",
-      "source_mapping": "BOUT_DEELRAAD"
+    "windrichting": {
+      "source_mapping": "windrichting"
     },
-    "hoogte_tov_nap": {
-      "type": "GOB.Decimal",
-      "source_mapping": "BOUT_HOOGTENAP",
-      "decimal_separator": ","
+    "ligt_in_bouwblok_text": {
+      "source_mapping": "bouwblok_code"
     },
-    "zakking_cumulatief": {
-      "type": "GOB.Decimal",
-      "source_mapping": "BOUT_ZAKKINGCUM",
-      "decimal_separator": ","
+    "xcoordinaat": {
+      "source_mapping": "xcoordinaat"
     },
-    "zakkingssnelheid": {
-      "type": "GOB.Decimal",
-      "source_mapping": "BOUT_ZAKSNELH",
-      "decimal_separator": ","
-    },
-    "datum": {
-      "type": "GOB.Date",
-      "source_mapping": "BOUT_DATUM",
-      "format": "%Y%m%d"
+    "ycoordinaat": {
+      "source_mapping": "ycoordinaat"
     },
     "geometrie": {
-      "type": "GOB.Geo.Point",
-      "srid": "RD",
-      "decimal_separator": ",",
-      "source_mapping": {
-        "x": "BOUT_XCOORD",
-        "y": "BOUT_YCOORD"
-      }
+      "source_mapping": "geometrie"
+    },
+    "publiceerbaar": {
+      "source_mapping": "publiceerbaar",
+      "format": "JN"
     }
   }
 }

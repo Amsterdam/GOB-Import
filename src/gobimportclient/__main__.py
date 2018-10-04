@@ -11,9 +11,9 @@ Requires a dataset description-file to run an import:
 """
 import argparse
 
+from gobcore.message_broker.config import WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 from gobcore.log import get_logger
-from gobcore.model import GOBModel
 
 from gobimportclient.import_client import ImportClient
 from gobimportclient.mapping import get_mapping
@@ -31,8 +31,7 @@ parser.add_argument('datasource_description',
 args = parser.parse_args()
 
 if len(args.datasource_description) > 0:
-    gob_model = GOBModel()
-
+    # If we receive a datasource as an argument, start processing the batch
     for input_name in args.datasource_description:
 
         logger.info("Reading dataset description")
@@ -44,7 +43,9 @@ if len(args.datasource_description) > 0:
         try:
             import_client.connect()
             import_client.read()
+            import_client.enrich()
             import_client.convert()
+            import_client.validate()
             import_client.publish()
             logger.info(f"Import dataset {input_name} ended")
         except Exception as e:
@@ -53,12 +54,16 @@ if len(args.datasource_description) > 0:
 else:
     # Start message driven service to keep the docker alive
     SERVICEDEFINITION = {
-        'dataimport.proposal': {
-            'queue': "gob.workflow.proposal",
-            # for now only pass through the message-content:
+        'dataimport_proposal': {
+            'exchange': WORKFLOW_EXCHANGE,
+            'queue': 'gob.workflow.proposal',
+            'key': 'fullupdate.proposal',
             'handler': lambda msg: msg,
-            'report_back': 'dataimport.request',
-            'report_queue': 'gob.workflow.request'
+            'report': {
+                'exchange': WORKFLOW_EXCHANGE,
+                'queue': 'gob.workflow.request',
+                'key': 'dataimport.request'
+            }
         },
     }
 
