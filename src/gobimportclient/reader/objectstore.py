@@ -1,5 +1,6 @@
 from objectstore.objectstore import get_full_container_list
 
+
 def read_from_objectstore(connection, container_name):
     """Reads from the objectstore
 
