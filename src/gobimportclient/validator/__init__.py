@@ -8,6 +8,17 @@ In order to prepare a more generic validation approach the validation has been s
 """
 import re
 
+from gobcore.exceptions import GOBException
+
+
+def _validate_primary_key(entities, entity_id):
+    primary_keys = set()
+    for entity in entities:
+        if str(entity[entity_id]) not in primary_keys:
+            primary_keys.add(str(entity[entity_id]))
+        else:
+            raise GOBException(f'Duplicate primary key found in source database: {entity[entity_id]}')
+
 
 def _validate_meetbouten(entity):
     """
@@ -33,7 +44,7 @@ def _validate_meetbouten(entity):
         assert re.compile(pattern).match(value), f"{msg}: '{value}'"
 
 
-def validate(entity_name, entities):
+def validate(entity_name, entities, entity_id):
     """
     Validate each entity in the list of entities for a given entity name
 
@@ -49,5 +60,9 @@ def validate(entity_name, entities):
     except KeyError:
         return
 
+    # Validate uniqueness of primary key
+    _validate_primary_key(entities, entity_id)
+
+    # Validate on individual entities
     for entity in entities:
         validate_entity(entity)
