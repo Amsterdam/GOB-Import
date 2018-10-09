@@ -6,35 +6,33 @@ Todo:
     The current logic is bound to CSV files (especially the pandas.isnull logic to test for null valus)
 
 """
+import re
+
 from gobcore.typesystem import get_gob_type
 from gobcore.model import GOBModel
+from gobcore.exceptions import GOBException
+
+def _apply_filters(raw_value, filters):
+    value = raw_value
+    for filter in filters:
+        name = filter[0]
+        args = filter[1:]
+        if name == "re.sub":
+            value = re.sub(args[0], args[1], value)
+        elif name == "upper":
+            value = value.upper()
+        else:
+            raise GOBException(f"Unknown function {name}")
+    return value
 
 
 def _extract_field(row, metadata, typeinfo):
     """
     Extract a field from a row given the corresponding metadata
 
-    Examples:
-        given the metadata: {
-            "type": "GOB.String",
-            "source_mapping": "MEBO_ID"
-        }
-        The field "MEBO_ID" of the specified row is read as a "GOB.String" value using
-        the mapper method as specified in the type_mapper variable.
-
-        given the metadata: {
-          "type": "GOB.Geo.Point",
-          "srid": "RD",
-          "source_mapping": {
-            'x': "BOUT_XCOORD",
-            'y': "BOUT_YCOORD"
-          }
-        }
-        the values of srid, and sourcemapping are used to construct a (composite) field
-        of type "GOB.Geo.Point".
-
-    :param row:
-    :param metadata:
+    :param row: the data row
+    :param metadata: the mapping definition
+    :param typeinfo: the GOB model info
     :return: the string value of a field specified by the field's metadata, based on the values in row
     """
     field_type = typeinfo['type']
@@ -42,8 +40,13 @@ def _extract_field(row, metadata, typeinfo):
 
     gob_type = get_gob_type(field_type)
 
-    kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping']}
+    kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping', 'filters']}
+
     value = row[field_source]
+    if "filters" in metadata:
+        # Apply any filters to the raw value
+        value = _apply_filters(value, metadata["filters"])
+
     return gob_type.from_value(value, **kwargs)
 
 
