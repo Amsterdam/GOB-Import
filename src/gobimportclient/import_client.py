@@ -18,8 +18,8 @@ from gobcore.events.import_message import MessageMetaData, ImportMessage
 from gobcore.message_broker import publish
 
 from gobimportclient.converter import convert_data
-from gobimportclient.connector import connect_to_database, connect_to_file
-from gobimportclient.reader import read_from_database, read_from_file
+from gobimportclient.connector import connect_to_database, connect_to_objectstore, connect_to_file
+from gobimportclient.reader import read_from_database, read_from_objectstore, read_from_file
 from gobimportclient.validator import validate
 from gobimportclient.enricher import enrich
 
@@ -48,6 +48,8 @@ class ImportClient:
             self._connection = connect_to_file(config=self.source['config'])
         elif self.source['type'] == "database":
             self._connection = connect_to_database(self.source)
+        elif self.source['type'] == "objectstore":
+            self._connection = connect_to_objectstore(self.source)
         else:
             raise NotImplementedError
 
@@ -60,6 +62,8 @@ class ImportClient:
             self._data = read_from_file(self._connection)
         elif self.source['type'] == "database":
             self._data = read_from_database(self._connection, self.source["query"])
+        elif self.source['type'] == "objectstore":
+            self._data = read_from_objectstore(self._connection, self.source["container"])
         else:
             raise NotImplementedError
 
