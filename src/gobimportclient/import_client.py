@@ -15,6 +15,7 @@ Todo: improve type conversion
 import datetime
 
 from gobcore.events.import_message import MessageMetaData, ImportMessage
+from gobcore.log import get_logger
 from gobcore.message_broker import publish
 
 from gobimportclient.converter import convert_data
@@ -22,6 +23,9 @@ from gobimportclient.connector import connect_to_database, connect_to_objectstor
 from gobimportclient.reader import read_from_database, read_from_objectstore, read_from_file
 from gobimportclient.validator import validate
 from gobimportclient.enricher import enrich
+
+
+logger = get_logger(name="IMPORT")
 
 
 class ImportClient:
@@ -33,10 +37,27 @@ class ImportClient:
     def __init__(self, dataset):
         self._dataset = dataset
         self.source = self._dataset['source']
+        self.entity = self._dataset['entity']
+
+        # Extra variables for logging
+        start_timestamp = int(datetime.datetime.now().replace(microsecond=0).timestamp())
+        self.process_id = f"{start_timestamp}.{self.source['name']}.{self.entity}"
+        self.extra_log_kwargs = {
+            'process_id': self.process_id,
+            'source': self.source['name'],
+            'entity': self.entity
+        }
+
+        # Log start of import process
+        self.log('info', f"Import dataset {self.entity} from {self.source['name']} started")
 
         self._connection = None     # Holds the connection to the source
         self._data = None           # Holds the data in imput format
         self._gob_data = None       # Holds the imported data in GOB format
+
+    def log(self, level, msg, data=None):
+        log_func = getattr(logger, level)
+        log_func(msg, extra={**self.extra_log_kwargs, 'data': data})
 
     def connect(self):
         """The first step of every import is a technical step. A connection need to be setup to
@@ -53,6 +74,8 @@ class ImportClient:
         else:
             raise NotImplementedError
 
+        self.log('info', f"Connection to {self.source['name']} has been made.")
+
     def read(self):
         """Read the data from the data source
 
@@ -66,6 +89,8 @@ class ImportClient:
             self._data = read_from_objectstore(self._connection, self.source["container"])
         else:
             raise NotImplementedError
+
+        self.log('info', f"Data has been imported from {self.source['name']}.")
 
     def enrich(self):
         enrich(self._dataset['entity'], self._data)
@@ -81,7 +106,7 @@ class ImportClient:
         self._gob_data = convert_data(self._data, dataset=self._dataset)
 
     def validate(self):
-        validate(self._dataset['entity'], self._gob_data)
+        validate(self._dataset['entity'], self._gob_data, self._dataset['entity_id'])
 
     def publish(self):
         """The result of the import needs to be published.
@@ -94,6 +119,7 @@ class ImportClient:
         :return:
         """
         metadata = MessageMetaData(
+            process_id=self.process_id,
             source=self._dataset['source']['name'],
             id_column=self._dataset['entity_id'],
             entity=self._dataset['entity'],
@@ -102,6 +128,26 @@ class ImportClient:
             timestamp=datetime.datetime.now().isoformat()
         )
 
-        import_message = ImportMessage.create_import_message(metadata.as_header, None, self._gob_data)
+        summary = {
+            'RECORDS': len(self._gob_data)
+        }
 
+        # Log end of import process
+        self.log('info', f"Import dataset {self.entity} from {self.source['name']} completed. {summary['RECORDS']} records were read from the source.", summary)
+
+        import_message = ImportMessage.create_import_message(metadata.as_header, summary, self._gob_data)
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
+
+    def start_import_process(self):
+        self.connect()
+        self.read()
+        self.enrich()
+        self.convert()
+        self.validate()
+        self.publish()
+        '''
+        try:
+
+        except Exception as e:
+            self.log('error', f'{e}')
+        '''

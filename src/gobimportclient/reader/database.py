@@ -1,3 +1,8 @@
+from sqlalchemy.exc import DBAPIError
+
+from gobcore.exceptions import GOBException
+
+
 def read_from_database(connection, query):
     """Reads from the database
 
@@ -5,7 +10,13 @@ def read_from_database(connection, query):
 
     :return: a list of data
     """
-    result = connection.execute("\n".join(query)).fetchall()
+    try:
+        result = connection.execute("\n".join(query)).fetchall()
+    except DBAPIError as e:
+        raise GOBException(f'Database connection failed. Error: {e}.')
+
+    if len(result) == 0:
+        raise GOBException('No results found for database query')
 
     data = []
     for row in result:

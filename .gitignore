@@ -1,9 +1,13 @@
 /venv
 
 **/__pycache__/
+**/.pytest_cache
 **/*.pyc
 
 # ignore local pyenv settings
 .python-version
+
+htmlcov
+.coverage
 
 .env
