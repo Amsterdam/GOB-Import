@@ -12,6 +12,7 @@ from gobcore.typesystem import get_gob_type
 from gobcore.model import GOBModel
 from gobcore.exceptions import GOBException
 
+
 def _apply_filters(raw_value, filters):
     value = raw_value
     for filter in filters:
