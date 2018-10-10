@@ -134,7 +134,7 @@ class ImportClient:
 
         # Log end of import process
         self.log('info',
-                 f"Import dataset {self.entity} from {self.source['name']} completed. " \
+                 f"Import dataset {self.entity} from {self.source['name']} completed. "
                  f"{summary['num_records']} records were read from the source.",
                  summary)
 
