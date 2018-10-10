@@ -13,11 +13,14 @@ from gobcore.exceptions import GOBException
 
 def _validate_primary_key(entities, entity_id):
     primary_keys = set()
+    duplicates = set()
     for entity in entities:
         if str(entity[entity_id]) not in primary_keys:
             primary_keys.add(str(entity[entity_id]))
         else:
-            raise GOBException(f'Duplicate primary key found in source database: {entity[entity_id]}')
+            duplicates.add(str(entity[entity_id]))
+    if duplicates:
+        raise GOBException(f"Duplicate primary key(s) found in source: [{', '.join(duplicates)}]")
 
 
 def _validate_meetbouten(entity):

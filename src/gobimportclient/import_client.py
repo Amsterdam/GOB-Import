@@ -129,7 +129,7 @@ class ImportClient:
         )
 
         summary = {
-            'RECORDS': len(self._gob_data)
+            'num_records': len(self._gob_data)
         }
 
         # Log end of import process
@@ -150,4 +150,4 @@ class ImportClient:
             self.validate()
             self.publish()
         except Exception as e:
-            self.log('error', f'{e}')
+            self.log('error', f'Import failed: {e}')
