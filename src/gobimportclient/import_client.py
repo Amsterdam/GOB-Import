@@ -142,15 +142,13 @@ class ImportClient:
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
 
     def start_import_process(self):
-        self.connect()
-        self.read()
-        self.enrich()
-        self.convert()
-        self.validate()
-        self.publish()
-        '''
         try:
-
+            self.connect()
+            self.read()
+            self.enrich()
+            self.convert()
+            self.validate()
+            self.publish()
         except Exception as e:
             self.log('error', f'{e}')
-        '''
+            
