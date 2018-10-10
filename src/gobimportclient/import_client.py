@@ -133,7 +133,10 @@ class ImportClient:
         }
 
         # Log end of import process
-        self.log('info', f"Import dataset {self.entity} from {self.source['name']} completed. {summary['RECORDS']} records were read from the source.", summary)
+        self.log('info',
+                 f"Import dataset {self.entity} from {self.source['name']} completed. \
+                 {summary['RECORDS']} records were read from the source.",
+                 summary)
 
         import_message = ImportMessage.create_import_message(metadata.as_header, summary, self._gob_data)
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
