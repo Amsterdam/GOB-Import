@@ -21,7 +21,7 @@ from gobcore.message_broker import publish
 from gobimportclient.converter import convert_data
 from gobimportclient.connector import connect_to_database, connect_to_objectstore, connect_to_file
 from gobimportclient.reader import read_from_database, read_from_objectstore, read_from_file
-from gobimportclient.validator import validate
+from gobimportclient.validator import Validator
 from gobimportclient.enricher import enrich
 
 
@@ -38,6 +38,7 @@ class ImportClient:
         self._dataset = dataset
         self.source = self._dataset['source']
         self.entity = self._dataset['entity']
+        self.entity_id = self._dataset['entity_id']
 
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.now().replace(microsecond=0).timestamp())
@@ -106,7 +107,8 @@ class ImportClient:
         self._gob_data = convert_data(self._data, dataset=self._dataset)
 
     def validate(self):
-        validate(self._dataset['entity'], self._gob_data, self._dataset['entity_id'])
+        validator = Validator(self, self._dataset['entity'], self._data, self._dataset['entity_id'])
+        validator.validate()
 
     def publish(self):
         """The result of the import needs to be published.
@@ -145,9 +147,9 @@ class ImportClient:
         try:
             self.connect()
             self.read()
+            self.validate()
             self.enrich()
             self.convert()
-            self.validate()
             self.publish()
         except Exception as e:
             self.log('error', f'Import failed: {e}')
