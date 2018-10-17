@@ -6,7 +6,7 @@ DATABASE_CONFIGS = {
         'username': os.getenv("DBIMBP01_DATABASE_USER", "gob"),
         'password': os.getenv("DBIMBP01_DATABASE_PASSWORD", "insecure"),
         'host': os.getenv("DBIMBP01_DATABASE_HOST", "hostname"),
-        'port': os.getenv("DBIMBP01_DATABASE_PORT", "1521"),
+        'port': os.getenv("DBIMBP01_DATABASE_PORT", 1521),
         'database': 'DBIMBP01'
     }
 }
