@@ -12,10 +12,15 @@ import re
 from gobcore.exceptions import GOBException
 
 
+# Log message formats
+MISSING_ATTR_FMT = "{attr} missing in entity: {entity}"
+QA_CHECK_FAILURE_FMT = "{msg}. Value was: {value}"
+
+
 class QA(Enum):
     FATAL = "fatal"
     WARNING = "warning"
-    MONITOR = "monitor"
+    INFO = "info"
 
 
 ENTITY_CHECKS = {
@@ -23,28 +28,28 @@ ENTITY_CHECKS = {
         "meetboutid": [
             {
                 "pattern": "^\d{8}$",
-                "msg": "Meetboutid should consist of 8 numeric characters:",
+                "msg": "Meetboutid should consist of 8 numeric characters",
                 "type": QA.FATAL,
             },
         ],
         "status_id": [
             {
                 "pattern": "^[1,2,3]$",
-                "msg": "Statusid should be one of [1,2,3]:",
+                "msg": "Statusid should be one of [1,2,3].",
                 "type": QA.WARNING,
             },
         ],
         "windrichting": [
             {
                 "pattern": "^(N|NO|O|ZO|Z|ZW|W|NW)$",
-                "msg": "Windrichting should be one of [N,NO,O,ZO,Z,ZW,W,NW]:",
+                "msg": "Windrichting should be one of [N,NO,O,ZO,Z,ZW,W,NW]",
                 "type": QA.WARNING,
             }
         ],
         "publiceerbaar": [
             {
                 "pattern": "^[J,N]$",
-                "msg": "Publiceerbaar should be one of [J,N]:",
+                "msg": "Publiceerbaar should be one of [J,N]",
                 "type": QA.FATAL,
             },
         ],
@@ -53,14 +58,14 @@ ENTITY_CHECKS = {
         "metingid": [
             {
                 "pattern": "^\d+$",
-                "msg": "Metingid should be a valid positive integer:",
+                "msg": "Metingid should be a valid positive integer",
                 "type": QA.FATAL,
             },
         ],
         "hoort_bij_meetbout_text": [
             {
                 "pattern": "^\d{8}$",
-                "msg": "Meetboutid should consist of 8 numeric characters:",
+                "msg": "Meetboutid should consist of 8 numeric characters",
                 "type": QA.FATAL,
             },
         ],
@@ -69,7 +74,7 @@ ENTITY_CHECKS = {
         "rollaagid": [
             {
                 "pattern": "^[A-Z]{2}\d{1,2}$",
-                "msg": "Metingid should be a valid positive integer:",
+                "msg": "Metingid should be a valid positive integer",
                 "type": QA.FATAL,
             },
         ],
@@ -110,7 +115,15 @@ class Validator:
                 f"Quality assurance failed for {self.entity_name} from source {self.import_client.source}"
             )
 
-        self.import_client.log("info", f"Quality assurance passed", self.collection_qa)
+        self._log(QA.INFO, f"Quality assurance passed", self.collection_qa)
+
+    def _log(self, type, msg, data=None):
+        if type == QA.FATAL:
+            self.import_client.log("error", msg, data)
+        if type == QA.WARNING:
+            self.import_client.log("warning", msg, data)
+        if type == QA.INFO:
+            self.import_client.log("info", msg, data)
 
     def _validate_primary_key(self):
         primary_keys = set()
@@ -157,32 +170,36 @@ class Validator:
         type = check["type"]
         # Check if attr is available in entity
         if attr not in entity:
+            # If a fatal check has failed, mark the validation as fatal
             if type == QA.FATAL:
                 self.fatal = True
-                self.import_client.log("error", f"{attr} missing in entity: {entity[self.entity_id]}",
-                                       {self.entity_id: entity[self.entity_id], "missing_attr": attr})
-            if type == QA.WARNING:
-                self.import_client.log("warning", f"{attr} missing in entity: {entity[self.entity_id]}.",
-                                       {self.entity_id: entity[self.entity_id], "missing_attr": attr})
+
+            # Log the missing attribute, with the correct level
+            self._log(type, MISSING_ATTR_FMT.format(attr=attr, entity=entity[self.entity_id]),
+                      {self.entity_id: entity[self.entity_id], "missing_attr": attr})
+
             return False
+
         return True
 
     def _qa_check(self, check, attr, entity):
         pattern = check["pattern"]
         msg = check["msg"]
         type = check["type"]
-        value = entity[attr]
+        value = str(entity[attr])
 
         # If the value doesn't match the pattern, handle the correct way
         if not re.compile(pattern).match(value):
+            # If a fatal check has failed, mark the validation as fatal
             if type == QA.FATAL:
                 self.fatal = True
-                self.import_client.log("error", f"{msg} {value}",
-                                       {self.entity_id: entity[self.entity_id], "value": value})
-            if type == QA.WARNING:
-                self.import_client.log("warning", f"{msg} {value}",
-                                       {self.entity_id: entity[self.entity_id], "value": value})
+
+            # Log the missing attribute, with the correct level
+            self._log(type, QA_CHECK_FAILURE_FMT.format(msg=msg, value=value),
+                      {self.entity_id: entity[self.entity_id], "value": value})
+
             return False
+
         return True
 
     def _validate_quality(self):
