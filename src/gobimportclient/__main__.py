@@ -12,9 +12,6 @@ Requires a dataset description-file to run an import:
 import argparse
 import time
 
-from gobcore.message_broker.config import WORKFLOW_EXCHANGE
-from gobcore.message_broker.messagedriven_service import messagedriven_service
-
 from gobimportclient.import_client import ImportClient
 from gobimportclient.mapping import get_mapping
 
