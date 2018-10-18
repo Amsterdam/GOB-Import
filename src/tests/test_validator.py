@@ -17,7 +17,9 @@ class TestValidator(unittest.TestCase):
         self.fatal_meetbouten = fixtures.get_fatal_meetbouten()
 
         self.mock_import_client = mock.MagicMock(spec=ImportClient)
-        self.mock_import_client.source = 'test'
+        self.mock_import_client.source = {
+            'name': 'test'
+        }
 
     def test_validat_data(self):
         validator = Validator(self.mock_import_client, 'meetbouten', self.valid_meetbouten, 'meetboutid')
