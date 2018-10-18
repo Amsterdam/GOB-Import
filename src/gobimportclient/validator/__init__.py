@@ -62,7 +62,7 @@ ENTITY_CHECKS = {
                 "type": QA.FATAL,
             },
         ],
-        "hoort_bij_meetbout_text": [
+        "hoort_bij_meetbout": [
             {
                 "pattern": "^\d{8}$",
                 "msg": "Meetboutid should consist of 8 numeric characters",
@@ -70,11 +70,12 @@ ENTITY_CHECKS = {
             },
         ],
     },
+    "referentiepunten": {},
     "rollagen": {
-        "rollaagid": [
+        "name": [
             {
-                "pattern": "^[A-Z]{2}\d{1,2}$",
-                "msg": "Metingid should be a valid positive integer",
+                "pattern": "^[a-zA-Z]{2}\d{1,2}",
+                "msg": "File name should be in the format AAn(n)",
                 "type": QA.FATAL,
             },
         ],
@@ -84,13 +85,13 @@ ENTITY_CHECKS = {
 
 class Validator:
 
-    def __init__(self, import_client, entity_name, entities, entity_id):
+    def __init__(self, import_client, entity_name, entities, source_id):
         # Save a reference to import_client to use logging function
         self.import_client = import_client
 
         self.entity_name = entity_name
         self.entities = entities
-        self.entity_id = entity_id
+        self.source_id = source_id
 
         self.collection_qa = {f"num_invalid_{attr}": 0 for attr in ENTITY_CHECKS[entity_name].keys()}
         self.collection_qa['num_records'] = len(entities)
@@ -112,7 +113,7 @@ class Validator:
 
         if self.fatal:
             raise GOBException(
-                f"Quality assurance failed for {self.entity_name} from source {self.import_client.source}"
+                f"Quality assurance failed for {self.entity_name} from source {self.import_client.source['name']}"
             )
 
         self._log(QA.INFO, f"Quality assurance passed", self.collection_qa)
@@ -129,10 +130,10 @@ class Validator:
         primary_keys = set()
         duplicates = set()
         for entity in self.entities:
-            if entity[self.entity_id] not in primary_keys:
-                primary_keys.add(entity[self.entity_id])
+            if entity[self.source_id] not in primary_keys:
+                primary_keys.add(entity[self.source_id])
             else:
-                duplicates.add(entity[self.entity_id])
+                duplicates.add(entity[self.source_id])
         if duplicates:
             raise GOBException(f"Duplicate primary key(s) found in source: [{', '.join(duplicates)}]")
 
@@ -175,8 +176,8 @@ class Validator:
                 self.fatal = True
 
             # Log the missing attribute, with the correct level
-            self._log(type, MISSING_ATTR_FMT.format(attr=attr, entity=entity[self.entity_id]),
-                      {self.entity_id: entity[self.entity_id], "missing_attr": attr})
+            self._log(type, MISSING_ATTR_FMT.format(attr=attr, entity=entity[self.source_id]),
+                      {self.source_id: entity[self.source_id], "missing_attr": attr})
 
             return False
 
@@ -196,7 +197,7 @@ class Validator:
 
             # Log the missing attribute, with the correct level
             self._log(type, QA_CHECK_FAILURE_FMT.format(msg=msg, value=value),
-                      {self.entity_id: entity[self.entity_id], "value": value})
+                      {self.source_id: entity[self.source_id], "value": value})
 
             return False
 
@@ -212,7 +213,7 @@ class Validator:
 
         :param entity_name: the entity name
         :param entity: a single entity
-        :param entity_id: the column defining the unique identifier
+        :param source_id: the column defining the unique identifier
         :return: Result of the qa checks, and a boolean if fatal errors have been found
         """
         # Validate on individual entities
