@@ -37,6 +37,7 @@ class ImportClient:
     def __init__(self, dataset):
         self._dataset = dataset
         self.source = self._dataset['source']
+        self.source_id = self._dataset['source']['entity_id']
         self.entity = self._dataset['entity']
         self.entity_id = self._dataset['entity_id']
 
@@ -87,7 +88,7 @@ class ImportClient:
         elif self.source['type'] == "database":
             self._data = read_from_database(self._connection, self.source["query"])
         elif self.source['type'] == "objectstore":
-            self._data = read_from_objectstore(self._connection, self.source["container"])
+            self._data = read_from_objectstore(self._connection, self.source["container"], self.source["file_filter"])
         else:
             raise NotImplementedError
 
@@ -107,7 +108,7 @@ class ImportClient:
         self._gob_data = convert_data(self._data, dataset=self._dataset)
 
     def validate(self):
-        validator = Validator(self, self._dataset['entity'], self._data, self._dataset['entity_id'])
+        validator = Validator(self, self._dataset['entity'], self._data, self.source_id)
         validator.validate()
 
     def publish(self):

@@ -6,7 +6,8 @@
     "name": "Milieuthemas",
     "entity_id": "name",
     "type": "objectstore",
-    "container": "rollagen"
+    "container": "rollagen",
+    "file_filter": ".+\\.jpg$"
   },
   "gob_mapping": {
     "rollaagid": {
