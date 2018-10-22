@@ -8,6 +8,7 @@
     "type": "database",
     "schema": "grondslag",
     "query": [
+"    SELECT * FROM (",
 "    SELECT m.id                                AS metingid",
 "    ,      h1.nummer                           AS hoort_bij_meetbout",
 "    ,      to_char(m.inwindatum, 'YYYY-MM-DD') AS datum ",
@@ -30,7 +31,8 @@
 "    WHERE (h1.typ_nummer = 7               --deformatiebout",
 "    OR    (h1.typ_nummer = 8 AND h1.orde = 1)) --referentiebout",
 "    ORDER BY          datum",
-"    )"
+"    )",
+"    WHERE rownum <= 150"
     ]
   },
   "gob_mapping": {

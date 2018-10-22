@@ -8,6 +8,7 @@
     "type": "database",
     "schema": "grondslag",
     "query": [
+"    SELECT * FROM (",
 "    SELECT h.nummer                                                        AS meetboutid",
 "    ,       substr( h.omschrijving, 1, instr(h.omschrijving, chr(10)) -1 ) AS adres",
 "    ,       substr( h.omschrijving, instr(h.omschrijving, chr(10)) + 1 )   AS locatie",
@@ -29,7 +30,8 @@
 "    LEFT OUTER JOIN   grs_merken       m ON h.mer_id = m.id",
 "    LEFT OUTER JOIN   grs_status       s ON h.sta_id = s.id",
 "    WHERE     h.typ_nummer = 7                -- deformatiebout",
-"          OR  (h.typ_nummer = 8 AND orde = 1) -- referentiebout"
+"          OR  (h.typ_nummer = 8 AND orde = 1) -- referentiebout",
+"    ) WHERE rownum <= 50"
     ]
   },
   "gob_mapping": {
