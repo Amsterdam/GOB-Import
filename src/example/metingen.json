@@ -40,6 +40,9 @@
     "hoort_bij_meetbout_text": {
       "source_mapping": "hoort_bij_meetbout"
     },
+    "hoort_bij_meetbout_id": {
+      "source_mapping": "hoort_bij_meetbout"
+    },
     "datum": {
       "source_mapping": "datum",
       "format": "%Y-%m-%d"
