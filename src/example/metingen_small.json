@@ -59,10 +59,10 @@
     "refereert_aan_text": {
       "source_mapping": "refereert_aan_refpunt"
     },
-    "is_gemeten_door_id": {
-      "source_mapping": "is_gemeten_door_onderneming_id"
+    "refereert_aan_id": {
+      "source_mapping": "refereert_aan_refpunt"
     },
-    "is_gemeten_door_text": {
+    "is_gemeten_door": {
       "source_mapping": "is_gemeten_door_onderneming"
     },
     "type_meting": {

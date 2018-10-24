@@ -20,8 +20,6 @@
 "    ,       h.ymuur                                                        AS ymuurvlak",
 "    ,       h.windr                                                        AS windrichting",
 "    ,       k.bou_nummer                                                   AS bouwblok_code",
-"    ,       h.geom.sdo_point.x                                             AS xcoordinaat",
-"    ,       h.geom.sdo_point.y                                             AS ycoordinaat",
 "    ,       to_char(sdo_util.to_wktgeometry(h.geom))                       AS geometrie",
 "    ,       CASE WHEN h.orde = 1 THEN 'J' ELSE 'N' END                     AS publiceerbaar -- publiceren ja (1) of nee (0)",
 "    FROM              grs_hoogtepunten h",
@@ -70,12 +68,6 @@
     },
     "ligt_in_bouwblok_text": {
       "source_mapping": "bouwblok_code"
-    },
-    "xcoordinaat": {
-      "source_mapping": "xcoordinaat"
-    },
-    "ycoordinaat": {
-      "source_mapping": "ycoordinaat"
     },
     "geometrie": {
       "source_mapping": "geometrie"
