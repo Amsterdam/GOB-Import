@@ -29,8 +29,7 @@
 "    LEFT OUTER JOIN   grs_bronnen              b  ON m.bro_id = b.id",
 "    WHERE (h1.typ_nummer = 7               --deformatiebout",
 "    OR    (h1.typ_nummer = 8 AND h1.orde = 1)) --referentiebout",
-"    ORDER BY          datum",
-"    )"
+"    ORDER BY          datum"
     ]
   },
   "gob_mapping": {
@@ -59,10 +58,10 @@
     "refereert_aan_text": {
       "source_mapping": "refereert_aan_refpunt"
     },
-    "is_gemeten_door_id": {
-      "source_mapping": "is_gemeten_door_onderneming_id"
+    "refereert_aan_id": {
+      "source_mapping": "refereert_aan_refpunt"
     },
-    "is_gemeten_door_text": {
+    "is_gemeten_door": {
       "source_mapping": "is_gemeten_door_onderneming"
     },
     "type_meting": {
