@@ -7,7 +7,15 @@ services:
     container_name: import_client
     environment:
       MESSAGE_BROKER_ADDRESS: rabbitmq
+      GOB_SHARED_DIR: /app/shared
     env_file: .env
+    volumes:
+      - gob-volume:/app/shared
+
+
+volumes:
+  gob-volume:
+    external: true
 
 
 networks:
