@@ -48,14 +48,14 @@ In its first version, only meetbouten and metingen are imported.
 The import is started by:
 
     cd src
-    python -m gobimportclient example/meetbouten.json example/metingen.json
+    python -m gobimport example/meetbouten.json example/metingen.json
 
 This specific example require import-files, these can be placed in any directory you like,
 but the importclient will automatically look for it in the `src/data` directory:
 
 	# Custom datadir:
 	export LOCAL_DATADIR=/any/directory/you/like
-    python -m gobimportclient example/meetbouten.json example/metingen.json
+    python -m gobimport example/meetbouten.json example/metingen.json
 
 ## Meetbouten from database
 
@@ -78,12 +78,12 @@ Set the required shell variables:
 The import is started by:
 
     cd src
-    python -m gobimportclient example/meetbouten.json
+    python -m gobimport example/meetbouten.json
 
 Or if you would like to run in de Docker container:
 
     docker-compose build
-    docker-compose run import_client python -m gobimportclient example/meetbouten.json
+    docker-compose run import_client python -m gobimport example/meetbouten.json
 
 # Docker
 

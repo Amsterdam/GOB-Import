@@ -3,8 +3,8 @@ from unittest import mock
 
 from gobcore.exceptions import GOBException
 
-from gobimportclient.import_client import ImportClient
-from gobimportclient.validator import Validator
+from gobimport.import_client import ImportClient
+from gobimport.validator import Validator
 
 from tests import fixtures
 
