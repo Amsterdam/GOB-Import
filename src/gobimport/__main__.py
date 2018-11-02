@@ -1,39 +1,26 @@
-"""Main program structure for an import client
+"""Import
 
-The import client subscribes to the workflow queue if started without arguments.
-
-Requires a dataset description-file to run an import:
-
-     python -m gobimport example/meetbouten.json
-
-:return: None
-
+This component imports data sources
 """
-import argparse
-import time
-
+from gobcore.message_broker.config import WORKFLOW_EXCHANGE, IMPORT_QUEUE
+from gobcore.message_broker.messagedriven_service import messagedriven_service
 from gobimport.import_client import ImportClient
-from gobimport.mapping import get_mapping
 
-# If we have args we are expected to process the datafile
-# TODO: Listen to the correct events in the queue, instead of manual trigger
 
-# Parse the arguments to get the import directory, e.g. /download
-parser = argparse.ArgumentParser(description='Import datasource.')
-parser.add_argument('datasource_description',
-                    nargs='*', type=str,
-                    help='the name of the datasource description (`meetbout`')
-args = parser.parse_args()
+def handle_import_msg(msg):
+    assert(msg["dataset"])
+    # Create a new import client and start the process
+    import_client = ImportClient(dataset=msg["dataset"])
+    import_client.start_import_process()
 
-if len(args.datasource_description) > 0:
-    # If we receive a datasource as an argument, start processing the batch
-    for input_name in args.datasource_description:
 
-        # Create a new import client and start the process
-        import_client = ImportClient(dataset=get_mapping(input_name))
-        import_client.start_import_process()
+SERVICEDEFINITION = {
+    'import_request': {
+        'exchange': WORKFLOW_EXCHANGE,
+        'queue': IMPORT_QUEUE,
+        'key': "import.start",
+        'handler': handle_import_msg
+    }
+}
 
-else:
-    while True:
-        print('.')
-        time.sleep(60)
+messagedriven_service(SERVICEDEFINITION)
