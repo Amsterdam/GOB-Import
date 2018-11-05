@@ -16,13 +16,26 @@ Importing data consists of the following steps:
 A running [GOB infrastructure](https://github.com/Amsterdam/GOB-Infra)
 is required to run this component.
 
+# Examples
+
+For the meetbouten catalog, example files have been added to be able to run
+the import process without a connection to external database or other source.
+
+These files have been added in the example folder and can be used to import
+the following collections:
+
+- meetbouten
+- metingen
+- rerentiepunten
+- rollagen
+
 # Docker
 
 ## Requirements
 
 * docker-compose >= 1.17
 * docker ce >= 18.03
-    
+
 ## Run
 
 ```bash
@@ -30,7 +43,7 @@ docker-compose build
 docker-compose up &
 
 # Start a single import
-docker exec gobimport python -m gobimport.start example/meetbouten_small.json
+docker exec gobimport python -m gobimport.start example/meetbouten.json
 ```
 
 ## Tests
@@ -45,7 +58,7 @@ docker-compose -f src/.jenkins/test/docker-compose.yml run test
 ## Requirements
 
 * python >= 3.6
-    
+
 ## Initialisation
 
 Create a virtual environment:
@@ -55,13 +68,13 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r src/requirements.txt
 ```
-    
+
 Or activate the previously created virtual environment
 
 ```bash
 source venv/bin/activate
 ```
-    
+
 # Run
 
 Start the service:
@@ -75,7 +88,7 @@ Start a single import in another window:
 
 ```bash
 cd src
-python -m gobimport.start example/meetbouten_small.json
+python -m gobimport.start example/meetbouten.json
 ```
 
 

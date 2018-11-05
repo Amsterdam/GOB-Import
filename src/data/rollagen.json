@@ -1,0 +1,28 @@
+{
+  "version": "0.1",
+  "entity": "rollagen",
+  "entity_id": "rollaagid",
+  "source": {
+    "name": "Milieuthemas",
+    "entity_id": "name",
+    "type": "objectstore",
+    "container": "rollagen",
+    "file_filter": ".+\\.jpg$"
+  },
+  "gob_mapping": {
+    "rollaagid": {
+      "source_mapping": "name",
+      "filters": [
+        ["re.sub", "(^[^.]*)(.*)", "\\1"],
+        ["upper"]
+      ]
+    },
+    "is_gemeten_van_bouwblok_text": {
+      "source_mapping": "name",
+      "filters": [
+        ["re.sub", "(^[^.]*)(.*)", "\\1"],
+        ["upper"]
+      ]
+    }
+  }
+}

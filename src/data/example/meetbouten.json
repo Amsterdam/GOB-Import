@@ -1,0 +1,62 @@
+{
+  "version": "0.1",
+  "entity": "meetbouten",
+  "entity_id": "meetboutid",
+  "source": {
+    "name": "meetboutencsv",
+    "entity_id": "meetboutid",
+    "type": "file",
+    "config": {
+      "filetype": "CSV",
+      "filename": "example/files/meetbouten.csv",
+      "separator": ",",
+      "encoding": "UTF-8"
+    }
+  },
+  "gob_mapping": {
+    "meetboutid": {
+      "source_mapping": "meetboutid"
+    },
+    "nabij_adres_text": {
+      "source_mapping": "adres"
+    },
+    "locatie": {
+      "source_mapping": "locatie"
+    },
+    "status_id": {
+      "source_mapping": "status_id"
+    },
+    "status_omschrijving": {
+      "source_mapping": "status_omschrijving"
+    },
+    "vervaldatum": {
+      "source_mapping": "vervaldatum",
+      "format": "%Y-%m-%d"
+    },
+    "merk_id": {
+      "source_mapping": "merk_id"
+    },
+    "merk_omschrijving": {
+      "source_mapping": "merk_omschrijving"
+    },
+    "xmuurvlak": {
+      "source_mapping": "xmuurvlak"
+    },
+    "ymuurvlak": {
+      "source_mapping": "ymuurvlak"
+    },
+    "windrichting": {
+      "source_mapping": "windrichting"
+    },
+    "ligt_in_bouwblok_text": {
+      "source_mapping": "bouwblok_code"
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    },
+    "publiceerbaar": {
+      "source_mapping": "publiceerbaar",
+      "format": "JN"
+    }
+  }
+}

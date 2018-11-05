@@ -1,0 +1,24 @@
+{
+  "version": "0.1",
+  "entity": "rollagen",
+  "entity_id": "rollaagid",
+  "source": {
+    "name": "rollagencsv",
+    "entity_id": "rollaagid",
+    "type": "file",
+    "config": {
+      "filetype": "CSV",
+      "filename": "example/files/rollagen.csv",
+      "separator": ",",
+      "encoding": "UTF-8"
+    }
+  },
+  "gob_mapping": {
+    "rollaagid": {
+      "source_mapping": "name"
+    },
+    "is_gemeten_van_bouwblok_text": {
+      "source_mapping": "name"
+    }
+  }
+}

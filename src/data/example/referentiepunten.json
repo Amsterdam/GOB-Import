@@ -1,0 +1,74 @@
+{
+  "version": "0.1",
+  "entity": "referentiepunten",
+  "entity_id": "referentiepuntid",
+  "source": {
+    "name": "referentiepuntencsv",
+    "entity_id": "referentiepuntid",
+    "type": "file",
+    "config": {
+      "filetype": "CSV",
+      "filename": "example/files/referentiepunten.csv",
+      "separator": ",",
+      "encoding": "UTF-8"
+    }
+  },
+  "gob_mapping": {
+    "referentiepuntid": {
+      "source_mapping": "referentiepuntid"
+    },
+    "nabij_adres_text": {
+      "source_mapping": "adres"
+    },
+    "locatie": {
+      "source_mapping": "locatie"
+    },
+    "hoogte_tov_nap": {
+      "source_mapping": "hoogte_tov_nap"
+    },
+    "datum": {
+      "source_mapping": "datum"
+    },
+    "status_id": {
+      "source_mapping": "status_id"
+    },
+    "status_omschrijving": {
+      "source_mapping": "status_omschrijving"
+    },
+    "vervaldatum": {
+      "source_mapping": "vervaldatum",
+      "format": "%Y-%m-%d"
+    },
+    "merk_id": {
+      "source_mapping": "merk_id"
+    },
+    "merk_omschrijving": {
+      "source_mapping": "merk_omschrijving"
+    },
+    "xmuurvlak": {
+      "source_mapping": "xmuurvlak"
+    },
+    "ymuurvlak": {
+      "source_mapping": "ymuurvlak"
+    },
+    "windrichting": {
+      "source_mapping": "windrichting"
+    },
+    "ligt_in_bouwblok_text": {
+      "source_mapping": "bouwblok_code"
+    },
+    "is_nap_peilmerk_text": {
+      "source_mapping": "peilmerknummer"
+    },
+    "is_nap_peilmerk_id": {
+      "source_mapping": "peilmerknummer"
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    },
+    "publiceerbaar": {
+      "source_mapping": "publiceerbaar",
+      "format": "JN"
+    }
+  }
+}

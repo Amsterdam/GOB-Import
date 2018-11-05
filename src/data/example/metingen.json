@@ -1,0 +1,70 @@
+{
+  "version": "0.1",
+  "entity": "metingen",
+  "entity_id": "metingid",
+  "source": {
+    "name": "metingencsv",
+    "entity_id": "metingid",
+    "type": "file",
+    "config": {
+      "filetype": "CSV",
+      "filename": "example/files/metingen.csv",
+      "separator": ",",
+      "encoding": "UTF-8"
+    }
+  },
+  "gob_mapping": {
+    "metingid": {
+      "source_mapping": "metingid"
+    },
+    "hoort_bij_meetbout_text": {
+      "source_mapping": "hoort_bij_meetbout"
+    },
+    "hoort_bij_meetbout_id": {
+      "source_mapping": "hoort_bij_meetbout"
+    },
+    "datum": {
+      "source_mapping": "datum",
+      "format": "%Y-%m-%d"
+    },
+    "wijze_van_inwinnen_id": {
+      "source_mapping": "wijze_van_inwinnen_id"
+    },
+    "wijze_van_inwinnen_omschrijving": {
+      "source_mapping": "wijze_van_inwinnen"
+    },
+    "hoogte_tov_nap": {
+      "source_mapping": "hoogte_tov_nap"
+    },
+    "refereert_aan_text": {
+      "source_mapping": "refereert_aan_refpunt"
+    },
+    "refereert_aan_id": {
+      "source_mapping": "refereert_aan_refpunt"
+    },
+    "is_gemeten_door": {
+      "source_mapping": "is_gemeten_door_onderneming"
+    },
+    "type_meting": {
+      "source_mapping": "type_meting"
+    },
+    "zakking": {
+      "source_mapping": "zakking",
+      "precision": 4
+    },
+    "zakkingssnelheid": {
+      "source_mapping": "zakkingssnelheid",
+      "precision": 4
+    },
+    "zakking_cumulatief": {
+      "source_mapping": "zakking_cumulatief",
+      "precision": 4
+    },
+    "hoeveelste_meting": {
+      "source_mapping": "hoeveelste_meting"
+    },
+    "aantal_dagen": {
+      "source_mapping": "aantal_dagen"
+    }
+  }
+}

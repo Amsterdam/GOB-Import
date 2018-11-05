@@ -1,0 +1,684 @@
+,referentiepuntid,adres,locatie,status_id,status_omschrijving,vervaldatum,merk_id,merk_omschrijving,xmuurvlak,ymuurvlak,windrichting,bouwblok_code,hoogte_tov_nap,datum,peilmerknummer,geometrie,publiceerbaar
+0,10189000,Mercatorplein 102,(kiosk),1,Actueel,,0,Ronde bout met opschrift NAP,23.0,23.0,ZW,,0.825,1999-06-01,,POINT (118453.2 487019.9),J
+1,10189001,,Hoofdweg 495 (tweede kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,20.0,O,,2.3003,2004-11-19,,POINT (118202.7 487702.2),J
+2,10189002,Fridtjof Nansenhof 43/44,gevel Jan van Galenstraat,1,Actueel,,2,Kleine ronde bout,-10.0,28.0,Z,,1.157,2004-11-19,,POINT (118174.7 487335.3),J
+3,10280001,Walmuur tegenover Kostverlorenkade 21 (x = vanaf rechtstand,N-vleugel van O-landhoofd van de brug in de Clerqstraat),1,Actueel,,0,Ronde bout met opschrift NAP,92.0,-94.0,W,,2.0432,1939-04-01,10280001,POINT (119460.0 487060.0),J
+4,10280002,,Tweede Kostverlorenkade 5,1,Actueel,,3,Knopbout,-43.0,17.0,NW,,1.5877,1927-01-01,10280002,POINT (119518.0 487128.0),J
+5,10180001,W-vleugelmuur van het Z-bruggehoofd over de Erasmusgracht,in de Hoofdweg (x = vanaf zerk; y = onder deksteen),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,184.0,-114.0,W,,1.6321,1952-01-01,10180001,POINT (118232.1 487629.64),J
+6,10180002,Jan van Galenstraat 279,(op de hoogte van de raamdorpel),1,Actueel,,3,Knopbout,-104.0,78.0,N,,1.2855,1927-01-01,10180002,POINT (118390.1 487347.1),J
+7,10180003,Mercatorplein 34,(x = van de dag van de poort),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,17.0,53.0,W,,0.9607,1952-01-01,10180003,POINT (118490.0 487080.0),J
+8,10180010,Op de hoek van de James Rosskade en de Jan van Galenstraat,aan de no-zijde van fietserstunnel,1,Actueel,,0,Ronde bout met opschrift NAP,-19.0,30.0,N,,1.0671,1991-10-01,10180010,POINT (117956.8 487312.4),J
+9,10389001,Hugo de Grootkade 20,(zijgevel; ref.punt A van def.meting Y 172),1,Actueel,,2,Kleine ronde bout,17.0,88.0,O,,1.9072,1991-12-01,,POINT (120054.15 487402.32),J
+10,10389002,Hugo de Grootkade 20,(onder poort v.a. de voorgevel; ref.punt 2 def.meting Y 172),1,Actueel,,2,Kleine ronde bout,4.0,71.0,O,,1.3228,1988-07-29,,POINT (119991.54 487380.9),J
+11,10389003,Van Houweningenstraat 215/231,(nieuwbouw) (ref.punt 1 van def.meting Y 172),1,Actueel,,2,Kleine ronde bout,-13.0,88.0,W,,1.5588,1988-07-29,,POINT (119842.8 487381.9),J
+12,10389004,,Van Oldenbarneveldtstraat 103,1,Actueel,,99,Onbekend,140.0,14.0,W,,0.7349,1999-06-01,,POINT (120033.6 487446.1),J
+13,10389005,,Frederik Hendrikstraat 117A-E,1,Actueel,,99,Onbekend,-21.0,12.0,W,,0.7761,1999-06-01,,POINT (119958.7 487486.0),J
+14,10389006,van Oldenbarneveldtstraat 56 naast rechter poort,,3,Vervallen,2006-11-06,99,Onbekend,22.0,7.0,O,,0.6969,1999-06-01,,POINT (120084.4 487624.4),J
+15,10389007,Eerste Hugo de Grootstraat 18,in de Van Oldenbarneveldtstraat,1,Actueel,,99,Onbekend,-13.0,13.0,W,,0.7789,1999-06-01,,POINT (120124.6 487688.4),J
+16,10389008,Tuinstraat 244/248,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,8.0,25.0,Z,YJ31,0.8885,1999-06-01,,POINT (120415.0 487739.3),J
+17,10389009,Bloemgracht 174,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,5.0,ZO,YJ48,0.4888,1999-06-01,,POINT (120300.5 487483.9),J
+18,10389010,Bloemgracht 174,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,16.0,6.0,ZO,YJ48,2.7336,1999-06-01,,POINT (120295.6 487482.2),J
+19,10389011,Lauriergracht 109,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,8.0,13.0,NW,YJ72,0.64,1999-06-01,,POINT (120338.9 487090.8),J
+20,10389012,Lauriergracht 109,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-18.0,90.0,NW,YJ72,0.6054,1999-06-01,,POINT (120334.1 487088.8),J
+21,10389013,,Rozenstraat 152A-C,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,19.0,13.0,ZO,YJ63,0.8474,1999-06-01,,POINT (120394.6 487280.0),J
+22,10389014,,Rozenstraat 152A-C,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,13.0,13.0,ZO,YJ63,0.8464,1999-06-01,,POINT (120386.8 487276.7),J
+23,10389015,Tuinstraat 244/248,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,24.0,Z,YJ31,0.8881,1999-06-01,,POINT (120418.9 487740.5),J
+24,10389017,Da Costakade 24,,1,Actueel,,99,Onbekend,4.0,14.0,ZO,,2.249,1999-06-01,,POINT (119906.6 487197.7),J
+25,10480004,Prinsengracht 437,(Gemeentelijk kledingmagazijn),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,16.0,30.0,O,,1.0544,1952-01-01,10480004,POINT (120669.5 487110.0),J
+26,10480006,Nieuwezijds Voorburgwal 147,"(""Koninklijk Paleis"" inspringend gedeelte)",1,Actueel,,7,"Bijzondere merktekens bijvoorbeeld zeskantige bout, stalen pen etc.",-116.0,105.0,W,,3.0923,1933-01-01,10480006,POINT (121203.6 487342.7),J
+27,10489000,Tweede Egelantiersdwarsstraat 30,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-11.0,106.0,O,YJ41,1.5619,1999-06-01,,POINT (120616.0 487732.8),J
+28,10489001,Egelantiersgracht 72,in de Tweede Egelantiersdwarsstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,24.0,55.0,O,YJ41,1.5772,1999-06-01,,POINT (120619.3 487723.5),J
+29,10489002,Eerste Bloemdwarsstraat 9,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,16.0,47.0,W,YJ56,0.975,1999-06-01,,POINT (120559.0 487514.4),J
+30,10489003,Eerste Bloemdwarsstraat 9,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-16.0,41.0,W,YJ56,0.9357,1999-06-01,,POINT (120560.7 487510.2),J
+31,10489004,,Keizersgracht 171A-F,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,3.0,NW,YE29,2.9005,1999-06-01,,POINT (120854.5 487546.9),J
+32,10489005,,Keizersgracht 171A-F,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,3.0,NW,YE29,2.9819,1999-06-01,,POINT (120860.3 487556.8),J
+33,10489006,,"Singel 174A-D (huls zit er nog, inbusbout verwijderd)",3,Vervallen,2018-07-23,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-3.0,113.0,ZO,YE25,2.9144,1999-06-01,,POINT (121089.4 487556.8),J
+34,10489007,Singel 176A-D,"(Mogelijk punt 10481378), in 2018 hoogte 1,8757 ?",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,8.0,ZO,YE25,1.8955,1999-06-01,,POINT (121082.7 487547.1),J
+35,10489008,Sint Nicolaasstraat 33/41,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,7.0,20.0,N,YB36,1.076,1999-06-01,,POINT (121326.2 487560.3),J
+36,10489009,Sint Nicolaasstraat 33/41,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-20.0,18.0,N,YB36,1.0199,1999-06-01,,POINT (121316.9 487557.8),J
+37,10489010,Spuistraat 189,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-12.0,23.0,W,YC02,0.8834,1999-06-01,,POINT (121109.6 487229.7),J
+38,10489011,Spuistraat 189,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-10.0,62.0,W,YC02,1.5328,1999-06-01,,POINT (121111.4 487246.4),J
+39,10489012,,Keizersgracht 237A-C,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-16.0,182.0,W,YE35,3.3968,1999-06-01,,POINT (120814.4 487260.0),J
+40,10489013,,Keizersgracht 237A-C,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,17.0,157.0,W,YE35,3.2521,1999-06-01,,POINT (120815.1 487268.4),J
+41,10489014,,Lauriergracht 4,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,41.0,ZO,YJ70,1.6293,1999-06-01,,POINT (120620.0 487239.3),J
+42,10489015,Lauriergracht 4,(linker bouwmuur),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,8.0,68.0,ZO,YJ70,1.5417,1999-06-01,,POINT (120609.4 487234.9),J
+43,10489016,Keizersgracht 307,(naast rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-285.0,62.0,W,YE40,1.7938,1999-06-01,,POINT (120799.7 487037.8),J
+44,10489017,Rokin 81,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-12.0,205.0,W,YA35,2.5715,1999-06-01,,POINT (121338.9 487060.2),J
+45,10489018,Kalverstraat 19,(linker bouwmuur),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,30.0,W,YC35,1.8927,1999-06-01,,POINT (121281.0 487243.9),J
+46,10489020,,Singel 309A,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,15.0,W,YC01,1.0505,1999-06-01,,POINT (121037.7 487068.5),J
+47,10489021,Singel 309A,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,17.0,W,YC01,1.092,1999-06-01,,POINT (121037.1 487063.9),J
+48,10489022,Nieuwezijds Voorburgwal 56/60,(y=boven plint)(linker bouwmuur),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,10.0,0.0,ZO,YB22,2.0064,1999-06-01,,POINT (121376.5 487725.8),J
+49,10489023,Keizersgracht 307,hoek Wolvenstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,32.0,W,YE40,1.9711,1999-06-01,,POINT (120800.8 487054.7),J
+50,10489024,Rokin 81,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-22.0,31.0,W,YA35,0.8243,1999-06-01,,POINT (121340.0 487065.5),J
+51,10489027,Wolvenstraat 27??,(links in gevel),3,Vervallen,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,,YE40,1.4542,2000-06-01,,POINT (120824.6 487053.4),J
+52,10489028,Wolvenstraat 27,hoek Keizersgracht;zelfde punt als 10489023 rechts in gevel,3,Vervallen,2010-01-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,30.0,,YE40,2.7168,2000-06-01,,POINT (120821.1 487053.7),J
+53,10489029,Cellebroerssteeg 2,gevel rechts van Nes 98,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,12.0,6.0,O,YA35,1.0753,2000-06-01,,POINT (121373.5 487049.0),J
+54,10489030,Prinsengracht 377 B-C,"(in 2000 is er een hoogte van 0.8822, deze is verwijderd, omschrijving was huisnr 379 A-E)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-17.0,45.0,W,YE34,1.067,2018-06-01,,POINT (120675.4 487206.3),J
+55,10489031,Pieter Jacobszstraat 10A-H,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,20.0,30.0,N,YA30,1.5958,2000-06-01,,POINT (121422.1 487214.4),J
+56,10489032,Brug 51 Leliegracht over Keizersgracht,(Noord-west vleugel) (x uit hoekovergang),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,50.0,11.0,,,2.4312,2000-06-01,,POINT (120866.8 487637.9),J
+57,10489033,Berenstraat 21/33,(in kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,16.0,N,YE39,1.4217,2000-06-01,,POINT (120687.1 487062.6),J
+58,10489034,Blauwburgwal 17,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,103.0,NO,YE24,2.084,2000-06-01,,POINT (121167.7 487749.8),J
+59,10489035,Bloemgracht 49,hoek Eerste Bloemdwarsstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,6.0,NW,YJ56,1.0237,2000-06-01,,POINT (120549.3 487544.5),J
+60,10580002,"Oudekerksplein 15 ""Oudekerkstoren"" rechts van de pilaster",rechts van de ingang (x = pilaster  y = zandstenen plint).,1,Actueel,,7,"Bijzondere merktekens bijvoorbeeld zeskantige bout, stalen pen etc.",31.0,64.0,NW,,2.4367,1926-01-01,10580002,POINT (121651.4 487497.2),J
+61,10580007,Oudeschans 2,"(Noordwest gevel van de ""Montelbaanstoren"")",3,Vervallen,2018-05-03,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,275.0,96.0,N,,3.6852,1927-01-01,10580007,POINT (122206.9 487243.6),J
+62,10580008,Oudeschans 35 (School voor voorbereidend onderwijs),(x = meest linkse hoekpilaster y = hardstenen plint),1,Actueel,,3,Knopbout,-28.0,14.0,NW,,2.6478,1926-01-01,10580008,POINT (122130.0 487120.0),J
+63,10580010,"Zijgevel Kloveniersburgwal 48 van het ""Oost Indisch Huis""",a/d Oude Hoogstraat 24 (X=2e pilaster Y=hardst. plintafd.).,3,Vervallen,2018-05-03,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,22.0,-11.0,NO,,1.9169,1952-01-01,10580010,POINT (121700.0 487120.0),J
+64,10580011,"Bovenkant hakkelbout in de noordoost toren van de ""Sint An-","thoniewaag"" Nieuwmarkt 4 (x=dag deur (1617) y=midden bout)",1,Actueel,,15,Koperen hakkelbout,114.0,-50.0,Z,,3.0011,1953-01-01,10580011,POINT (121854.4 487322.6),J
+65,24389000,,Zaanstraat 353 (school),3,Vervallen,2010-01-01,2,Kleine ronde bout,-26.0,22.0,N,,0.9276,2008-10-01,,POINT (119855.0 489452.0),J
+66,24389001,,Hembrugstraat 207-223,1,Actueel,,2,Kleine ronde bout,-23.0,20.0,NO,,0.9282,2008-10-01,,POINT (120078.4 489363.5),J
+67,10889000,Levantkade 21/43,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,23.0,77.0,Z,,2.4552,1992-08-11,,POINT (124445.7 487699.9),J
+68,10889001,C. van Eesterenlaan,(zie overzicht meting archief; pakje A 265),3,Vervallen,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,N,,3.0109,1992-12-22,,POINT (124426.7 487017.7),J
+69,10889002,Borneolaan 252/296,(zie overzicht meting archief; pakje A 265),3,Vervallen,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,N,,2.9391,1992-12-22,,POINT (124360.4 487060.3),J
+70,10980001,Hoofdweg 251,,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-21.0,53.0,O,,1.1231,1952-01-01,10980001,POINT (118550.0 486760.0),J
+71,10989001,Postjesweg 125,nabij westelijke gevelhoek,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-22.0,77.0,N,,1.7032,1997-03-26,,POINT (118490.7 486380.8),J
+72,10989002,Van Spilbergenstraat 155,(naast grijze kast),1,Actueel,,99,Onbekend,-13.0,24.0,N,,0.8024,1999-06-01,,POINT (118390.0 486870.4),J
+73,11080007,Bellamystraat 19,(y = boven plint),1,Actueel,,3,Knopbout,17.0,39.0,NW,,1.4631,1926-01-01,11080007,POINT (119521.5 486708.1),J
+74,10589000,Nieuwendijk 106,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,95.0,ZO,YB13,3.082,1999-06-01,,POINT (121569.4 487744.6),J
+75,10589001,Nieuwendijk 106,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,14.0,102.0,ZO,YB13,3.1276,1999-06-01,,POINT (121565.7 487739.7),J
+76,10589002,Beursstraat 29,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,17.0,9.0,NW,YA12,1.3842,1999-06-01,,POINT (121585.0 487544.1),J
+77,10589003,Beursstraat 29,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-16.0,9.0,MW,YA12,1.3819,1999-06-01,,POINT (121581.1 487540.5),J
+78,10589005,Zeedijk 6,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,9.0,NO,YA03,2.8499,1999-06-01,,POINT (121845.4 487682.0),J
+79,10589008,Kalkmarkt 3,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-22.0,95.0,ZO,YD03,3.0564,1999-06-01,,POINT (122300.9 487323.5),J
+80,10589009,Kalkmarkt 3,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,8.0,ZO,YD03,2.8044,1999-06-01,,POINT (122296.3 487320.1),J
+81,10589010,Recht Boomsloot 71A-E,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,30.0,17.0,ZW,YD11,1.4675,1999-06-01,,POINT (122066.0 487263.4),J
+82,10589012,Nieuwmarkt 75/249,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,21.0,52.0,N,YD21,2.2641,1999-06-01,,POINT (121882.3 487242.0),J
+83,10589013,Nieuwe Uilenburgerstraat 106,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,20.0,ZO,YG09,2.0564,1999-06-01,,POINT (122089.8 487029.6),J
+84,10589014,Nieuwe Uilenburgerstraat 106,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,20.0,ZO,YG09,2.0554,1999-06-01,,POINT (122079.9 487022.9),J
+85,10589015,Zuiderkerkhof 23,hoek Moddermolenstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,15.0,N,YD31,1.717,1999-06-01,,POINT (121824.9 487008.7),J
+86,10589016,Zuiderkerkhof 23 ??,(rechter bouwmuur)??,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,62.0,18.0,N,YD31,1.7241,1999-06-01,,POINT (121820.4 487010.3),J
+87,10589018,Oudezijds Voorburgwal 137,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,20.0,NW,YA47,1.6213,1999-06-01,,POINT (121619.9 487299.2),J
+88,10589019,Oudezijds Voorburgwal 137,hoek Stoofsteeg,3,Vervallen,2012-10-02,99,Onbekend,0.0,0.0,N,YA47,2.4818,1999-06-01,,POINT (121623.5 487304.1),J
+89,10589021,Binnenkant 22A-D,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,227.0,ZW,YD02,3.9706,1999-06-01,,POINT (122121.3 487414.2),J
+90,10589022,Binnenkant 22A-D,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,41.0,ZW,YG45,2.1436,1999-06-01,,POINT (122126.2 487409.7),J
+91,10589023,Recht Boomsloot 71A-E,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,22.0,ZW,YD11,1.522,1999-06-01,,POINT (122069.8 487260.1),J
+92,10589024,Oudezijds Achterburgwal 187 hoek Spinhuissteeg,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-10.0,19.0,NW,YA71,0.9764,1999-06-01,,POINT (121558.3 487071.6),J
+93,10589026,Prins Hendrikkade 108/114,"hoek Buiten Bantammerstraat(""Scheepvaarthuis"";RVS-boutje)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,59.0,133.0,NO,YD01,3.9218,1999-06-01,,POINT (122136.4 487494.6),J
+94,10589027,Binnen Bantammerstraat 28,hoek Lastageweg,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-10.0,15.0,N,YD07,1.8716,2000-06-01,,POINT (122016.9 487402.1),J
+95,10689000,Jacob Burggraafstraat 18/30,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-13.0,19.0,NO,YN80,1.5835,1999-06-01,,POINT (123310.7 487279.2),J
+96,10689001,Jacob Burggraafstraat 18/30,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,18.0,13.0,NO,YN80,1.5161,1999-06-01,,POINT (123322.3 487267.5),J
+97,10689002,Kattenburgerhof,"""Parkeergarage"" (binnenhoek)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,16.0,19.0,ZW,YN56,1.478,1999-06-01,,POINT (123032.9 487209.8),J
+98,10689003,Wittenburgergracht 5/33,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,61.0,Z,YN21,2.8603,1999-06-01,,POINT (123015.6 487049.5),J
+99,10689004,Wittenburgergracht 5/33,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-19.0,54.0,Z,YN21,2.763,1999-06-01,,POINT (123026.2 487043.5),J
+100,10689006,Kleine Wittenburgerstraat 100,in de Parelstraat  (??Goede omschrijving ??),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,24.0,ZW,YN66,2.426,1999-06-01,,POINT (123231.0 487058.6),J
+101,10689007,Rapenburg 83,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,16.0,NO,YG34,2.4346,1999-06-01,,POINT (122541.3 487021.8),J
+102,10689008,Ravenwerf,"""Parkeergarage""  (rechter bouwmuur)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,21.0,NO,YN57,1.4474,1999-06-01,,POINT (123306.8 487441.6),J
+103,10689009,Ravenwerf,"""Parkeergarage""  (linker bouwmuur)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-8.0,26.0,NO,YN57,1.606,1999-06-01,,POINT (123287.0 487461.2),J
+104,10689010,Kattenburgerhof,"""Parkeergarage""  (rechter bouwmuur)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,13.0,ZW,YN56,1.4725,1999-06-01,,POINT (123055.7 487187.4),J
+105,10689011,Rapenburg 83,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,17.0,NO,YG34,3.5457,1999-06-01,,POINT (122549.2 487015.6),J
+106,10689012,Noordelijke (ronde) kop oostelijke pijler voet-fietsbrug,tussen Oosterdokskade en IJ-tunnel(def.punt 11 zie P 396),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,-18.0,N,YN98,0.2779,1995-07-24,,POINT (122631.1 487512.4),J
+107,10689013,IJ-tunnel 4,(achterkant Brandweerkazerne),1,Actueel,,17,Veelal gebruikt door 'de waal',26.0,5.0,ZO,,2.1968,2007-12-01,,POINT (122500.9 487050.0),J
+108,10780001,"Kantoor ""Werkspoor"" aan de Oostenburgervoorstraat",(x=rechter dag van het linker kelderraam y=granieten plint),3,Vervallen,2008-07-08,0,Ronde bout met opschrift NAP,82.0,12.0,NW,,2.927,1953-01-01,10780001,POINT (123520.0 487010.0),J
+109,24389002,,Houtrijkstraat 148-176,2,Niet te meten,2013-09-30,2,Kleine ronde bout,-210.0,10.0,O,,0.9203,2008-10-01,,POINT (120312.0 489315.5),J
+110,24389003,Houtrijkstraat 279-291,(in de Knollendamstraat),1,Actueel,,2,Kleine ronde bout,-43.0,20.0,NO,,0.8491,2008-10-01,,POINT (120297.0 489288.0),J
+111,10789002,Conradstraat 72A/76D,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,7.0,11.0,NW,YN95,0.9652,1999-06-01,,POINT (123820.2 487055.0),J
+112,10789003,Conradstraat 72A/76D,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,8.0,NW,YN95,0.9628,1999-06-01,,POINT (123808.0 487042.9),J
+113,10789006,,Derde Wittenburgerdwarsstraat 12/16  (x= uit deur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,33.0,25.0,,YN78,1.5978,2000-06-01,,POINT (123407.3 487398.1),J
+114,11089000,Brugwachtershuis brug 266,in de Tweede Kostverlorenkade(Kinkerbrug),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,48.0,ZO,,3.6115,1994-02-10,,POINT (119111.687 486436.142),J
+115,11089002,,Balbaostraat 18,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-8.0,30.0,Z,,0.9887,1997-03-16,,POINT (118786.97 486962.5),J
+116,11089003,Baarsjesweg 224,tweede toren naast betonnen zuil Stadsdeelkantoor,1,Actueel,,99,Onbekend,-14.0,30.0,N,,2.1849,1999-06-01,,POINT (118959.7 486346.9),J
+117,11089004,,Borgerstraat 248A-F,1,Actueel,,99,Onbekend,34.0,12.0,Z,,0.7138,1999-06-01,,POINT (119140.6 486343.1),J
+118,11089005,,Lootsstraat 10A-C,1,Actueel,,99,Onbekend,-43.0,45.0,O,,1.8858,1999-06-01,,POINT (119148.7 486379.3),J
+119,11089007,Jacob van Lennepkade 288,hoek Jan Pieter Heijestraat(in tweede kolom),1,Actueel,,99,Onbekend,-44.0,12.0,Z,,1.5637,1999-06-01,,POINT (119349.3 486288.4),J
+120,11089008,Jacob van Lennepstraat 316A-B,(rechter bouwmuur),3,Vervallen,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-11.0,29.0,Z,,0.9179,1999-06-01,,POINT (119230.4 486309.3),J
+121,11089010,Jan Pieter Heijestraat 64A-H,(in betonnen kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,20.0,O,,0.8908,1999-06-01,,POINT (119273.7 486423.0),J
+122,11089011,Jacob van Lennepkade 121A-E,(naast ingang),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,22.0,N,,0.9777,1999-06-01,,POINT (119491.8 486290.5),J
+123,11089012,Douwes Dekkerstraat 1A/13D,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-12.0,20.0,ZW,,0.7284,2000-01-03,,POINT (119500.8 486899.0),J
+124,11089013,Nicolaas Beetsstraat 62/76,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-20.0,40.0,O,,0.9543,2000-01-03,,POINT (119446.6 486560.2),J
+125,11089014,Baarsjesweg 224,ZO-hoek meest O-gevel (stadsdeelkantoor),1,Actueel,,17,Veelal gebruikt door 'de waal',69.0,5.0,ZO,,0.7978,2007-12-01,,POINT (118971.8 486264.7),J
+126,11180007,Bilderdijkstraat 169,"hoek Kinkerstraat (winkel ""Blokker"")",1,Actueel,,0,Ronde bout met opschrift NAP,-10.0,56.0,W,,1.6507,1991-10-01,11180007,POINT (119932.7 486739.8),J
+127,11189000,Da Costakade 200,(Badhuis 1e pilaster),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,14.0,44.0,O,,1.5006,1994-08-03,,POINT (120030.0 486652.0),J
+128,11189001,Bilderdijkkade 418,in de Kwakersstraat,3,Vervallen,2012-09-20,99,Onbekend,22.0,21.0,N,,2.1386,1999-06-01,,POINT (119724.7 486853.2),J
+129,11189004,,Overtoom 20A/26E,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,16.0,10.0,Z,,0.6938,1999-06-01,,POINT (120274.3 486302.0),J
+130,11189005,,Eerste Helmersstraat 23A-E,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-21.0,24.0,N,,0.8153,1999-06-01,,POINT (120226.5 486337.7),J
+131,11189006,Nassaukade 350A-E,in de Jacob van Lennepstraat ,3,Vervallen,2012-06-07,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,22.0,Z,AD64,0.8584,1999-06-01,,POINT (120219.4 486720.0),J
+132,11189007,,Jeltje de Bosch Kemperpad 83 t/m 117,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,28.0,W,,1.4302,1999-06-01,,POINT (119677.5 486252.3),J
+133,11189008,,Tweede Helmersstraat 118/206,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,142.0,Z,,1.9629,1999-06-01,,POINT (120011.3 486321.8),J
+134,11189009,Kinkerstraat 11/13,(in betonnen kolom),3,Vervallen,2018-02-12,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,14.0,21.0,N,,1.3389,1999-06-01,,POINT (120155.8 486813.6),J
+135,11189010,,Da Costakade 183A/195F,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-11.0,10.0,W,,1.0813,1999-06-01,,POINT (120077.4 486680.9),J
+136,11189011,Da Costakade 115,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,24.0,ZW,,1.3977,1999-06-01,,POINT (119986.7 486899.4),J
+137,11280003,Zuidoostelijke vleugelmuur brug (29) over de Herengracht,tussen Koningsplein en Leidsestraat,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-10.0,33.0,N,,2.4026,1952-01-01,11280003,POINT (121039.5 486656.4),J
+138,11280004,"Muntplein 12 (Oostelijk gevelvlak ""Munttoren"")",(y=boven voeg gelijk aan plint van vooruitspringend ged.),1,Actueel,,7,"Bijzondere merktekens bijvoorbeeld zeskantige bout, stalen pen etc.",207.0,27.0,NO,,2.9456,1926-01-01,11280004,POINT (121358.0 486689.1),J
+139,11280005,Singel 421,"""Universiteitsbibliotheek""",1,Actueel,,7,"Bijzondere merktekens bijvoorbeeld zeskantige bout, stalen pen etc.",-50.0,56.0,ZW,,1.9932,1926-01-01,11280005,POINT (121094.3 486785.7),J
+140,11389000,Amstel 200,in de Amstelstraat(def.meting J 414),1,Actueel,,99,Onbekend,-23.0,108.0,,YF12,2.6549,1983-01-15,,POINT (121820.8 486599.3),J
+141,11389002,Weesperstraat 61,(ref.punt ZO van def.meting O 306),1,Actueel,,99,Onbekend,479.0,38.0,W,YL04,2.5632,1999-06-01,,POINT (122224.1 486455.8),J
+142,11389003,,Nieuwe Kerkstraat 66A/68D,1,Actueel,,99,Onbekend,55.0,26.0,N,YL05,2.2016,1999-06-01,,POINT (122160.9 486347.8),J
+143,11389004,'s Gravenlandse Veer 6,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,9.0,Z,YD36,0.6705,1999-06-01,,POINT (121597.0 486769.4),J
+144,11389005,'s Gravenlandse Veer 6,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,33.0,9.0,Z,YD36,0.6248,1999-06-01,,POINT (121591.2 486768.6),J
+145,11389006,Jodenbreestraat 152/154,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,50.0,4.0,NO,YG21,2.4206,1999-06-01,,POINT (122024.8 486862.6),J
+146,11389007,Jodenbreestraat 152/154,(rechter bouwmuur),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,6.0,NO,YG21,2.4212,1999-06-01,,POINT (122018.7 486866.8),J
+147,11389008,Nieuwe Herengracht 14,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,120.0,N,YL01,1.9425,1999-06-01,,POINT (122055.7 486566.6),J
+148,11389009,Nieuwe Herengracht 14,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-14.0,66.0,N,YL01,1.5016,1999-06-01,,POINT (122027.3 486557.2),J
+149,11389010,Nieuwe Keizersgracht 67,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,15.0,ZO,YL02,0.9703,1999-06-01,,POINT (122338.4 486545.1),J
+150,11389012,Nieuwe Herengracht 109/111,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,21.0,100.0,ZO,YG32,1.8934,1999-06-01,,POINT (122351.0 486807.4),J
+151,11389013,Nieuwe Herengracht 109/111,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-9.0,171.0,ZO,YG32,2.5951,1999-06-01,,POINT (122361.5 486818.3),J
+152,11389014,Amstel 216,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,48.0,146.0,O,YF24,2.5071,1999-06-01,,POINT (121862.9 486470.8),J
+153,11389015,Amstel 216,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,43.0,O,YF24,1.6119,1999-06-01,,POINT (121858.0 486486.9),J
+154,11389018,Keizersgracht 720,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,23.0,4.0,N,YF33,3.5896,1999-06-01,,POINT (121570.8 486260.2),J
+155,11389019,Keizersgracht 720,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,5.0,N,YF33,1.4806,1999-06-01,,POINT (121565.5 486258.5),J
+156,11389020,Kerkstraat 411/413,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,76.0,ZO,YF36,2.2935,1999-06-01,,POINT (121811.9 486255.0),J
+157,11389021,Amstel 89,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,11.0,8.0,W,YL05,0.8687,1999-06-01,,POINT (122036.8 486290.1),J
+158,11389022,Amstel 89,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-13.0,9.0,W,YL05,0.8434,1999-06-01,,POINT (122038.3 486284.6),J
+159,11389023,Lepelkruisstraat 14/24,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,67.0,O,YL09,1.7734,1999-06-01,,POINT (122378.2 486286.5),J
+160,11389024,Lepelkruisstraat 14/24,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,16.0,64.0,O,YL09,1.7789,1999-06-01,,POINT (122380.7 486277.7),J
+161,11389025,Kerkstraat 411/413,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,3.0,70.0,ZO,YF36,2.286,1999-06-01,,POINT (121808.4 486253.8),J
+162,11389026,Herengracht 565A-D,(y = boven plint),1,Actueel,,17,Veelal gebruikt door 'de waal',28.0,7.0,Z,,3.9516,2007-12-01,,POINT (121563.7 486466.1),J
+163,11389027,Nieuwe Keizersgracht 80/86,in de Weesperstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,13.0,15.0,O,YL03,2.5079,2000-06-01,,POINT (122189.6 486448.7),J
+164,11389029,Hortusplantsoen 30,(in beertje rechts van ingang),1,Actueel,,17,Veelal gebruikt door 'de waal',-16.0,19.0,NO,,0.8363,2007-12-01,,POINT (122310.5 486577.4),J
+165,11389030,Reguliersgracht 30,,1,Actueel,,17,Veelal gebruikt door 'de waal',14.0,13.0,O,,1.0506,2007-12-01,,POINT (121520.9 486331.9),J
+166,11389032,Rapenburgerstraat 165A-E,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-384.0,8.0,NW,YG32,2.4267,2000-06-01,,POINT (122257.8 486839.3),J
+167,11289000,,"Museum ""Van Loon"" Keizersgracht 672",1,Actueel,,2,Kleine ronde bout,3.0,37.0,N,YF31,1.5928,1984-04-18,,POINT (121378.3 486290.0),J
+168,11289001,Keizersgracht 674A-G,"""Hollandse Koopmansbank"" (def. meting J 408)",1,Actueel,,2,Kleine ronde bout,54.0,85.0,N,YF31,1.9821,1984-04-18,,POINT (121388.5 486287.9),J
+169,11289002,Passerdersstraat 5,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,8.0,32.0,NW,YJ86,0.7441,1999-06-01,,POINT (120585.8 486789.5),J
+170,11289003,Elandsgracht 17,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,34.0,NW,YJ80,1.065,1999-06-01,,POINT (120568.6 486999.2),J
+171,11289004,Elandsgracht 17,(rechter bouwmuur) zit kastje tegenaan 8-12-08 JvB,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,38.0,NW,YJ80,1.0182,1999-06-01,,POINT (120563.7 486996.5),J
+172,11289007,Reguliersdwarsstraat 23,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,19.0,Z,YF02,1.0464,1999-06-01,,POINT (121140.0 486636.4),J
+173,11289009,Vijzelstraat 20,(linker bouwmuur),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,12.0,O,YF06,1.656,1999-06-01,,POINT (121325.9 486534.5),J
+174,11289014,Keizersgracht 407,(linker bouwmuur),2,Niet te meten,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,26.0,88.0,W,YE43,3.3563,1999-06-01,,POINT (120782.7 486739.7),J
+175,11289015,Keizersgracht 407,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-28.0,153.0,W,YE43,2.4969,1999-06-01,,POINT (120784.6 486732.4),J
+176,11289016,Lange Leidsedwarsstraat 8,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-16.0,27.0,NO,YK04,1.2147,1999-06-01,,POINT (120599.0 486530.3),J
+177,11289017,Lange Leidsedwarsstraat 8,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,19.0,NO,YK04,1.1491,1999-06-01,,POINT (120602.1 486526.7),J
+178,11289019,Kerkstraat 158,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,26.0,N,YF30,1.8594,1999-06-01,,POINT (121074.3 486271.6),J
+179,11289020,Kerkstraat 158,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,26.0,N,YF30,1.7771,1999-06-01,,POINT (121080.5 486270.2),J
+180,11289021,Keizersgracht 672,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,3.0,36.0,N,YF31,1.5941,1999-06-01,,POINT (121371.2 486290.4),J
+181,11289022,Keizersgracht 672,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-28.0,107.0,N,YF31,2.2473,1999-06-01,,POINT (121356.7 486293.9),J
+182,11289023,Passerdersstraat 5,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,16.0,NW,YJ86,0.6038,1999-06-01,,POINT (120582.6 486787.7),J
+183,11289024,Vijzelstraat 20,(rechter bouwmuur),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-8.0,41.0,O,YF06,1.694,1999-06-01,,POINT (121329.5 486551.7),J
+184,11289028,Nieuwe Spiegelstraat 17,(in kolom),1,Actueel,,99,Onbekend,14.0,96.0,ZW,YF21,2.2596,1999-06-01,,POINT (121127.0 486422.5),J
+185,11289029,Elandsgracht 39,(links in linker gevel; y = boven natuursteen),1,Actueel,,17,Veelal gebruikt door 'de waal',0.0,12.0,N,,0.7397,2007-12-01,,POINT (120532.0 486979.4),J
+186,11289030,,Korte Leidsedwarsstraat 8 A t/m C,3,Vervallen,2008-10-06,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-50.0,10.0,,YK03,1.2054,2000-06-01,,POINT (120582.4 486485.4),J
+187,11289031,Kleine Gartmanplantsoen 21,hoek Leidsekruisstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,8.0,70.0,Z,YK07,1.4788,2000-06-01,,POINT (120735.7 486256.6),J
+188,11289033,,Kerkstraat 209 A-D,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,50.0,10.0,Z,YF29,2.0529,2000-06-01,,POINT (121185.1 486256.8),J
+189,11289034,Leidsegracht 46/48,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,5.0,,YE44,1.1669,2000-06-01,,POINT (120706.3 486649.1),J
+190,11289036,Singel 446,(kerk; y = boven plint),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-12.0,22.0,NO,,2.787,2007-12-01,,POINT (121018.6 486796.0),J
+191,11380002,Herengracht 597,(x = natuursteen naast ingang Herengracht 597),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,37.0,52.0,Z,,1.4092,1972-01-01,11380002,POINT (121707.6 486509.5),J
+192,11380054,"Waterlooplein ""Stopera"" links van ingang bij portiersloge",rechts van garagedeuren,1,Actueel,,0,Ronde bout met opschrift NAP,72.0,23.0,ZO,,1.3553,2000-11-17,11380054,POINT (121970.0 486739.9),J
+193,11589000,Stadsdeelkantoor Zeeburg Cruquiuskade 5,Rechter pilaar voor de hoofdingang,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,750.0,5.0,O,,3.042,1992-08-11,,POINT (124200.0 486870.0),J
+194,11589003,Von Zesenstraat 231/259,(x = uit portiek),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-29.0,83.0,Z,,1.531,1994-03-18,,POINT (123584.9 486377.2),J
+195,11589004,Dapperstraat 151,,3,Vervallen,2016-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,21.0,76.0,W,,1.4762,1994-03-18,,POINT (123636.0 486366.5),J
+196,11589005,Wagenaarstraat 503,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-370.0,87.0,Z,,1.5417,1994-03-18,,POINT (123855.4 486319.0),J
+197,11589006,Commelinstraat 27A,(x = vanaf portiek),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-11.0,31.0,Z,,1.0938,1995-02-01,,POINT (123521.5 486288.9),J
+198,11589007,,Oostenburgergracht 73  (y plint natuursteen),1,Actueel,,16,Koperen bout,53.0,17.0,Z,YN29,2.6627,1983-03-16,,POINT (123406.2 486826.5),J
+199,11589008,Celebesstraat 39A/42D,in de Javastraat (in betonnen kolom),1,Actueel,,99,Onbekend,6.0,17.0,N,,0.9487,1999-06-01,,POINT (123979.5 486258.4),J
+200,11589010,Madurastraat 2A-G,in de Celebesstraat,1,Actueel,,99,Onbekend,-35.0,41.0,W,,0.9332,1999-06-01,,POINT (123965.1 486327.5),J
+201,11589011,Madurastraat 17,(Zijgevel bij speelplaats),1,Actueel,,99,Onbekend,19.0,32.0,O,,0.9304,1999-06-01,,POINT (124025.0 486365.2),J
+202,11589012,Madurastraat 17,(Zijgevel bij speelplaats),1,Actueel,,99,Onbekend,-27.0,33.0,O,,0.9243,1999-06-01,,POINT (124024.0 486374.6),J
+203,11589013,Bankastraat 4A-E,(in derde kolom),1,Actueel,,99,Onbekend,33.0,29.0,N,,0.8284,1999-06-01,,POINT (123992.1 486414.0),J
+204,11589014,Bankastraat 18,(school),1,Actueel,,99,Onbekend,-21.0,20.0,N,,0.7592,1999-06-01,,POINT (124041.5 486414.7),J
+205,11589015,Sumatrastraat 48/50,,1,Actueel,,99,Onbekend,14.0,28.0,O,,1.0834,1999-06-01,,POINT (124235.3 486254.0),J
+206,11589018,Lombokstraat 4 (x = uit raamkozijn),2012 niet te meten ivm begroeiing,1,Actueel,,99,Onbekend,-52.0,41.0,O,,2.0588,1999-06-01,,POINT (124292.5 486535.3),J
+207,11589020,Kraaienhofstraat 10,,3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,5.0,NW,YN51,1.1412,1999-06-01,,POINT (123759.9 486831.5),J
+208,11589021,Kraaienhofstraat 10,,3,Vervallen,2018-06-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,7.0,13.0,NW,YN51,1.2693,1999-06-01,,POINT (123774.9 486846.4),J
+209,11589022,Oostenburgergracht 75,(linker kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,16.0,4.0,Z,YN29,1.9965,1999-06-01,,POINT (123477.7 486785.9),J
+210,11589023,Oostenburgergracht 75,(rechter kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,3.0,Z,YN29,1.9947,1999-06-01,,POINT (123462.5 486794.7),J
+211,11589024,Compagniestraat 41/55,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,100.0,ZO,YN75,3.1144,1999-06-01,,POINT (123496.0 486962.3),J
+212,11589026,Sarphatiestraat 720,(rechter bouwmuur),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,72.0,98.0,NW,YM22,3.1381,1999-06-01,,POINT (123495.9 486625.4),J
+213,11689000,C. van Eesterenlaan,(zie overzicht meting archief; pakje A 265),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,30.0,18.0,Z,,3.2166,1992-12-22,,POINT (124427.1 486957.3),J
+214,11689001,Ternatestraat 170/192,hoek Soembawastraat,1,Actueel,,99,Onbekend,5.0,50.0,N,,1.6026,1999-06-01,,POINT (124824.8 486487.8),J
+215,11689002,Zeeburgerdijk 406,hoek Gorontalostraat,1,Actueel,,99,Onbekend,-17.0,16.0,N,,2.5488,1999-06-01,,POINT (124699.1 486555.3),J
+216,11689003,Gorontalostraat 3A-H,(x = uit bouwmuur bij balkon),1,Actueel,,17,Veelal gebruikt door 'de waal',-233.0,29.0,W,,1.6521,2007-12-01,,POINT (124694.1 486530.4),J
+217,11689004,Menadostraat 39A/41D,(naast grijze kast),1,Actueel,,99,Onbekend,28.0,35.0,W,,1.2613,1999-06-01,,POINT (124634.9 486491.4),J
+218,11689005,Menadostraat 9A-E,(x = uit balkon),1,Actueel,,99,Onbekend,-25.0,30.0,O,,1.1802,1999-06-01,,POINT (124564.0 486481.1),J
+219,11689006,,Zeeburgerdijk 250/262,1,Actueel,,99,Onbekend,87.0,12.0,N,,2.4802,1999-06-01,,POINT (124522.2 486554.3),J
+220,11689007,,Molukkenstraat 6A/14B,1,Actueel,,99,Onbekend,-42.0,36.0,O,,2.3412,1999-06-01,,POINT (124492.9 486535.0),J
+221,11689008,,Billitonstraat 23/39,1,Actueel,,99,Onbekend,27.0,87.0,Z,,2.3399,1999-06-01,,POINT (124485.9 486517.7),J
+222,11689009,,Javastraat 521/597,1,Actueel,,99,Onbekend,17.0,50.0,Z,,1.1767,1999-06-01,,POINT (124624.4 486297.6),J
+223,11689010,,Boetonstraat 2A-H,1,Actueel,,99,Onbekend,-46.0,26.0,O,,0.942,1999-06-01,,POINT (124881.9 486404.9),J
+224,11989000,,van Eeghenstraat 33A/35K,1,Actueel,,99,Onbekend,9.0,17.0,N,,0.6639,1999-06-01,,POINT (120143.4 485682.2),J
+225,11989006,,Anna van den Vondelstraat 17/25,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,3.0,59.0,W,,0.9556,1999-06-01,,POINT (119762.5 485972.0),J
+226,11989007,Ite Boeremastraat 11/105,in de Eerste Helmersstraat (t/o 143/145),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,49.0,Z,,1.2358,1999-06-01,,POINT (119771.8 486168.6),J
+227,11989008,Vossiusstraat 53,is ook 11981167,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,146.0,,,1.5542,2000-06-01,,POINT (120294.0 485929.5),J
+228,11989010,Van Baerlestraat 98,in de J.W.Brouwerstraat(Concertgebouw; y = boven plint),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,138.0,38.0,N,,2.124,2007-12-01,,POINT (120359.6 485516.0),J
+229,11989011,Willemsparkweg 9,in de Alexander Boersstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,5.0,W,,0.6175,2000-06-01,,POINT (120321.6 485654.3),J
+230,11989012,Ite Boeremastraat 11/105,in de Eerste Helmersstraat (t/o 153/155),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,270.0,29.0,Z,,1.0505,2000-06-01,,POINT (119744.2 486157.4),J
+231,11989013,,Overtoom 57,3,Vervallen,2013-09-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-15.0,15.0,N,,0.9056,2000-06-01,,POINT (120206.9 486233.1),J
+232,11989014,Cornelis Schuytstraat 2,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,O,,0.9946,2000-06-01,,POINT (119782.1 485515.4),J
+233,11989015,WG-plein 874/881,in de Eerste Helmersstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-25.0,40.0,Z,,0.8927,2000-06-01,,POINT (119906.1 486219.9),J
+234,12080001,"Voorgevel ""Rijksmuseum"" aan de Stadhouderskade gelegen tus-",sen linkeringang en onderdoorgang,3,Vervallen,2018-05-03,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,190.0,70.0,NO,,3.2184,1952-01-01,12080001,POINT (120840.6 485932.0),J
+235,12080002,,"Stadhouderskade 78 ""Heinekens Bierbrouwerij Maatschappij""",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,1042.0,110.0,N,,1.7006,1952-01-01,12080002,POINT (121260.61 485668.22),J
+236,12080003,Honthorststraat 27,"hoek Hobbemakade (""Brandweerkazerne""; y = boven plint)",1,Actueel,,3,Knopbout,-56.0,29.0,ZO,,1.8766,1926-01-01,12080003,POINT (120868.83 485683.32),J
+237,11780002,Andreas Schelfhoutstraat 63,(x = stootvoeg),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-37.0,90.0,N,,1.4494,1961-01-01,11780002,POINT (118379.6 485603.9),J
+238,11789001,Z.O. landhoofd brug 684 Postjeskade,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-37.0,-37.0,Z,,1.0734,1997-03-16,,POINT (118346.8 485891.1),J
+239,11880002,Z-vleugelmuur van het O-landhoofd van de brug (199) over de,Kostverlorenvaart tussen Overtoom en Surinamestraat,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,180.0,-93.0,Z,,2.8499,1952-01-01,11880002,POINT (118737.3 485667.1),J
+240,11880004,Hoofdweg 96 in de Marowijnestraat,(y = onder bovenkant van staande gemetselde plint),3,Vervallen,2017-12-12,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,21.0,-100.0,Z,,1.4795,1927-01-01,11880004,POINT (118650.0 486170.0),J
+241,11880009,Baarsjesweg 243,(x = stenen dag van deur; y = bovenkant gemetselde rollaag),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,27.0,71.0,ZO,,1.5258,1952-01-01,11880009,POINT (118910.0 486170.0),J
+242,11489000,Sarphatiestraat 510,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,105.0,N,,2.952,1999-06-01,,POINT (123172.1 486339.7),J
+243,11489003,Sarphatiestraat 626,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,12.0,NW,YM40,1.6372,1999-06-01,,POINT (123342.6 486493.9),J
+244,11489004,Sarphatiestraat 626,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,11.0,NW,YM40,1.6136,1999-06-01,,POINT (123348.3 486499.5),J
+245,11489007,Hoogte Kadijk 143A,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-21.0,37.0,Z,YM02,3.2044,1999-06-01,,POINT (123081.9 486813.0),J
+246,11489008,Hoogte Kadijk 143,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-18.0,11.0,Z,YM02,2.8865,1999-06-01,,POINT (123074.1 486817.5),J
+247,11489009,Hoogte Kadijk 25A-K,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,9.0,Z,YM34,2.7778,1999-06-01,,POINT (122779.1 486990.9),J
+248,11489010,Hoogte Kadijk 25A-K,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,70.0,Z,YM34,3.3838,1999-06-01,,POINT (122771.7 486995.5),J
+249,11489011,Henri Polaklaan 15A-B,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-40.0,43.0,Z,YM08,1.0625,1999-06-01,,POINT (122618.4 486749.7),J
+250,11489012,Henri Polaklaan 15A-B,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,20.0,Z,YM08,0.9003,1999-06-01,,POINT (122610.8 486753.9),J
+251,11489015,Plantage Middenlaan 52,(rechts van ingang in kolom). In 2018 ntm ivm werkzaamheden,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-19.0,10.0,N,YM14,2.0304,1999-06-01,,POINT (122811.3 486480.6),J
+252,11489016,,Plantage Middenlaan 48,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,53.0,N,YM13,1.1475,1999-06-01,,POINT (122702.5 486546.3),J
+253,11489017,Plantage Middenlaan 48,naast Plantage Westermanlaan 17,3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,62.0,51.0,O,YM13,1.156,1999-06-01,,POINT (122697.8 486538.3),J
+254,11489018,Plantage Middenlaan 52,(recht van ingang in kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-18.0,10.0,N,YM14,2.0337,1999-06-01,,POINT (122819.3 486473.5),J
+255,11489019,Sarphatiestraat 510,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,20.0,112.0,N,YM24,2.9476,1999-06-01,,POINT (123177.7 486343.3),J
+256,11489020,Plantage Muidergracht 154/196,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,14.0,32.0,N,YM19,1.0298,2000-06-01,,POINT (122909.8 486306.3),J
+257,11489023,Plantage Muidergracht 4,(y = boven natuursteen; zijgevel),1,Actueel,,17,Veelal gebruikt door 'de waal',11.0,8.0,NW,,1.5127,2007-12-01,,POINT (122461.0 486560.6),J
+258,11489024,Plantage Muidergracht 99??,in de Plantage Lepellaan t/o No.4,3,Vervallen,2018-06-22,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,ZO,YM14,0.871,2000-06-01,,POINT (122839.0 486382.4),J
+259,11580004,Zeeburgerdijk 25,(x = linkeringang; y = boven afgeschuinde plint),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,38.0,7.0,Z,,2.1605,1942-01-01,11580004,POINT (123789.0 486563.0),J
+260,11580005,Czaar Peterstraat 23A-F,"gevel Conradstraat
+",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,210.0,84.0,NW,,1.6662,1953-01-01,11580005,POINT (123624.1 486860.2),J
+261,11889001,Rensselaerstraat 14,(Oostzijde zuidelijk muurvlak GEB),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-16.0,32.0,Z,,0.9958,1997-03-26,,POINT (118798.8 486173.2),J
+262,11889002,Jacob van Lennepkade 368A/370E,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-9.0,9.0,Z,,1.193,1999-06-01,,POINT (119123.9 486199.9),J
+263,11889003,Staringstraat 1A/11G,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,25.0,8.0,W,,0.8764,2000-06-01,,POINT (119243.1 486174.2),J
+264,11889004,,Wilhelminastraat 110A-S,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-17.0,20.0,Z,,0.7764,1999-06-01,,POINT (119294.0 486097.0),J
+265,11889005,Schoolstraat 25,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-8.0,8.0,W,,0.8926,1999-06-01,,POINT (119212.7 485774.6),J
+266,11889006,,Frederiksstraat 108/142,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,18.0,O,,0.5526,1999-06-01,,POINT (119045.7 485650.8),J
+267,11889007,Overtoom 363A-B,(naast doorgang),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,10.0,18.0,N,,0.7439,1999-06-01,,POINT (119315.1 485879.5),J
+268,11889008,J.J. Cremerplein 27A,(schooltje),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,23.0,NO,,1.1622,1999-06-01,,POINT (118978.5 485885.5),J
+269,11889009,Derde Kostverlorenkade 5A-R,(naast doorgang),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,25.0,W,,0.955,1999-06-01,,POINT (118929.9 486048.4),J
+270,11889010,Pieter Langendijkstraat 13,in de Kanaalstraat(in kolom ;in 2007 onder tegel),3,Vervallen,2018-06-22,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-15.0,7.0,N,,0.6835,1999-06-01,,POINT (119141.1 486085.7),J
+271,11889011,Eerste Helmersstraat 255A/257K,(in kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,10.0,N,,0.9542,1999-06-01,,POINT (119417.7 486009.1),J
+272,11889012,Frederiksstraat 100/106,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-9.0,15.0,,,0.5238,2000-06-01,,POINT (119033.3 485675.4),J
+273,11889013,Reyer Anslostraat 3A-H,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,100.0,20.0,W,,0.5548,2000-06-01,,POINT (119101.8 485770.7),J
+274,11889014,Saxenburgerstraat 7,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-40.0,4.0,W,,0.4867,2000-06-01,,POINT (119153.3 485774.4),J
+275,11980001,,"Vondelstraat 120 Westgevel van de ""Vondelkerk"" ",1,Actueel,,7,"Bijzondere merktekens bijvoorbeeld zeskantige bout, stalen pen etc.",-61.0,93.0,ZW,,1.2631,1926-01-01,11980001,POINT (120010.0 486070.0),J
+276,11980002,Van Baerlestraat,N-vlak ZO-vlgm brug 200 over het Vondelpark (y=onderste graniet blok),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-11.0,3.0,NO,,2.0834,1952-01-01,11980002,POINT (120252.9 485958.2),J
+277,11980003,,Overtoom 183A-H,1,Actueel,,0,Ronde bout met opschrift NAP,-32.0,34.0,,,0.9871,1991-10-01,11980003,POINT (119860.3 486088.9),J
+278,11980004,Willemsparkweg hoek Jacob Obrechtstraat,(G.E.B.-gebouw),1,Actueel,,0,Ronde bout met opschrift NAP,-7.0,31.0,N,,0.8302,1991-10-01,11980004,POINT (120085.03 485576.69),J
+279,12089001,Daniel Stalpertstraat 33A-D,hoek Frans Halsstraat,3,Vervallen,2012-11-29,99,Onbekend,15.0,31.0,Z,,0.8758,1999-06-01,,POINT (121047.9 485500.8),J
+280,12089008,Quellijnstraat 133 A-E,(achter klimop),3,Vervallen,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-42.0,70.0,Z,,1.2465,2000-06-01,,POINT (121422.6 485529.6),J
+281,12089009,Prinsengracht 853,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,285.0,Z,YF30,3.7956,2000-06-01,,POINT (121120.5 486199.3),J
+282,12089010,Weteringschans 165,(y = onder bovenkant natuursteen),1,Actueel,,17,Veelal gebruikt door 'de waal',32.0,-56.0,Z,,1.2939,2007-12-01,,POINT (121223.1 485872.1),J
+283,12089011,Lijnbaansgracht 310A/311,(y = onder bovenkant dorpel),1,Actueel,,17,Veelal gebruikt door 'de waal',-87.0,-9.0,Z,,0.9017,2007-12-01,,POINT (121242.3 485923.0),J
+284,12089012,Weteringschans 81,bij de Lijnbaansgracht,1,Actueel,,17,Veelal gebruikt door 'de waal',16.0,9.0,NW,,1.6391,2007-12-01,,POINT (120929.3 486060.1),J
+285,12089013,Marie Heinekenplein 1,(zijgevel),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,,,,,0.8739,2000-06-01,,POINT (121194.9 485612.9),J
+286,12180004,W-kant van de W-sluismuur van de sluis over de Amstel t/o,de Utrechtsedwarsstraat (X=toegangskade Y=bovenk. dekzerk).,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-260.0,-32.0,W,,1.0649,1972-01-01,12180004,POINT (121993.24 486146.18),J
+287,12180007,Amstel 288A/298,hoek Utrechtsedwarsstraat,1,Actueel,,0,Ronde bout met opschrift NAP,16.0,64.0,O,,1.6567,1991-10-01,12180007,POINT (121966.0 486135.8),J
+288,12180008,Zuidwestelijke pilaar van de Nederlandse Bank aan de,Westeinde hoek Singelgracht (x = vanaf hek).,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,126.0,N,,3.5649,1991-10-01,12180008,POINT (121780.0 485724.0),J
+289,12389000,,Wagenaarstraat 314/324,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-309.0,64.0,N,,1.3401,1994-03-18,,POINT (123680.6 486244.4),J
+290,12389001,Dapperstraat 271,,2,Niet te meten,2007-06-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,27.0,74.0,W,,1.4549,1994-03-18,,POINT (123740.4 486077.7),J
+291,12389002,Linaeusstraat 35E,,3,Vervallen,2007-05-09,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-61.0,84.0,W,,1.4768,1994-03-18,,POINT (123467.4 486128.5),J
+292,12389003,Van Swindendwarsstraat 2A-F,in de Tweede van Swindenstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,29.0,89.0,N,,1.5774,1994-03-18,,POINT (123545.6 486067.4),J
+293,12389004,Reinwardtstraat 60,(x = uit portiek),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-46.0,82.0,N,,1.5588,1994-03-18,,POINT (123583.0 485961.2),J
+294,12389005,Wyttenbachstraat 300/310,(rechter zijgevel),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,2.0,77.0,W,,1.2544,1994-03-18,,POINT (123798.2 485981.3),J
+295,12389006,Vrolikstraat 461A/463F,hoek Kastanjeweg,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,70.0,Z,,1.4264,1994-03-18,,POINT (123462.2 485670.8),J
+296,12389007,,"Oosterspoorplein 4, niet als ref.punt gebruiken i.v.m. zakking (09-05-2011)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,45.0,48.0,O,,0.9988,1996-02-28,,POINT (123924.5 485900.6),J
+297,12389009,,Wagenaarstraat 232/250,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,87.0,N,,1.5304,1997-01-24,,POINT (123623.5 486226.7),J
+298,12389011,,Balistraat 81A/87F,1,Actueel,,99,Onbekend,7.0,27.0,Z,,0.9652,1999-06-01,,POINT (124221.7 486243.1),J
+299,12389012,Balistraat 2A/4E,,1,Actueel,,99,Onbekend,33.0,23.0,N,,0.8004,1999-06-01,,POINT (123991.6 486199.4),J
+300,12389013,Eerste Atjehstraat 12A-D,,1,Actueel,,99,Onbekend,13.0,23.0,N,,0.7462,1999-06-01,,POINT (124036.6 486149.8),J
+301,12389014,Celebesstraat 63A-D,in de Tweede Atjehstraat,1,Actueel,,99,Onbekend,-39.0,18.0,Z,,0.814,1999-06-01,,POINT (124005.6 486089.2),J
+302,12389015,Palembangstraat 23/41,,1,Actueel,,99,Onbekend,-9.0,21.0,Z,,0.8604,1999-06-01,,POINT (124251.1 485943.2),J
+303,12480001,Molukkenstraat 72,(y = boven de bovenkant rollaag),1,Actueel,,13,Kopbout,89.0,35.0,O,,1.2113,1927-01-01,12480001,POINT (124496.53 486187.69),J
+304,12480005,,Insulindeweg 870/886,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-27.0,43.0,N,,1.1251,1991-10-01,12480005,POINT (124875.6 486119.3),J
+305,12289000,Tweede Oosterparkstraat 252A/258G,(nabij de poort in GEB),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-28.0,87.0,N,,1.563,1994-03-18,,POINT (123337.7 485728.4),J
+306,12289001,Eikenweg 23,in de Vrolikstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,18.0,86.0,Z,,1.5267,1994-03-18,,POINT (123323.1 485606.9),J
+307,12289002,,Tweede Oosterparkstraat 193/197C,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-23.0,97.0,Z,,1.5719,1994-03-18,,POINT (123188.9 485680.2),J
+308,12289003,,Derde Oosterparkstraat 204,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-26.0,83.0,N,,1.2928,1994-03-18,,POINT (123277.2 485637.3),J
+309,12289004,Tweede Oosterparkstraat 111A/117D,in de Sparrenweg,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-166.0,78.0,W,,1.4688,1994-03-18,,POINT (122923.7 485565.8),J
+310,12289005,,Iepenplein 7A-C,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,95.0,71.0,ZW,,1.3448,1994-03-18,,POINT (122798.7 485516.8),J
+311,12289006,Wibautstraat 71,hoek Blasiusstraat(in ronde pilaar),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,58.0,NW,,1.2451,1994-03-18,,POINT (122553.3 485557.8),J
+312,12289007,Blasiusstraat 103,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-17.0,79.0,Z,,1.2359,1994-03-18,,POINT (122647.2 485612.3),J
+313,12289008,,Wibautstraat 9/27,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,10.0,70.0,W,,1.3701,1994-03-18,,POINT (122517.4 485654.7),J
+314,12289009,Sarphatiestraat 54,,3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,61.0,N,,2.0754,1999-06-01,,POINT (122400.4 486026.0),J
+315,12289011,Spinozastraat 51,,3,Vervallen,2014-01-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,15.0,Z,,1.4461,1999-06-01,,POINT (122606.4 486063.0),J
+316,12289013,Spinozastraat 51,,3,Vervallen,2014-01-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,12.0,Z,,1.8283,1999-06-01,,POINT (122638.3 486073.4),J
+317,12289014,Oosterpark 16,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,50.0,110.0,N,,1.7222,2000-06-01,,POINT (123045.1 485683.6),J
+318,12380002,Frontmuur van het NO-landhoofd van het spoorwegviadukt over,de Linnaeusstraat (x = rechtse rooster; y = natuurst. voet),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,175.0,8.0,W,,0.7725,1952-01-01,12380002,POINT (123640.5 485651.3),J
+319,12380004,Eerste Atjehstraat 59,(y = boven bovenkant rollaag),1,Actueel,,3,Knopbout,-31.0,8.0,Z,,1.3433,1927-01-01,12380004,POINT (124159.21 486182.86),J
+320,12189000,,Swammerdamstraat 25A-F,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,15.0,W,,0.4367,1994-07-18,,POINT (122312.1 485740.7),J
+321,12189001,Kerkstraat 301,(rechts van ingang; y = boven plint),3,Vervallen,2018-06-22,17,Veelal gebruikt door 'de waal',-21.0,5.0,Z,,2.1838,2007-12-01,,POINT (121470.7 486192.1),J
+322,12189002,,Eerste Sweelinckstraat 3,1,Actueel,,99,Onbekend,-28.0,22.0,W,,1.4203,1999-06-01,,POINT (121643.9 485502.8),J
+323,12189003,Albert Cuypstraat 241,"in de Eerste Sweelinckstraat (school)
+Let op, zakt ongeveer 1 mm per jaar",1,Actueel,,99,Onbekend,-744.0,60.0,W,,1.1718,1999-06-01,,POINT (121629.0 485533.0),J
+324,12189004,Nicolaas Witsenstraat 19A-D,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-15.0,129.0,W,YK36,2.2338,1999-06-01,,POINT (121562.2 485735.4),J
+325,12189005,Nicolaas Witsenstraat 19A-C,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,14.0,121.0,W,YK36,2.1875,1999-06-01,,POINT (121562.8 485741.8),J
+326,12189006,Utrechtsedwarsstraat 4,(rechter bouwmuur),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-3.0,43.0,N,YK41,1.3335,1999-06-01,,POINT (121572.2 486006.9),J
+327,12189008,Achtergracht 2,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,13.0,N,YK50,0.7511,1999-06-01,,POINT (121898.6 486017.2),J
+328,12189009,Achtergracht 2,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,18.0,N,YK50,0.8286,1999-06-01,,POINT (121903.8 486018.7),J
+329,12189010,Amstel 151,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,112.0,O,YL17,1.9424,1999-06-01,,POINT (122106.1 486060.6),J
+330,12189011,Amstel 151,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-48.0,116.0,O,YL17,1.9886,1999-06-01,,POINT (122107.8 486054.7),J
+331,12189012,Sarphatiekade 3A-C,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,183.0,O,YK47,3.1176,1999-06-01,,POINT (122044.4 485877.3),J
+332,12189013,Sarphatiekade 3A-C,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,182.0,O,YK47,3.1073,1999-06-01,,POINT (122046.5 485870.3),J
+333,12189014,Sarphatiestraat 54,hoek Weesperplein,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-10.0,51.0,N,,2.0019,1999-06-01,,POINT (122393.6 486023.7),J
+334,12189015,Amstel 344,hoek Sarphatiestraat (in ZO-pilaar; REF-pnt meting Hoge Sluis),3,Vervallen,2018-05-24,16,Koperen bout,-67.0,195.0,O,YK48,4.0327,1999-06-01,,POINT (122022.9 485949.4),J
+335,12189016,,Govert Flinckstraat 366A-E,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-22.0,110.0,N,,1.4554,2000-06-01,,POINT (121905.1 485581.2),J
+336,12189019,Tweede Jacob van Campenstraat 155E,(xy=vanuit portiek),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,118.0,Z,,1.5629,2000-06-01,,POINT (121584.1 485579.7),J
+337,12189020,,Prinsengracht 1125A-H,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-20.0,10.0,Z,YF37,1.025,2000-06-01,,POINT (121913.1 486208.9),J
+338,12189021,,Utrechtsedwarsstraat 129A-H,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-19.0,23.0,Z,YK52,1.4567,2000-06-01,,POINT (121882.0 486109.2),J
+339,12189022,Noorderstraat 82A/84B,,1,Actueel,,17,Veelal gebruikt door 'de waal',-28.0,31.0,N,,1.0777,2007-12-01,,POINT (121500.1 486010.1),J
+340,12189024,Oosteinde over de Singelgracht,Brug 247 (W-vlg Z-landhoofd?),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,26.0,11.0,W,,2.6788,2000-06-01,,POINT (121914.0 485728.0),J
+341,12189025,Govert Flinckstraat 366A-E,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,14.0,N,,0.698,2000-06-01,,POINT (121913.4 485584.7),J
+342,12189026,Nicolaas Berchemstraat 10A-F,,1,Actueel,,17,Veelal gebruikt door 'de waal',19.0,21.0,O,,0.6891,2007-12-01,,POINT (121717.4 485573.8),J
+343,12280002,"Mauritskade 23   ""Jozef Israelschool""",(x = vooruitspringde ged. bij ingang; y = boven plint),1,Actueel,,3,Knopbout,38.0,14.0,N,,1.8222,1926-01-01,12280002,POINT (122795.1 486025.3),J
+344,12280003,Tweede Boerhaavestraat 49,"Voormalige ""Andreas Bonnschool""(y = boven hardstenen plint)",1,Actueel,,3,Knopbout,37.0,45.0,Z,,1.5974,1927-01-01,12280003,POINT (122721.48 485868.11),J
+345,12489000,,Molukkenstraat 493/545,1,Actueel,,99,Onbekend,-835.0,27.0,W,,0.9273,1999-06-01,,POINT (124591.5 485803.8),J
+346,12489001,Halmaheirastraat 70/100,in de Sumatrastraat,1,Actueel,,99,Onbekend,-18.0,4.0,Z,,0.8835,1999-06-01,,POINT (124512.8 485776.7),J
+347,12489002,Sumatrastraat 149A/151D,(zijgevel),1,Actueel,,99,Onbekend,169.0,21.0,Z,,0.9246,1999-06-01,,POINT (124365.5 485746.9),J
+348,12489003,Batjanstraat 1,gevel Ambonplein,3,Vervallen,2018-06-22,99,Onbekend,-26.0,13.0,W,,0.9182,1999-06-01,,POINT (124405.2 485834.0),J
+349,12489004,Obiplein 115,(Achtergevel naast hek),1,Actueel,,99,Onbekend,-78.0,16.0,W,,0.8263,1999-06-01,,POINT (124439.7 485914.6),J
+350,12489005,Sumatrastraat 291/307,hoek Kramatweg,1,Actueel,,99,Onbekend,-192.0,20.0,Z,,0.8732,1999-06-01,,POINT (124857.6 485852.5),J
+351,12489006,,Semarangstraat 23A-H,1,Actueel,,99,Onbekend,-120.0,30.0,W,,1.0002,1999-06-01,,POINT (124827.0 486021.1),J
+352,12489007,Semarangstraat 5A/9E,in de Bataviastraat,1,Actueel,,99,Onbekend,-13.0,19.0,Z,,0.5913,1999-06-01,,POINT (124832.7 486069.8),J
+353,12489008,,Insulindeweg 684/714,1,Actueel,,99,Onbekend,79.0,78.0,N,,1.4309,1999-06-01,,POINT (124749.0 486092.2),J
+354,12489009,,Insulindeweg 540/552,3,Vervallen,2018-06-22,99,Onbekend,-13.0,86.0,N,,1.6574,1999-06-01,,POINT (124644.1 486068.9),J
+355,12489010,Eerste Ceramstraat 14,,1,Actueel,,99,Onbekend,-38.0,23.0,NO,,0.8308,1999-06-01,,POINT (124567.4 486233.2),J
+356,12489011,Ceramplein 180,,1,Actueel,,99,Onbekend,-34.0,31.0,N,,0.9242,1999-06-01,,POINT (124709.1 486175.6),J
+357,12489012,,Molukkenstraat 80A-C,1,Actueel,,99,Onbekend,-15.0,27.0,O,,0.9418,1999-06-01,,POINT (124496.9 486144.3),J
+358,12489013,,Riouwstraat 250/268,1,Actueel,,99,Onbekend,-7.0,34.0,N,,0.9384,1999-06-01,,POINT (124414.6 486115.7),J
+359,12489014,Insulindeweg 71A-M,ntm ivm regenpijp,2,Niet te meten,2018-06-22,99,Onbekend,-17.0,28.0,Z,,0.8984,1999-06-01,,POINT (124339.6 486052.7),J
+360,12489015,Sumatraplantsoen 195,in de Sumatrastraat,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,21.0,29.0,Z,,0.9427,1999-06-01,,POINT (124810.2 485842.1),J
+361,12489016,Molukkenstraat 493/545,in de Sumatrastraat,1,Actueel,,17,Veelal gebruikt door 'de waal',1420.0,18.0,Z,,0.7938,2002-03-08,,POINT (124607.1 485798.8),J
+362,12580001,Sloterkade 168,(rechter hoekpilaster hoge gedeelte; x = hoek van pilaster),1,Actueel,,0,Ronde bout met opschrift NAP,-32.0,82.0,O,,1.025,1927-01-01,12580001,POINT (118505.27 484817.22),J
+363,12589000,Heemstedestraat hoek Westlandgracht,(brug 385 in betonnen rand; y = uit voeg),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,38.0,-14.0,N,,2.5248,2007-05-10,,POINT (118116.4 485005.0),J
+364,12589001,Katwijkstraat 23,(x = uit portiek; def.meting Sloten 3832),1,Actueel,,17,Veelal gebruikt door 'de waal',-88.0,97.0,N,,1.5814,2007-05-10,,POINT (118143.8 484918.2),J
+365,12680002,"Des Presstraat 3(""Valeriusschool""; y = onderkant van",de voeg welke overeenkomt met de onderkant van raamdorpel),1,Actueel,,3,Knopbout,-38.0,-22.0,W,,1.5231,1926-01-01,12680002,POINT (119080.0 484910.0),J
+366,12680003,Amstelveenseweg 136 (Gereformeerde kerk)(x = rechter,steunbeer voorgevel;y = hardstenen afdekking van de plint),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-29.0,8.0,O,AF02,1.3162,1952-01-01,12680003,POINT (118771.0 485288.7),J
+367,12680004,Koningslaan 35 gevel aan Emmalaan(x = rechts,van stenen dag van het raam; y = boven natuurstenen plint),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,67.0,8.0,O,,0.6247,1952-01-01,12680004,POINT (119214.0 485384.0),J
+368,12680006,Schinkelkade 20A-C,(uitspringende gedeelte),1,Actueel,,0,Ronde bout met opschrift NAP,6.0,55.0,N,,1.2381,1991-10-01,12680006,POINT (118645.9 485197.6),J
+369,12689000,Eerste Schinkelstraat 35,(achter klimop),1,Actueel,,99,Onbekend,-25.0,3.0,N,,0.6287,2000-06-01,,POINT (118671.9 485223.3),J
+370,12689001,Schinkelkade 69,in de Veerstraat(naast no 92),3,Vervallen,2012-09-17,99,Onbekend,-10.0,35.0,O,,0.9569,1999-06-01,,POINT (118614.1 484822.2),J
+371,12689002,Valeriusplein 9,hoek Valeriusstraat,3,Vervallen,2017-08-29,16,Koperen bout,-10.0,5.0,W,,1.5255,2000-06-01,,POINT (119379.6 485126.2),J
+372,12689003,De Lairessestraat 180,(y uit rollaag),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,10.0,Z,,1.4839,2000-06-01,,POINT (119435.0 485030.0),J
+373,12689004,Koningslaan 22,,3,Vervallen,2008-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,40.0,54.0,ZW,,-0.1301,2000-06-01,,POINT (119410.5 485367.1),J
+374,12789000,Banstraat 5,(in kolom naast no.13),3,Vervallen,2013-02-19,99,Onbekend,-40.0,25.0,ZW,,0.8879,1999-06-01,,POINT (120031.3 485396.8),J
+375,12789001,Koninginneweg 1,hoek Van Eeghenstraat (Stadsdeelkantoor Zuid),3,Vervallen,2012-10-02,16,Koperen bout,71.0,-42.0,Z,,1.0565,1999-06-01,,POINT (119606.85 485470.55),J
+376,12789002,Apollolaan 171,in de Raphaelstraat(GEB Ruimte),1,Actueel,,99,Onbekend,11.0,17.0,W,,1.2127,1999-06-01,,POINT (119756.7 484828.5),J
+377,12789003,Jacob Obrechtstraat 92,hoek Heinzestraat,1,Actueel,,16,Koperen bout,61.0,-82.0,O,,0.8123,2000-06-01,,POINT (120265.73 485121.87),J
+378,12789004,Cornelis Schuytstraat 16,in de Breestraat (bij achtergevel),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,10.0,32.0,Z,,0.9258,2000-06-01,,POINT (119809.1 485404.1),J
+379,12789005,Brug 409 Emmastraat over Noorder Amstelkanaal,(W-vlg N-lhd?),3,Vervallen,2018-06-29,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,10.0,23.0,,,2.6483,2000-06-01,,POINT (119783.3 485042.1),J
+380,12889000,Daniel Stalpertstraat 33E-H,naast no.35 ntm ivm steen en begroeiing,2,Niet te meten,2018-06-22,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-50.0,28.0,Z,,0.8762,1999-06-01,,POINT (121060.7 485499.3),J
+381,12889001,Gerard Doustraat 127/129,,3,Vervallen,2008-10-10,99,Onbekend,-42.0,71.0,Z,,1.3127,1999-06-01,,POINT (121431.3 485494.0),J
+382,12889002,Gerard Douplein 18,in betonnen kolom,1,Actueel,,99,Onbekend,0.0,9.0,N,,0.691,1999-06-01,,POINT (121345.2 485451.4),J
+383,12889003,Albert Cuypstraat 135A-F,!!Voorlopig deformatiepunt!!,1,Actueel,,99,Onbekend,-25.0,9.0,Z,,0.7278,1999-06-01,,POINT (121302.2 485401.9),J
+384,12889004,Daniel Stalpertstraat 79A/81C,!!Voorlopig deformatiepunt!!,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,292.0,14.0,Z,,0.6695,1999-06-01,,POINT (121200.7 485485.5),J
+385,12889005,Daniel Stalpertstraat 62A-E,!!Voorlopig deformatiepunt!!,1,Actueel,,99,Onbekend,-9.0,29.0,N,,0.8287,1999-06-01,,POINT (121111.4 485479.2),J
+386,12889006,,Govert Flinckstraat 90A-D,1,Actueel,,99,Onbekend,29.0,51.0,N,,1.1183,1999-06-01,,POINT (121095.3 485273.5),J
+387,12889007,,Eerste Jan Steenstraat 2A-H,1,Actueel,,99,Onbekend,-10.0,76.0,N,,1.309,1999-06-01,,POINT (120946.8 485181.1),J
+388,12889009,Hobbemakade 105/106,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,97.0,60.0,O,,1.5435,1999-06-01,,POINT (120810.2 484878.7),J
+389,12889010,Roelof Hartstraat 1,"(straatgevel GEB-gebouw op terrein)
+20112017 hoogte 0.7535 (losse poot)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,9.0,Z,,0.7576,2007-12-01,,POINT (120721.3 485078.5),J
+390,12889011,,Eerste Jan Steenstraat 48A-E,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,14.0,38.0,N,,0.9389,2000-06-01,,POINT (121088.3 485216.9),J
+391,12889012,Eerste Jan van der Heijdenstraat 97A-E,"Let op: bout onbetrouwbaar, in 2013 3 verschillende hoogten gemeten
+",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,Z,,0.9384,2000-06-01,,POINT (121097.0 485164.1),J
+392,12889013,Dusartstraat 17A-T,"(rechts naast deur onder deurbel, hulpst. gebruiken)",2,Niet te meten,2018-06-22,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-20.0,93.0,W,,1.5045,2000-06-01,,POINT (121082.3 485037.5),J
+393,12889014,Govert Flinckstraat 158,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,33.0,94.0,N,,1.5671,2000-06-01,,POINT (121287.0 485330.6),J
+394,12889015,Hobbemakade 54,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-9.0,18.0,O,,1.322,2000-06-01,,POINT (120870.5 485337.2),J
+395,12889016,Eerste Jan Steenstraat 134A-B,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,11.0,17.0,N,,0.8118,2000-06-01,,POINT (121341.7 485277.7),J
+396,12889017,Tweede Van der Helststraat 66,in de Lutmastraat (buurthuis De Pijp)(naast raam),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,114.0,N,,1.8919,2000-06-01,,POINT (121419.3 484833.8),J
+397,12889018,Gerard Doustraat 123/127,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-42.0,71.0,Z,,1.3094,2000-06-01,,POINT (121411.8 485486.6),J
+398,12889019,Saenredamstraat 22A-L,,3,Vervallen,2012-10-19,17,Veelal gebruikt door 'de waal',17.0,49.0,N,,0.9991,2001-08-22,,POINT (121007.2 485428.0),J
+399,12889020,,Eerste Jan Steenstraat 48A-E (= 12889011),3,Vervallen,2008-12-12,17,Veelal gebruikt door 'de waal',0.0,0.0,N,,,,,POINT (121086.0 485215.8),J
+400,12889021,Ferdinant Bolstraat 179/195D,!!Voorlopig deformatiepunt!!,1,Actueel,,16,Koperen bout,6.0,6.0,NW,,1.2319,2007-12-01,,POINT (121246.1 484840.6),J
+401,12889022,Lutmastraat 16A-F,in de Avercampstraat,1,Actueel,,17,Veelal gebruikt door 'de waal',-11.0,27.0,O,,1.1771,2007-12-01,,POINT (121317.0 484842.2),J
+402,12980001,Van Ostadestraat 341,(y = boven de plint),1,Actueel,,3,Knopbout,43.0,22.0,ZO,,1.5786,1927-01-01,12980001,POINT (122022.5 485265.3),J
+403,12980002,Van Woustraat 178,in de Lutmastraat (x = natuurstenen plaat naast raam; y = boven de plint),1,Actueel,,3,Knopbout,-28.0,49.0,Z,,1.4607,1927-01-01,12980002,POINT (122002.8 484977.4),J
+404,12980004,2e Van der Helststraat 25,(y = boven de plint),1,Actueel,,3,Knopbout,-42.0,28.0,W,,1.3788,1927-01-01,12980004,POINT (121454.3 484912.6),J
+405,12980006,ZO-vleugel Nieuwe Amstelbrug,(brug 101) verlengde Blasiusstraat,1,Actueel,,0,Ronde bout met opschrift NAP,44.0,40.0,ZO,,1.9648,1991-10-01,12980006,POINT (122284.2 485459.5),J
+406,12980007,,Amsteldijk 78,1,Actueel,,0,Ronde bout met opschrift NAP,-24.0,14.0,O,,0.71,1991-10-01,12980007,POINT (122347.4 485080.5),J
+407,12989016,Amsteldijk 65/66,voorheen 12981697,3,Vervallen,2012-05-16,17,Veelal gebruikt door 'de waal',-43.0,115.0,NO,,,,,POINT (122282.2 485182.7),J
+408,12989000,Oetgensstraat 1,in de Weesperzijde,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-11.0,47.0,W,,1.1921,1994-07-27,,POINT (122356.2 485347.7),J
+409,12989001,Albert Cuypstraat 222 B-R,!!Voorlopig deformatiepunt!!,1,Actueel,,17,Veelal gebruikt door 'de waal',6.0,7.0,N,,0.6526,1999-06-01,,POINT (121583.0 485482.5),J
+410,12989002,,Govert Flinckstraat 235A-H,1,Actueel,,99,Onbekend,5.0,18.0,Z,,0.8632,1999-06-01,,POINT (121601.8 485450.3),J
+411,12989003,Tweede Jan van der Heijdenstraat 3,(x uit naad),1,Actueel,,99,Onbekend,-15.0,82.0,Z,,1.3839,1999-06-01,,POINT (121738.4 485348.3),J
+412,12989004,Tweede Jan van der Heijdenstraat 29,(x uit naad) 2016 niet stabiel,1,Actueel,,99,Onbekend,-14.0,65.0,Z,,1.0955,1999-06-01,,POINT (121804.4 485381.7),J
+413,12989005,Van Ostadestraat 245,in de Tweede Sweelinckstraat,1,Actueel,,99,Onbekend,47.0,67.0,W,,0.9826,1999-06-01,,POINT (121784.6 485187.0),J
+414,12989006,Carillonstraat 81/99,hoek Jan Lievensstraat,1,Actueel,,99,Onbekend,-14.0,19.0,Z,,0.8268,1999-06-01,,POINT (122109.2 484862.7),J
+415,12989007,,Tweede Jan Steenstraat 5/9,3,Vervallen,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,Z,,0.5359,2000-06-01,,POINT (121701.0 485418.6),J
+416,12989008,,Tweede Jan Steenstraat 37,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,112.0,Z,,1.5505,2000-06-01,,POINT (121781.5 485455.6),J
+417,12989009,,Van Ostadestraat 211,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-17.0,64.0,Z,,1.1904,2000-06-01,,POINT (121683.3 485145.1),J
+418,12989010,Rustenburgerstraat 290,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,98.0,,,1.5382,2000-06-01,,POINT (121516.5 485026.4),J
+419,12989011,,Van Ostadestraat 336,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,24.0,72.0,N,,1.3013,2000-06-01,,POINT (121892.7 485194.2),J
+420,12989012,,Kuiperstraat 89 A-D,3,Vervallen,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,330.0,97.0,NW,,1.5575,2000-06-01,,POINT (122018.8 485187.3),J
+421,12989013,Lutmastraat 159/161,,1,Actueel,,17,Veelal gebruikt door 'de waal',40.0,27.0,Z,,0.9018,2001-11-20,,POINT (121884.7 484951.8),J
+422,12989014,Kuipersstaat 110,(!!Voorlopig deformatiepunt!!),3,Vervallen,2014-04-03,17,Veelal gebruikt door 'de waal',-10.0,49.0,Z,AL31,1.1173,2001-08-22,,POINT (121906.2 485157.9),J
+423,12989015,,Van Ostadestraat 245/253,1,Actueel,,99,Onbekend,-10.0,15.0,Z,,0.9249,2002-01-31,,POINT (121792.35 485177.63),J
+424,13080001,Weesperzijde 112,,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,33.0,75.0,W,,1.3438,1978-01-01,13080001,POINT (122622.49 484882.37),J
+425,13080003,ZW-landhoofd van het viadukt tussen de Maritzstraat en de,Beukenweg (aan de kant van de Maritzstraat),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,10.0,55.0,NO,,1.1675,1952-01-01,13080003,POINT (123108.3 485399.3),J
+426,13080004,Transvaalkade 84A,(x = linkerkant pilaster van rechter gedeelte voorgevel),1,Actueel,,0,Ronde bout met opschrift NAP,-29.0,35.0,ZO,,0.9154,1926-01-01,13080004,POINT (123240.0 485040.0),J
+427,13080006,NW-vleugel van het spoorviadukt over de Wibautstraat,(y = boven scheiding tussen beton en steen),1,Actueel,,0,Ronde bout met opschrift NAP,16.0,20.0,W,,1.256,1972-01-01,13080006,POINT (122753.5 484995.2),J
+428,12889023,,Dusartstraat 17 A-T,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-38.0,10.0,W,,0.6866,2009-10-10,,POINT (121083.1 485037.8),J
+429,25289007,Zandhoek 14/15,gevel Zoutkeetsgracht,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,11.0,13.0,N,YH58,1.8752,1999-06-01,,POINT (121154.0 489037.9),J
+430,25289009,Realengracht 248,hoek Vierwindendwarsstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,9.0,Z,YH05,1.6195,1999-06-01,,POINT (120964.4 488934.3),J
+431,25289010,,Realengracht 248,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-8.0,8.0,Z,YH05,1.5525,1999-06-01,,POINT (120973.4 488935.0),J
+432,25289011,,Sloterdijkstraat 2,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-14.0,54.0,Z,YH12,2.2091,1999-06-01,,POINT (120795.2 488772.5),J
+433,25289012,,Sloterdijkstraat 4,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,3.0,Z,YH12,1.647,1999-06-01,,POINT (120785.9 488773.1),J
+434,25289013,,Prinseneiland 303,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-32.0,62.0,ZW,YH18,2.3683,1999-06-01,,POINT (120948.7 488666.1),J
+435,25289014,,Prinseneiland 303,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,60.0,ZW,YH18,2.1175,1999-06-01,,POINT (120952.0 488663.0),J
+436,25289015,Grote Bickersstraat 21,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-2.0,133.0,O,YH49,3.1204,1999-06-01,,POINT (121082.3 488617.4),J
+437,25289016,,Grote Bickersstraat 21,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,11.0,49.0,O,,2.3546,1999-06-01,,POINT (121081.9 488613.2),J
+438,25289017,Kleine Bickersstraat 2,in de Grote Bickersstraat (achterzijde huis) (x vanuit raam),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,78.0,14.0,O,YH21,2.0139,1999-06-01,,POINT (121094.9 488760.7),J
+439,25289018,,Kleine Bickersstraat 6,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,7.0,30.0,Z,YH21,2.0846,1999-06-01,,POINT (121086.2 488752.3),J
+440,25289019,Haarlemmerdijk 124  (hoek Buiten Dommerstraat),(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,31.0,ZO,YH34,2.8908,1999-06-01,,POINT (120879.3 488508.8),J
+441,25289020,,Haarlemmerdijk 124,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,5.0,78.0,ZW,YH34,3.3557,1999-06-01,,POINT (120874.7 488513.0),J
+442,25289021,Marnixstraat 1,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,21.0,W,YP12,1.8385,1999-06-01,,POINT (120644.8 488544.8),J
+443,25289022,,Marnixstraat 17A-D,3,Vervallen,2015-10-10,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-22.0,17.0,W,YP12,1.2641,1999-06-01,,POINT (120628.0 488502.5),J
+444,25480006,Meeuwenlaan 185,hoek Ganzenweg (2018: niet meebaar ivm brievenbus),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-326.0,80.0,ZO,,1.9471,1944-01-01,25480006,POINT (123083.1 488747.4),J
+445,35889000,Koperen boutje westelijke vleugel noordelijk landhoofd,brug in RW A10 over de Liergouw,3,Vervallen,2018-03-23,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,18.0,Z,,0.9653,1999-06-01,,POINT (126719.7 488415.7),J
+446,22389000,,Masthof 41 t/m 48,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-33.0,40.0,O,,0.3559,2008-04-04,,POINT (123628.8 491641.0),J
+447,26389000,,Tosaristraat,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,0.0,W,,3.7176,2008-04-04,,POINT (123405.7 488066.6),J
+448,26389001,,Tosaristraat,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,0.0,W,,4.3901,2008-04-04,,POINT (123408.4 488051.5),J
+449,24389004,,Spaarndammerdijk 302 (Golden Tulip Hotel),1,Actueel,,2,Kleine ronde bout,70.0,41.0,N,,3.0515,2008-10-01,,POINT (119738.2 489568.2),J
+450,25980001,Fagelstraat 85,"""Fagelschool""(y = boven hardstenen plint)",1,Actueel,,3,Knopbout,-16.0,22.0,N,,1.6534,1926-01-01,25980001,POINT (120072.0 488120.0),J
+451,25980002,De Wittenstraat 100A-U,(y = boven plint),1,Actueel,,3,Knopbout,22.0,47.0,ZO,,1.7829,1926-01-01,25980002,POINT (120345.7 488474.3),J
+452,25980003,Nassaukade 63A-W,(bij portiek aan de Nassaukade),1,Actueel,,0,Ronde bout met opschrift NAP,10.0,41.0,O,,1.0517,1991-10-01,25980003,POINT (120364.1 488156.3),J
+453,25980004,Van Hallstraat 198,(gebouw gezondheidscentrum),1,Actueel,,0,Ronde bout met opschrift NAP,22.0,35.0,O,,0.906,1991-10-01,25980004,POINT (119875.6 488175.2),J
+454,25980005,Frederik Hendrikstraat 35/37,,1,Actueel,,0,Ronde bout met opschrift NAP,-21.0,33.0,W,,0.9604,1991-10-01,25980005,POINT (120080.6 487781.76),J
+455,26089000,Palmstraat 92B,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,27.0,Z,YJ04,0.8804,1999-06-01,,POINT (120604.5 488292.9),J
+456,26089002,Goudsbloemstraat 36A-B,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,30.0,25.0,Z,YJ09,0.853,1999-06-01,,POINT (120836.7 488235.4),J
+457,12789006,Brug 409 Emmastraat over Noorder Amstelkanaal ,"Noordelijk landhoofd, wester vleugel",3,Vervallen,2010-01-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,W,,,,,POINT (119779.0 485057.0),J
+458,12789007,,Koningslaan 22,1,Actueel,,17,Veelal gebruikt door 'de waal',30.0,100.0,O,,-0.1297,2007-12-01,,POINT (119596.0 485306.0),J
+459,11289037,Korte Leidsedwarsstraat 8,,1,Actueel,,17,Veelal gebruikt door 'de waal',-50.0,10.0,Z,,1.2758,2007-12-01,,POINT (120594.33 486471.01),J
+460,00089003,,Prinsengracht 377,3,Vervallen,2017-06-27,17,Veelal gebruikt door 'de waal',-17.0,45.0,W,,,,,POINT (12067.39 487214.688),J
+461,00089004,Van spilbergenstraat 155,(naast grijze kast) = 10989002,3,Vervallen,2017-06-27,17,Veelal gebruikt door 'de waal',150.0,36.0,N,,,,,POINT (11838.67 486869.88),J
+462,23789002,,ms. van Riemsdijkweg t/o nr 6 in loods,1,Actueel,,16,Koperen bout,210.0,47.0,NW,,2.236,2007-08-12,,POINT (121472.0 490675.0),J
+463,00089001,Tweede Jacob van Campenstraat 155E,(xy=vanuit portiek),3,Vervallen,2009-02-03,17,Veelal gebruikt door 'de waal',-4.0,50.0,Z,,,,,POINT (1215841.0 4855797.0),J
+464,25189014,,Zaandijkstraat 3 (school),1,Actueel,,2,Kleine ronde bout,22.0,14.0,ZO,,0.8838,2008-10-01,,POINT (120460.0 489023.0),J
+465,23789001,,ms. van Riemsdijkweg t/o nr. 6 in loods,3,Vervallen,2009-03-10,16,Koperen bout,210.0,47.0,NW,,,,,POINT (121472.0 490675.0),J
+466,93789000,Metalen pen in trafo aan Aziehavenweg.,,3,Vervallen,2008-07-08,99,Onbekend,0.0,0.0,N,,1.3972,1999-06-01,,POINT (114453.4 490348.1),J
+467,94580002,Trafo-huisje gelegen aan de Basisweg,hoek Australiehavenweg,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-49.0,55.0,Z,,1.5421,1976-01-01,94580002,POINT (114591.68 489727.23),J
+468,40989000,Westelijk muurvlak in de Amsterdamse brug in de Zuiderzee-,weg naast onderdoorgang Zuider IJdijk,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-99.0,86.0,W,,1.1032,1977-04-15,,POINT (126055.7 486857.2),J
+469,41089000,IJburglaan,"N-vlak W-keermuur Z-landhoofd viaduct in A10(x = uit knik)
+bout is krom",3,Vervallen,2018-01-29,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-274.0,35.0,NO,,-0.0707,2007-08-12,,POINT (126711.14 486696.75),J
+470,26089003,Goudsbloemstraat 36A-B,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,25.0,4.0,Z,YJ09,0.6419,1999-06-01,,POINT (120831.9 488234.2),J
+471,26089004,Korte Prinsengracht 13A-C,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-8.0,31.0,NW,YE04,2.3864,1999-06-01,,POINT (121142.4 488324.7),J
+472,26089005,Singel 18,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-12.0,6.0,ZO,YE17,3.1285,1999-06-01,,POINT (121382.2 487985.9),J
+473,26089006,Singel 18,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,8.0,2.0,ZO,YE17,3.1127,1999-06-01,,POINT (121378.7 487981.1),J
+474,26089007,,Herengracht 84,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,8.0,5.0,ZO,YE23,3.0407,1999-06-01,,POINT (121105.0 487777.4),J
+475,26089008,,Prinsengracht 217A-D,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-17.0,55.0,NW,YE22,1.1651,1999-06-01,,POINT (120840.6 487794.2),J
+476,26089009,,Prinsengracht 213K,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-18.0,60.0,NW,YE22,1.1082,1999-06-01,,POINT (120846.4 487804.7),J
+477,26089010,,Keizersgracht 54,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-16.0,5.0,ZO,YE14,3.2789,1999-06-01,,POINT (121030.8 487953.7),J
+478,26089011,Keizersgracht 54,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,7.0,34.0,ZO,YE14,3.5438,1999-06-01,,POINT (121028.1 487948.9),J
+479,26089016,Korte Prinsengracht 13A-C,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-8.0,94.0,NW,YE04,3.0306,1999-06-01,,POINT (121140.5 488321.1),J
+480,26089017,,Haarlemmer Houttuinen 11,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-6.0,119.0,N,YE05,3.3129,1999-06-01,,POINT (121315.2 488189.6),J
+481,26089018,,Haarlemmer Houttuinen 11,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,109.0,N,YE05,3.1238,1999-06-01,,POINT (121319.0 488186.3),J
+482,26089019,Herengracht 82,hoek Herenstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,39.0,NO,YE23,2.2266,1999-06-01,,POINT (121111.2 487788.0),J
+483,26089020,Nieuwezijds Voorburgwal 48,(Hotel ;rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,4.0,133.0,ZO,YB22,2.3882,1999-06-01,,POINT (121405.0 487753.2),J
+484,26089021,,"Tuinstraat 52A-D (waarschijnlijk in linker bouwmmuur, zie ook 26089026)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-15.0,23.0,Z,YJ35,0.9632,2000-06-01,,POINT (120747.3 487853.0),J
+485,26089022,Herengracht 34,,3,Vervallen,2005-04-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,,,,YE15,1.5617,2000-06-01,,POINT (121195.7 487936.7),J
+486,26089023,,Tuinstraat 9A,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,39.0,10.0,N,YJ39,0.8985,2000-06-01,,POINT (120812.5 487869.3),J
+487,26089024,Palmgracht 85/97,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,N,YJ04,0.6726,2000-06-01,,POINT (120611.7 488328.6),J
+488,26089025,Haarlemmer Houttuinen 437,(zijgevel),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,15.0,NW,YH35,2.5906,2000-06-01,,POINT (120973.9 488463.0),J
+489,26180003,Rond koperen boutje in marmeren steen in ZO-brugvleugel van,de Haringpakkersbrug in de Prins Hendrikkade over de Singel,1,Actueel,,2,Kleine ronde bout,-3506.0,174.0,W,,2.6393,1974-01-01,26180003,POINT (121481.3 488041.4),J
+490,42589000,Ooster Ringdijk 60,(ref.punt gemaal Sloten 3605),1,Actueel,,0,Ronde bout met opschrift NAP,-317.0,24.0,N,,-4.0395,1999-06-01,,POINT (126081.8 485418.6),J
+491,22080003,Kometensingel 150,(y = onder onderkant gemetselde rollaag; R.K.-pastorie),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,40.0,60.0,Z,,-1.3836,1952-01-01,22080003,POINT (121110.0 492040.0),J
+492,22080007,Kometensingel 52 in gevel to Kometensingel 57,"Basisschool ""De Singel""(x = rechts van de poortmuur)",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,308.0,40.0,NW,,-1.9302,1952-01-01,22080007,POINT (121430.0 491980.0),J
+493,22080014,Meteorenweg 129.,,3,Vervallen,2008-07-08,0,Ronde bout met opschrift NAP,64.0,19.0,NO,,-1.9127,1991-10-01,22080014,POINT (120935.7 491721.5),J
+494,22080015,Meteorenweg 76,"gevel Aldebaranstraat
+",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,8.0,-51.0,ZO,,-1.9378,1999-06-01,22080015,POINT (121201.7 491557.1),J
+495,22080016,Aldebaranstraat 55,(naast regenpijp),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-7.0,-28.0,ZO,,-1.8836,1999-06-01,22080016,POINT (121384.5 491778.4),J
+496,22080017,NO-kop ZO-landhoofd brug 492,Hoek Meteorenweg/Kometensingel,1,Actueel,,0,Ronde bout met opschrift NAP,16.0,26.0,ZO,,-1.7452,2000-11-17,22080017,POINT (120543.7 492047.3),J
+497,25489000,ZW-vleugel van het viadukt (493) over de Adelaarsweg,(ref.punt def.meting K 1486).,3,Vervallen,2008-08-26,2,Kleine ronde bout,-53.0,-233.0,Z,,1.75,1989-09-29,,POINT (123196.3 489111.0),J
+498,25489001,Varenweg 2,(Rosaschool ref.punt def.meting K 1515),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,23.0,O,,1.2591,1992-03-01,,POINT (122992.2 489194.6),J
+499,25580002,,Meeuwenlaan 267,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,47.0,63.0,ZO,,1.777,1927-01-01,25580002,POINT (123471.4 489014.1),J
+500,40289000,,Boostergemaal Zeeburgereiland (voormalige RWZI),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,ZW,,1.5035,2007-05-23,,POINT (126339.8 487374.9),J
+501,26489000,KNSM laan ,(y vanaf kozijn),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,158.0,-82.0,O,,2.6604,2008-04-04,,POINT (124934.3 487821.6),J
+502,10880023,Noordelijk landhoofd van de Verbindingsdam,westelijke muur,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,55.0,-21.0,ZO,,2.8586,2008-04-04,10880023,POINT (124407.4 487634.1),J
+503,11189012,,Da Costakade 160,3,Vervallen,2009-08-10,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,103.0,O,,,,,POINT (119971.9 486794.2),J
+504,23189000,NW muurvlak GEB gebouw Willem Noorlanderkade / Diopter,ten NO brug 1752,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-30.0,40.0,NW,,-3.0423,2007-08-12,,POINT (123898.4 491138.3),J
+505,23189001,betonnen kolom nabij brug IJdoornlaan bij ingang 7.00-23.30,Boven-IJ Ziekenhuis,1,Actueel,,99,Onbekend,23.0,26.0,NO,,0.421,2000-06-01,,POINT (123428.1 490854.4),J
+506,23789000,Brug over Zijkanaal I a/d Klaprozenweg nabij trap,naar GEB ruimte,3,Vervallen,2018-01-17,99,Onbekend,340.0,-42.0,ZW,,2.5897,1999-06-01,,POINT (121808.2 490540.5),J
+507,26189000,Prins Hendrikkade 20/21,(rechter bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-18.0,34.0,N,YB01,2.2517,1999-06-01,,POINT (121566.1 487972.0),J
+508,26189001,Prins Hendrikkade 20/21,(linker bouwmuur),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,36.0,N,YB01,2.5175,1999-06-01,,POINT (121576.9 487961.4),J
+509,26189002,Prins Hendrikkade,Ingang METRO t/o No.90A/91E,3,Vervallen,2017-10-03,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,NW,YA01,3.2508,2000-06-01,,POINT (121966.8 487759.7),J
+510,25689000,Brug 469 in de Monnikendammerweg bij Schellingwouderdijk,in westelijk landhoofd,3,Vervallen,2008-07-08,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,65.0,-55.0,W,,4.2916,1999-06-01,,POINT (125241.7 488805.4),J
+511,25780001,Buskenblazerstraat 30,gevel Elckerlijcstraat (in vooruitspringend gevelgedeelte),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,30.0,65.0,W,,1.309,1942-01-01,25780001,POINT (118273.5 487843.7),J
+512,25989001,,Nassaukade 47A-N,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-21.0,33.0,ZO,,2.1952,1992-10-10,,POINT (120405.1 488391.2),J
+513,25989002,De Wittenstraat 99A-D,(def.meting IJ 172),1,Actueel,,2,Kleine ronde bout,-11.0,92.0,NW,,1.9003,1992-10-10,,POINT (120305.2 488411.7),J
+514,25989003,De Wittenstraat 157/179,(def.meting IJ 172),1,Actueel,,2,Kleine ronde bout,11.0,121.0,NW,,1.9628,1992-10-10,,POINT (120232.1 488338.3),J
+515,25989006,Eerste Nassaustraat 2A-N,(def.meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-251.0,84.0,ZW,AB51,1.4955,1992-10-10,,POINT (120478.3 488454.6),J
+516,25989007,De Wittenstraat 69A/71E,(def.meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-7.0,69.0,NW,,1.3458,1992-10-10,,POINT (120364.5 488472.5),J
+517,25989008,De Wittenstraat 100A-U,ntm ivm metalen anker een ring boven de bout,2,Niet te meten,2018-06-22,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-21.0,82.0,ZO,,1.3497,1992-10-10,,POINT (120359.5 488488.1),J
+518,25989009,Van Oldenbarneveldtplein 51/59,(x = uit scheiding; def.meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,16.0,42.0,N,,0.9239,1992-10-10,,POINT (120182.3 487834.3),J
+519,25989010,Frederik Hendrikplantsoen 46A/48E,(def.meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,46.0,ZW,,1.1619,1992-10-10,,POINT (120204.4 488082.6),J
+520,25989011,Van Beuningenstraat 106A/110A,hoek Fannius Scholtenstraat(def. meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-11.0,40.0,Z,,1.0576,1992-10-10,,POINT (120135.1 488469.9),J
+521,25989012,Van Beuningenstraat 163A/165F,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-71.0,48.0,N,,1.0987,1998-05-27,,POINT (120008.7 488338.6),J
+522,25989014,Van Oldenbarneveldtplein 51/59,in de Van Oldenbarneveldtstraat,1,Actueel,,99,Onbekend,7.0,13.0,W,,0.8035,1999-06-01,,POINT (120179.1 487834.1),J
+523,25989016,Fannius Scholtenstraat 87/89,,3,Vervallen,2012-10-02,99,Onbekend,12.0,28.0,ZW,,0.9433,1999-06-01,,POINT (120120.1 488483.6),J
+524,25989017,Van Beuningenstraat 163A/165F,,1,Actueel,,99,Onbekend,12.0,21.0,N,,0.8523,1999-06-01,,POINT (120010.0 488339.2),J
+525,25989018,,Marnixstraat 159A/161D,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,8.0,63.0,W,YP09,1.9829,1999-06-01,,POINT (120477.0 488119.7),J
+526,25989019,,Marnixstraat 159A/161D,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-26.0,72.0,W,YP09,2.0718,1999-06-01,,POINT (120472.4 488107.9),J
+527,25989020,Marnixplein 9,(Zwembad ;NO zijde NO muurvlak),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,37.0,NO,,2.0768,1999-06-01,,POINT (120366.4 487932.9),J
+528,25989021,Marnixplein 9,(Zwembad ;NW zijde NO muurvlak),3,Vervallen,2005-02-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-9.0,27.0,NO,,2.0771,1999-06-01,,POINT (120349.4 487939.5),J
+529,26080001,NW-deurkas in de NO-middenpijler van de Eenhoornsluis,,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,34.0,-82.0,NW,,2.4349,1956-01-01,26080001,POINT (121100.0 488300.0),J
+530,26080003,In hardstenen basement van school aan Droogbak 1A,in gevel Nieuwe Westerdokstraat,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-68.0,23.0,NO,,1.8317,1926-01-01,26080003,POINT (121422.7 488197.2),J
+531,10189003,,,3,Vervallen,2010-01-01,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,Z,,,,,POINT (117662.138 487457.376),J
+532,10189004,,Jan van Galenstraat Kantinegebouw Sportvelden,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,Z,,0.8481,2007-08-30,,POINT (117662.1 487457.0),J
+533,25780006,Trafo aan Marieken van Nimwegenstraat tussen Elckerlyc-,straat en Griseldestraat (y = boven gecementeerde plint),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-122.0,19.0,Z,,1.3561,1942-01-01,25780006,POINT (118316.5 487784.7),J
+534,52589000,Brug 876,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,O,,-2.226,1999-06-01,,POINT (125533.1 479332.7),J
+535,26080007,Keizersgracht 22,,1,Actueel,,0,Ronde bout met opschrift NAP,-11.0,32.0,O,,1.5523,1991-10-01,26080007,POINT (121079.7 488028.1),J
+536,26080009,Haarlemmerdijk 1-7,in de Korte Prinsengracht (Betonnen pilaar),1,Actueel,,99,Onbekend,-20.0,20.0,,,2.8762,1991-10-01,26080009,POINT (121080.53 488306.31),J
+537,84589000,Waterloop molen aan de Akersluis (11.06 m. ten westen van,de voorgevel van de molen).,1,Actueel,,0,Ronde bout met opschrift NAP,-12.0,-19.0,O,,0.3627,1999-06-01,,POINT (114513.4 483944.7),J
+538,80880002,NW-brugvleugel van de brug gelegen in de Burg. Roellstraat,over de Burgemeester Cramergracht (X = gemets.sierkolom).,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-130.0,-70.0,NW,,2.6242,1956-01-01,80880002,POINT (117290.0 487460.0),J
+539,80880005,Meest oostelijke ronde kolom van ringspoorbaanviaduct,over Burg. van Tienhovengracht nabij honkvalveld Pirates,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,30.0,O,,1.2578,1999-06-01,80880005,POINT (117504.0 487724.0),J
+540,25789000,Hertspieghelweg 1,(zijgevel),1,Actueel,,17,Veelal gebruikt door 'de waal',34.0,41.0,ZO,,1.1561,2004-01-01,,POINT (118551.6 488214.0),J
+541,25880001,Admiraal de Ruijterweg 328 in de Bos en Lommerweg,(x = vanaf dag raam ;y = boven onderkant natuursteen),1,Actueel,,2,Kleine ronde bout,-20.0,51.0,NW,,1.4577,1952-01-01,25880001,POINT (118757.8 488226.6),J
+542,25880002,Heer Halewijnstraat 1 gevel Erasmusgracht,(x = vanaf afronding linkerhoek;y = boven het trasraam),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,27.0,22.0,Z,,1.2174,1942-01-01,25880002,POINT (118749.9 487805.4),J
+543,25289000,Barentzstraat 211/227,(def.meting M 420),1,Actueel,,2,Kleine ronde bout,63.0,103.0,N,,2.6394,1991-12-01,,POINT (120973.0 489111.0),J
+544,25289001,De Wittenstraat 12A t/m 12K,(ref.punt def.meting IJ 172),1,Actueel,,2,Kleine ronde bout,-20.0,85.0,ZO,,1.5138,1999-06-01,,POINT (120512.8 488642.2),J
+545,84789000,Noordelijke kolom (zuidzijde) N-rijbaan viaduct RW 4 over de,Anderlechtlaan (Oostzijde),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,25.0,-28.0,Z,,-0.1598,1999-06-01,,POINT (115914.5 483488.4),J
+546,84789001,Zuidzijde noordelijke ronde kolom zuidelijk spoorviaduct,over de Anderlechtlaan (oostzijde),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,24.0,Z,,-0.1315,1999-06-01,,POINT (115906.0 483508.9),J
+547,84889001,zuidzijde van de ZW pijler A10 van het NW gedeelte,van de A10 over de Johan Huizingalaan,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-31.0,45.0,,,-0.2118,1999-06-01,,POINT (116858.0 483580.2),J
+548,25289003,De Wittenstraat 14 A-l,"achter buis, niet te meten (def. meting IJ 172)",2,Niet te meten,2012-10-02,2,Kleine ronde bout,24.0,86.0,ZO,,,,,POINT (120505.0 488634.0),J
+549,25289004,Barentszstraat 214,in de Van Heemskerckstraat,1,Actueel,,99,Onbekend,70.0,16.0,N,,1.6615,1999-06-01,,POINT (120948.0 489135.7),J
+550,25289005,Planciusstraat 29-47,,1,Actueel,,99,Onbekend,18.0,106.0,W,YH09,2.5579,1999-06-01,,POINT (120809.3 488879.1),J
+551,25289006,Van Heemskerckstraat 29A-D,,1,Actueel,,99,Onbekend,-45.0,13.0,N,,1.5013,1999-06-01,,POINT (120858.0 489155.1),J
+552,13389000,ZW-vleugel van viadukt (665) over de Overschiestraat in de,Henk Sneevlietweg (vertikaal boutje),1,Actueel,,2,Kleine ronde bout,-14.0,11.0,,,6.258,1999-06-01,,POINT (117666.8 484319.3),J
+553,13480001,Stadionweg 334,hoek Amstelveenseweg,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,23.0,95.0,O,,1.5821,1952-01-01,13480001,POINT (118955.718 484317.823),J
+554,13689000,Wielingenstraat 24A - 26R,hoek Eendrachtstraat,1,Actueel,,99,Onbekend,-14.0,83.0,O,,1.3724,1999-06-01,,POINT (121041.0 484182.3),J
+555,13689001,Ferdinand Bolstraat 323,naast poort,1,Actueel,,99,Onbekend,41.0,12.0,W,,1.2266,1999-06-01,,POINT (121231.7 484681.4),J
+556,13689002,Krammerstraat 33A-J,in de Volkerakstraat,1,Actueel,,99,Onbekend,-42.0,19.0,N,,0.7466,1999-06-01,,POINT (120948.9 484230.4),J
+557,13689004,Wielingenstraat 24A - 26R,in de Eendrachtstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-92.0,76.0,O,,1.304,2001-06-01,,POINT (121041.8 484188.7),J
+558,13780002,Churchill-laan 48,(x = rechts van portiek; y = boven trasraam),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,103.0,21.0,Z,,1.5491,1927-01-01,13780002,POINT (121837.15 484447.13),J
+559,13789000,Victorieplein 26A/34L,,3,Vervallen,2011-08-16,99,Onbekend,-37.0,18.0,Z,,0.8488,1999-06-01,,POINT (122057.9 484437.4),J
+560,13789001,Victorieplein 26A/34L,,1,Actueel,,99,Onbekend,70.0,15.0,Z,,0.8428,1999-06-01,,POINT (122024.6 484430.0),J
+561,13789002,IJselstraat 30A-N,,1,Actueel,,99,Onbekend,-9.0,19.0,Z,,0.7846,1999-06-01,,POINT (121852.2 484500.9),J
+562,13789003,IJselstraat 34A-N,in de Waalstraat,1,Actueel,,99,Onbekend,-10.0,16.0,W,,0.8374,1999-06-01,,POINT (121825.4 484505.6),J
+563,13789004,,"Oude-IJselstraat 17, rechter bouwmuur",1,Actueel,,99,Onbekend,15.0,16.0,N,,0.9152,1999-06-01,,POINT (121849.8 484543.3),J
+564,13789006,Uiterwaardenstraat 548,links van de deur (buurthuis),1,Actueel,,99,Onbekend,-19.0,14.0,O,,0.8971,1999-06-01,,POINT (121817.9 484028.5),J
+565,13789007,,Borssenburgplein 51/67,1,Actueel,,99,Onbekend,-210.0,25.0,N,,0.9829,1999-06-01,,POINT (122346.5 484636.2),J
+566,13789008,Vechtstraat 88/90,(school links),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,62.0,O,,1.3241,2000-06-01,,POINT (122267.3 484162.2),J
+567,13789009,Vechtstraat 88/90,(school rechts),3,Vervallen,2007-04-12,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-9.0,62.0,O,,1.3151,2000-06-01,,POINT (122258.3 484201.1),J
+568,13789010,Borssenburgplein 107/123,(i.p.v. 13789005),3,Vervallen,2012-10-02,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-15.0,90.0,N,,1.6301,2010-07-22,,POINT (122295.5 484624.8),J
+569,13880001,,"""Brugwachtershuisje"" op de Berlagebrug (423) over de Amstel",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,183.0,58.0,Z,,4.6482,1952-01-01,13880001,POINT (122659.667 484497.049),J
+570,13880003,Weesperzijde 243,(x = stenen dag rechter raam; y = boven plint),3,Vervallen,2018-02-27,0,Ronde bout met opschrift NAP,27.0,15.0,NO,,1.0425,1927-01-01,13880003,POINT (123140.0 484030.0),J
+571,13880007,ZO-vleugel van het spoorviadukt over de Ringdijk,nabij het Pauwenpad(onder viaduct),1,Actueel,,0,Ronde bout met opschrift NAP,65.0,27.0,NW,,0.6857,1991-10-01,13880007,POINT (122883.7 484717.7),J
+572,13480002,Stadionweg 145 (x = links van de dag van de portiek;y = on-,der de onderkant van de hardstenen plaat naast het raam),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-82.0,-6.0,N,,1.0553,1952-01-01,13480002,POINT (119403.87 484358.68),J
+573,13480003,Willaertstraat 3,(uitbouw),1,Actueel,,7,"Bijzondere merktekens bijvoorbeeld zeskantige bout, stalen pen etc.",-12.0,56.0,Z,,1.1729,1978-01-01,13480003,POINT (118940.0 484650.0),J
+574,13589000,Gerrit van der Veenstraat 57,hoek Beethovenstraat(links van de ingang Albert Hein),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,58.0,N,,1.2516,1999-06-01,,POINT (120287.9 484673.2),J
+575,13680002,Gevel aan Geulstraat van school voor L.O. tussen de Donge-,straat en de Dintelstraat (y=bovenk. aansluitend muurtje),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-38.0,14.0,Z,,1.5791,1952-01-01,13680002,POINT (121381.61 484245.42),J
+576,13680003,Churchill-laan 211 (x =links van stenen dag van het tweede,raam rechts van de ingang; y = boven de plint),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-16.0,8.0,N,,1.8707,1926-01-01,13680003,POINT (120943.62 484467.36),J
+577,13680004,Apollolaan 11,(y = boven bovenkant gemetselde rollaag),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,44.0,58.0,NO,,1.9926,1927-01-01,13680004,POINT (120626.75 484600.37),J
+578,15889000,Amstelveenseweg 994A-D,(links van ingang),2,Niet te meten,2007-05-22,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,9.0,40.0,O,,,,,POINT (118874.8 482039.1),J
+579,13580001,W-vleugel van N-landhoofd v/d brug over het Zuider Amstel,kanaal voor de Parnassusweg (y = boven bovenkant walmuur),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-41.0,158.0,W,,2.1534,1952-01-01,13580001,POINT (119599.43 484144.08),J
+580,23089001,GEB huisje Boven-IJ ziekenhuis,midden zuidgevel,3,Vervallen,2008-07-08,17,Veelal gebruikt door 'de waal',0.0,0.0,Z,,0.1603,1999-06-01,,POINT (123297.6 490976.4),J
+581,13580002,Gebogen O-vleugel van het N-landhoofd van de brug over het,Zuider Amstelkanaal voor de Beethovenstraat (y=bovenk.muur),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,295.0,-90.0,O,,2.4023,1942-01-01,13580002,POINT (120220.6 484218.61),J
+582,13580003,Corellistraat 1(Eerste Montessorieschool voor G.L.O.),(x=stenen dag van de portiek;y=onderk. gemetselde rollaag),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,71.0,-24.0,N,,1.7301,1927-01-01,13580003,POINT (120406.59 484722.69),J
+583,13580004,Gerrit van der Veenstraat 99 (Vooruitspringend gedeelte,"""Meisjesschool"" ; y = onderkant gemetselde rollaag)",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-193.0,-36.0,N,,1.4427,1952-01-01,13580004,POINT (120077.861 484671.503),J
+584,14589000,Verdwenen bij verbouwing.,"President Kennedyplantsoen 1
+in kolom naast giromaat (stadsdeelkantoor)",3,Vervallen,2015-09-17,99,Onbekend,-4.0,18.0,N,,0.9578,1999-06-01,,POINT (121813.9 483781.1),J
+585,14589001,President Kenedyplantsoen 1,hoek President Kenedylaan in kolom (stadsdeelkantoor),3,Vervallen,2018-06-22,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,6.0,12.0,O,,0.8679,1999-06-01,,POINT (121849.3 483749.0),J
+586,21289000,Zuideinde 290,(ref.punt (9)30E def.meting AP 30; y = boven leiding),1,Actueel,,16,Koperen bout,-24.0,9.0,NO,,,,,POINT (121206.5 492850.1),J
+587,21380001,Kadoelenweg 131,(Pompstation ; rioolgemaal),1,Actueel,,0,Ronde bout met opschrift NAP,22.0,38.0,W,,-0.2053,1984-01-01,21380001,POINT (122260.0 492350.0),J
+588,21389001,Adriaan Loosjesstraat 1,(1e kolom hoek Zuideinde)(ref.punt 1 def.meting AP 30),1,Actueel,,2,Kleine ronde bout,9.0,68.0,Z,,-0.1241,1991-03-18,,POINT (121466.2 492474.1),J
+589,24889000,Purmerweg 46,"in de schoorsteen (hoogtecorrectie in 2014 tbv QM21_25, zie def.met.)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,15.0,98.0,N,,0.6275,2007-08-12,,POINT (124608.2 489453.5),J
+590,24889001,Nieuwe Purmerweg 164 t/m 172,"naast regenpijp (hoogtecorrectie in 2014 tbv QM21_25, zie def.met.)",1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,13.0,102.0,N,,0.8885,2007-08-12,,POINT (124400.7 489571.1),J
+591,24980003,ZW-vleugel van het Z-landhoofd van het viadukt over de,Haarlemmerweg in rijksweg 10 bij hmp 26.3.,1,Actueel,,0,Ronde bout met opschrift NAP,40.0,-8.0,Z,,6.5159,1980-01-01,24980003,POINT (118044.0 488640.0),J
+592,24980011,Zuidoostelijke pijler viaduct(121p) in de ringweg A10,over de Haarlemmerstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-38.0,14.0,O,,1.0566,1999-06-01,24980011,POINT (118074.3 488657.3),J
+593,20480002,,Zuideinde 323,1,Actueel,,0,Ronde bout met opschrift NAP,-16.0,18.0,ZW,,-0.6315,1984-01-01,20480002,POINT (121126.0 493041.0),J
+594,14589002,President Kenedylaan 13,in De Mirandalaan (politiebureau),1,Actueel,,99,Onbekend,24.0,15.0,W,,0.847,1999-06-01,,POINT (121936.1 483675.9),J
+595,14589003,President Kennedylaan 17/655,hoek De Mirandalaan,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,13.0,32.0,N,,1.0898,1999-06-01,,POINT (121861.0 483687.0),J
+596,14589004,De Mirandalaan 9,(Mirandabad),3,Vervallen,2018-06-22,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,23.0,22.0,Z,,0.859,2000-06-01,,POINT (121949.4 483506.0),J
+597,14589005,Utrechtsebrug,(brug 439)Kopsekant W muur oprit brug vanaf President Kennedylaan,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,22.0,9.0,O,,4.8094,2000-06-01,,POINT (122336.3 483657.9),J
+598,25080009,Haarlemmerweg 495,naast Bos en Lommerweg 1,1,Actueel,,0,Ronde bout met opschrift NAP,-11.0,28.0,N,,0.8973,1991-10-01,25080009,POINT (118884.6 488693.6),J
+599,25089000,Haarlemmerweg 495A-K,(bij NAP-bout),1,Actueel,,99,Onbekend,-22.0,24.0,N,,0.8533,1999-06-01,,POINT (118883.2 488692.1),J
+600,25089001,Haarlemmerweg 475,hoek Den Brielstraat,3,Vervallen,2012-10-02,99,Onbekend,-18.0,35.0,N,,1.077,1999-06-01,,POINT (119019.0 488685.3),J
+601,25089002,Haarlemmerweg 477A-M,in de Den Brielstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-20.0,28.0,O,,1.0095,1999-06-01,,POINT (119001.5 488692.7),J
+602,25180002,Watertorenplein 4B,"Machinegebouw ""Gemeentelijke Waterleiding""(x= pilaar links O-ingang;y= boven plint)",1,Actueel,,0,Ronde bout met opschrift NAP,38.0,35.0,N,,2.009,1926-01-01,25180002,POINT (119689.7 488622.2),J
+603,25180003,Watertorenplein 4B,"Machinegbouw ""Gemeentelijke Waterleiding""(x= pilaar links W-ingang;y= boven plint)",1,Actueel,,0,Ronde bout met opschrift NAP,38.0,34.0,N,,2.0092,1926-01-01,25180003,POINT (119671.3 488617.9),J
+604,25180004,Van Limburg Stirumstraat 1A t/m 3D,"gevel Haarlemmerweg
+",1,Actueel,,0,Ronde bout met opschrift NAP,-27.0,46.0,N,,1.0274,1991-10-01,25180004,POINT (120149.8 488739.6),J
+605,25180005,Verlengde Zaandijkstraat,NW-landhoofd viadukt onder spoorbaan,1,Actueel,,0,Ronde bout met opschrift NAP,50.0,0.0,NO,,1.1393,2000-11-17,25180005,POINT (120379.2 488989.9),J
+606,13089000,Derde Oosterparkstraat 96A/98D,(x = uit portiek),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,48.0,87.0,N,,1.4673,1994-03-18,,POINT (122971.6 485499.5),J
+607,13089001,Iepenweg 60,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,19.0,78.0,O,,1.4616,1994-03-18,,POINT (122837.1 485389.9),J
+608,13089002,Iepenweg 61,in de Vrolikstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,41.0,81.0,Z,,1.4093,1994-03-18,,POINT (122854.5 485394.3),J
+609,13089003,,Wibautstraat 87A/93H,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-22.0,67.0,W,,1.4108,1994-03-18,,POINT (122585.8 485483.4),J
+610,13089004,Oetgensdwarsstraat 70,(zijgevel garage),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-192.0,63.0,Z,,1.3463,1994-07-27,,POINT (122513.1 485360.6),J
+611,13089005,Oetgensdwarsstraat 1,in de Eerste Oosterparkstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-162.0,48.0,W,,1.1677,1994-07-27,,POINT (122477.3 485447.5),J
+612,13089006,Iepenplein 40/56B,in de Tweede Oosterparkstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-13.0,88.0,N,,1.4948,1996-12-09,,POINT (122768.9 485478.6),J
+613,13089007,,Tweede Oosterparkstraat 57A/59D,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,12.0,84.0,Z,,1.3613,1996-12-09,,POINT (122748.2 485485.2),J
+614,13089008,Grensstraat 100/118,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-4.0,18.0,NW,,0.6199,2000-06-01,,POINT (122583.1 485253.3),J
+615,13089009,Overamstelstraat 17/31,(in kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,W,,0.7599,2000-06-01,,POINT (122682.2 484801.7),J
+616,13180003,ZW-vleugelmuur van het ZO-landhoofd van brug 189 tussen de,Linnaeusstraat en de Middenweg over Ringvaart (y = dekzerk),1,Actueel,,13,Kopbout,-237.0,-35.0,NO,,1.1634,1927-01-01,13180003,POINT (123722.0 485351.8),J
+617,13889000,Amsteldijk 162,(naast poort),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,42.0,36.0,O,,1.1468,2000-06-01,,POINT (122643.3 484173.6),J
+618,13889001,Amsteldijk 166,in ovale kolom (Riverstate),3,Vervallen,2018-06-22,99,Onbekend,-185.0,11.0,O,,0.9366,1999-06-01,,POINT (122651.4 484132.4),J
+619,13889002,,Trompenburgstraat 10B-S,1,Actueel,,99,Onbekend,10.0,22.0,Z,,0.8259,1999-06-01,,POINT (122437.1 484152.4),J
+620,13889003,Trompenburgerstraat 4A,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-29.0,10.0,Z,,0.7769,2000-06-01,,POINT (122508.5 484133.1),J
+621,14689000,President Kennedylaan 1,in kolom wegzijde,3,Vervallen,2018-06-22,99,Onbekend,0.0,19.0,NW,,0.7961,1999-06-01,,POINT (122678.2 483923.2),J
+622,14280001,O-vleugel van het N-landhoofd van de brug (413) in de Am-,stelveenseweg over her Zuider Amstelkanaal (y=bovenk.vl.),3,Vervallen,2017-12-12,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,275.0,-136.0,O,,2.3942,1952-01-01,14280001,POINT (118910.0 483960.0),J
+623,14289000,Nieuwbouw bij brug 421 over Zuider Amstelkanaal,,3,Vervallen,2008-07-08,99,Onbekend,-11.0,30.0,N,,1.1058,1999-06-01,,POINT (119096.1 483932.2),J
+624,14580005,President Kennedylaan 7,"meest W-beer aan de N-gevel van ""de Mirandabad""",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-76.0,30.0,N,,0.7903,1927-01-01,14580005,POINT (122033.95 483675.44),J
+625,13189000,Ringdijk 44,(voorgevel links),3,Vervallen,2018-06-22,99,Onbekend,5.0,32.0,NW,,-3.093,1999-06-01,,POINT (123436.6 485105.5),J
+626,13189001,Ringdijk 44,(voorgevel rechts),1,Actueel,2018-06-22,99,Onbekend,-9.0,13.0,NW,,-3.082,1999-06-01,,POINT (123409.0 485085.0),J
+627,13189002,Bessemerstraat 60/70,(naast ingang),1,Actueel,,99,Onbekend,-7.0,16.0,NO,,-3.4731,1999-06-01,,POINT (123424.5 484995.3),J
+628,13189003,Ringdijk 28C-E,(naast doorgang),1,Actueel,,99,Onbekend,-3.0,0.0,NW,,-2.8848,1999-06-01,,POINT (123580.0 485208.3),J
+629,13189004,Willem Beukelstraat 1A-M,hoek Ringdijk(in betonnen kolom),1,Actueel,,99,Onbekend,29.0,12.0,W,,-2.939,1999-06-01,,POINT (123561.6 485190.3),J
+630,13189005,Willem Beukelsstraat 51/151,in de Zacharias Jansestraat(x = uit regenpijp),1,Actueel,,99,Onbekend,-30.0,26.0,NW,,-3.3114,1999-06-01,,POINT (123692.6 485062.9),J
+631,13189006,Kamerlingh Onneslaan 4/10,(naast RABO-bank),1,Actueel,,99,Onbekend,15.0,11.0,ZO,,-3.3008,2000-04-14,,POINT (123855.8 485174.0),J
+632,13189007,Nobelweg 21A-G,(naast no.19 tussen twee regenpijpen),1,Actueel,,99,Onbekend,16.0,18.0,ZW,,-3.417,2001-11-20,,POINT (123380.0 484977.8),J
+633,13189008,Transvaalstraat 65A/69E,in de Paardekraalstraat,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-22.0,45.0,O,,0.9889,1999-03-16,,POINT (123555.9 485307.5),J
+634,13189009,Transvaalstraat 63A-M,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,748.0,53.0,NW,,1.2116,1999-03-16,,POINT (123561.8 485330.8),J
+635,24180001,,Kabelweg 41 (trafo),1,Actueel,,0,Ronde bout met opschrift NAP,-9.0,26.0,O,,0.836,1960-01-01,24180001,POINT (118214.6 489614.6),J
+636,24380001,,Zaanstraat 391 in de Spaandammerdijk,1,Actueel,,7,"Bijzondere merktekens bijvoorbeeld zeskantige bout, stalen pen etc.",-38.0,82.0,N,,3.6346,1926-01-01,24380001,POINT (119862.799 489565.572),J
+637,24480001,ZW-vleugel brug (346) over het Westerkanaal hoek Houtman-,kade / Tasmanstraat,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,-81.0,Z,,3.5787,1979-01-01,24480001,POINT (120829.32 489283.5),J
+638,22180001,,NW-Vleugelmuur van de brug over de Dijksloot,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,32.0,-37.0,W,,0.7895,1984-01-01,22180001,POINT (121615.9 492190.0),J
+639,22180004,Oostzanerdijk 28,gevel aan Zuideinde(y = boven betonnen stoep),3,Vervallen,2018-01-17,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,10.0,34.0,W,,2.2576,1981-01-01,22180004,POINT (121634.6 492178.0),J
+640,15089000,Amstelveenseweg 705,,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,21.0,83.0,Z,,1.2101,2007-08-12,,POINT (118905.8 482558.1),J
+641,13380003,Honselersdijkstraat 1,hoek Voorburgstraat(trafo; y = boven betonnen fundering),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,15.0,13.0,W,,-0.0032,1959-01-01,13380003,POINT (117961.6 484642.6),J
+642,24689001,In Viadukt 438 (Mosplein nabij Distelkade) tegenover trafo,,1,Actueel,,99,Onbekend,145.0,110.0,W,,2.0148,1999-06-01,,POINT (122668.2 489443.3),J
+643,24780002,Nieuwendammerdijk 227,Steunbeer rechts van de hoofdingang van toren RK-kerk,1,Actueel,,0,Ronde bout met opschrift NAP,-32.0,100.0,ZW,,3.0488,1952-01-01,24780002,POINT (124230.0 489380.0),J
+644,24789000,"Meeuwenlaan 136/134 school "" nieuwendam college""",,1,Actueel,,99,Onbekend,45.0,42.0,W,,2.0834,1999-06-01,,POINT (123560.5 489289.3),J
+645,24880002,Nieuwendammerdijk 343,Afgezaagd! Niet meer bruikbaar!,2,Niet te meten,2010-03-12,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,58.0,42.0,NW,,1.8656,1952-01-01,24880002,POINT (124627.2 489343.1),J
+646,24880005,Dirkshornplantsoen 1,gevel Nieuwe Purmerweg (y = boven betonrand),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,12.0,78.0,ZW,,0.4151,1972-01-01,24880005,POINT (124408.71 489601.24),J
+647,25189000,Fannius Scholtenstraat 43A,(def. meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-11.0,39.0,W,,0.994,1992-10-10,,POINT (120034.7 488575.5),J
+648,25189001,Joan Melchior Kemperstraat 57A-P,hoek Fannius Scholtenstraat(def. meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,138.0,41.0,N,,0.9827,1992-10-10,,POINT (120003.4 488677.9),J
+649,25189002,Fannius Scholtenstraat 29A/33C,in de Van der Hoopstraat(def. meting IJ 172),1,Actueel,,2,Kleine ronde bout,24.0,110.0,N,,1.5538,1992-10-10,,POINT (120041.9 488623.6),J
+650,25189003,Van Limburg Stirumstraat 36,(in noordelijke pilaar; def. meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-15.0,27.0,NO,,0.8823,1992-10-10,,POINT (120177.2 488568.2),J
+651,25189004,Van Limburg Stirumstraat 22A-S,(def. meting IJ 172),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-10.0,28.0,O,,0.8845,1992-10-10,,POINT (120123.1 488663.4),J
+652,25189005,Van Limburg Stirumstraat 48,(def. meting IJ 172),1,Actueel,,2,Kleine ronde bout,18.0,107.0,NO,,2.2313,1992-10-10,,POINT (120230.2 488516.2),J
+653,25189007,Cliffordstraat 2A-N,(schroefpunt),1,Actueel,,99,Onbekend,15.0,86.0,0,,1.4349,1999-06-01,,POINT (119994.4 488590.9),J
+654,25189008,,Fannius Scholtenstraat 35A/37D,1,Actueel,,99,Onbekend,-12.0,43.0,W,,0.9349,1999-06-01,,POINT (120025.4 488605.8),J
+655,25189009,Joan Melchior Kemperstraat 41A-D,,1,Actueel,,99,Onbekend,-29.0,10.0,N,,0.7739,1999-06-01,,POINT (120079.9 488679.3),J
+656,25189010,Joan Melchior Kemperstraat 106A-E,,1,Actueel,,99,Onbekend,22.0,108.0,Z,,1.5826,1999-06-01,,POINT (119928.9 488691.4),J
+657,25189012,Van Limburg Stirumstraat 32A-D,in de Bentinckstraat,1,Actueel,,99,Onbekend,16.0,16.0,NW,,0.8637,1999-06-01,,POINT (120128.6 488597.7),J
+658,25189013,Van Hallstraat 6,(?gevel Waterkersweg?),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-17.0,8.0,Z,,0.7621,2000-06-01,,POINT (119791.6 488536.7),J
+659,25280006,Haarlemmerplein 50,"""De Haarlemmerpoort""",3,Vervallen,2007-08-27,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,182.0,145.0,ZO,,3.8806,1952-01-01,25280006,POINT (120690.0 488700.0),J
+660,25280008,,Kleine Bickersstraat 2/8,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,127.0,23.0,O,,2.0243,1979-01-01,25280008,POINT (121094.3 488753.0),J
+661,25280009,Zoutkeetsgracht 2,hoek Bokkinghangen,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-211.0,33.0,Z,,2.1857,1979-01-01,25280009,POINT (121154.7 489089.5),J
+662,11189013,,"Da Costastraat 66-68, linker bouwmuur",1,Actueel,,2,Kleine ronde bout,-15.0,7.0,O,,1.4465,2018-05-01,,POINT (120084.0 486825.0),J
+663,11189014,,"Kinkerstraat 32, hoek/kant Da Costastraat",1,Actueel,,2,Kleine ronde bout,8.0,14.0,O,,1.2121,2018-05-01,,POINT (120090.0 486800.0),J
+664,11189015,,"Da Costakade 183a-195f, rechter bouwmuur",1,Actueel,,2,Kleine ronde bout,-40.0,27.0,W,,1.2479,2018-05-01,,POINT (120077.0 486685.0),J
+665,13789011,,"Oude-IJselstraat 17, linker bouwmuur",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,0.0,N,,0.9752,2018-06-01,,POINT (121864.0 484546.0),J
+666,26089026,,"Tuinstraat 52A-D (waarschijnlijk in rechterbouwmmuur, zie ook 26089021)",1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,-10.0,16.0,Z,,1.0244,2018-06-01,,POINT (120754.0 487856.0),J
+667,11589027,,Kraaienhofstraat 10,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,7.0,13.0,NW,,1.2303,2018-06-01,,POINT (123774.0 486846.0),J
+668,10489038,,Singel 176,1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,,,2.9235,2018-06-01,,POINT (121087.0 487551.9),J
+669,25489002,,"Viaduct Adelaarsweg onder Johan van Hasseltweg, In keermuur schuin naar boven stekende bout",1,Actueel,,2,Kleine ronde bout,-400.0,40.0,NW,,1.4759,2018-02-18,,POINT (123194.0 489090.0),J
+670,10489036,,Bloemgracht 49,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,0.0,N,,0.9731,2018-06-01,,POINT (120556.5 487547.15),J
+671,10489037,,Prinsengracht 377 B-C,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,0.0,W,,1.0096,2018-06-01,,POINT (120675.5 487211.57),J
+672,11389033,Nieuwe Keizersgracht 80/86,in de Weesperstraat (zit bij 11389027),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,0.0,0.0,N,,2.521,2018-06-01,,POINT (122190.0 486449.0),J
+673,12989017,,Govert Flinckstraat 235 (rechter bouwmuur),1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,0.0,Z,,0.893,2018-06-01,,POINT (121615.2 485457.2),J
+674,12789008,Brug 409 Emmastraat over Noorder Amstelkanaal,Westelijke vleugelmuur van het noordelijk landhoofd,1,Actueel,,1,Ronde bout of althans aan de bovenzijde ronde bout zonder opschrift of met opschrift anders dan NAP,0.0,0.0,Z,,2.3996,2018-06-01,,POINT (119782.0 485050.0),J
