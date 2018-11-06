@@ -1,5 +1,6 @@
 {
   "version": "0.1",
+  "catalogue": "meetbouten",
   "entity": "metingen",
   "entity_id": "metingid",
   "source": {
