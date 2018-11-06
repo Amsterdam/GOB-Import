@@ -126,15 +126,15 @@ class ImportClient:
 
         :return:
         """
-        metadata = MessageMetaData(
-            process_id=self.process_id,
-            source=self._dataset['source']['name'],
-            id_column=self._dataset['entity_id'],
-            entity=self._dataset['entity'],
-            version=self._dataset['version'],
-            model={},
-            timestamp=datetime.datetime.now().isoformat()
-        )
+        metadata = {
+            "process_id" : self.process_id,
+            "source" : self._dataset['source']['name'],
+            "id_column" : self._dataset['entity_id'],
+            "catalogue" : self._dataset['catalogue'],
+            "entity" : self._dataset['entity'],
+            "version" : self._dataset['version'],
+            "timestamp" : datetime.datetime.now().isoformat()
+        }
 
         summary = {
             'num_records': len(self._gob_data)
@@ -146,7 +146,11 @@ class ImportClient:
                      f"{summary['num_records']} records were read from the source.",
                  extra_info={"data": summary})
 
-        import_message = ImportMessage.create_import_message(metadata.as_header, summary, self._gob_data)
+        import_message = {
+            "header" : metadata,
+            "summary" : summary,
+            "contents" : self._gob_data
+        }
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
 
     def start_import_process(self):
