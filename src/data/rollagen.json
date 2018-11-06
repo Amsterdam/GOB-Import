@@ -2,7 +2,7 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "rollagen",
-  "entity_id": "rollaagid",
+  "entity_id": "rollaagidentificatie",
   "source": {
     "name": "Milieuthemas",
     "entity_id": "name",
@@ -11,15 +11,17 @@
     "file_filter": ".+\\.jpg$"
   },
   "gob_mapping": {
-    "rollaagid": {
+    "rollaagidentificatie": {
       "source_mapping": "name",
       "filters": [
         ["re.sub", "(^[^.]*)(.*)", "\\1"],
         ["upper"]
       ]
     },
-    "is_gemeten_van_bouwblok_text": {
-      "source_mapping": "name",
+    "is_gemeten_van_bouwblok": {
+      "source_mapping": {
+        "bronwaarde": "name",
+      }
       "filters": [
         ["re.sub", "(^[^.]*)(.*)", "\\1"],
         ["upper"]
