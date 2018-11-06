@@ -116,15 +116,22 @@ class Validator:
                 f"Quality assurance failed for {self.entity_name} from source {self.import_client.source['name']}"
             )
 
-        self._log(QA.INFO, f"Quality assurance passed", self.collection_qa)
+        self._log(type=QA.INFO,
+                  id=None,
+                  msg=f"Quality assurance passed",
+                  data=self.collection_qa)
 
-    def _log(self, type, msg, data=None):
+    def _log(self, type, id, msg, data):
+        extra_info = {
+            "id": id,
+            "data": data
+        }
         if type == QA.FATAL:
-            self.import_client.log("error", msg, data)
+            self.import_client.log("error", msg, extra_info)
         if type == QA.WARNING:
-            self.import_client.log("warning", msg, data)
+            self.import_client.log("warning", msg, extra_info)
         if type == QA.INFO:
-            self.import_client.log("info", msg, data)
+            self.import_client.log("info", msg, extra_info)
 
     def _validate_primary_key(self):
         primary_keys = set()
@@ -176,8 +183,10 @@ class Validator:
                 self.fatal = True
 
             # Log the missing attribute, with the correct level
-            self._log(type, MISSING_ATTR_FMT.format(attr=attr, entity=entity[self.source_id]),
-                      {self.source_id: entity[self.source_id], "missing_attr": attr})
+            self._log(type=type,
+                      id="Missing attribute",
+                      msg=MISSING_ATTR_FMT.format(attr=attr, entity=entity[self.source_id]),
+                      data={self.source_id: entity[self.source_id], "missing_attr": attr})
 
             return False
 
@@ -196,8 +205,10 @@ class Validator:
                 self.fatal = True
 
             # Log the missing attribute, with the correct level
-            self._log(type, QA_CHECK_FAILURE_FMT.format(msg=msg, value=value),
-                      {self.source_id: entity[self.source_id], "value": value})
+            self._log(type=type,
+                      id=msg,
+                      msg=QA_CHECK_FAILURE_FMT.format(msg=msg, value=value),
+                      data={self.source_id: entity[self.source_id], "value": value})
 
             return False
 
