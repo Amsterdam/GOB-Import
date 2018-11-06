@@ -38,6 +38,7 @@ class ImportClient:
         self._dataset = dataset
         self.source = self._dataset['source']
         self.source_id = self._dataset['source']['entity_id']
+        self.catalogue = self._dataset['catalogue']
         self.entity = self._dataset['entity']
         self.entity_id = self._dataset['entity_id']
 
@@ -47,19 +48,21 @@ class ImportClient:
         self.extra_log_kwargs = {
             'process_id': self.process_id,
             'source': self.source['name'],
+            'catalogue': self.catalogue,
             'entity': self.entity
         }
 
         # Log start of import process
-        self.log('info', f"Import dataset {self.entity} from {self.source['name']} started")
+        self.log(level='info',
+                 msg=f"Import dataset {self.entity} from {self.source['name']} started")
 
         self._connection = None     # Holds the connection to the source
         self._data = None           # Holds the data in imput format
         self._gob_data = None       # Holds the imported data in GOB format
 
-    def log(self, level, msg, data=None):
+    def log(self, level, msg, extra_info=None):
         log_func = getattr(logger, level)
-        log_func(msg, extra={**self.extra_log_kwargs, 'data': data})
+        log_func(msg, extra={**self.extra_log_kwargs, **extra_info})
 
     def connect(self):
         """The first step of every import is a technical step. A connection need to be setup to
@@ -76,7 +79,8 @@ class ImportClient:
         else:
             raise NotImplementedError
 
-        self.log('info', f"Connection to {self.source['name']} has been made.")
+        self.log(level='info',
+                 msg=f"Connection to {self.source['name']} has been made.")
 
     def read(self):
         """Read the data from the data source
@@ -92,7 +96,8 @@ class ImportClient:
         else:
             raise NotImplementedError
 
-        self.log('info', f"Data has been imported from {self.source['name']}.")
+        self.log(level='info',
+                 msg=f"Data has been imported from {self.source['name']}.")
 
     def enrich(self):
         enrich(self._dataset['entity'], self._data)
@@ -136,10 +141,10 @@ class ImportClient:
         }
 
         # Log end of import process
-        self.log('info',
-                 f"Import dataset {self.entity} from {self.source['name']} completed. "
-                 f"{summary['num_records']} records were read from the source.",
-                 summary)
+        self.log(level='info',
+                 msg=f"Import dataset {self.entity} from {self.source['name']} completed. "
+                     f"{summary['num_records']} records were read from the source.",
+                 extra_info={"data": summary})
 
         import_message = ImportMessage.create_import_message(metadata.as_header, summary, self._gob_data)
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
@@ -153,4 +158,5 @@ class ImportClient:
             self.convert()
             self.publish()
         except Exception as e:
-            self.log('error', f'Import failed: {e}')
+            self.log(level='error',
+                     msg=f'Import failed: {e}')

@@ -23,4 +23,4 @@ SERVICEDEFINITION = {
     }
 }
 
-messagedriven_service(SERVICEDEFINITION)
+messagedriven_service(SERVICEDEFINITION, "Import")

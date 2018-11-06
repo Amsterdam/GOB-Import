@@ -80,6 +80,7 @@ source venv/bin/activate
 Start the service:
 
 ```bash
+export $(cat .env | xargs)  # Copy from .env.example if missing
 cd src
 python -m gobimport
 ```
