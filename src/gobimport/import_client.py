@@ -60,7 +60,7 @@ class ImportClient:
         self._data = None           # Holds the data in imput format
         self._gob_data = None       # Holds the imported data in GOB format
 
-    def log(self, level, msg, extra_info=None):
+    def log(self, level, msg, extra_info={}):
         log_func = getattr(logger, level)
         log_func(msg, extra={**self.extra_log_kwargs, **extra_info})
 
