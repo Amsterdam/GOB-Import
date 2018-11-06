@@ -27,6 +27,25 @@ def _apply_filters(raw_value, filters):
     return value
 
 
+def _extract_references(row, field_source, field_type):   # noqa: C901
+    # If we can expect multiple references create an array of dicts
+    if field_type == 'GOB.ManyReference':
+        value = []
+        # For each attribute in the source mapping, loop through all values and add them to the correct dict
+        for attribute, source_mapping in field_source.items():
+            if row[source_mapping]:
+                for idx, v in enumerate(row[source_mapping]):
+                    # Try to update the dictionary with the attribute and value or create a new dict
+                    try:
+                        value[idx].update({attribute: v})
+                    except IndexError:
+                        value.append({attribute: v})
+    else:
+        value = {attribute: row[source_mapping] for attribute, source_mapping in field_source.items()}
+
+    return value
+
+
 def _extract_field(row, metadata, typeinfo):
     """
     Extract a field from a row given the corresponding metadata
@@ -43,7 +62,11 @@ def _extract_field(row, metadata, typeinfo):
 
     kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping', 'filters']}
 
-    value = row[field_source]
+    if isinstance(field_source, dict):
+        _extract_references(row, field_source, field_type)
+    else:
+        value = row[field_source]
+
     if "filters" in metadata:
         # Apply any filters to the raw value
         value = _apply_filters(value, metadata["filters"])

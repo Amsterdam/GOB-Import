@@ -2,10 +2,10 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "metingen",
-  "entity_id": "metingid",
+  "entity_id": "metingidentificatie",
   "source": {
     "name": "metingencsv",
-    "entity_id": "metingid",
+    "entity_id": "metingidentificatie",
     "type": "file",
     "config": {
       "filetype": "CSV",
@@ -15,33 +15,33 @@
     }
   },
   "gob_mapping": {
-    "metingid": {
-      "source_mapping": "metingid"
+    "metingidentificatie": {
+      "source_mapping": "metingidentificatie"
     },
-    "hoort_bij_meetbout_text": {
-      "source_mapping": "hoort_bij_meetbout"
-    },
-    "hoort_bij_meetbout_id": {
-      "source_mapping": "hoort_bij_meetbout"
+    "hoort_bij_meetbout": {
+      "source_mapping": {
+        "id": "hoort_bij_meetbout",
+        "bronwaarde": "hoort_bij_meetbout"
+      }
     },
     "datum": {
       "source_mapping": "datum",
       "format": "%Y-%m-%d"
     },
-    "wijze_van_inwinnen_id": {
-      "source_mapping": "wijze_van_inwinnen_id"
-    },
-    "wijze_van_inwinnen_omschrijving": {
-      "source_mapping": "wijze_van_inwinnen"
+    "wijze_van_inwinnen": {
+      "source_mapping": {
+        "id": "wijze_van_inwinnen_id",
+        "omschrijving": "wijze_van_inwinnen"
+      }
     },
     "hoogte_tov_nap": {
       "source_mapping": "hoogte_tov_nap"
     },
-    "refereert_aan_text": {
-      "source_mapping": "refereert_aan_refpunt"
-    },
-    "refereert_aan_id": {
-      "source_mapping": "refereert_aan_refpunt"
+    "refereert_aan": {
+      "source_mapping": {
+        "id": "refereert_aan_refpunt",
+        "bronwaarde": "refereert_aan_refpunt"
+      }
     },
     "is_gemeten_door": {
       "source_mapping": "is_gemeten_door_onderneming"

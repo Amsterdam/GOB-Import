@@ -2,14 +2,14 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "referentiepunten",
-  "entity_id": "referentiepuntid",
+  "entity_id": "referentiepuntidentificatie",
   "source": {
     "name": "Grondslag",
-    "entity_id": "referentiepuntid",
+    "entity_id": "referentiepuntidentificatie",
     "type": "database",
     "schema": "grondslag",
     "query": [
-"    SELECT h.nummer                                                       AS referentiepuntid",
+"    SELECT h.nummer                                                       AS referentiepuntidentificatie",
 "    ,      substr( h.omschrijving, 1, instr(h.omschrijving, chr(10)) -1 ) AS adres",
 "    ,      substr( h.omschrijving, instr(h.omschrijving, chr(10)) + 1 )   AS locatie",
 "    ,      h.sta_id                                                       AS status_id-- 1=actueel 2=niet te meten 3=vervallen",
@@ -30,41 +30,47 @@
 "    ,      to_char(sdo_util.to_wktgeometry(h.geom))                       AS geometrie",
 "    ,      'J'                                                            AS publiceerbaar",
 "    FROM   grs_hoogtepunten h",
-"    LEFT OUTER JOIN   grs_kringpunten  k ON h.id = k.hoo_id",
-"    LEFT OUTER JOIN   grs_status       s ON h.sta_id = s.id",
-"    LEFT OUTER JOIN   grs_merken       m ON h.mer_id = m.id",
+"    LEFT OUTER JOIN   grondslag.grs_kringpunten  k ON h.id = k.hoo_id",
+"    LEFT OUTER JOIN   grondslag.grs_status       s ON h.sta_id = s.id",
+"    LEFT OUTER JOIN   grondslag.grs_merken       m ON h.mer_id = m.id",
 "    LEFT OUTER JOIN   (SELECT m1.hoo_id",
 "                       ,      m1.hoogte",
 "                       ,      m1.inwindatum",
-"                       FROM   grs_metingen_herz m1",
+"                       FROM   grondslag.grs_metingen_herz m1",
 "                       JOIN (SELECT m2.hoo_id",
 "                             ,      MAX(m2.inwindatum) AS inwindatum",
-"                             FROM   grs_metingen_herz m2",
+"                             FROM   grondslag.grs_metingen_herz m2",
 "                             GROUP BY m2.hoo_id) q ON  m1.hoo_id = q.hoo_id",
 "                                                  AND m1.inwindatum = q.inwindatum) x ON h.id = x.hoo_id",
 "    LEFT OUTER JOIN   (SELECT m3.hoo_id",
 "                       ,      m3.hoogte",
 "                       ,      m3.inwindatum",
-"                       FROM   grs_metingen_herz m3",
+"                       FROM   grondslag.grs_metingen_herz m3",
 "                       JOIN (SELECT m4.hoo_id",
 "                             ,      MIN(m4.inwindatum) AS inwindatum",
-"                             FROM   grs_metingen_herz m4",
+"                             FROM   grondslag.grs_metingen_herz m4",
 "                             GROUP BY m4.hoo_id) q2 ON  m3.hoo_id = q2.hoo_id",
 "                                                  AND m3.inwindatum = q2.inwindatum) x2 ON h.id = x2.hoo_id",
-"    WHERE  h.nummer IN (SELECT h1.nummer",
+"    WHERE  (h.nummer IN (SELECT h1.nummer",
 "                            FROM   grondslag.grs_hoogtepunten h1",
 "                            JOIN   grondslag.grs_met_ref_punten_herz r ON h1.id = r.hoo_id",
-"                            WHERE  h1.typ_nummer = 6 --nap peilmerk",
-"                       )",
-"    OR     h.typ_nummer = 8 -- referentiebout"
+"                            WHERE  h1.typ_nummer = 6) --nap peilmerk",
+"    OR "
+"            h.nummer IN (SELECT h1.nummer",
+"                            FROM   grondslag.grs_hoogtepunten h1",
+"                            JOIN   grondslag.grs_met_ref_punten_herz r ON h1.id = r.hoo_id",
+"                            WHERE  h1.typ_nummer = 9) -- ondergrondsmerk",
+"    OR     h.typ_nummer = 8) -- referentiebout"
     ]
   },
   "gob_mapping": {
-    "referentiepuntid": {
-      "source_mapping": "referentiepuntid"
+    "referentiepuntidentificatie": {
+      "source_mapping": "referentiepuntidentificatie"
     },
-    "nabij_adres_text": {
-      "source_mapping": "adres"
+    "nabij_nummeraanduiding": {
+      "source_mapping": {
+        "bronwaarde": "adres",
+      }
     },
     "locatie": {
       "source_mapping": "locatie"
@@ -75,39 +81,41 @@
     "datum": {
       "source_mapping": "datum"
     },
-    "status_id": {
-      "source_mapping": "status_id"
-    },
-    "status_omschrijving": {
-      "source_mapping": "status_omschrijving"
+    "status": {
+      "source_mapping": {
+        "id": "status_id",
+        "omschrijving": "status_omschrijving"
+      }
     },
     "vervaldatum": {
       "source_mapping": "vervaldatum",
       "format": "%Y-%m-%d"
     },
-    "merk_id": {
-      "source_mapping": "merk_id"
+    "merk": {
+      "source_mapping": {
+        "id": "merk_id",
+        "omschrijving": "merk_omschrijving"
+      }
     },
-    "merk_omschrijving": {
-      "source_mapping": "merk_omschrijving"
-    },
-    "xmuurvlak": {
+    "x_coordinaat_muurvlak": {
       "source_mapping": "xmuurvlak"
     },
-    "ymuurvlak": {
+    "y_coordinaat_muurvlak": {
       "source_mapping": "ymuurvlak"
     },
     "windrichting": {
       "source_mapping": "windrichting"
     },
-    "ligt_in_bouwblok_text": {
-      "source_mapping": "bouwblok_code"
+    "ligt_in_bouwblok": {
+      "source_mapping": {
+        "bronwaarde": "bouwblok_code"
+      }
     },
-    "is_nap_peilmerk_text": {
-      "source_mapping": "peilmerknummer"
-    },
-    "is_nap_peilmerk_id": {
-      "source_mapping": "peilmerknummer"
+    "is_nap_peilmerk": {
+      "source_mapping": {
+        "bronwaarde": "peilmerknummer",
+        "id": "peilmerknummer"
+      }
     },
     "geometrie": {
       "source_mapping": "geometrie"

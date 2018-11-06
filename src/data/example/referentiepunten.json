@@ -2,10 +2,10 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "referentiepunten",
-  "entity_id": "referentiepuntid",
+  "entity_id": "referentiepuntidentificatie",
   "source": {
     "name": "referentiepuntencsv",
-    "entity_id": "referentiepuntid",
+    "entity_id": "referentiepuntidentificatie",
     "type": "file",
     "config": {
       "filetype": "CSV",
@@ -15,11 +15,13 @@
     }
   },
   "gob_mapping": {
-    "referentiepuntid": {
-      "source_mapping": "referentiepuntid"
+    "referentiepuntidentificatie": {
+      "source_mapping": "referentiepuntidentificatie"
     },
-    "nabij_adres_text": {
-      "source_mapping": "adres"
+    "nabij_nummeraanduiding": {
+      "source_mapping": {
+        "bronwaarde": "adres",
+      }
     },
     "locatie": {
       "source_mapping": "locatie"
@@ -30,39 +32,41 @@
     "datum": {
       "source_mapping": "datum"
     },
-    "status_id": {
-      "source_mapping": "status_id"
-    },
-    "status_omschrijving": {
-      "source_mapping": "status_omschrijving"
+    "status": {
+      "source_mapping": {
+        "id": "status_id",
+        "omschrijving": "status_omschrijving"
+      }
     },
     "vervaldatum": {
       "source_mapping": "vervaldatum",
       "format": "%Y-%m-%d"
     },
-    "merk_id": {
-      "source_mapping": "merk_id"
+    "merk": {
+      "source_mapping": {
+        "id": "merk_id",
+        "omschrijving": "merk_omschrijving"
+      }
     },
-    "merk_omschrijving": {
-      "source_mapping": "merk_omschrijving"
-    },
-    "xmuurvlak": {
+    "x_coordinaat_muurvlak": {
       "source_mapping": "xmuurvlak"
     },
-    "ymuurvlak": {
+    "y_coordinaat_muurvlak": {
       "source_mapping": "ymuurvlak"
     },
     "windrichting": {
       "source_mapping": "windrichting"
     },
-    "ligt_in_bouwblok_text": {
-      "source_mapping": "bouwblok_code"
+    "ligt_in_bouwblok": {
+      "source_mapping": {
+        "bronwaarde": "bouwblok_code"
+      }
     },
-    "is_nap_peilmerk_text": {
-      "source_mapping": "peilmerknummer"
-    },
-    "is_nap_peilmerk_id": {
-      "source_mapping": "peilmerknummer"
+    "is_nap_peilmerk": {
+      "source_mapping": {
+        "bronwaarde": "peilmerknummer",
+        "id": "peilmerknummer"
+      }
     },
     "geometrie": {
       "source_mapping": "geometrie"

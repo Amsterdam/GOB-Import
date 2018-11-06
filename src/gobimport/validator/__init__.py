@@ -25,10 +25,10 @@ class QA(Enum):
 
 ENTITY_CHECKS = {
     "meetbouten": {
-        "meetboutid": [
+        "meetboutidentificatie": [
             {
                 "pattern": "^\d{8}$",
-                "msg": "Meetboutid should consist of 8 numeric characters",
+                "msg": "Meetboutidentificatie should consist of 8 numeric characters",
                 "type": QA.FATAL,
             },
         ],
@@ -55,17 +55,17 @@ ENTITY_CHECKS = {
         ],
     },
     "metingen": {
-        "metingid": [
+        "metingidentificatie": [
             {
                 "pattern": "^\d+$",
-                "msg": "Metingid should be a valid positive integer",
+                "msg": "metingidentificatie should be a valid positive integer",
                 "type": QA.FATAL,
             },
         ],
         "hoort_bij_meetbout": [
             {
                 "pattern": "^\d{8}$",
-                "msg": "Meetboutid should consist of 8 numeric characters",
+                "msg": "Meetboutidentificatie should consist of 8 numeric characters",
                 "type": QA.FATAL,
             },
         ],
