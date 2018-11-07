@@ -2,10 +2,10 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "referentiepunten",
-  "entity_id": "referentiepuntidentificatie",
+  "entity_id": "identificatie",
   "source": {
     "name": "referentiepuntencsv",
-    "entity_id": "referentiepuntidentificatie",
+    "entity_id": "identificatie",
     "type": "file",
     "config": {
       "filetype": "CSV",
@@ -15,8 +15,8 @@
     }
   },
   "gob_mapping": {
-    "referentiepuntidentificatie": {
-      "source_mapping": "referentiepuntidentificatie"
+    "identificatie": {
+      "source_mapping": "identificatie"
     },
     "nabij_nummeraanduiding": {
       "source_mapping": {

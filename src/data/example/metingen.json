@@ -2,10 +2,10 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "metingen",
-  "entity_id": "metingidentificatie",
+  "entity_id": "identificatie",
   "source": {
     "name": "metingencsv",
-    "entity_id": "metingidentificatie",
+    "entity_id": "identificatie",
     "type": "file",
     "config": {
       "filetype": "CSV",
@@ -15,8 +15,8 @@
     }
   },
   "gob_mapping": {
-    "metingidentificatie": {
-      "source_mapping": "metingidentificatie"
+    "identificatie": {
+      "source_mapping": "identificatie"
     },
     "hoort_bij_meetbout": {
       "source_mapping": {

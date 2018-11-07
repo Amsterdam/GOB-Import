@@ -63,13 +63,18 @@ def _extract_field(row, metadata, typeinfo):
     kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping', 'filters']}
 
     if isinstance(field_source, dict):
-        _extract_references(row, field_source, field_type)
+        value = _extract_references(row, field_source, field_type)
     else:
         value = row[field_source]
 
     if "filters" in metadata:
-        # Apply any filters to the raw value
-        value = _apply_filters(value, metadata["filters"])
+        # If we are dealing with a dict, apply filters to the correct attribute
+        if isinstance(metadata['filters'], dict):
+            for attribute, filters in metadata['filters'].items():
+                value[attribute] = _apply_filters(value[attribute], filters)
+        else:
+            # Apply any filters to the raw value
+            value = _apply_filters(value, metadata["filters"])
 
     return gob_type.from_value(value, **kwargs)
 

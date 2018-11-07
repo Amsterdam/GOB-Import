@@ -2,10 +2,10 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "meetbouten",
-  "entity_id": "meetboutidentificatie",
+  "entity_id": "identificatie",
   "source": {
     "name": "meetboutencsv",
-    "entity_id": "meetboutidentificatie",
+    "entity_id": "identificatie",
     "type": "file",
     "config": {
       "filetype": "CSV",
@@ -15,8 +15,8 @@
     }
   },
   "gob_mapping": {
-    "meetboutidentificatie": {
-      "source_mapping": "meetboutidentificatie"
+    "identificatie": {
+      "source_mapping": "identificatie"
     },
     "nabij_nummeraanduiding": {
       "source_mapping": {

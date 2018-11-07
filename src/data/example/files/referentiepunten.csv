@@ -1,4 +1,4 @@
-,referentiepuntidentificatie,adres,locatie,status_id,status_omschrijving,vervaldatum,merk_id,merk_omschrijving,xmuurvlak,ymuurvlak,windrichting,bouwblok_code,hoogte_tov_nap,datum,peilmerknummer,geometrie,publiceerbaar
+,identificatie,adres,locatie,status_id,status_omschrijving,vervaldatum,merk_id,merk_omschrijving,xmuurvlak,ymuurvlak,windrichting,bouwblok_code,hoogte_tov_nap,datum,peilmerknummer,geometrie,publiceerbaar
 0,10189000,Mercatorplein 102,(kiosk),1,Actueel,,0,Ronde bout met opschrift NAP,23.0,23.0,ZW,,0.825,1999-06-01,,POINT (118453.2 487019.9),J
 1,10189001,,Hoofdweg 495 (tweede kolom),1,Actueel,,14,Inbusbout (cilinderschroef met binnenzeskant) in slaganker M6,-5.0,20.0,O,,2.3003,2004-11-19,,POINT (118202.7 487702.2),J
 2,10189002,Fridtjof Nansenhof 43/44,gevel Jan van Galenstraat,1,Actueel,,2,Kleine ronde bout,-10.0,28.0,Z,,1.157,2004-11-19,,POINT (118174.7 487335.3),J

@@ -2,15 +2,15 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "meetbouten",
-  "entity_id": "meetboutidentificatie",
+  "entity_id": "identificatie",
   "source": {
     "name": "Grondslag",
-    "entity_id": "meetboutidentificatie",
+    "entity_id": "identificatie",
     "type": "database",
     "schema": "grondslag",
     "query": [
-"    SELECT h.nummer                                                        AS meetboutidentificatie",
-"    ,       substr( h.omschrijving, 1, instr(h.omschrijving, chr(10)) -1 ) AS adres",
+"    SELECT h.nummer                                                        AS identificatie",
+"    ,       substr( h.omschrijving, 1, instr(h.omschrijving, chr(10)) -1 ) AS nabij_nummeraanduiding",
 "    ,       substr( h.omschrijving, instr(h.omschrijving, chr(10)) + 1 )   AS locatie",
 "    ,       h.sta_id                                                       AS status_id -- 1=actueel 2=niet te meten 3=vervallen",
 "    ,       s.omschrijving                                                 AS status_omschrijving",
@@ -25,7 +25,8 @@
 "    ,       CASE h.orde",
 "                 WHEN 1 THEN 'J'",
 "                 WHEN 0 THEN 'N'",
-"                 ELSE null                                                 AS publiceerbaar -- publiceren ja (1) of nee (0), fout (leeg)",
+"                 ELSE NULL",
+"            END                                                            AS publiceerbaar -- publiceren ja (1) of nee (0), fout (leeg)",
 "    FROM              grs_hoogtepunten h",
 "    LEFT OUTER JOIN   grs_kringpunten  k ON h.id = k.hoo_id",
 "    LEFT OUTER JOIN   grs_merken       m ON h.mer_id = m.id",
@@ -35,12 +36,12 @@
     ]
   },
   "gob_mapping": {
-    "meetboutidentificatie": {
-      "source_mapping": "meetboutidentificatie"
+    "identificatie": {
+      "source_mapping": "identificatie"
     },
     "nabij_nummeraanduiding": {
       "source_mapping": {
-        "bronwaarde": "adres"
+        "bronwaarde": "nabij_nummeraanduiding"
       }
     },
     "locatie": {

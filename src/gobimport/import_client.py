@@ -14,7 +14,6 @@ Todo: improve type conversion
 
 import datetime
 
-from gobcore.events.import_message import MessageMetaData, ImportMessage
 from gobcore.log import get_logger
 from gobcore.message_broker import publish
 
@@ -127,13 +126,13 @@ class ImportClient:
         :return:
         """
         metadata = {
-            "process_id" : self.process_id,
-            "source" : self._dataset['source']['name'],
-            "id_column" : self._dataset['entity_id'],
-            "catalogue" : self._dataset['catalogue'],
-            "entity" : self._dataset['entity'],
-            "version" : self._dataset['version'],
-            "timestamp" : datetime.datetime.now().isoformat()
+            "process_id": self.process_id,
+            "source": self._dataset['source']['name'],
+            "id_column": self._dataset['entity_id'],
+            "catalogue": self._dataset['catalogue'],
+            "entity": self._dataset['entity'],
+            "version": self._dataset['version'],
+            "timestamp": datetime.datetime.now().isoformat()
         }
 
         summary = {
@@ -147,9 +146,9 @@ class ImportClient:
                  extra_info={"data": summary})
 
         import_message = {
-            "header" : metadata,
-            "summary" : summary,
-            "contents" : self._gob_data
+            "header": metadata,
+            "summary": summary,
+            "contents": self._gob_data
         }
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
 

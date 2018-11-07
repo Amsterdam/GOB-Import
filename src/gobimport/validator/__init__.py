@@ -25,10 +25,10 @@ class QA(Enum):
 
 ENTITY_CHECKS = {
     "meetbouten": {
-        "meetboutidentificatie": [
+        "identificatie": [
             {
                 "pattern": "^\d{8}$",
-                "msg": "Meetboutidentificatie should consist of 8 numeric characters",
+                "msg": "identificatie should consist of 8 numeric characters",
                 "type": QA.FATAL,
             },
         ],
@@ -55,17 +55,17 @@ ENTITY_CHECKS = {
         ],
     },
     "metingen": {
-        "metingidentificatie": [
+        "identificatie": [
             {
                 "pattern": "^\d+$",
-                "msg": "metingidentificatie should be a valid positive integer",
+                "msg": "identificatie should be a valid positive integer",
                 "type": QA.FATAL,
             },
         ],
         "hoort_bij_meetbout": [
             {
                 "pattern": "^\d{8}$",
-                "msg": "Meetboutidentificatie should consist of 8 numeric characters",
+                "msg": "identificatie should consist of 8 numeric characters",
                 "type": QA.FATAL,
             },
         ],
@@ -74,7 +74,7 @@ ENTITY_CHECKS = {
     "rollagen": {
         "name": [
             {
-                "pattern": "^[a-zA-Z]{2}\d{1,2}",
+                "pattern": "(.*)/([a-zA-Z]{2}\d{1,2}).(.*)",
                 "msg": "File name should be in the format AAn(n)",
                 "type": QA.FATAL,
             },

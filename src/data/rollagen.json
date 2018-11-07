@@ -2,30 +2,32 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "rollagen",
-  "entity_id": "rollaagidentificatie",
+  "entity_id": "identificatie",
   "source": {
-    "name": "Milieuthemas",
+    "name": "Basisinformatie",
     "entity_id": "name",
     "type": "objectstore",
-    "container": "rollagen",
+    "container": "meetbouten",
     "file_filter": ".+\\.jpg$"
   },
   "gob_mapping": {
-    "rollaagidentificatie": {
+    "identificatie": {
       "source_mapping": "name",
       "filters": [
-        ["re.sub", "(^[^.]*)(.*)", "\\1"],
+        ["re.sub", "(.+\/)([^.]*)(.*)", "\\2"],
         ["upper"]
       ]
     },
     "is_gemeten_van_bouwblok": {
       "source_mapping": {
-        "bronwaarde": "name",
+        "bronwaarde": "name"
+      },
+      "filters": {
+        "bronwaarde": [
+          ["re.sub", "(.+\/)([^.]*)(.*)", "\\2"],
+          ["upper"]
+        ]
       }
-      "filters": [
-        ["re.sub", "(^[^.]*)(.*)", "\\1"],
-        ["upper"]
-      ]
     }
   }
 }

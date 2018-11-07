@@ -2,14 +2,14 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "referentiepunten",
-  "entity_id": "referentiepuntidentificatie",
+  "entity_id": "identificatie",
   "source": {
     "name": "Grondslag",
-    "entity_id": "referentiepuntidentificatie",
+    "entity_id": "identificatie",
     "type": "database",
     "schema": "grondslag",
     "query": [
-"    SELECT h.nummer                                                       AS referentiepuntidentificatie",
+"    SELECT h.nummer                                                       AS identificatie",
 "    ,      substr( h.omschrijving, 1, instr(h.omschrijving, chr(10)) -1 ) AS adres",
 "    ,      substr( h.omschrijving, instr(h.omschrijving, chr(10)) + 1 )   AS locatie",
 "    ,      h.sta_id                                                       AS status_id-- 1=actueel 2=niet te meten 3=vervallen",
@@ -55,7 +55,7 @@
 "                            FROM   grondslag.grs_hoogtepunten h1",
 "                            JOIN   grondslag.grs_met_ref_punten_herz r ON h1.id = r.hoo_id",
 "                            WHERE  h1.typ_nummer = 6) --nap peilmerk",
-"    OR "
+"    OR ",
 "            h.nummer IN (SELECT h1.nummer",
 "                            FROM   grondslag.grs_hoogtepunten h1",
 "                            JOIN   grondslag.grs_met_ref_punten_herz r ON h1.id = r.hoo_id",
@@ -64,12 +64,12 @@
     ]
   },
   "gob_mapping": {
-    "referentiepuntidentificatie": {
-      "source_mapping": "referentiepuntidentificatie"
+    "identificatie": {
+      "source_mapping": "identificatie"
     },
     "nabij_nummeraanduiding": {
       "source_mapping": {
-        "bronwaarde": "adres",
+        "bronwaarde": "adres"
       }
     },
     "locatie": {
