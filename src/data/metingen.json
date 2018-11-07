@@ -2,14 +2,14 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "metingen",
-  "entity_id": "metingidentificatie",
+  "entity_id": "identificatie",
   "source": {
     "name": "Grondslag",
-    "entity_id": "metingidentificatie",
+    "entity_id": "identificatie",
     "type": "database",
     "schema": "grondslag",
     "query": [
-"    SELECT m.id                                AS metingidentificatie",
+"    SELECT m.id                                AS identificatie",
 "    ,      h1.nummer                           AS hoort_bij_meetbout",
 "    ,      to_char(m.inwindatum, 'YYYY-MM-DD') AS datum",
 "    ,      m.wijze_inwinning                   AS wijze_van_inwinnen_id",
@@ -33,8 +33,8 @@
     ]
   },
   "gob_mapping": {
-    "metingidentificatie": {
-      "source_mapping": "metingidentificatie"
+    "identificatie": {
+      "source_mapping": "identificatie"
     },
     "hoort_bij_meetbout": {
       "source_mapping": {

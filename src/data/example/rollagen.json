@@ -2,10 +2,10 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "rollagen",
-  "entity_id": "rollaagidentificatie",
+  "entity_id": "identificatie",
   "source": {
     "name": "rollagencsv",
-    "entity_id": "rollaagidentificatie",
+    "entity_id": "identificatie",
     "type": "file",
     "config": {
       "filetype": "CSV",
@@ -15,7 +15,7 @@
     }
   },
   "gob_mapping": {
-    "rollaagidentificatie": {
+    "identificatie": {
       "source_mapping": "name"
     },
     "is_gemeten_van_bouwblok": {

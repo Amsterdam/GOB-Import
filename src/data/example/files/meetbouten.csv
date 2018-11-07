@@ -1,4 +1,4 @@
-,meetboutidentificatie,adres,locatie,status_id,status_omschrijving,vervaldatum,merk_id,merk_omschrijving,xmuurvlak,ymuurvlak,windrichting,bouwblok_code,geometrie,publiceerbaar
+,identificatie,adres,locatie,status_id,status_omschrijving,vervaldatum,merk_id,merk_omschrijving,xmuurvlak,ymuurvlak,windrichting,bouwblok_code,geometrie,publiceerbaar
 0,10281154,Geuzenstraat 27,,1,Actueel,,14,Inbusbout,,,,BC15,POINT (119411.7 487201.6),J
 1,10281155,Geuzenstraat 15,,1,Actueel,,14,Inbusbout,,,,BC15,POINT (119413.7 487167.3),J
 2,10281156,Korte Geuzenstraat 99,,1,Actueel,,14,Inbusbout,,,,BC17,POINT (119468.8 487149.7),J
