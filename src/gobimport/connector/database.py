@@ -26,11 +26,12 @@ def connect_to_database(source):
     except KeyError:
         raise GOBException(f"Database config for source {source['name']} not found.")
 
+    user = f"({DB['username']}@{DB['database']})"
     try:
         engine = create_engine(URL(**DB))
         connection = engine.connect()
 
     except DBAPIError as e:
-        raise GOBException(f'Database connection failed. Error: {e}.')
+        raise GOBException(f'Database connection {user} failed. Error: {e}.')
     else:
-        return connection
+        return connection, user

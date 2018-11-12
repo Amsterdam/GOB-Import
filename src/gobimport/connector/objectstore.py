@@ -24,10 +24,11 @@ def connect_to_objectstore(source):
     except KeyError:
         raise GOBException(f"Objectstore config for source {source['name']} not found.")
 
+    user = f"({OBJECTSTORE['USER']}@{OBJECTSTORE['TENANT_NAME']})"
     try:
         connection = get_connection(OBJECTSTORE)
 
     except Exception as e:
-        raise GOBException(f"Objectstore connection for source {source['name']} failed. Error: {e}.")
+        raise GOBException(f"Objectstore connection for source {source['name']} {user} failed. Error: {e}.")
     else:
-        return connection
+        return connection, user

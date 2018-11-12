@@ -18,12 +18,13 @@ def connect_to_file(config):
 
     :return:
     """
+    user = ""   # No user identification for file reads
     file_path = os.path.join(LOCAL_DATADIR, config['filename'])
     if config['filetype'] == "CSV":
         return pandas.read_csv(
             filepath_or_buffer=file_path,
             sep=config['separator'],
             encoding=config['encoding'],
-            dtype=str)
+            dtype=str), user
     else:
         raise NotImplementedError
