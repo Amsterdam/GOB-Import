@@ -1,0 +1,27 @@
+{
+  "version": "0.1",
+  "catalogue": "meetbouten",
+  "entity": "rollagen",
+  "entity_id": "identificatie",
+  "source": {
+    "name": "rollagencsv",
+    "entity_id": "identificatie",
+    "type": "file",
+    "config": {
+      "filetype": "CSV",
+      "filename": "example/files/rollagen.csv",
+      "separator": ",",
+      "encoding": "UTF-8"
+    }
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "name"
+    },
+    "is_gemeten_van_bouwblok": {
+      "source_mapping": {
+        "bronwaarde": "name"
+      }
+    }
+  }
+}

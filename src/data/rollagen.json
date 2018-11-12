@@ -1,0 +1,33 @@
+{
+  "version": "0.1",
+  "catalogue": "meetbouten",
+  "entity": "rollagen",
+  "entity_id": "identificatie",
+  "source": {
+    "name": "Basisinformatie",
+    "entity_id": "name",
+    "type": "objectstore",
+    "container": "meetbouten",
+    "file_filter": ".+\\.jpg$"
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "name",
+      "filters": [
+        ["re.sub", "(.+\/)([^.]*)(.*)", "\\2"],
+        ["upper"]
+      ]
+    },
+    "is_gemeten_van_bouwblok": {
+      "source_mapping": {
+        "bronwaarde": "name"
+      },
+      "filters": {
+        "bronwaarde": [
+          ["re.sub", "(.+\/)([^.]*)(.*)", "\\2"],
+          ["upper"]
+        ]
+      }
+    }
+  }
+}

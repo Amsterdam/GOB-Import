@@ -1,7 +1,7 @@
 FROM amsterdam/docker_python:latest
 MAINTAINER datapunt@amsterdam.nl
 
-# Install gobimportclient in /app folder
+# Install gobimport in /app folder
 WORKDIR /app
 
 # Copy the required db drivers
@@ -20,10 +20,10 @@ COPY requirements.txt /app/
 RUN pip3 install --no-cache-dir -r requirements.txt
 RUN rm requirements.txt
 
-# Copy gobimportclient module
-COPY gobimportclient gobimportclient
+# Copy gobimport module
+COPY gobimport gobimport
 
 # For the current test period, add the datafiles
-COPY example example
+COPY data data
 
-CMD ["python", "-m", "gobimportclient"]
+CMD ["python", "-m", "gobimport"]

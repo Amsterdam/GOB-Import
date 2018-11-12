@@ -1,0 +1,88 @@
+{
+  "version": "0.1",
+  "catalogue": "meetbouten",
+  "entity": "meetbouten",
+  "entity_id": "identificatie",
+  "source": {
+    "name": "Grondslag",
+    "entity_id": "identificatie",
+    "type": "database",
+    "schema": "grondslag",
+    "query": [
+"    SELECT h.nummer                                                        AS identificatie",
+"    ,       substr( h.omschrijving, 1, instr(h.omschrijving, chr(10)) -1 ) AS nabij_nummeraanduiding",
+"    ,       substr( h.omschrijving, instr(h.omschrijving, chr(10)) + 1 )   AS locatie",
+"    ,       h.sta_id                                                       AS status_id -- 1=actueel 2=niet te meten 3=vervallen",
+"    ,       s.omschrijving                                                 AS status_omschrijving",
+"    ,       to_char(h.vervaldatum, 'YYYY-MM-DD')                           AS vervaldatum",
+"    ,       h.mer_id                                                       AS merk_id -- 0, 1, 2, 7, 10, 14, 15, 16, 17, 20, 99",
+"    ,       m.omschr_verkort                                               AS merk_omschrijving",
+"    ,       h.xmuur                                                        AS xmuurvlak",
+"    ,       h.ymuur                                                        AS ymuurvlak",
+"    ,       h.windr                                                        AS windrichting",
+"    ,       k.bou_nummer                                                   AS bouwblok_code",
+"    ,       to_char(sdo_util.to_wktgeometry(h.geom))                       AS geometrie",
+"    ,       CASE h.orde",
+"                 WHEN 1 THEN 'J'",
+"                 WHEN 0 THEN 'N'",
+"                 ELSE NULL",
+"            END                                                            AS publiceerbaar -- publiceren ja (1) of nee (0), fout (leeg)",
+"    FROM              grs_hoogtepunten h",
+"    LEFT OUTER JOIN   grs_kringpunten  k ON h.id = k.hoo_id",
+"    LEFT OUTER JOIN   grs_merken       m ON h.mer_id = m.id",
+"    LEFT OUTER JOIN   grs_status       s ON h.sta_id = s.id",
+"    WHERE (h.typ_nummer = 7              -- deformatiebout",
+"    OR  (h.typ_nummer = 8 AND orde = 1)) -- referentiebout"
+    ]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "nabij_nummeraanduiding": {
+      "source_mapping": {
+        "bronwaarde": "nabij_nummeraanduiding"
+      }
+    },
+    "locatie": {
+      "source_mapping": "locatie"
+    },
+    "status": {
+      "source_mapping": {
+        "id": "status_id",
+        "omschrijving": "status_omschrijving"
+      }
+    },
+    "vervaldatum": {
+      "source_mapping": "vervaldatum",
+      "format": "%Y-%m-%d"
+    },
+    "merk": {
+      "source_mapping": {
+        "id": "merk_id",
+        "omschrijving": "merk_omschrijving"
+      }
+    },
+    "x_coordinaat_muurvlak": {
+      "source_mapping": "xmuurvlak"
+    },
+    "y_coordinaat_muurvlak": {
+      "source_mapping": "ymuurvlak"
+    },
+    "windrichting": {
+      "source_mapping": "windrichting"
+    },
+    "ligt_in_bouwblok": {
+      "source_mapping": {
+        "bronwaarde": "bouwblok_code"
+      }
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    },
+    "publiceerbaar": {
+      "source_mapping": "publiceerbaar",
+      "format": "JN"
+    }
+  }
+}
