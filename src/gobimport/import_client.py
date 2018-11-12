@@ -56,6 +56,7 @@ class ImportClient:
                  msg=f"Import dataset {self.entity} from {self.source['name']} started")
 
         self._connection = None     # Holds the connection to the source
+        self._user = None           # Holds the user that connects to the source, eg user@database
         self._data = None           # Holds the data in imput format
         self._gob_data = None       # Holds the imported data in GOB format
 
@@ -70,16 +71,16 @@ class ImportClient:
         :return:
         """
         if self.source['type'] == "file":
-            self._connection = connect_to_file(config=self.source['config'])
+            self._connection, self._user = connect_to_file(config=self.source['config'])
         elif self.source['type'] == "database":
-            self._connection = connect_to_database(self.source)
+            self._connection, self._user = connect_to_database(self.source)
         elif self.source['type'] == "objectstore":
-            self._connection = connect_to_objectstore(self.source)
+            self._connection, self._user = connect_to_objectstore(self.source)
         else:
             raise NotImplementedError
 
         self.log(level='info',
-                 msg=f"Connection to {self.source['name']} has been made.")
+                 msg=f"Connection to {self.source['name']} {self._user} has been made.")
 
     def read(self):
         """Read the data from the data source
