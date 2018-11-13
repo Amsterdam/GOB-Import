@@ -124,7 +124,7 @@ def _calculate_zakkingssnelheid(zakking, aantal_dagen):
     return zakkingssnelheid
 
 
-def enrich(entity_name, entities):
+def enrich(catalogue, entity_name, entities):
     """
     Enrich each entity in the list of entities for a given entity name
 
@@ -138,7 +138,7 @@ def enrich(entity_name, entities):
         "metingen": _enrich_metingen
     }
 
-    entity_model = gob_model.get_model(entity_name)["fields"]
+    entity_model = gob_model.get_collection(catalogue, entity_name)["fields"]
     try:
         enrich_entities = enrichers[entity_name]
     except KeyError:

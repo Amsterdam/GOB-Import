@@ -1,0 +1,98 @@
+{
+  "version": "0.1",
+  "catalogue": "nap",
+  "entity": "peilmerken",
+  "entity_id": "identificatie",
+  "source": {
+    "name": "Grondslag",
+    "entity_id": "identificatie",
+    "type": "database",
+    "schema": "grondslag",
+    "query": [
+"    SELECT h.nummer                                 AS identificatie",
+"    ,      x.hoogte                                 AS hoogte_tov_nap",
+"    ,      EXTRACT(YEAR FROM x.inwindatum)          AS jaar",
+"    ,      h.mer_id                                 AS merk_id -- 0, 1, 2, 7, 10, 14, 15, 16, 17, 20, 99",
+"    ,      m.omschrijving                           AS merk_omschrijving",
+"    ,      REPLACE(h.omschrijving, chr(10), ' ')    AS omschrijving",
+"    ,      h.windr                                  AS windrichting",
+"    ,      h.xmuur                                  AS xmuurvlak",
+"    ,      h.ymuur                                  AS ymuurvlak",
+"    ,      h.agi_nummer                             AS rws_nummer",
+"    ,      to_char(sdo_util.to_wktgeometry(h.geom)) AS geometrie",
+"    ,      h.sta_id                                 AS status_id -- 1=actueel 2=niet te meten 3=vervallen",
+"    ,      s.omschrijving                           AS status_omschrijving",
+"    ,      to_char(h.vervaldatum, 'YYYY-MM-DD')     AS vervaldatum",
+"    ,      k.bou_nummer                             AS ligt_in_bouwblok",
+"    ,      CASE",
+"            WHEN (substr(h.nummer,1,3) = '000'",
+"            AND  h.mer_id IN ('-','+'))",
+"            OR x.hoogte IS NULL",
+"            THEN 'N'",
+"            ELSE 'J' END                            AS publiceerbaar",
+"    FROM   grs_hoogtepunten h",
+"    LEFT OUTER JOIN grs_merken m ON h.mer_id = m.id",
+"    LEFT OUTER JOIN grs_status s ON h.sta_id = s.id",
+"    LEFT OUTER JOIN   (SELECT m1.hoo_id",
+"                       ,      m1.hoogte",
+"                       ,      m1.inwindatum",
+"                       FROM   grs_metingen_herz m1",
+"                       JOIN (SELECT m2.hoo_id",
+"                             ,      MAX(m2.inwindatum) AS inwindatum",
+"                             FROM   grs_metingen_herz m2",
+"                             GROUP BY m2.hoo_id) q ON  m1.hoo_id = q.hoo_id",
+"                                                  AND m1.inwindatum = q.inwindatum) x ON h.id = x.hoo_id",
+"    LEFT OUTER JOIN   grs_kringpunten  k ON h.id = k.hoo_id",
+"    WHERE  h.typ_nummer = 6 --nap peilmerk"
+    ]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "hoogte_tov_nap": {
+      "source_mapping": "hoogte_tov_nap"
+    },
+    "jaar": {
+      "source_mapping": "jaar"
+    },
+    "merk": {
+      "source_mapping": {
+        "id": "merk_id",
+        "omschrijving": "merk_omschrijving"
+      }
+    },
+    "omschrijving": {
+      "source_mapping": "omschrijving"
+    },
+    "windrichting": {
+      "source_mapping": "windrichting"
+    },
+    "x_coordinaat_muurvlak": {
+      "source_mapping": "xmuurvlak"
+    },
+    "y_coordinaat_muurvlak": {
+      "source_mapping": "ymuurvlak"
+    },
+    "rws_nummer": {
+      "source_mapping": "rws_nummer"
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    },
+    "status": {
+      "source_mapping": {
+        "id": "status_id",
+        "omschrijving": "status_omschrijving"
+      }
+    },
+    "vervaldatum": {
+      "source_mapping": "vervaldatum",
+      "format": "%Y-%m-%d"
+    },
+    "publiceerbaar": {
+      "source_mapping": "publiceerbaar",
+      "format": "JN"
+    }
+  }
+}

@@ -80,6 +80,29 @@ ENTITY_CHECKS = {
             },
         ],
     },
+    "peilmerken": {
+        "identificatie": [
+            {
+                "pattern": "^\d{8}$",
+                "msg": "identificatie should of 8 numeric characters",
+                "type": QA.FATAL,
+            },
+        ],
+        "hoogte_tov_nap": [
+            {
+                "between": [-6, 15],
+                "msg": "hoogte_tov_nap should be a numeric value between -6 and 15",
+                "type": QA.WARNING,
+            },
+        ],
+        "geometrie": [
+            {
+                "geometry": [[110000, 136000], [474000, 502000]],
+                "msg": "geometrie should be a between 110000-136000 and 474000-502000",
+                "type": QA.FATAL,
+            },
+        ]
+    },
 }
 
 
@@ -192,14 +215,21 @@ class Validator:
 
         return True
 
-    def _qa_check(self, check, attr, entity):
-        pattern = check["pattern"]
+    # TODO: fix too complex
+    def _qa_check(self, check, attr, entity):   # noqa: C901
         msg = check["msg"]
         type = check["type"]
-        value = str(entity[attr])
+        value = entity[attr]
 
-        # If the value doesn't match the pattern, handle the correct way
-        if not re.compile(pattern).match(value):
+        if 'pattern' in check:
+            is_correct = self._regex_check(check['pattern'], str(value))
+        elif 'between' in check:
+            is_correct = self._between_check(check['between'], value)
+        elif 'geometry' in check:
+            is_correct = self._geometry_check(check['geometry'], value)
+
+        # If the value doesn't pass the qa check, handle the correct way
+        if not is_correct:
             # If a fatal check has failed, mark the validation as fatal
             if type == QA.FATAL:
                 self.fatal = True
@@ -212,6 +242,20 @@ class Validator:
 
             return False
 
+        return True
+
+    def _regex_check(self, pattern, value):
+        return re.compile(pattern).match(value)
+
+    def _between_check(self, between, value):
+        return value >= between[0] and value <= between[1] if value is not None else False
+
+    def _geometry_check(self, between, value):
+        coords = re.findall('([0-9]+\.[0-9]{1,2})', value)
+        for count, value_range in enumerate(between):
+            # If the coord is outside of the supplied range, return False
+            if float(coords[count]) <= value_range[0] and float(coords[count]) >= value_range[1]:
+                return False
         return True
 
     def _validate_quality(self):
