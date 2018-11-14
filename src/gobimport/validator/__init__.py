@@ -101,6 +101,13 @@ ENTITY_CHECKS = {
                 "msg": "geometrie should be a between 110000-136000 and 474000-502000",
                 "type": QA.FATAL,
             },
+        ],
+        "publiceerbaar": [
+            {
+                "pattern": "^[JN]{1}$",
+                "msg": "publiceerbaar should be J or N",
+                "type": QA.FATAL,
+            },
         ]
     },
 }
