@@ -90,7 +90,7 @@ def convert_data(data, dataset):
     entities = []
 
     gob_model = GOBModel()
-    entity_model = gob_model.get_model(dataset["entity"])["fields"]
+    entity_model = gob_model.get_collection(dataset['catalogue'], dataset['entity'])['fields']
 
     mapping = dataset['gob_mapping']
 

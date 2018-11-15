@@ -100,7 +100,7 @@ class ImportClient:
                  msg=f"Data has been imported from {self.source['name']}.")
 
     def enrich(self):
-        enrich(self._dataset['entity'], self._data)
+        enrich(self.catalogue, self.entity, self._data)
 
     def convert(self):
         """Convert the input data to GOB format
