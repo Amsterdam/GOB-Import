@@ -1,0 +1,2 @@
+,integer,decimal,character,string,date,point,boolean
+0,10,20.30,d,id string,11-21-2021,POINT (119411.0 487201.0),N

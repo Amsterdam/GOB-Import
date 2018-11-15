@@ -24,6 +24,7 @@ class QA(Enum):
 
 
 ENTITY_CHECKS = {
+    "test_entity": {},
     "meetbouten": {
         "identificatie": [
             {
