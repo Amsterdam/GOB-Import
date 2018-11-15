@@ -1,2 +1,2 @@
 ,integer,decimal,character,string,date,point,boolean
-0,1,2.3,c,id string,10-20-2020,POINT (1.2 3.4),J
+0,1,1.2,a,id 1,01-01-2001,POINT (1.2 2.3),J
