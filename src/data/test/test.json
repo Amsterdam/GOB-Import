@@ -8,7 +8,7 @@
     "name": "test_source",
     "entity_id": "string",
     "config": {
-      "filename": "test/test_1.csv",
+      "filename": "test/test.csv",
       "filetype": "CSV",
       "separator": ",",
       "encoding": "UTF-8"
