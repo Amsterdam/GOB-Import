@@ -62,7 +62,6 @@
     },
     "refereert_aan": {
       "source_mapping": {
-        "id": "refereert_aan_refpunt",
         "bronwaarde": "refereert_aan_refpunt"
       }
     },
