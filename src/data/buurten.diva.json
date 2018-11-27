@@ -21,8 +21,7 @@
       "    ,      '0' || d.BCE_ID                                                          AS ligt_in_wijk",
       "    ,      sdo_util.to_wktgeometry(g.geometrie)                                     AS geometrie",
       "    FROM   gegmag.gbd_buurt_data               d",
-      "    LEFT OUTER JOIN gegmag.gbd_buurt_geometrie g ON d.id = g.btc_id",
-      " WHERE ROWNUM <= 50"
+      "    LEFT OUTER JOIN gegmag.gbd_buurt_geometrie g ON d.id = g.btc_id"
     ]
   },
   "gob_mapping": {
