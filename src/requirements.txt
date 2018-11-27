@@ -4,7 +4,7 @@ cx-Oracle==7.0.0
 flake8==3.5.0
 GeoAlchemy2==0.5.0
 geomet==0.2.0.post2
--e git+https://github.com/Amsterdam/GOB-Core.git@v0.5.11#egg=gobcore
+-e git+https://github.com/Amsterdam/GOB-Core.git@v0.5.15#egg=gobcore
 -e git+https://github.com/Amsterdam/objectstore.git@v1.0#egg=objectstore
 jsonschema==2.6.0
 mccabe==0.6.1
