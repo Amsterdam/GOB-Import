@@ -169,7 +169,8 @@ class Validator:
         primary_keys = set()
         duplicates = set()
         for entity in self.entities:
-            id = f"{entity[self.source_id]}.{entity['volgnummer']}" if "volgnummer" in entity else entity[self.source_id]
+            id = f"{entity[self.source_id]}.{entity['volgnummer']}" if "volgnummer" in entity \
+                else entity[self.source_id]
             if id not in primary_keys:
                 primary_keys.add(id)
             else:
