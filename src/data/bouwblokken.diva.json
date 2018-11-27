@@ -10,7 +10,8 @@
     "schema": "diva",
     "query": [
 "    SELECT '0' || d.bbk_id                                                          AS identificatie",
-"    ,      dense_rank() OVER (partition BY d.bbk_id ORDER BY d.ingangsdatum_cyclus) AS volgnummer",
+"    ,      dense_rank() OVER (partition BY d.bbk_id ORDER BY d.ingangsdatum_cyclus, nvl(d.mutatiedatum, d.ontstaansdatum))",
+"                                                                                    AS volgnummer",
 "    ,      to_char(nvl(d.mutatiedatum, d.ontstaansdatum), 'YYYY-MM-DD HH24:MI:SS')  AS registratiedatum",
 "    ,      d.code                                                                   AS code",
 "    ,      to_char(d.ingangsdatum_cyclus, 'YYYY-MM-DD')                             AS datum_begin_geldigheid",
