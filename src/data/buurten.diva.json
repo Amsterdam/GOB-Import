@@ -1,0 +1,66 @@
+{
+  "version": "0.1",
+  "catalogue": "gebieden",
+  "entity": "buurten",
+  "entity_id": "identificatie",
+  "source": {
+    "name": "DIVA",
+    "entity_id": "identificatie",
+    "type": "database",
+    "schema": "diva",
+    "query": [
+      "    SELECT '0' || d.brt_id                                                          AS identificatie",
+      "    ,      dense_rank() OVER (partition BY d.brt_id ORDER BY d.ingangsdatum_cyclus) AS volgnummer",
+      "    ,      to_char(nvl(d.mutatiedatum, d.ontstaansdatum), 'YYYY-MM-DD HH24:MI:SS')  AS registratiedatum",
+      "    ,      d.naam                                                                   AS naam",
+      "    ,      d.volledige_code                                                         AS code",
+      "    ,      to_char(d.ingangsdatum_cyclus, 'YYYY-MM-DD')                             AS datum_begin_geldigheid",
+      "    ,      to_char(d.einddatum_cyclus, 'YYYY-MM-DD')                                AS datum_einde_geldigheid",
+      "    ,      to_char(d.documentdatum_mutatie, 'YYYY-MM-DD')                           AS documentdatum",
+      "    ,      d.documentnummer_mutatie                                                 AS documentnummer",
+      "    ,      '0' || d.BCE_ID                                                          AS ligt_in_wijk",
+      "    ,      sdo_util.to_wktgeometry(g.geometrie)                                     AS geometrie",
+      "    FROM   gegmag.gbd_buurt_data               d",
+      "    LEFT OUTER JOIN gegmag.gbd_buurt_geometrie g ON d.id = g.btc_id",
+      " WHERE ROWNUM <= 50"
+    ]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "registratiedatum": {
+      "source_mapping": "registratiedatum",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "naam": {
+      "source_mapping": "naam"
+    },
+    "code": {
+      "source_mapping": "code"
+    },
+    "datum_begin_geldigheid": {
+      "source_mapping": "datum_begin_geldigheid"
+    },
+    "datum_einde_geldigheid": {
+      "source_mapping": "datum_einde_geldigheid"
+    },
+    "documentdatum": {
+      "source_mapping": "documentdatum"
+    },
+    "documentnummer": {
+      "source_mapping": "documentnummer"
+    },
+    "ligt_in_wijk": {
+      "source_mapping": {
+        "bronwaarde": "ligt_in_wijk"
+      }
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    }
+  }
+}
