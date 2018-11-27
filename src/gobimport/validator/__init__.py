@@ -110,8 +110,7 @@ ENTITY_CHECKS = {
                 "type": QA.FATAL,
             },
         ]
-    },
-    "buurten": {}
+    }
 }
 
 
@@ -125,7 +124,8 @@ class Validator:
         self.entities = entities
         self.source_id = source_id
 
-        self.collection_qa = {f"num_invalid_{attr}": 0 for attr in ENTITY_CHECKS[entity_name].keys()}
+        checks = ENTITY_CHECKS.get(entity_name, {})
+        self.collection_qa = {f"num_invalid_{attr}": 0 for attr in checks.keys()}
         self.collection_qa['num_records'] = len(entities)
         self.fatal = False
 
@@ -190,7 +190,7 @@ class Validator:
         :param entity: a single entity
         :return: Result of the qa checks
         """
-        qa_checks = ENTITY_CHECKS[self.entity_name]
+        qa_checks = ENTITY_CHECKS.get(self.entity_name, {})
 
         invalid_attrs = set()
 
