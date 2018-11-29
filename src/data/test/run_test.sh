@@ -17,5 +17,3 @@ if [ -f "${SCRIPTDIR}/test.csv" ]; then
     rm ${SCRIPTDIR}/test.csv
 fi
 cp ${SCRIPTDIR}/test_${TEST}.csv ${SCRIPTDIR}/test.csv
-cd ${SCRIPTDIR}/../..
-python -m gobimport.start data/test/test.json
