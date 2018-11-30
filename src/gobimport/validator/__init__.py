@@ -110,7 +110,7 @@ ENTITY_CHECKS = {
                 "type": QA.FATAL,
             },
         ]
-    },
+    }
 }
 
 
@@ -124,7 +124,8 @@ class Validator:
         self.entities = entities
         self.source_id = source_id
 
-        self.collection_qa = {f"num_invalid_{attr}": 0 for attr in ENTITY_CHECKS[entity_name].keys()}
+        checks = ENTITY_CHECKS.get(entity_name, {})
+        self.collection_qa = {f"num_invalid_{attr}": 0 for attr in checks.keys()}
         self.collection_qa['num_records'] = len(entities)
         self.fatal = False
 
@@ -168,10 +169,12 @@ class Validator:
         primary_keys = set()
         duplicates = set()
         for entity in self.entities:
-            if entity[self.source_id] not in primary_keys:
-                primary_keys.add(entity[self.source_id])
+            id = f"{entity[self.source_id]}.{entity['volgnummer']}" if "volgnummer" in entity \
+                else entity[self.source_id]
+            if id not in primary_keys:
+                primary_keys.add(id)
             else:
-                duplicates.add(entity[self.source_id])
+                duplicates.add(id)
         if duplicates:
             raise GOBException(f"Duplicate primary key(s) found in source: [{', '.join(duplicates)}]")
 
@@ -187,7 +190,7 @@ class Validator:
         :param entity: a single entity
         :return: Result of the qa checks
         """
-        qa_checks = ENTITY_CHECKS[self.entity_name]
+        qa_checks = ENTITY_CHECKS.get(self.entity_name, {})
 
         invalid_attrs = set()
 

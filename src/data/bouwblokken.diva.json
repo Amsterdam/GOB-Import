@@ -1,0 +1,54 @@
+{
+  "version": "0.1",
+  "catalogue": "gebieden",
+  "entity": "bouwblokken",
+  "entity_id": "identificatie",
+  "source": {
+    "name": "DIVA",
+    "entity_id": "identificatie",
+    "type": "database",
+    "schema": "diva",
+    "query": [
+"    SELECT '0' || d.bbk_id                                                          AS identificatie",
+"    ,      dense_rank() OVER (partition BY d.bbk_id ORDER BY d.ingangsdatum_cyclus, nvl(d.mutatiedatum, d.ontstaansdatum))",
+"                                                                                    AS volgnummer",
+"    ,      to_char(nvl(d.mutatiedatum, d.ontstaansdatum), 'YYYY-MM-DD HH24:MI:SS')  AS registratiedatum",
+"    ,      d.code                                                                   AS code",
+"    ,      to_char(d.ingangsdatum_cyclus, 'YYYY-MM-DD')                             AS datum_begin_geldigheid",
+"    ,      to_char(d.einddatum_cyclus, 'YYYY-MM-DD')                                AS datum_einde_geldigheid",
+"    ,      '0' || d.brt_id                                                          AS ligt_in_buurt",
+"    ,      sdo_util.to_wktgeometry(g.geometrie)                                     AS geometrie",
+"      FROM   gegmag.gbd_bouwblok_data d",
+"      LEFT OUTER JOIN gegmag.gbd_bouwblok_geometrie g ON d.id = g.bbc_id"
+    ]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "registratiedatum": {
+      "source_mapping": "registratiedatum",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "code": {
+      "source_mapping": "code"
+    },
+    "datum_begin_geldigheid": {
+      "source_mapping": "datum_begin_geldigheid"
+    },
+    "datum_einde_geldigheid": {
+      "source_mapping": "datum_einde_geldigheid"
+    },
+    "ligt_in_buurt": {
+      "source_mapping": {
+        "bronwaarde": "ligt_in_buurt"
+      }
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    }
+  }
+}

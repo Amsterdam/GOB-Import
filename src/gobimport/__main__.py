@@ -4,13 +4,16 @@ This component imports data sources
 """
 from gobcore.message_broker.config import WORKFLOW_EXCHANGE, IMPORT_QUEUE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
+
 from gobimport.import_client import ImportClient
+from gobimport.mapping import get_mapping
 
 
 def handle_import_msg(msg):
-    assert(msg["dataset"])
+    assert(msg['dataset_file'])
+    dataset = get_mapping(msg['dataset_file'])
     # Create a new import client and start the process
-    import_client = ImportClient(dataset=msg["dataset"])
+    import_client = ImportClient(dataset=dataset)
     import_client.start_import_process()
 
 

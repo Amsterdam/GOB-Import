@@ -90,7 +90,8 @@ def convert_data(data, dataset):
     entities = []
 
     gob_model = GOBModel()
-    entity_model = gob_model.get_collection(dataset['catalogue'], dataset['entity'])['fields']
+    entity_specification = gob_model.get_collection(dataset['catalogue'], dataset['entity'])
+    entity_model = entity_specification['fields']
 
     mapping = dataset['gob_mapping']
 
@@ -105,7 +106,9 @@ def convert_data(data, dataset):
         source_id_field = dataset['source']['entity_id']
         source_id_value = row[source_id_field]
         source_id_str_value = str(get_gob_type("GOB.String").from_value(source_id_value))
-
+        if entity_specification.get("has_states", False):
+            # Source id + volgnummer is source id
+            source_id_str_value = f"{source_id_str_value}.{target_entity['volgnummer']}"
         target_entity['_source_id'] = source_id_str_value
 
         entities.append(target_entity)
