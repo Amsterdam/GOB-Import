@@ -106,7 +106,7 @@ def convert_data(data, dataset):
         source_id_field = dataset['source']['entity_id']
         source_id_value = row[source_id_field]
         source_id_str_value = str(get_gob_type("GOB.String").from_value(source_id_value))
-        if "has_states" in entity_specification and entity_specification["has_states"]:
+        if entity_specification.get("has_states", False):
             # Source id + volgnummer is source id
             source_id_str_value = f"{source_id_str_value}.{target_entity['volgnummer']}"
         target_entity['_source_id'] = source_id_str_value
