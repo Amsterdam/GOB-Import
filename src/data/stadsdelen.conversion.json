@@ -1,0 +1,116 @@
+[
+  {
+    "code" : "A",
+    "identificatie" : "03630000000018",
+    "registratiedatum" : "2015-01-08 15:55:55",
+    "volgnummer" : 3
+  },
+  {
+    "code" : "B",
+    "identificatie" : "03630000000020",
+    "registratiedatum" : "2015-01-08 15:55:55",
+    "volgnummer" : 2
+  },
+  {
+    "code" : "C",
+    "identificatie" : "03630000000013",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "D",
+    "identificatie" : "03630000000009",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "E",
+    "identificatie" : "03630011872036",
+    "registratiedatum" : "2015-01-08 15:55:55",
+    "volgnummer" : 3
+  },
+  {
+    "code" : "F",
+    "identificatie" : "03630011872037",
+    "registratiedatum" : "2015-01-08 15:55:55",
+    "volgnummer" : 3
+  },
+  {
+    "code" : "G",
+    "identificatie" : "03630000000014",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "H",
+    "identificatie" : "03630000000001",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "J",
+    "identificatie" : "03630000000003",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "K",
+    "identificatie" : "03630011872038",
+    "registratiedatum" : "2015-01-08 15:55:55",
+    "volgnummer" : 3
+  },
+  {
+    "code" : "M",
+    "identificatie" : "03630011872039",
+    "registratiedatum" : "2015-01-08 15:55:55",
+    "volgnummer" : 2
+  },
+  {
+    "code" : "N",
+    "identificatie" : "03630000000019",
+    "registratiedatum" : "2015-01-08 15:55:55",
+    "volgnummer" : 2
+  },
+  {
+    "code" : "P",
+    "identificatie" : "03630000000005",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "Q",
+    "identificatie" : "03630000000008",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "R",
+    "identificatie" : "03630000000011",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "T",
+    "identificatie" : "03630000000016",
+    "registratiedatum" : "2015-01-08 15:55:55",
+    "volgnummer" : 2
+  },
+  {
+    "code" : "U",
+    "identificatie" : "03630000000007",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "V",
+    "identificatie" : "03630000000021",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "W",
+    "identificatie" : "03630000000017",
+    "registratiedatum" : "2010-04-21 09:50:13",
+    "volgnummer" : 1
+  }
+]
