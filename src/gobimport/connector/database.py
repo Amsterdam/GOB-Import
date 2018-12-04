@@ -5,12 +5,9 @@ The following connectors are implemented in this module:
 
 """
 from sqlalchemy import create_engine
-from sqlalchemy.engine.url import URL
 from sqlalchemy.exc import DBAPIError
-
 from gobcore.exceptions import GOBException
-
-from gobimport.connector.config import DATABASE_CONFIGS
+from gobimport.connector.config import DATABASE_CONFIGS, get_url
 
 
 def connect_to_database(source):
@@ -28,7 +25,7 @@ def connect_to_database(source):
 
     user = f"({DB['username']}@{DB['database']})"
     try:
-        engine = create_engine(URL(**DB))
+        engine = create_engine(get_url(DB))
         connection = engine.connect()
 
     except DBAPIError as e:
