@@ -5,7 +5,7 @@
   "entity_id": "string",
   "source": {
     "type": "file",
-    "name": "test_source",
+    "name": "test",
     "entity_id": "string",
     "config": {
       "filename": "test/test.csv",
