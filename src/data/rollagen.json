@@ -4,7 +4,7 @@
   "entity": "rollagen",
   "entity_id": "identificatie",
   "source": {
-    "name": "Basisinformatie",
+    "name": "Amsterdam Basisinformatie",
     "entity_id": "name",
     "type": "objectstore",
     "container": "meetbouten",
