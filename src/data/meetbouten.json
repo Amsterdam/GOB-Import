@@ -4,7 +4,8 @@
   "entity": "meetbouten",
   "entity_id": "identificatie",
   "source": {
-    "name": "Grondslag",
+    "name": "Amsterdam Basisinformatie",
+    "application": "Grondslag",
     "entity_id": "identificatie",
     "type": "database",
     "schema": "grondslag",

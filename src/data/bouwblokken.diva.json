@@ -4,7 +4,8 @@
   "entity": "bouwblokken",
   "entity_id": "identificatie",
   "source": {
-    "name": "DIVA",
+    "name": "Amsterdam Basisinformatie",
+    "application": "DIVA",
     "entity_id": "identificatie",
     "type": "database",
     "schema": "diva",

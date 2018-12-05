@@ -4,7 +4,8 @@
   "entity": "stadsdelen",
   "entity_id": "identificatie",
   "source": {
-    "name": "DGDialog",
+    "name": "Amsterdam Basisinformatie",
+    "application": "DGDialog",
     "entity_id": "source_id",
     "type": "database",
     "schema": "dgdialog",
