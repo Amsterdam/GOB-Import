@@ -42,7 +42,7 @@ the following collections:
 docker-compose build
 docker-compose up &
 
-# Start a single import (requires VON connection)
+# Start a single import (requires VPN connection)
 docker exec gobworkflow python -m gobworkflow.start import data/metingen.json
 ```
 
@@ -89,6 +89,7 @@ Start a single import in another window:
 
 ```bash
 cd ../GOB/GOB-Workflow/src
+# Start a single import (requires VPN connection)
 python -m gobworkflow.start import data/metingen.json
 ```
 
