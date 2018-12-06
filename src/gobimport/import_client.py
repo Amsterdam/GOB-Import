@@ -135,7 +135,7 @@ class ImportClient:
             "process_id": self.process_id,
             "source": self._dataset['source']['name'],
             "application": self._dataset['source'].get('application'),
-            "depends_on": self._dataset['source'].get('depends_on'),
+            "depends_on": self._dataset['source'].get('depends_on', {}),
             "id_column": self._dataset['entity_id'],
             "catalogue": self._dataset['catalogue'],
             "entity": self._dataset['entity'],
