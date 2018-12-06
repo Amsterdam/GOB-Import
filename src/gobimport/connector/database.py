@@ -18,10 +18,11 @@ def connect_to_database(source):
     :return: a connection to the given database
     """
     # Get the database config based on the source name
+    name = source['application']
     try:
-        DB = DATABASE_CONFIGS[source['name']]
+        DB = DATABASE_CONFIGS[name]
     except KeyError:
-        raise GOBException(f"Database config for source {source['name']} not found.")
+        raise GOBException(f"Database config for source {name} not found.")
 
     user = f"({DB['username']}@{DB['database']})"
     try:
@@ -29,6 +30,6 @@ def connect_to_database(source):
         connection = engine.connect()
 
     except DBAPIError as e:
-        raise GOBException(f'Database connection {user} failed. Error: {e}.')
+        raise GOBException(f'Database connection for source {name} {user} failed. Error: {e}.')
     else:
         return connection, user

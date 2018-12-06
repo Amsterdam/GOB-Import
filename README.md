@@ -42,8 +42,8 @@ the following collections:
 docker-compose build
 docker-compose up &
 
-# Start a single import
-docker exec gobimport python -m gobimport.start example/meetbouten.json
+# Start a single import (requires VON connection)
+docker exec gobworkflow python -m gobworkflow.start import data/metingen.json
 ```
 
 ## Tests
@@ -88,8 +88,8 @@ python -m gobimport
 Start a single import in another window:
 
 ```bash
-cd src
-python -m gobimport.start example/meetbouten.json
+cd ../GOB/GOB-Workflow/src
+python -m gobworkflow.start import data/metingen.json
 ```
 
 
