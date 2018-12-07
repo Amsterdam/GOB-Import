@@ -41,7 +41,6 @@ class ImportClient:
         self.source_id = self._dataset['source']['entity_id']
         self.catalogue = self._dataset['catalogue']
         self.entity = self._dataset['entity']
-        self.entity_id = self._dataset['entity_id']
 
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.now().replace(microsecond=0).timestamp())
@@ -136,7 +135,6 @@ class ImportClient:
             "source": self._dataset['source']['name'],
             "application": self._dataset['source'].get('application'),
             "depends_on": self._dataset['source'].get('depends_on', {}),
-            "id_column": self._dataset['entity_id'],
             "catalogue": self._dataset['catalogue'],
             "entity": self._dataset['entity'],
             "version": self._dataset['version'],
