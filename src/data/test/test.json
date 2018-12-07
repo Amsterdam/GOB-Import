@@ -2,7 +2,6 @@
   "version": "0.1",
   "catalogue": "test_catalogue",
   "entity": "test_entity",
-  "entity_id": "string",
   "source": {
     "type": "file",
     "name": "test",
