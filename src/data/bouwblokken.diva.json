@@ -2,7 +2,6 @@
   "version": "0.1",
   "catalogue": "gebieden",
   "entity": "bouwblokken",
-  "entity_id": "identificatie",
   "source": {
     "name": "AMSBI",
     "application": "DIVA",
