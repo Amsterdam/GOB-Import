@@ -8,27 +8,27 @@ ORACLE_DRIVER = 'oracle+cx_oracle'
 DATABASE_CONFIGS = {
     'Grondslag': {
         'drivername': ORACLE_DRIVER,
-        'username': os.getenv("DBIMBP01_DATABASE_USER", "gob"),
-        'password': os.getenv("DBIMBP01_DATABASE_PASSWORD", "insecure"),
-        'host': os.getenv("DBIMBP01_DATABASE_HOST", "hostname"),
-        'port': os.getenv("DBIMBP01_DATABASE_PORT", 1521),
-        'database': 'DBIMBP01'
+        'username': os.getenv("DBIMB_DATABASE_USER", "gob"),
+        'password': os.getenv("DBIMB_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("DBIMB_DATABASE_HOST", "hostname"),
+        'port': os.getenv("DBIMB_DATABASE_PORT", 1521),
+        'database': os.getenv("DBIMB_DATABASE", "")
     },
     'DGDialog': {
         'drivername': ORACLE_DRIVER,
-        'username': os.getenv("BINBGT01_DATABASE_USER", "gob"),
-        'password': os.getenv("BINBGT01_DATABASE_PASSWORD", "insecure"),
-        'host': os.getenv("BINBGT01_DATABASE_HOST", "hostname"),
-        'port': os.getenv("BINBGT01_DATABASE_PORT", 1521),
-        'database': 'binbgt11.amsterdam.nl'
+        'username': os.getenv("BINBG_DATABASE_USER", "gob"),
+        'password': os.getenv("BINBG_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("BINBG_DATABASE_HOST", "hostname"),
+        'port': os.getenv("BINBG_DATABASE_PORT", 1521),
+        'database': os.getenv("BINBG_DATABASE", "")
     },
     'DIVA': {
         'drivername': ORACLE_DRIVER,
-        'username': os.getenv("DBIGMA01_DATABASE_USER", "gob"),
-        'password': os.getenv("DBIGMA01_DATABASE_PASSWORD", "insecure"),
-        'host': os.getenv("DBIGMA01_DATABASE_HOST", "hostname"),
-        'port': os.getenv("DBIGMA01_DATABASE_PORT", 1521),
-        'database': 'DBIGMA01'
+        'username': os.getenv("DBIGM_DATABASE_USER", "gob"),
+        'password': os.getenv("DBIGM_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("DBIGM_DATABASE_HOST", "hostname"),
+        'port': os.getenv("DBIGM_DATABASE_PORT", 1521),
+        'database': os.getenv("DBIGM_DATABASE", ""),
     }
 }
 
