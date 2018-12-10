@@ -18,17 +18,18 @@ def connect_to_objectstore(source):
 
     :return: a connection to the given objectstore
     """
-    # Get the objectstore config based on the source name
+    # Get the objectstore config based on the source application name
+    name = source['application']
     try:
-        OBJECTSTORE = OBJECTSTORE_CONFIGS[source['name']]
+        OBJECTSTORE = OBJECTSTORE_CONFIGS[name]
     except KeyError:
-        raise GOBException(f"Objectstore config for source {source['name']} not found.")
+        raise GOBException(f"Objectstore config for source {name} not found.")
 
     user = f"({OBJECTSTORE['USER']}@{OBJECTSTORE['TENANT_NAME']})"
     try:
         connection = get_connection(OBJECTSTORE)
 
     except Exception as e:
-        raise GOBException(f"Objectstore connection for source {source['name']} {user} failed. Error: {e}.")
+        raise GOBException(f"Objectstore connection for source {name} {user} failed. Error: {e}.")
     else:
         return connection, user

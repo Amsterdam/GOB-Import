@@ -1,29 +1,34 @@
 import os
+import re
+
+from sqlalchemy.engine.url import URL
+
+ORACLE_DRIVER = 'oracle+cx_oracle'
 
 DATABASE_CONFIGS = {
     'Grondslag': {
-        'drivername': 'oracle+cx_oracle',
-        'username': os.getenv("DBIMBP01_DATABASE_USER", "gob"),
-        'password': os.getenv("DBIMBP01_DATABASE_PASSWORD", "insecure"),
-        'host': os.getenv("DBIMBP01_DATABASE_HOST", "hostname"),
-        'port': os.getenv("DBIMBP01_DATABASE_PORT", 1521),
-        'database': 'DBIMBP01'
+        'drivername': ORACLE_DRIVER,
+        'username': os.getenv("DBIMB_DATABASE_USER", "gob"),
+        'password': os.getenv("DBIMB_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("DBIMB_DATABASE_HOST", "hostname"),
+        'port': os.getenv("DBIMB_DATABASE_PORT", 1521),
+        'database': os.getenv("DBIMB_DATABASE", "")
     },
     'DGDialog': {
-        'drivername': 'oracle+cx_oracle',
-        'username': os.getenv("BINBGT01_DATABASE_USER", "gob"),
-        'password': os.getenv("BINBGT01_DATABASE_PASSWORD", "insecure"),
-        'host': os.getenv("BINBGT01_DATABASE_HOST", "hostname"),
-        'port': os.getenv("BINBGT01_DATABASE_PORT", 1521),
-        'database': 'binbgt11.amsterdam.nl'
+        'drivername': ORACLE_DRIVER,
+        'username': os.getenv("BINBG_DATABASE_USER", "gob"),
+        'password': os.getenv("BINBG_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("BINBG_DATABASE_HOST", "hostname"),
+        'port': os.getenv("BINBG_DATABASE_PORT", 1521),
+        'database': os.getenv("BINBG_DATABASE", "")
     },
     'DIVA': {
-        'drivername': 'oracle+cx_oracle',
-        'username': os.getenv("DBIGMA01_DATABASE_USER", "gob"),
-        'password': os.getenv("DBIGMA01_DATABASE_PASSWORD", "insecure"),
-        'host': os.getenv("DBIGMA01_DATABASE_HOST", "hostname"),
-        'port': os.getenv("DBIGMA01_DATABASE_PORT", 1521),
-        'database': 'DBIGMA01'
+        'drivername': ORACLE_DRIVER,
+        'username': os.getenv("DBIGM_DATABASE_USER", "gob"),
+        'password': os.getenv("DBIGM_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("DBIGM_DATABASE_HOST", "hostname"),
+        'port': os.getenv("DBIGM_DATABASE_PORT", 1521),
+        'database': os.getenv("DBIGM_DATABASE", ""),
     }
 }
 
@@ -38,3 +43,22 @@ OBJECTSTORE_CONFIGS = {
         "REGION_NAME": 'NL'
     }
 }
+
+
+def get_url(db_config):
+    """Get URL connection
+
+    Get the URL for the given database config
+
+    :param db_config: e.g. DATABASE_CONFIGS['DIVA']
+    :return: url
+    """
+    # Default behaviour is to return the sqlalchemy url result
+    url = URL(**db_config)
+    if db_config["drivername"] == ORACLE_DRIVER:
+        # The Oracle driver can accept a service name instead of a SID
+        service_name_pattern = re.compile("^\w+\.\w+\.\w+$")
+        if service_name_pattern.match(db_config["database"]):
+            # Replace the SID by the service name
+            url = str(url).replace(db_config["database"], '?service_name=' + db_config['database'])
+    return url

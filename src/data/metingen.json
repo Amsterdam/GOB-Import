@@ -2,9 +2,9 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "metingen",
-  "entity_id": "identificatie",
   "source": {
-    "name": "Grondslag",
+    "name": "AMSBI",
+    "application": "Grondslag",
     "entity_id": "identificatie",
     "type": "database",
     "schema": "grondslag",

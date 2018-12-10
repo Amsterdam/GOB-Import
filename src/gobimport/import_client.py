@@ -13,11 +13,13 @@ Todo: improve type conversion
 """
 
 import datetime
+import traceback
 
 from gobcore.log import get_logger
 from gobcore.message_broker import publish
 
 from gobimport.converter import convert_data
+from gobimport.injections import inject
 from gobimport.connector import connect_to_database, connect_to_objectstore, connect_to_file
 from gobimport.reader import read_from_database, read_from_objectstore, read_from_file
 from gobimport.validator import Validator
@@ -39,7 +41,6 @@ class ImportClient:
         self.source_id = self._dataset['source']['entity_id']
         self.catalogue = self._dataset['catalogue']
         self.entity = self._dataset['entity']
-        self.entity_id = self._dataset['entity_id']
 
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.now().replace(microsecond=0).timestamp())
@@ -99,6 +100,9 @@ class ImportClient:
         self.log(level='info',
                  msg=f"Data has been imported from {self.source['name']}.")
 
+    def inject(self):
+        inject(self.source.get("inject"), self._data)
+
     def enrich(self):
         enrich(self.catalogue, self.entity, self._data)
 
@@ -129,7 +133,8 @@ class ImportClient:
         metadata = {
             "process_id": self.process_id,
             "source": self._dataset['source']['name'],
-            "id_column": self._dataset['entity_id'],
+            "application": self._dataset['source'].get('application'),
+            "depends_on": self._dataset['source'].get('depends_on', {}),
             "catalogue": self._dataset['catalogue'],
             "entity": self._dataset['entity'],
             "version": self._dataset['version'],
@@ -157,10 +162,14 @@ class ImportClient:
         try:
             self.connect()
             self.read()
+            self.inject()
             self.validate()
             self.enrich()
             self.convert()
             self.publish()
         except Exception as e:
-            self.log(level='error',
-                     msg=f'Import failed: {e}')
+            # Print error message, the message that caused the error and a short stacktrace
+            stacktrace = traceback.format_exc(limit=-5)
+            print("Import failed: {e}", stacktrace)
+            # Log the error and a short error description
+            self.log(level='error', msg=f'Import failed: {e}')

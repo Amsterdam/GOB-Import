@@ -2,9 +2,9 @@
   "version": "0.1",
   "catalogue": "meetbouten",
   "entity": "rollagen",
-  "entity_id": "identificatie",
   "source": {
-    "name": "Basisinformatie",
+    "name": "AMSBI",
+    "application": "Basisinformatie",
     "entity_id": "name",
     "type": "objectstore",
     "container": "meetbouten",

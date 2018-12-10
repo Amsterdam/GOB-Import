@@ -2,11 +2,11 @@
   "version": "0.1",
   "catalogue": "test_catalogue",
   "entity": "test_entity",
-  "entity_id": "string",
   "source": {
-    "type": "file",
-    "name": "test_source",
+    "name": "test",
+    "application": "TEST",
     "entity_id": "string",
+    "type": "file",
     "config": {
       "filename": "test/test.csv",
       "filetype": "CSV",

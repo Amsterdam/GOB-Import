@@ -1,0 +1,97 @@
+[
+  {
+    "code" : "A",
+    "identificatie" : "03630000000018",
+    "volgnummer" : 3
+  },
+  {
+    "code" : "B",
+    "identificatie" : "03630000000020",
+    "volgnummer" : 2
+  },
+  {
+    "code" : "C",
+    "identificatie" : "03630000000013",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "D",
+    "identificatie" : "03630000000009",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "E",
+    "identificatie" : "03630011872036",
+    "volgnummer" : 3
+  },
+  {
+    "code" : "F",
+    "identificatie" : "03630011872037",
+    "volgnummer" : 3
+  },
+  {
+    "code" : "G",
+    "identificatie" : "03630000000014",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "H",
+    "identificatie" : "03630000000001",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "J",
+    "identificatie" : "03630000000003",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "K",
+    "identificatie" : "03630011872038",
+    "volgnummer" : 3
+  },
+  {
+    "code" : "M",
+    "identificatie" : "03630011872039",
+    "volgnummer" : 2
+  },
+  {
+    "code" : "N",
+    "identificatie" : "03630000000019",
+    "volgnummer" : 2
+  },
+  {
+    "code" : "P",
+    "identificatie" : "03630000000005",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "Q",
+    "identificatie" : "03630000000008",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "R",
+    "identificatie" : "03630000000011",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "T",
+    "identificatie" : "03630000000016",
+    "volgnummer" : 2
+  },
+  {
+    "code" : "U",
+    "identificatie" : "03630000000007",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "V",
+    "identificatie" : "03630000000021",
+    "volgnummer" : 1
+  },
+  {
+    "code" : "W",
+    "identificatie" : "03630000000017",
+    "volgnummer" : 1
+  }
+]
