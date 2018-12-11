@@ -71,7 +71,15 @@ ENTITY_CHECKS = {
             },
         ],
     },
-    "referentiepunten": {},
+    "referentiepunten": {
+        "publiceerbaar": [
+            {
+                "pattern": "^[J,N]$",
+                "msg": "Publiceerbaar should be one of [J,N]",
+                "type": QA.FATAL,
+            },
+        ],
+    },
     "rollagen": {
         "name": [
             {
@@ -231,7 +239,6 @@ class Validator:
         msg = check["msg"]
         type = check["type"]
         value = entity[attr]
-
         if 'pattern' in check:
             is_correct = self._regex_check(check['pattern'], str(value))
         elif 'between' in check:
