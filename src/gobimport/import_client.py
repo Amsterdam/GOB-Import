@@ -39,22 +39,23 @@ class ImportClient:
         self._dataset = dataset
         self.source = self._dataset['source']
         self.source_id = self._dataset['source']['entity_id']
+        self.source_app = self._dataset['source'].get('application', self._dataset['source']['name'])
         self.catalogue = self._dataset['catalogue']
         self.entity = self._dataset['entity']
 
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.now().replace(microsecond=0).timestamp())
-        self.process_id = f"{start_timestamp}.{self.source['name']}.{self.entity}"
+        self.process_id = f"{start_timestamp}.{self.source_app}.{self.entity}"
         self.extra_log_kwargs = {
             'process_id': self.process_id,
-            'source': self.source['name'],
+            'source': self.source_app,
             'catalogue': self.catalogue,
             'entity': self.entity
         }
 
         # Log start of import process
         self.log(level='info',
-                 msg=f"Import dataset {self.entity} from {self.source['name']} started")
+                 msg=f"Import dataset {self.entity} from {self.source_app} started")
 
         self._connection = None     # Holds the connection to the source
         self._user = None           # Holds the user that connects to the source, eg user@database
@@ -81,7 +82,7 @@ class ImportClient:
             raise NotImplementedError
 
         self.log(level='info',
-                 msg=f"Connection to {self.source['name']} {self._user} has been made.")
+                 msg=f"Connection to {self.source_app} {self._user} has been made.")
 
     def read(self):
         """Read the data from the data source
@@ -98,7 +99,7 @@ class ImportClient:
             raise NotImplementedError
 
         self.log(level='info',
-                 msg=f"Data has been imported from {self.source['name']}.")
+                 msg=f"Data has been imported from {self.source_app}.")
 
     def inject(self):
         inject(self.source.get("inject"), self._data)
@@ -147,7 +148,7 @@ class ImportClient:
 
         # Log end of import process
         self.log(level='info',
-                 msg=f"Import dataset {self.entity} from {self.source['name']} completed. "
+                 msg=f"Import dataset {self.entity} from {self.source_app} completed. "
                      f"{summary['num_records']} records were read from the source.",
                  extra_info={"data": summary})
 
