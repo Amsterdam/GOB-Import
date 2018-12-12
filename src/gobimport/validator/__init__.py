@@ -71,7 +71,15 @@ ENTITY_CHECKS = {
             },
         ],
     },
-    "referentiepunten": {},
+    "referentiepunten": {
+        "publiceerbaar": [
+            {
+                "pattern": "^[J,N]$",
+                "msg": "Publiceerbaar should be one of [J,N]",
+                "type": QA.FATAL,
+            },
+        ],
+    },
     "rollagen": {
         "name": [
             {
@@ -231,7 +239,6 @@ class Validator:
         msg = check["msg"]
         type = check["type"]
         value = entity[attr]
-
         if 'pattern' in check:
             is_correct = self._regex_check(check['pattern'], str(value))
         elif 'between' in check:
@@ -265,7 +272,7 @@ class Validator:
         coords = re.findall('([0-9]+\.[0-9]{1,2})', value)
         for count, value_range in enumerate(between):
             # If the coord is outside of the supplied range, return False
-            if float(coords[count]) <= value_range[0] and float(coords[count]) >= value_range[1]:
+            if float(coords[count]) <= value_range[0] or float(coords[count]) >= value_range[1]:
                 return False
         return True
 

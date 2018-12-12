@@ -26,7 +26,7 @@
 "    ,      k.bou_nummer                             AS ligt_in_bouwblok",
 "    ,      CASE",
 "            WHEN (substr(h.nummer,1,3) = '000'",
-"            AND  h.mer_id IN ('-','+'))",
+"            OR   h.mer_id IN ('-','+'))",
 "            OR   x.hoogte IS NULL",
 "            OR   h.vervaldatum IS NOT NULL",
 "            OR   h.sta_id NOT IN (1,2)",
