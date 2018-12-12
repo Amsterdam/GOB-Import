@@ -48,7 +48,8 @@ class ImportClient:
         self.process_id = f"{start_timestamp}.{self.source_app}.{self.entity}"
         self.extra_log_kwargs = {
             'process_id': self.process_id,
-            'source': self.source_app,
+            'source': self.source['name'],
+            'application': self.source.get('application'),
             'catalogue': self.catalogue,
             'entity': self.entity
         }
