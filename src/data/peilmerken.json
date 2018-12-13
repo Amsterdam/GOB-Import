@@ -45,7 +45,8 @@
 "                             GROUP BY m2.hoo_id) q ON  m1.hoo_id = q.hoo_id",
 "                                                  AND m1.inwindatum = q.inwindatum) x ON h.id = x.hoo_id",
 "    LEFT OUTER JOIN   grs_kringpunten  k ON h.id = k.hoo_id",
-"    WHERE  h.typ_nummer = 6 --nap peilmerk"
+"    WHERE  h.typ_nummer = 6 --nap peilmerk",
+"    AND    h.nummer != 99999999"
     ]
   },
   "gob_mapping": {
