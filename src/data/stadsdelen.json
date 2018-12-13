@@ -8,6 +8,9 @@
     "entity_id": "source_id",
     "type": "database",
     "schema": "dgdialog",
+    "depends_on": {
+      "_application": "DIVA"
+    },
     "inject": {
       "from": "data/stadsdelen.conversion.json",
       "on": "code",
