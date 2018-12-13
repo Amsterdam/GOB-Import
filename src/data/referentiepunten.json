@@ -85,7 +85,7 @@
 "                         ,      m3.inwindatum",
 "                         FROM   grondslag.grs_metingen_herz m3",
 "                         JOIN (SELECT m4.hoo_id",
-"                               ,      MIN(m4.inwindatum) AS inwindatum",
+"                               ,      MAX(m4.inwindatum) AS inwindatum",
 "                               FROM   grondslag.grs_metingen_herz m4",
 "                               GROUP BY m4.hoo_id) q2 ON  m3.hoo_id = q2.hoo_id",
 "                                                    AND m3.inwindatum = q2.inwindatum) x2 ON h.id = x2.hoo_id",
