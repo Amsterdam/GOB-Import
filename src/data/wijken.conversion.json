@@ -1,0 +1,497 @@
+[
+  {
+    "code": "A00",
+    "identificatie": "03630012052036",
+    "volgnummer": 1
+  },
+  {
+    "code": "A01",
+    "identificatie": "03630012052035",
+    "volgnummer": 2
+  },
+  {
+    "code": "A02",
+    "identificatie": "03630012052028",
+    "volgnummer": 2
+  },
+  {
+    "code": "A03",
+    "identificatie": "03630012052034",
+    "volgnummer": 1
+  },
+  {
+    "code": "A04",
+    "identificatie": "03630012052033",
+    "volgnummer": 1
+  },
+  {
+    "code": "A05",
+    "identificatie": "03630012052029",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06",
+    "identificatie": "03630012052037",
+    "volgnummer": 3
+  },
+  {
+    "code": "A07",
+    "identificatie": "03630012052032",
+    "volgnummer": 1
+  },
+  {
+    "code": "A08",
+    "identificatie": "03630012052031",
+    "volgnummer": 2
+  },
+  {
+    "code": "A09",
+    "identificatie": "03630012052030",
+    "volgnummer": 2
+  },
+  {
+    "code": "B10",
+    "identificatie": "03630012052013",
+    "volgnummer": 2
+  },
+  {
+    "code": "E12",
+    "identificatie": "03630012052093",
+    "volgnummer": 3
+  },
+  {
+    "code": "E13",
+    "identificatie": "03630012052094",
+    "volgnummer": 3
+  },
+  {
+    "code": "E14",
+    "identificatie": "03630012052018",
+    "volgnummer": 2
+  },
+  {
+    "code": "E15",
+    "identificatie": "03630012052017",
+    "volgnummer": 3
+  },
+  {
+    "code": "E16",
+    "identificatie": "03630012052016",
+    "volgnummer": 3
+  },
+  {
+    "code": "E17",
+    "identificatie": "03630012052050",
+    "volgnummer": 2
+  },
+  {
+    "code": "E18",
+    "identificatie": "03630012052049",
+    "volgnummer": 2
+  },
+  {
+    "code": "E19",
+    "identificatie": "03630012052047",
+    "volgnummer": 2
+  },
+  {
+    "code": "E20",
+    "identificatie": "03630012052051",
+    "volgnummer": 2
+  },
+  {
+    "code": "E21",
+    "identificatie": "03630012052048",
+    "volgnummer": 2
+  },
+  {
+    "code": "E22",
+    "identificatie": "03630012052052",
+    "volgnummer": 2
+  },
+  {
+    "code": "E36",
+    "identificatie": "03630012052022",
+    "volgnummer": 3
+  },
+  {
+    "code": "E37",
+    "identificatie": "03630012052021",
+    "volgnummer": 3
+  },
+  {
+    "code": "E38",
+    "identificatie": "03630012052020",
+    "volgnummer": 3
+  },
+  {
+    "code": "E39",
+    "identificatie": "03630012052019",
+    "volgnummer": 3
+  },
+  {
+    "code": "E40",
+    "identificatie": "03630012052041",
+    "volgnummer": 4
+  },
+  {
+    "code": "E41",
+    "identificatie": "03630012052040",
+    "volgnummer": 2
+  },
+  {
+    "code": "E42",
+    "identificatie": "03630012052039",
+    "volgnummer": 2
+  },
+  {
+    "code": "E43",
+    "identificatie": "03630012052038",
+    "volgnummer": 2
+  },
+  {
+    "code": "E75",
+    "identificatie": "03630012052046",
+    "volgnummer": 4
+  },
+  {
+    "code": "F11",
+    "identificatie": "03630012052012",
+    "volgnummer": 2
+  },
+  {
+    "code": "F76",
+    "identificatie": "03630012052045",
+    "volgnummer": 2
+  },
+  {
+    "code": "F77",
+    "identificatie": "03630012052044",
+    "volgnummer": 2
+  },
+  {
+    "code": "F78",
+    "identificatie": "03630012052043",
+    "volgnummer": 2
+  },
+  {
+    "code": "F79",
+    "identificatie": "03630012052042",
+    "volgnummer": 2
+  },
+  {
+    "code": "F80",
+    "identificatie": "03630012052027",
+    "volgnummer": 3
+  },
+  {
+    "code": "F81",
+    "identificatie": "03630012052026",
+    "volgnummer": 2
+  },
+  {
+    "code": "F82",
+    "identificatie": "03630012052025",
+    "volgnummer": 2
+  },
+  {
+    "code": "F83",
+    "identificatie": "03630012052024",
+    "volgnummer": 2
+  },
+  {
+    "code": "F84",
+    "identificatie": "03630012052023",
+    "volgnummer": 5
+  },
+  {
+    "code": "F85",
+    "identificatie": "03630012052084",
+    "volgnummer": 4
+  },
+  {
+    "code": "F86",
+    "identificatie": "03630012052083",
+    "volgnummer": 2
+  },
+  {
+    "code": "F87",
+    "identificatie": "03630012052081",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88",
+    "identificatie": "03630012052082",
+    "volgnummer": 3
+  },
+  {
+    "code": "F89",
+    "identificatie": "03630023753949",
+    "volgnummer": 1
+  },
+  {
+    "code": "K23",
+    "identificatie": "03630023753948",
+    "volgnummer": 1
+  },
+  {
+    "code": "K24",
+    "identificatie": "03630012052085",
+    "volgnummer": 2
+  },
+  {
+    "code": "K25",
+    "identificatie": "03630012052060",
+    "volgnummer": 2
+  },
+  {
+    "code": "K26",
+    "identificatie": "03630012052059",
+    "volgnummer": 3
+  },
+  {
+    "code": "K44",
+    "identificatie": "03630012052056",
+    "volgnummer": 2
+  },
+  {
+    "code": "K45",
+    "identificatie": "03630012052055",
+    "volgnummer": 2
+  },
+  {
+    "code": "K46",
+    "identificatie": "03630012052053",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47",
+    "identificatie": "03630012052086",
+    "volgnummer": 2
+  },
+  {
+    "code": "K48",
+    "identificatie": "03630012052058",
+    "volgnummer": 3
+  },
+  {
+    "code": "K49",
+    "identificatie": "03630012052057",
+    "volgnummer": 2
+  },
+  {
+    "code": "K52",
+    "identificatie": "03630012052006",
+    "volgnummer": 3
+  },
+  {
+    "code": "K53",
+    "identificatie": "03630012052067",
+    "volgnummer": 2
+  },
+  {
+    "code": "K54",
+    "identificatie": "03630012052008",
+    "volgnummer": 2
+  },
+  {
+    "code": "K59",
+    "identificatie": "03630012052068",
+    "volgnummer": 4
+  },
+  {
+    "code": "K90",
+    "identificatie": "03630012052010",
+    "volgnummer": 4
+  },
+  {
+    "code": "K91",
+    "identificatie": "03630012052003",
+    "volgnummer": 3
+  },
+  {
+    "code": "M27",
+    "identificatie": "03630012052071",
+    "volgnummer": 2
+  },
+  {
+    "code": "M28",
+    "identificatie": "03630012052070",
+    "volgnummer": 2
+  },
+  {
+    "code": "M29",
+    "identificatie": "03630012052069",
+    "volgnummer": 3
+  },
+  {
+    "code": "M30",
+    "identificatie": "03630012052074",
+    "volgnummer": 2
+  },
+  {
+    "code": "M31",
+    "identificatie": "03630012052078",
+    "volgnummer": 2
+  },
+  {
+    "code": "M32",
+    "identificatie": "03630012052077",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33",
+    "identificatie": "03630012052076",
+    "volgnummer": 2
+  },
+  {
+    "code": "M34",
+    "identificatie": "03630012052007",
+    "volgnummer": 3
+  },
+  {
+    "code": "M35",
+    "identificatie": "03630012052079",
+    "volgnummer": 3
+  },
+  {
+    "code": "M50",
+    "identificatie": "03630012052054",
+    "volgnummer": 3
+  },
+  {
+    "code": "M51",
+    "identificatie": "03630012052080",
+    "volgnummer": 3
+  },
+  {
+    "code": "M55",
+    "identificatie": "03630012052073",
+    "volgnummer": 3
+  },
+  {
+    "code": "M56",
+    "identificatie": "03630012052004",
+    "volgnummer": 2
+  },
+  {
+    "code": "M57",
+    "identificatie": "03630012052072",
+    "volgnummer": 2
+  },
+  {
+    "code": "M58",
+    "identificatie": "03630012052009",
+    "volgnummer": 4
+  },
+  {
+    "code": "N60",
+    "identificatie": "03630012052090",
+    "volgnummer": 1
+  },
+  {
+    "code": "N61",
+    "identificatie": "03630012052091",
+    "volgnummer": 1
+  },
+  {
+    "code": "N62",
+    "identificatie": "03630012052015",
+    "volgnummer": 1
+  },
+  {
+    "code": "N63",
+    "identificatie": "03630012052011",
+    "volgnummer": 2
+  },
+  {
+    "code": "N64",
+    "identificatie": "03630012052092",
+    "volgnummer": 2
+  },
+  {
+    "code": "N65",
+    "identificatie": "03630012052098",
+    "volgnummer": 1
+  },
+  {
+    "code": "N66",
+    "identificatie": "03630012052087",
+    "volgnummer": 2
+  },
+  {
+    "code": "N67",
+    "identificatie": "03630012052097",
+    "volgnummer": 2
+  },
+  {
+    "code": "N68",
+    "identificatie": "03630012052096",
+    "volgnummer": 3
+  },
+  {
+    "code": "N69",
+    "identificatie": "03630012052095",
+    "volgnummer": 2
+  },
+  {
+    "code": "N70",
+    "identificatie": "03630012052088",
+    "volgnummer": 2
+  },
+  {
+    "code": "N71",
+    "identificatie": "03630012052099",
+    "volgnummer": 3
+  },
+  {
+    "code": "N72",
+    "identificatie": "03630012052014",
+    "volgnummer": 2
+  },
+  {
+    "code": "N73",
+    "identificatie": "03630012052089",
+    "volgnummer": 1
+  },
+  {
+    "code": "N74",
+    "identificatie": "03630012052075",
+    "volgnummer": 3
+  },
+  {
+    "code": "T92",
+    "identificatie": "03630012052066",
+    "volgnummer": 1
+  },
+  {
+    "code": "T93",
+    "identificatie": "03630012052062",
+    "volgnummer": 1
+  },
+  {
+    "code": "T94",
+    "identificatie": "03630012052063",
+    "volgnummer": 2
+  },
+  {
+    "code": "T95",
+    "identificatie": "03630012052064",
+    "volgnummer": 2
+  },
+  {
+    "code": "T96",
+    "identificatie": "03630012052061",
+    "volgnummer": 2
+  },
+  {
+    "code": "T97",
+    "identificatie": "03630012052005",
+    "volgnummer": 1
+  },
+  {
+    "code": "T98",
+    "identificatie": "03630012052065",
+    "volgnummer": 1
+  }
+]
