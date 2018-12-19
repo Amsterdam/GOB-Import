@@ -51,6 +51,7 @@ ENTITY_CHECKS = {
             {
                 "pattern": "^[J,N]$",
                 "msg": "Publiceerbaar should be one of [J,N]",
+                "allow_null": True,
                 "type": QA.FATAL,
             },
         ],
@@ -76,6 +77,7 @@ ENTITY_CHECKS = {
             {
                 "pattern": "^[J,N]$",
                 "msg": "Publiceerbaar should be one of [J,N]",
+                "allow_null": True,
                 "type": QA.FATAL,
             },
         ],
@@ -115,6 +117,7 @@ ENTITY_CHECKS = {
             {
                 "pattern": "^[JN]{1}$",
                 "msg": "publiceerbaar should be J or N",
+                "allow_null": True,
                 "type": QA.FATAL,
             },
         ]
@@ -240,7 +243,7 @@ class Validator:
         type = check["type"]
         value = entity[attr]
         if 'pattern' in check:
-            is_correct = self._regex_check(check['pattern'], str(value))
+            is_correct = self._regex_check(check, value)
         elif 'between' in check:
             is_correct = self._between_check(check['between'], value)
         elif 'geometry' in check:
@@ -262,8 +265,12 @@ class Validator:
 
         return True
 
-    def _regex_check(self, pattern, value):
-        return re.compile(pattern).match(value)
+    def _regex_check(self, check, value):
+        # Check if Null values are allowed
+        allow_null = check.get('allow_null')
+        if allow_null and value is None:
+            return True
+        return re.compile(check['pattern']).match(str(value))
 
     def _between_check(self, between, value):
         return value >= between[0] and value <= between[1] if value is not None else False
