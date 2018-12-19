@@ -268,7 +268,7 @@ class Validator:
     def _regex_check(self, check, value):
         # Check if Null values are allowed
         allow_null = check.get('allow_null')
-        if allow_null and not value:
+        if allow_null and value is None:
             return True
         return re.compile(check['pattern']).match(str(value))
 
