@@ -100,12 +100,16 @@ class ImportClient:
             raise NotImplementedError
 
         self.log(level='info',
-                 msg=f"Data has been imported from {self.source_app}.")
+                 msg=f"Data ({len(self._data)} records) has been imported from {self.source_app}.")
 
     def inject(self):
-        inject(self.source.get("inject"), self._data)
+        inject_spec = self.source.get("inject")
+        if inject_spec:
+            self.log(level='info', msg="Inject conversion data")
+            inject(inject_spec, self._data)
 
     def enrich(self):
+        self.log(level='info', msg="Enrich")
         enrich(self.catalogue, self.entity, self._data)
 
     def convert(self):
@@ -116,9 +120,11 @@ class ImportClient:
         :return:
         """
         # Convert the input data to GOB data using the import mapping
+        self.log(level='info', msg="Convert")
         self._gob_data = convert_data(self._data, dataset=self._dataset)
 
     def validate(self):
+        self.log(level='info', msg="Validate")
         validator = Validator(self, self._dataset['entity'], self._data, self.source_id)
         validator.validate()
 
