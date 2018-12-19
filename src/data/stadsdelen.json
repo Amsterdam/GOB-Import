@@ -41,8 +41,9 @@
 "    ,      dense_rank() OVER (partition BY s1.sdlcode ORDER BY t1.inwin) AS volgnummer",
 "    FROM   gebieden.dgdtw_topografie t1",
 "    JOIN   gebieden.dgdtw_table_6027 s1 ON t1.id = s1.dgdtw_primary_key) q1 ON t.id = q1.id",
-"    WHERE  t.objectcode = 6027 -- stadsdeel"
-     ]
+"    WHERE  t.objectcode = 6027 -- stadsdeel",
+"    ORDER  BY q1.volgnummer"
+    ]
   },
   "gob_mapping": {
     "identificatie": {
