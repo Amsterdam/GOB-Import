@@ -1,0 +1,2407 @@
+[
+  {
+    "code": "A00a",
+    "identificatie": "03630000000078",
+    "volgnummer": 1
+  },
+  {
+    "code": "A00b",
+    "identificatie": "03630000000079",
+    "volgnummer": 2
+  },
+  {
+    "code": "A00c",
+    "identificatie": "03630000000080",
+    "volgnummer": 2
+  },
+  {
+    "code": "A00d",
+    "identificatie": "03630000000081",
+    "volgnummer": 2
+  },
+  {
+    "code": "A00e",
+    "identificatie": "03630000000082",
+    "volgnummer": 1
+  },
+  {
+    "code": "A01a",
+    "identificatie": "03630000000083",
+    "volgnummer": 1
+  },
+  {
+    "code": "A01b",
+    "identificatie": "03630000000084",
+    "volgnummer": 1
+  },
+  {
+    "code": "A01c",
+    "identificatie": "03630000000085",
+    "volgnummer": 2
+  },
+  {
+    "code": "A01d",
+    "identificatie": "03630000000086",
+    "volgnummer": 1
+  },
+  {
+    "code": "A01e",
+    "identificatie": "03630000000087",
+    "volgnummer": 1
+  },
+  {
+    "code": "A01f",
+    "identificatie": "03630000000088",
+    "volgnummer": 1
+  },
+  {
+    "code": "A01g",
+    "identificatie": "03630000000089",
+    "volgnummer": 2
+  },
+  {
+    "code": "A01h",
+    "identificatie": "03630000000090",
+    "volgnummer": 1
+  },
+  {
+    "code": "A02a",
+    "identificatie": "03630000000092",
+    "volgnummer": 1
+  },
+  {
+    "code": "A02b",
+    "identificatie": "03630000000093",
+    "volgnummer": 1
+  },
+  {
+    "code": "A02c",
+    "identificatie": "03630000000094",
+    "volgnummer": 1
+  },
+  {
+    "code": "A02d",
+    "identificatie": "03630000000095",
+    "volgnummer": 1
+  },
+  {
+    "code": "A03a",
+    "identificatie": "03630000000097",
+    "volgnummer": 1
+  },
+  {
+    "code": "A03b",
+    "identificatie": "03630000000098",
+    "volgnummer": 1
+  },
+  {
+    "code": "A03c",
+    "identificatie": "03630000000099",
+    "volgnummer": 1
+  },
+  {
+    "code": "A03d",
+    "identificatie": "03630000000100",
+    "volgnummer": 1
+  },
+  {
+    "code": "A03e",
+    "identificatie": "03630000000101",
+    "volgnummer": 1
+  },
+  {
+    "code": "A03f",
+    "identificatie": "03630023753963",
+    "volgnummer": 1
+  },
+  {
+    "code": "A03g",
+    "identificatie": "03630023753962",
+    "volgnummer": 1
+  },
+  {
+    "code": "A04a",
+    "identificatie": "03630000000102",
+    "volgnummer": 2
+  },
+  {
+    "code": "A04b",
+    "identificatie": "03630000000103",
+    "volgnummer": 1
+  },
+  {
+    "code": "A04c",
+    "identificatie": "03630000000104",
+    "volgnummer": 1
+  },
+  {
+    "code": "A04d",
+    "identificatie": "03630000000424",
+    "volgnummer": 1
+  },
+  {
+    "code": "A04e",
+    "identificatie": "03630000000425",
+    "volgnummer": 2
+  },
+  {
+    "code": "A04f",
+    "identificatie": "03630000000426",
+    "volgnummer": 1
+  },
+  {
+    "code": "A04g",
+    "identificatie": "03630000000427",
+    "volgnummer": 1
+  },
+  {
+    "code": "A04h",
+    "identificatie": "03630000000428",
+    "volgnummer": 1
+  },
+  {
+    "code": "A04i",
+    "identificatie": "03630000000429",
+    "volgnummer": 1
+  },
+  {
+    "code": "A05a",
+    "identificatie": "03630000000430",
+    "volgnummer": 2
+  },
+  {
+    "code": "A05b",
+    "identificatie": "03630000000431",
+    "volgnummer": 2
+  },
+  {
+    "code": "A05c",
+    "identificatie": "03630000000432",
+    "volgnummer": 1
+  },
+  {
+    "code": "A05d",
+    "identificatie": "03630000000433",
+    "volgnummer": 1
+  },
+  {
+    "code": "A05f",
+    "identificatie": "03630023753950",
+    "volgnummer": 1
+  },
+  {
+    "code": "A05g",
+    "identificatie": "03630023753951",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06a",
+    "identificatie": "03630000000498",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06c",
+    "identificatie": "03630000000500",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06d",
+    "identificatie": "03630000000501",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06e",
+    "identificatie": "03630000000502",
+    "volgnummer": 2
+  },
+  {
+    "code": "A06f",
+    "identificatie": "03630000000503",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06g",
+    "identificatie": "03630000000504",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06h",
+    "identificatie": "03630000000505",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06i",
+    "identificatie": "03630000000506",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06j",
+    "identificatie": "03630000000507",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06k",
+    "identificatie": "03630023753960",
+    "volgnummer": 1
+  },
+  {
+    "code": "A06l",
+    "identificatie": "03630023753961",
+    "volgnummer": 1
+  },
+  {
+    "code": "A07a",
+    "identificatie": "03630000000508",
+    "volgnummer": 1
+  },
+  {
+    "code": "A07b",
+    "identificatie": "03630000000509",
+    "volgnummer": 1
+  },
+  {
+    "code": "A07c",
+    "identificatie": "03630000000510",
+    "volgnummer": 1
+  },
+  {
+    "code": "A07d",
+    "identificatie": "03630000000511",
+    "volgnummer": 1
+  },
+  {
+    "code": "A07e",
+    "identificatie": "03630000000512",
+    "volgnummer": 1
+  },
+  {
+    "code": "A07f",
+    "identificatie": "03630000000513",
+    "volgnummer": 1
+  },
+  {
+    "code": "A07g",
+    "identificatie": "03630000000514",
+    "volgnummer": 1
+  },
+  {
+    "code": "A07h",
+    "identificatie": "03630000000515",
+    "volgnummer": 1
+  },
+  {
+    "code": "A08a",
+    "identificatie": "03630000000516",
+    "volgnummer": 1
+  },
+  {
+    "code": "A08b",
+    "identificatie": "03630000000517",
+    "volgnummer": 1
+  },
+  {
+    "code": "A08d",
+    "identificatie": "03630023753968",
+    "volgnummer": 1
+  },
+  {
+    "code": "A08e",
+    "identificatie": "03630023753969",
+    "volgnummer": 1
+  },
+  {
+    "code": "A09a",
+    "identificatie": "03630000000519",
+    "volgnummer": 2
+  },
+  {
+    "code": "A09b",
+    "identificatie": "03630000000520",
+    "volgnummer": 1
+  },
+  {
+    "code": "A09c",
+    "identificatie": "03630000000521",
+    "volgnummer": 1
+  },
+  {
+    "code": "A09d",
+    "identificatie": "03630000000522",
+    "volgnummer": 2
+  },
+  {
+    "code": "A09e",
+    "identificatie": "03630000000523",
+    "volgnummer": 2
+  },
+  {
+    "code": "A09f",
+    "identificatie": "03630000000861",
+    "volgnummer": 2
+  },
+  {
+    "code": "A09h",
+    "identificatie": "03630000000525",
+    "volgnummer": 2
+  },
+  {
+    "code": "A09i",
+    "identificatie": "03630023753970",
+    "volgnummer": 1
+  },
+  {
+    "code": "B10a",
+    "identificatie": "03630000000526",
+    "volgnummer": 2
+  },
+  {
+    "code": "B10b",
+    "identificatie": "03630000000527",
+    "volgnummer": 2
+  },
+  {
+    "code": "B10c",
+    "identificatie": "03630000000528",
+    "volgnummer": 2
+  },
+  {
+    "code": "B10d",
+    "identificatie": "03630000000529",
+    "volgnummer": 2
+  },
+  {
+    "code": "B10e",
+    "identificatie": "03630000000530",
+    "volgnummer": 2
+  },
+  {
+    "code": "B10f",
+    "identificatie": "03630000000531",
+    "volgnummer": 2
+  },
+  {
+    "code": "B10g",
+    "identificatie": "03630000000532",
+    "volgnummer": 2
+  },
+  {
+    "code": "B10h",
+    "identificatie": "03630023753953",
+    "volgnummer": 1
+  },
+  {
+    "code": "E12a",
+    "identificatie": "03630000000540",
+    "volgnummer": 3
+  },
+  {
+    "code": "E12b",
+    "identificatie": "03630000000541",
+    "volgnummer": 2
+  },
+  {
+    "code": "E13a",
+    "identificatie": "03630000000542",
+    "volgnummer": 2
+  },
+  {
+    "code": "E13b",
+    "identificatie": "03630000000543",
+    "volgnummer": 2
+  },
+  {
+    "code": "E13c",
+    "identificatie": "03630000000544",
+    "volgnummer": 2
+  },
+  {
+    "code": "E13d",
+    "identificatie": "03630000000545",
+    "volgnummer": 2
+  },
+  {
+    "code": "E13e",
+    "identificatie": "03630000000546",
+    "volgnummer": 2
+  },
+  {
+    "code": "E13f",
+    "identificatie": "03630000000547",
+    "volgnummer": 3
+  },
+  {
+    "code": "E13g",
+    "identificatie": "03630000000548",
+    "volgnummer": 2
+  },
+  {
+    "code": "E13h",
+    "identificatie": "03630000000549",
+    "volgnummer": 3
+  },
+  {
+    "code": "E14a",
+    "identificatie": "03630000000550",
+    "volgnummer": 2
+  },
+  {
+    "code": "E14b",
+    "identificatie": "03630000000551",
+    "volgnummer": 2
+  },
+  {
+    "code": "E14c",
+    "identificatie": "03630000000552",
+    "volgnummer": 2
+  },
+  {
+    "code": "E14d",
+    "identificatie": "03630000000553",
+    "volgnummer": 2
+  },
+  {
+    "code": "E14e",
+    "identificatie": "03630000000554",
+    "volgnummer": 2
+  },
+  {
+    "code": "E14f",
+    "identificatie": "03630000000555",
+    "volgnummer": 2
+  },
+  {
+    "code": "E15a",
+    "identificatie": "03630000000556",
+    "volgnummer": 2
+  },
+  {
+    "code": "E15b",
+    "identificatie": "03630000000557",
+    "volgnummer": 2
+  },
+  {
+    "code": "E15c",
+    "identificatie": "03630000000558",
+    "volgnummer": 3
+  },
+  {
+    "code": "E15d",
+    "identificatie": "03630000000559",
+    "volgnummer": 3
+  },
+  {
+    "code": "E16a",
+    "identificatie": "03630000000560",
+    "volgnummer": 3
+  },
+  {
+    "code": "E16b",
+    "identificatie": "03630000000561",
+    "volgnummer": 3
+  },
+  {
+    "code": "E16c",
+    "identificatie": "03630000000562",
+    "volgnummer": 2
+  },
+  {
+    "code": "E17a",
+    "identificatie": "03630000000862",
+    "volgnummer": 2
+  },
+  {
+    "code": "E18a",
+    "identificatie": "03630000000563",
+    "volgnummer": 2
+  },
+  {
+    "code": "E18b",
+    "identificatie": "03630000000564",
+    "volgnummer": 2
+  },
+  {
+    "code": "E19a",
+    "identificatie": "03630000000565",
+    "volgnummer": 2
+  },
+  {
+    "code": "E19b",
+    "identificatie": "03630000000566",
+    "volgnummer": 2
+  },
+  {
+    "code": "E19c",
+    "identificatie": "03630000000567",
+    "volgnummer": 2
+  },
+  {
+    "code": "E20a",
+    "identificatie": "03630000000568",
+    "volgnummer": 2
+  },
+  {
+    "code": "E20b",
+    "identificatie": "03630000000569",
+    "volgnummer": 2
+  },
+  {
+    "code": "E20c",
+    "identificatie": "03630000000570",
+    "volgnummer": 2
+  },
+  {
+    "code": "E21a",
+    "identificatie": "03630000000571",
+    "volgnummer": 2
+  },
+  {
+    "code": "E21b",
+    "identificatie": "03630000000572",
+    "volgnummer": 2
+  },
+  {
+    "code": "E22a",
+    "identificatie": "03630000000573",
+    "volgnummer": 2
+  },
+  {
+    "code": "E22b",
+    "identificatie": "03630000000574",
+    "volgnummer": 2
+  },
+  {
+    "code": "E36a",
+    "identificatie": "03630000000611",
+    "volgnummer": 3
+  },
+  {
+    "code": "E36b",
+    "identificatie": "03630023753957",
+    "volgnummer": 1
+  },
+  {
+    "code": "E37a",
+    "identificatie": "03630000000612",
+    "volgnummer": 2
+  },
+  {
+    "code": "E37c",
+    "identificatie": "03630000000614",
+    "volgnummer": 2
+  },
+  {
+    "code": "E37d",
+    "identificatie": "03630000000615",
+    "volgnummer": 2
+  },
+  {
+    "code": "E37e",
+    "identificatie": "03630000000616",
+    "volgnummer": 2
+  },
+  {
+    "code": "E37f",
+    "identificatie": "03630023753958",
+    "volgnummer": 1
+  },
+  {
+    "code": "E37g",
+    "identificatie": "03630023753959",
+    "volgnummer": 1
+  },
+  {
+    "code": "E38c",
+    "identificatie": "03630023753966",
+    "volgnummer": 1
+  },
+  {
+    "code": "E38d",
+    "identificatie": "03630023753967",
+    "volgnummer": 1
+  },
+  {
+    "code": "E39a",
+    "identificatie": "03630000000619",
+    "volgnummer": 3
+  },
+  {
+    "code": "E39b",
+    "identificatie": "03630000000620",
+    "volgnummer": 3
+  },
+  {
+    "code": "E39c",
+    "identificatie": "03630000000621",
+    "volgnummer": 2
+  },
+  {
+    "code": "E39d",
+    "identificatie": "03630000000622",
+    "volgnummer": 2
+  },
+  {
+    "code": "E40a",
+    "identificatie": "03630000000623",
+    "volgnummer": 3
+  },
+  {
+    "code": "E40b",
+    "identificatie": "03630000000624",
+    "volgnummer": 3
+  },
+  {
+    "code": "E40c",
+    "identificatie": "03630000000625",
+    "volgnummer": 3
+  },
+  {
+    "code": "E41a",
+    "identificatie": "03630000000630",
+    "volgnummer": 2
+  },
+  {
+    "code": "E41b",
+    "identificatie": "03630000000631",
+    "volgnummer": 2
+  },
+  {
+    "code": "E41c",
+    "identificatie": "03630000000632",
+    "volgnummer": 2
+  },
+  {
+    "code": "E41d",
+    "identificatie": "03630000000633",
+    "volgnummer": 2
+  },
+  {
+    "code": "E42a",
+    "identificatie": "03630000000634",
+    "volgnummer": 2
+  },
+  {
+    "code": "E42b",
+    "identificatie": "03630000000635",
+    "volgnummer": 2
+  },
+  {
+    "code": "E42c",
+    "identificatie": "03630000000636",
+    "volgnummer": 2
+  },
+  {
+    "code": "E42d",
+    "identificatie": "03630000000637",
+    "volgnummer": 2
+  },
+  {
+    "code": "E43a",
+    "identificatie": "03630000000638",
+    "volgnummer": 2
+  },
+  {
+    "code": "E43b",
+    "identificatie": "03630000000639",
+    "volgnummer": 2
+  },
+  {
+    "code": "E75a",
+    "identificatie": "03630000000702",
+    "volgnummer": 4
+  },
+  {
+    "code": "E75b",
+    "identificatie": "03630000000703",
+    "volgnummer": 4
+  },
+  {
+    "code": "E75c",
+    "identificatie": "03630023753964",
+    "volgnummer": 2
+  },
+  {
+    "code": "E75d",
+    "identificatie": "03630023753965",
+    "volgnummer": 2
+  },
+  {
+    "code": "F11a",
+    "identificatie": "03630000000533",
+    "volgnummer": 2
+  },
+  {
+    "code": "F11c",
+    "identificatie": "03630000000535",
+    "volgnummer": 2
+  },
+  {
+    "code": "F11d",
+    "identificatie": "03630000000536",
+    "volgnummer": 2
+  },
+  {
+    "code": "F11e",
+    "identificatie": "03630000000537",
+    "volgnummer": 2
+  },
+  {
+    "code": "F11f",
+    "identificatie": "03630000000538",
+    "volgnummer": 2
+  },
+  {
+    "code": "F11h",
+    "identificatie": "03630023753978",
+    "volgnummer": 1
+  },
+  {
+    "code": "F11j",
+    "identificatie": "03630023753972",
+    "volgnummer": 1
+  },
+  {
+    "code": "F76a",
+    "identificatie": "03630000000704",
+    "volgnummer": 2
+  },
+  {
+    "code": "F76b",
+    "identificatie": "03630000000705",
+    "volgnummer": 2
+  },
+  {
+    "code": "F77a",
+    "identificatie": "03630000000706",
+    "volgnummer": 2
+  },
+  {
+    "code": "F77b",
+    "identificatie": "03630000000707",
+    "volgnummer": 2
+  },
+  {
+    "code": "F77c",
+    "identificatie": "03630000000708",
+    "volgnummer": 2
+  },
+  {
+    "code": "F77d",
+    "identificatie": "03630000000864",
+    "volgnummer": 2
+  },
+  {
+    "code": "F77e",
+    "identificatie": "03630000000858",
+    "volgnummer": 2
+  },
+  {
+    "code": "F77f",
+    "identificatie": "03630000000863",
+    "volgnummer": 2
+  },
+  {
+    "code": "F78a",
+    "identificatie": "03630000000859",
+    "volgnummer": 2
+  },
+  {
+    "code": "F78b",
+    "identificatie": "03630000000434",
+    "volgnummer": 2
+  },
+  {
+    "code": "F78c",
+    "identificatie": "03630000000435",
+    "volgnummer": 2
+  },
+  {
+    "code": "F78d",
+    "identificatie": "03630000000436",
+    "volgnummer": 2
+  },
+  {
+    "code": "F78e",
+    "identificatie": "03630000000437",
+    "volgnummer": 2
+  },
+  {
+    "code": "F79a",
+    "identificatie": "03630000000438",
+    "volgnummer": 2
+  },
+  {
+    "code": "F79b",
+    "identificatie": "03630000000439",
+    "volgnummer": 2
+  },
+  {
+    "code": "F80a",
+    "identificatie": "03630000000440",
+    "volgnummer": 2
+  },
+  {
+    "code": "F80b",
+    "identificatie": "03630000000441",
+    "volgnummer": 3
+  },
+  {
+    "code": "F80c",
+    "identificatie": "03630000000442",
+    "volgnummer": 3
+  },
+  {
+    "code": "F81a",
+    "identificatie": "03630000000443",
+    "volgnummer": 2
+  },
+  {
+    "code": "F81b",
+    "identificatie": "03630000000444",
+    "volgnummer": 2
+  },
+  {
+    "code": "F81c",
+    "identificatie": "03630000000445",
+    "volgnummer": 2
+  },
+  {
+    "code": "F81d",
+    "identificatie": "03630000000446",
+    "volgnummer": 2
+  },
+  {
+    "code": "F81e",
+    "identificatie": "03630000000447",
+    "volgnummer": 2
+  },
+  {
+    "code": "F82a",
+    "identificatie": "03630000000448",
+    "volgnummer": 2
+  },
+  {
+    "code": "F82b",
+    "identificatie": "03630000000449",
+    "volgnummer": 2
+  },
+  {
+    "code": "F82c",
+    "identificatie": "03630000000450",
+    "volgnummer": 2
+  },
+  {
+    "code": "F82d",
+    "identificatie": "03630000000451",
+    "volgnummer": 2
+  },
+  {
+    "code": "F83a",
+    "identificatie": "03630000000452",
+    "volgnummer": 2
+  },
+  {
+    "code": "F83b",
+    "identificatie": "03630000000453",
+    "volgnummer": 2
+  },
+  {
+    "code": "F84a",
+    "identificatie": "03630000000454",
+    "volgnummer": 3
+  },
+  {
+    "code": "F84b",
+    "identificatie": "03630000000455",
+    "volgnummer": 4
+  },
+  {
+    "code": "F84c",
+    "identificatie": "03630000000456",
+    "volgnummer": 4
+  },
+  {
+    "code": "F85a",
+    "identificatie": "03630000000458",
+    "volgnummer": 3
+  },
+  {
+    "code": "F85b",
+    "identificatie": "03630000000459",
+    "volgnummer": 3
+  },
+  {
+    "code": "F85c",
+    "identificatie": "03630000000460",
+    "volgnummer": 3
+  },
+  {
+    "code": "F86a",
+    "identificatie": "03630000000465",
+    "volgnummer": 2
+  },
+  {
+    "code": "F86b",
+    "identificatie": "03630000000466",
+    "volgnummer": 3
+  },
+  {
+    "code": "F86c",
+    "identificatie": "03630000000467",
+    "volgnummer": 2
+  },
+  {
+    "code": "F86d",
+    "identificatie": "03630000000468",
+    "volgnummer": 2
+  },
+  {
+    "code": "F86e",
+    "identificatie": "03630000000469",
+    "volgnummer": 2
+  },
+  {
+    "code": "F86f",
+    "identificatie": "03630000000470",
+    "volgnummer": 2
+  },
+  {
+    "code": "F87a",
+    "identificatie": "03630000000471",
+    "volgnummer": 2
+  },
+  {
+    "code": "F87b",
+    "identificatie": "03630000000472",
+    "volgnummer": 2
+  },
+  {
+    "code": "F87c",
+    "identificatie": "03630000000473",
+    "volgnummer": 2
+  },
+  {
+    "code": "F87d",
+    "identificatie": "03630000000474",
+    "volgnummer": 2
+  },
+  {
+    "code": "F87e",
+    "identificatie": "03630000000475",
+    "volgnummer": 2
+  },
+  {
+    "code": "F87f",
+    "identificatie": "03630000000476",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88a",
+    "identificatie": "03630000000477",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88b",
+    "identificatie": "03630000000478",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88c",
+    "identificatie": "03630000000479",
+    "volgnummer": 3
+  },
+  {
+    "code": "F88d",
+    "identificatie": "03630000000480",
+    "volgnummer": 3
+  },
+  {
+    "code": "F88e",
+    "identificatie": "03630000000481",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88f",
+    "identificatie": "03630000000482",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88g",
+    "identificatie": "03630000000860",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88h",
+    "identificatie": "03630000000483",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88i",
+    "identificatie": "03630000000484",
+    "volgnummer": 2
+  },
+  {
+    "code": "F88j",
+    "identificatie": "03630023753973",
+    "volgnummer": 1
+  },
+  {
+    "code": "F89a",
+    "identificatie": "03630023753974",
+    "volgnummer": 1
+  },
+  {
+    "code": "F89b",
+    "identificatie": "03630023753975",
+    "volgnummer": 1
+  },
+  {
+    "code": "F89c",
+    "identificatie": "03630023753977",
+    "volgnummer": 1
+  },
+  {
+    "code": "F89d",
+    "identificatie": "03630023753976",
+    "volgnummer": 1
+  },
+  {
+    "code": "K23a",
+    "identificatie": "03630023753995",
+    "volgnummer": 1
+  },
+  {
+    "code": "K23b",
+    "identificatie": "03630023753994",
+    "volgnummer": 1
+  },
+  {
+    "code": "K23c",
+    "identificatie": "03630023753998",
+    "volgnummer": 1
+  },
+  {
+    "code": "K23d",
+    "identificatie": "03630023753997",
+    "volgnummer": 1
+  },
+  {
+    "code": "K23e",
+    "identificatie": "03630023753996",
+    "volgnummer": 1
+  },
+  {
+    "code": "K24a",
+    "identificatie": "03630000000783",
+    "volgnummer": 2
+  },
+  {
+    "code": "K24b",
+    "identificatie": "03630000000784",
+    "volgnummer": 2
+  },
+  {
+    "code": "K24c",
+    "identificatie": "03630000000785",
+    "volgnummer": 2
+  },
+  {
+    "code": "K24d",
+    "identificatie": "03630000000786",
+    "volgnummer": 2
+  },
+  {
+    "code": "K24e",
+    "identificatie": "03630000000787",
+    "volgnummer": 2
+  },
+  {
+    "code": "K25a",
+    "identificatie": "03630000000788",
+    "volgnummer": 2
+  },
+  {
+    "code": "K25b",
+    "identificatie": "03630000000789",
+    "volgnummer": 2
+  },
+  {
+    "code": "K25c",
+    "identificatie": "03630000000790",
+    "volgnummer": 2
+  },
+  {
+    "code": "K25d",
+    "identificatie": "03630000000791",
+    "volgnummer": 2
+  },
+  {
+    "code": "K26a",
+    "identificatie": "03630000000792",
+    "volgnummer": 3
+  },
+  {
+    "code": "K26b",
+    "identificatie": "03630000000793",
+    "volgnummer": 3
+  },
+  {
+    "code": "K26c",
+    "identificatie": "03630000000794",
+    "volgnummer": 3
+  },
+  {
+    "code": "K44a",
+    "identificatie": "03630000000795",
+    "volgnummer": 2
+  },
+  {
+    "code": "K44b",
+    "identificatie": "03630000000796",
+    "volgnummer": 2
+  },
+  {
+    "code": "K44c",
+    "identificatie": "03630000000797",
+    "volgnummer": 2
+  },
+  {
+    "code": "K44d",
+    "identificatie": "03630000000798",
+    "volgnummer": 3
+  },
+  {
+    "code": "K44e",
+    "identificatie": "03630000000799",
+    "volgnummer": 2
+  },
+  {
+    "code": "K44f",
+    "identificatie": "03630000000800",
+    "volgnummer": 3
+  },
+  {
+    "code": "K45a",
+    "identificatie": "03630000000801",
+    "volgnummer": 3
+  },
+  {
+    "code": "K45b",
+    "identificatie": "03630000000802",
+    "volgnummer": 3
+  },
+  {
+    "code": "K46a",
+    "identificatie": "03630000000803",
+    "volgnummer": 2
+  },
+  {
+    "code": "K46b",
+    "identificatie": "03630000000804",
+    "volgnummer": 2
+  },
+  {
+    "code": "K46c",
+    "identificatie": "03630000000805",
+    "volgnummer": 3
+  },
+  {
+    "code": "K46d",
+    "identificatie": "03630000000806",
+    "volgnummer": 3
+  },
+  {
+    "code": "K47a",
+    "identificatie": "03630000000807",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47b",
+    "identificatie": "03630000000808",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47c",
+    "identificatie": "03630000000809",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47d",
+    "identificatie": "03630000000810",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47e",
+    "identificatie": "03630000000811",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47f",
+    "identificatie": "03630000000812",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47g",
+    "identificatie": "03630000000813",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47h",
+    "identificatie": "03630000000814",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47i",
+    "identificatie": "03630000000815",
+    "volgnummer": 2
+  },
+  {
+    "code": "K47j",
+    "identificatie": "03630023753971",
+    "volgnummer": 1
+  },
+  {
+    "code": "K48a",
+    "identificatie": "03630000000816",
+    "volgnummer": 2
+  },
+  {
+    "code": "K48b",
+    "identificatie": "03630000000817",
+    "volgnummer": 2
+  },
+  {
+    "code": "K48c",
+    "identificatie": "03630000000818",
+    "volgnummer": 2
+  },
+  {
+    "code": "K48d",
+    "identificatie": "03630000000819",
+    "volgnummer": 3
+  },
+  {
+    "code": "K48e",
+    "identificatie": "03630000000820",
+    "volgnummer": 3
+  },
+  {
+    "code": "K48f",
+    "identificatie": "03630000000821",
+    "volgnummer": 3
+  },
+  {
+    "code": "K49a",
+    "identificatie": "03630000000822",
+    "volgnummer": 2
+  },
+  {
+    "code": "K49b",
+    "identificatie": "03630000000823",
+    "volgnummer": 2
+  },
+  {
+    "code": "K49c",
+    "identificatie": "03630000000824",
+    "volgnummer": 2
+  },
+  {
+    "code": "K49d",
+    "identificatie": "03630000000825",
+    "volgnummer": 2
+  },
+  {
+    "code": "K49e",
+    "identificatie": "03630000000826",
+    "volgnummer": 2
+  },
+  {
+    "code": "K49f",
+    "identificatie": "03630000000827",
+    "volgnummer": 2
+  },
+  {
+    "code": "K52a",
+    "identificatie": "03630000000829",
+    "volgnummer": 2
+  },
+  {
+    "code": "K52b",
+    "identificatie": "03630000000830",
+    "volgnummer": 2
+  },
+  {
+    "code": "K52c",
+    "identificatie": "03630000000831",
+    "volgnummer": 2
+  },
+  {
+    "code": "K52d",
+    "identificatie": "03630000000832",
+    "volgnummer": 2
+  },
+  {
+    "code": "K52g",
+    "identificatie": "03630023753992",
+    "volgnummer": 1
+  },
+  {
+    "code": "K52h",
+    "identificatie": "03630023753993",
+    "volgnummer": 1
+  },
+  {
+    "code": "K53a",
+    "identificatie": "03630000000835",
+    "volgnummer": 2
+  },
+  {
+    "code": "K53b",
+    "identificatie": "03630000000836",
+    "volgnummer": 2
+  },
+  {
+    "code": "K54a",
+    "identificatie": "03630000000837",
+    "volgnummer": 2
+  },
+  {
+    "code": "K54b",
+    "identificatie": "03630000000838",
+    "volgnummer": 2
+  },
+  {
+    "code": "K54c",
+    "identificatie": "03630000000839",
+    "volgnummer": 2
+  },
+  {
+    "code": "K54d",
+    "identificatie": "03630000000840",
+    "volgnummer": 2
+  },
+  {
+    "code": "K54e",
+    "identificatie": "03630000000841",
+    "volgnummer": 2
+  },
+  {
+    "code": "K59a",
+    "identificatie": "03630000000842",
+    "volgnummer": 3
+  },
+  {
+    "code": "K59b",
+    "identificatie": "03630000000843",
+    "volgnummer": 3
+  },
+  {
+    "code": "K90a",
+    "identificatie": "03630000000845",
+    "volgnummer": 2
+  },
+  {
+    "code": "K90c",
+    "identificatie": "03630000000847",
+    "volgnummer": 2
+  },
+  {
+    "code": "K90d",
+    "identificatie": "03630000000848",
+    "volgnummer": 2
+  },
+  {
+    "code": "K90e",
+    "identificatie": "03630000000849",
+    "volgnummer": 3
+  },
+  {
+    "code": "K90i",
+    "identificatie": "03630023753999",
+    "volgnummer": 1
+  },
+  {
+    "code": "K90j",
+    "identificatie": "03630023753952",
+    "volgnummer": 1
+  },
+  {
+    "code": "K91a",
+    "identificatie": "03630000000853",
+    "volgnummer": 2
+  },
+  {
+    "code": "K91b",
+    "identificatie": "03630000000854",
+    "volgnummer": 2
+  },
+  {
+    "code": "K91c",
+    "identificatie": "03630000000855",
+    "volgnummer": 2
+  },
+  {
+    "code": "K91d",
+    "identificatie": "03630000000856",
+    "volgnummer": 2
+  },
+  {
+    "code": "M27a",
+    "identificatie": "03630000000745",
+    "volgnummer": 2
+  },
+  {
+    "code": "M27b",
+    "identificatie": "03630000000746",
+    "volgnummer": 2
+  },
+  {
+    "code": "M27c",
+    "identificatie": "03630000000747",
+    "volgnummer": 2
+  },
+  {
+    "code": "M28a",
+    "identificatie": "03630000000748",
+    "volgnummer": 2
+  },
+  {
+    "code": "M28b",
+    "identificatie": "03630000000749",
+    "volgnummer": 2
+  },
+  {
+    "code": "M28c",
+    "identificatie": "03630000000750",
+    "volgnummer": 2
+  },
+  {
+    "code": "M28d",
+    "identificatie": "03630000000751",
+    "volgnummer": 2
+  },
+  {
+    "code": "M29a",
+    "identificatie": "03630000000752",
+    "volgnummer": 2
+  },
+  {
+    "code": "M29b",
+    "identificatie": "03630000000753",
+    "volgnummer": 2
+  },
+  {
+    "code": "M29c",
+    "identificatie": "03630000000754",
+    "volgnummer": 3
+  },
+  {
+    "code": "M30a",
+    "identificatie": "03630000000755",
+    "volgnummer": 2
+  },
+  {
+    "code": "M30b",
+    "identificatie": "03630000000756",
+    "volgnummer": 2
+  },
+  {
+    "code": "M31a",
+    "identificatie": "03630000000575",
+    "volgnummer": 2
+  },
+  {
+    "code": "M31b",
+    "identificatie": "03630000000576",
+    "volgnummer": 2
+  },
+  {
+    "code": "M31c",
+    "identificatie": "03630000000865",
+    "volgnummer": 2
+  },
+  {
+    "code": "M32a",
+    "identificatie": "03630000000577",
+    "volgnummer": 2
+  },
+  {
+    "code": "M32b",
+    "identificatie": "03630000000578",
+    "volgnummer": 2
+  },
+  {
+    "code": "M32c",
+    "identificatie": "03630000000579",
+    "volgnummer": 2
+  },
+  {
+    "code": "M32d",
+    "identificatie": "03630000000580",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33a",
+    "identificatie": "03630000000581",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33b",
+    "identificatie": "03630000000582",
+    "volgnummer": 3
+  },
+  {
+    "code": "M33c",
+    "identificatie": "03630000000583",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33d",
+    "identificatie": "03630000000584",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33e",
+    "identificatie": "03630000000585",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33f",
+    "identificatie": "03630000000586",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33g",
+    "identificatie": "03630000000587",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33h",
+    "identificatie": "03630000000588",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33i",
+    "identificatie": "03630000000589",
+    "volgnummer": 2
+  },
+  {
+    "code": "M33j",
+    "identificatie": "03630000000590",
+    "volgnummer": 3
+  },
+  {
+    "code": "M33k",
+    "identificatie": "03630000000591",
+    "volgnummer": 3
+  },
+  {
+    "code": "M34a",
+    "identificatie": "03630000000592",
+    "volgnummer": 2
+  },
+  {
+    "code": "M34c",
+    "identificatie": "03630000000594",
+    "volgnummer": 2
+  },
+  {
+    "code": "M34d",
+    "identificatie": "03630000000595",
+    "volgnummer": 3
+  },
+  {
+    "code": "M34e",
+    "identificatie": "03630000000596",
+    "volgnummer": 4
+  },
+  {
+    "code": "M34f",
+    "identificatie": "03630023753990",
+    "volgnummer": 1
+  },
+  {
+    "code": "M34g",
+    "identificatie": "03630023753991",
+    "volgnummer": 1
+  },
+  {
+    "code": "M35a",
+    "identificatie": "03630000000597",
+    "volgnummer": 2
+  },
+  {
+    "code": "M35b",
+    "identificatie": "03630000000598",
+    "volgnummer": 2
+  },
+  {
+    "code": "M35c",
+    "identificatie": "03630000000599",
+    "volgnummer": 2
+  },
+  {
+    "code": "M35e",
+    "identificatie": "03630023753989",
+    "volgnummer": 1
+  },
+  {
+    "code": "M35f",
+    "identificatie": "03630023754004",
+    "volgnummer": 1
+  },
+  {
+    "code": "M50a",
+    "identificatie": "03630000000828",
+    "volgnummer": 4
+  },
+  {
+    "code": "M50b",
+    "identificatie": "03630023754007",
+    "volgnummer": 1
+  },
+  {
+    "code": "M50c",
+    "identificatie": "03630023754009",
+    "volgnummer": 1
+  },
+  {
+    "code": "M50d",
+    "identificatie": "03630023754006",
+    "volgnummer": 2
+  },
+  {
+    "code": "M50e",
+    "identificatie": "03630023754008",
+    "volgnummer": 1
+  },
+  {
+    "code": "M50f",
+    "identificatie": "03630023754010",
+    "volgnummer": 1
+  },
+  {
+    "code": "M50g",
+    "identificatie": "03630023754005",
+    "volgnummer": 2
+  },
+  {
+    "code": "M51a",
+    "identificatie": "03630000000601",
+    "volgnummer": 2
+  },
+  {
+    "code": "M51b",
+    "identificatie": "03630000000602",
+    "volgnummer": 4
+  },
+  {
+    "code": "M51c",
+    "identificatie": "03630000000603",
+    "volgnummer": 3
+  },
+  {
+    "code": "M55b",
+    "identificatie": "03630000000758",
+    "volgnummer": 2
+  },
+  {
+    "code": "M55c",
+    "identificatie": "03630000000759",
+    "volgnummer": 3
+  },
+  {
+    "code": "M55d",
+    "identificatie": "03630000000760",
+    "volgnummer": 2
+  },
+  {
+    "code": "M55e",
+    "identificatie": "03630000000761",
+    "volgnummer": 2
+  },
+  {
+    "code": "M55f",
+    "identificatie": "03630000000762",
+    "volgnummer": 3
+  },
+  {
+    "code": "M55g",
+    "identificatie": "03630000000763",
+    "volgnummer": 2
+  },
+  {
+    "code": "M55h",
+    "identificatie": "03630000000764",
+    "volgnummer": 2
+  },
+  {
+    "code": "M55i",
+    "identificatie": "03630023754000",
+    "volgnummer": 1
+  },
+  {
+    "code": "M56a",
+    "identificatie": "03630000000765",
+    "volgnummer": 2
+  },
+  {
+    "code": "M56b",
+    "identificatie": "03630000000766",
+    "volgnummer": 2
+  },
+  {
+    "code": "M56c",
+    "identificatie": "03630000000767",
+    "volgnummer": 2
+  },
+  {
+    "code": "M56d",
+    "identificatie": "03630000000768",
+    "volgnummer": 2
+  },
+  {
+    "code": "M56e",
+    "identificatie": "03630000000769",
+    "volgnummer": 2
+  },
+  {
+    "code": "M56f",
+    "identificatie": "03630000000770",
+    "volgnummer": 3
+  },
+  {
+    "code": "M56g",
+    "identificatie": "03630000000771",
+    "volgnummer": 3
+  },
+  {
+    "code": "M56h",
+    "identificatie": "03630000000772",
+    "volgnummer": 2
+  },
+  {
+    "code": "M56i",
+    "identificatie": "03630000000773",
+    "volgnummer": 3
+  },
+  {
+    "code": "M57a",
+    "identificatie": "03630000000774",
+    "volgnummer": 3
+  },
+  {
+    "code": "M57b",
+    "identificatie": "03630000000775",
+    "volgnummer": 2
+  },
+  {
+    "code": "M57c",
+    "identificatie": "03630000000776",
+    "volgnummer": 3
+  },
+  {
+    "code": "M58b",
+    "identificatie": "03630000000778",
+    "volgnummer": 5
+  },
+  {
+    "code": "M58e",
+    "identificatie": "03630000000781",
+    "volgnummer": 4
+  },
+  {
+    "code": "M58f",
+    "identificatie": "03630000000782",
+    "volgnummer": 3
+  },
+  {
+    "code": "M58g",
+    "identificatie": "03630023754001",
+    "volgnummer": 2
+  },
+  {
+    "code": "M58h",
+    "identificatie": "03630023753954",
+    "volgnummer": 2
+  },
+  {
+    "code": "M58i",
+    "identificatie": "03630023754002",
+    "volgnummer": 3
+  },
+  {
+    "code": "M58j",
+    "identificatie": "03630023754003",
+    "volgnummer": 3
+  },
+  {
+    "code": "N60a",
+    "identificatie": "03630000000640",
+    "volgnummer": 1
+  },
+  {
+    "code": "N60b",
+    "identificatie": "03630000000641",
+    "volgnummer": 1
+  },
+  {
+    "code": "N60c",
+    "identificatie": "03630000000642",
+    "volgnummer": 1
+  },
+  {
+    "code": "N61a",
+    "identificatie": "03630000000643",
+    "volgnummer": 1
+  },
+  {
+    "code": "N61b",
+    "identificatie": "03630000000644",
+    "volgnummer": 1
+  },
+  {
+    "code": "N61c",
+    "identificatie": "03630000000645",
+    "volgnummer": 2
+  },
+  {
+    "code": "N61d",
+    "identificatie": "03630000000646",
+    "volgnummer": 1
+  },
+  {
+    "code": "N62a",
+    "identificatie": "03630000000647",
+    "volgnummer": 1
+  },
+  {
+    "code": "N62b",
+    "identificatie": "03630000000648",
+    "volgnummer": 1
+  },
+  {
+    "code": "N63a",
+    "identificatie": "03630000000649",
+    "volgnummer": 2
+  },
+  {
+    "code": "N64a",
+    "identificatie": "03630000000650",
+    "volgnummer": 1
+  },
+  {
+    "code": "N64b",
+    "identificatie": "03630000000651",
+    "volgnummer": 3
+  },
+  {
+    "code": "N64c",
+    "identificatie": "03630000000652",
+    "volgnummer": 2
+  },
+  {
+    "code": "N64d",
+    "identificatie": "03630000000653",
+    "volgnummer": 1
+  },
+  {
+    "code": "N64e",
+    "identificatie": "03630000000654",
+    "volgnummer": 1
+  },
+  {
+    "code": "N65a",
+    "identificatie": "03630000000655",
+    "volgnummer": 1
+  },
+  {
+    "code": "N65b",
+    "identificatie": "03630000000656",
+    "volgnummer": 1
+  },
+  {
+    "code": "N65c",
+    "identificatie": "03630000000657",
+    "volgnummer": 1
+  },
+  {
+    "code": "N65d",
+    "identificatie": "03630000000658",
+    "volgnummer": 1
+  },
+  {
+    "code": "N66b",
+    "identificatie": "03630000000660",
+    "volgnummer": 2
+  },
+  {
+    "code": "N66c",
+    "identificatie": "03630000000661",
+    "volgnummer": 1
+  },
+  {
+    "code": "N66d",
+    "identificatie": "03630000000662",
+    "volgnummer": 1
+  },
+  {
+    "code": "N66e",
+    "identificatie": "03630000000663",
+    "volgnummer": 1
+  },
+  {
+    "code": "N66f",
+    "identificatie": "03630023753982",
+    "volgnummer": 1
+  },
+  {
+    "code": "N66g",
+    "identificatie": "03630023753981",
+    "volgnummer": 1
+  },
+  {
+    "code": "N67a",
+    "identificatie": "03630000000664",
+    "volgnummer": 2
+  },
+  {
+    "code": "N67b",
+    "identificatie": "03630000000665",
+    "volgnummer": 1
+  },
+  {
+    "code": "N68a",
+    "identificatie": "03630000000666",
+    "volgnummer": 2
+  },
+  {
+    "code": "N68b",
+    "identificatie": "03630000000667",
+    "volgnummer": 2
+  },
+  {
+    "code": "N68c",
+    "identificatie": "03630000000668",
+    "volgnummer": 2
+  },
+  {
+    "code": "N68d",
+    "identificatie": "03630000000669",
+    "volgnummer": 2
+  },
+  {
+    "code": "N68e",
+    "identificatie": "03630000000670",
+    "volgnummer": 2
+  },
+  {
+    "code": "N68f",
+    "identificatie": "03630000000671",
+    "volgnummer": 2
+  },
+  {
+    "code": "N69a",
+    "identificatie": "03630000000673",
+    "volgnummer": 1
+  },
+  {
+    "code": "N69c",
+    "identificatie": "03630000000675",
+    "volgnummer": 1
+  },
+  {
+    "code": "N69j",
+    "identificatie": "03630023753987",
+    "volgnummer": 1
+  },
+  {
+    "code": "N69k",
+    "identificatie": "03630023753988",
+    "volgnummer": 1
+  },
+  {
+    "code": "N69l",
+    "identificatie": "03630023753986",
+    "volgnummer": 1
+  },
+  {
+    "code": "N69m",
+    "identificatie": "03630023753985",
+    "volgnummer": 1
+  },
+  {
+    "code": "N70a",
+    "identificatie": "03630000000682",
+    "volgnummer": 1
+  },
+  {
+    "code": "N70b",
+    "identificatie": "03630000000683",
+    "volgnummer": 1
+  },
+  {
+    "code": "N70c",
+    "identificatie": "03630000000684",
+    "volgnummer": 1
+  },
+  {
+    "code": "N70d",
+    "identificatie": "03630000000685",
+    "volgnummer": 1
+  },
+  {
+    "code": "N70e",
+    "identificatie": "03630000000686",
+    "volgnummer": 2
+  },
+  {
+    "code": "N70f",
+    "identificatie": "03630000000866",
+    "volgnummer": 1
+  },
+  {
+    "code": "N71c",
+    "identificatie": "03630000000689",
+    "volgnummer": 3
+  },
+  {
+    "code": "N71e",
+    "identificatie": "03630023753979",
+    "volgnummer": 2
+  },
+  {
+    "code": "N71f",
+    "identificatie": "03630023753980",
+    "volgnummer": 2
+  },
+  {
+    "code": "N71g",
+    "identificatie": "03630023753955",
+    "volgnummer": 2
+  },
+  {
+    "code": "N71h",
+    "identificatie": "03630023753956",
+    "volgnummer": 2
+  },
+  {
+    "code": "N72a",
+    "identificatie": "03630000000691",
+    "volgnummer": 2
+  },
+  {
+    "code": "N72b",
+    "identificatie": "03630000000692",
+    "volgnummer": 2
+  },
+  {
+    "code": "N72c",
+    "identificatie": "03630000000693",
+    "volgnummer": 2
+  },
+  {
+    "code": "N73a",
+    "identificatie": "03630000000694",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73b",
+    "identificatie": "03630000000695",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73c",
+    "identificatie": "03630000000696",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73d",
+    "identificatie": "03630000000697",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73e",
+    "identificatie": "03630000000698",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73f",
+    "identificatie": "03630000000699",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73g",
+    "identificatie": "03630000000700",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73h",
+    "identificatie": "03630000000701",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73i",
+    "identificatie": "03630023753983",
+    "volgnummer": 1
+  },
+  {
+    "code": "N73j",
+    "identificatie": "03630023753984",
+    "volgnummer": 1
+  },
+  {
+    "code": "N74a",
+    "identificatie": "03630000000605",
+    "volgnummer": 3
+  },
+  {
+    "code": "N74b",
+    "identificatie": "03630000000606",
+    "volgnummer": 3
+  },
+  {
+    "code": "N74c",
+    "identificatie": "03630000000607",
+    "volgnummer": 3
+  },
+  {
+    "code": "T92a",
+    "identificatie": "03630000000485",
+    "volgnummer": 2
+  },
+  {
+    "code": "T92b",
+    "identificatie": "03630000000486",
+    "volgnummer": 1
+  },
+  {
+    "code": "T92c",
+    "identificatie": "03630000000487",
+    "volgnummer": 2
+  },
+  {
+    "code": "T92d",
+    "identificatie": "03630000000488",
+    "volgnummer": 1
+  },
+  {
+    "code": "T92e",
+    "identificatie": "03630000000489",
+    "volgnummer": 2
+  },
+  {
+    "code": "T92f",
+    "identificatie": "03630000000490",
+    "volgnummer": 1
+  },
+  {
+    "code": "T92g",
+    "identificatie": "03630000000491",
+    "volgnummer": 2
+  },
+  {
+    "code": "T93a",
+    "identificatie": "03630000000492",
+    "volgnummer": 2
+  },
+  {
+    "code": "T93b",
+    "identificatie": "03630000000493",
+    "volgnummer": 2
+  },
+  {
+    "code": "T93c",
+    "identificatie": "03630000000494",
+    "volgnummer": 2
+  },
+  {
+    "code": "T93d",
+    "identificatie": "03630000000495",
+    "volgnummer": 1
+  },
+  {
+    "code": "T93e",
+    "identificatie": "03630000000496",
+    "volgnummer": 1
+  },
+  {
+    "code": "T93f",
+    "identificatie": "03630000000709",
+    "volgnummer": 1
+  },
+  {
+    "code": "T93g",
+    "identificatie": "03630000000710",
+    "volgnummer": 1
+  },
+  {
+    "code": "T93h",
+    "identificatie": "03630000000711",
+    "volgnummer": 1
+  },
+  {
+    "code": "T93i",
+    "identificatie": "03630000000712",
+    "volgnummer": 1
+  },
+  {
+    "code": "T93j",
+    "identificatie": "03630000000713",
+    "volgnummer": 1
+  },
+  {
+    "code": "T93k",
+    "identificatie": "03630000000714",
+    "volgnummer": 2
+  },
+  {
+    "code": "T94a",
+    "identificatie": "03630000000715",
+    "volgnummer": 2
+  },
+  {
+    "code": "T94b",
+    "identificatie": "03630000000716",
+    "volgnummer": 2
+  },
+  {
+    "code": "T94c",
+    "identificatie": "03630000000717",
+    "volgnummer": 2
+  },
+  {
+    "code": "T94d",
+    "identificatie": "03630000000718",
+    "volgnummer": 1
+  },
+  {
+    "code": "T94e",
+    "identificatie": "03630000000719",
+    "volgnummer": 1
+  },
+  {
+    "code": "T94f",
+    "identificatie": "03630000000720",
+    "volgnummer": 2
+  },
+  {
+    "code": "T94g",
+    "identificatie": "03630000000721",
+    "volgnummer": 2
+  },
+  {
+    "code": "T94h",
+    "identificatie": "03630000000722",
+    "volgnummer": 1
+  },
+  {
+    "code": "T94i",
+    "identificatie": "03630000000723",
+    "volgnummer": 2
+  },
+  {
+    "code": "T94j",
+    "identificatie": "03630000000724",
+    "volgnummer": 3
+  },
+  {
+    "code": "T94k",
+    "identificatie": "03630000000725",
+    "volgnummer": 3
+  },
+  {
+    "code": "T94l",
+    "identificatie": "03630000000726",
+    "volgnummer": 2
+  },
+  {
+    "code": "T94m",
+    "identificatie": "03630000000727",
+    "volgnummer": 1
+  },
+  {
+    "code": "T94n",
+    "identificatie": "03630000000728",
+    "volgnummer": 2
+  },
+  {
+    "code": "T95a",
+    "identificatie": "03630000000729",
+    "volgnummer": 1
+  },
+  {
+    "code": "T95b",
+    "identificatie": "03630000000730",
+    "volgnummer": 3
+  },
+  {
+    "code": "T95c",
+    "identificatie": "03630000000731",
+    "volgnummer": 2
+  },
+  {
+    "code": "T96a",
+    "identificatie": "03630000000732",
+    "volgnummer": 1
+  },
+  {
+    "code": "T96b",
+    "identificatie": "03630000000733",
+    "volgnummer": 1
+  },
+  {
+    "code": "T96c",
+    "identificatie": "03630000000734",
+    "volgnummer": 1
+  },
+  {
+    "code": "T96d",
+    "identificatie": "03630000000735",
+    "volgnummer": 2
+  },
+  {
+    "code": "T96e",
+    "identificatie": "03630000000736",
+    "volgnummer": 2
+  },
+  {
+    "code": "T96f",
+    "identificatie": "03630000000737",
+    "volgnummer": 1
+  },
+  {
+    "code": "T96g",
+    "identificatie": "03630000000738",
+    "volgnummer": 2
+  },
+  {
+    "code": "T97a",
+    "identificatie": "03630000000739",
+    "volgnummer": 1
+  },
+  {
+    "code": "T97b",
+    "identificatie": "03630000000740",
+    "volgnummer": 1
+  },
+  {
+    "code": "T97c",
+    "identificatie": "03630000000741",
+    "volgnummer": 2
+  },
+  {
+    "code": "T97d",
+    "identificatie": "03630000000742",
+    "volgnummer": 2
+  },
+  {
+    "code": "T98a",
+    "identificatie": "03630000000743",
+    "volgnummer": 2
+  },
+  {
+    "code": "T98b",
+    "identificatie": "03630000000744",
+    "volgnummer": 2
+  }
+]
