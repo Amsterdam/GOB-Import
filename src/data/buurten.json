@@ -1,7 +1,7 @@
 {
   "version": "0.1",
   "catalogue": "gebieden",
-  "entity": "stadsdelen",
+  "entity": "buurten",
   "source": {
     "name": "AMSBI",
     "application": "DGDialog",
@@ -12,7 +12,7 @@
       "_application": "DIVA"
     },
     "inject": {
-      "from": "data/stadsdelen.conversion.json",
+      "from": "data/buurten.conversion.json",
       "on": "code",
       "conversions": {
         "identificatie": "=",
@@ -21,28 +21,28 @@
     },
     "query": [
 "    SELECT s.naam                               AS naam",
-"    ,      s.sdlcode                            AS code",
+"    ,      s.sdlcode || s.wijkcode || s.brtcode AS code",
+"    ,      NULL                                 AS identificatie",
 "    ,      q1.volgnummer                        AS volgnummer",
 "    ,      to_char(q1.ingsdatum, 'YYYY-MM-DD')  AS datum_begin_geldigheid",
 "    ,      to_char(q1.einddatum, 'YYYY-MM-DD')  AS datum_einde_geldigheid",
 "    ,      to_char(s.docdatum, 'YYYY-MM-DD')    AS documentdatum",
 "    ,      s.docnr                              AS documentnummer",
-"    ,      '0363'                               AS ligt_in_gemeente",
+"    ,      s.sdlcode || s.wijkcode              AS ligt_in_wijk",
 "    ,      t.inwin                              AS registratiedatum",
 "    ,      t.guid                               AS source_id",
 "    ,      sdo_util.to_wktgeometry(t.geometrie) AS geometrie",
-"    ,      ''                                   AS identificatie",
-"    FROM   gebieden.dgdtw_topografie t",
-"    JOIN   gebieden.dgdtw_table_6027 s ON t.id = s.dgdtw_primary_key",
-"    JOIN  (SELECT t1.id",
+"      FROM   gebieden.dgdtw_topografie t",
+"      JOIN   gebieden.dgdtw_table_6021 s ON t.id = s.dgdtw_primary_key",
+"      JOIN  (SELECT t1.id",
 "    ,      t1.guid",
 "    ,      s1.ingsdatum",
 "    ,      s1.einddatum",
-"    ,      dense_rank() OVER (partition BY s1.sdlcode ORDER BY t1.inwin) AS volgnummer",
-"    FROM   gebieden.dgdtw_topografie t1",
-"    JOIN   gebieden.dgdtw_table_6027 s1 ON t1.id = s1.dgdtw_primary_key) q1 ON t.id = q1.id",
-"    WHERE  t.objectcode = 6027 -- stadsdeel",
-"    ORDER  BY q1.volgnummer"
+"    ,      dense_rank() OVER (partition BY s1.sdlcode || s1.wijkcode || s1.brtcode ORDER BY t1.inwin) AS volgnummer",
+"      FROM   gebieden.dgdtw_topografie t1",
+"      JOIN   gebieden.dgdtw_table_6021 s1 ON t1.id = s1.dgdtw_primary_key) q1 ON t.id = q1.id",
+"      WHERE  t.objectcode = 6021 -- buurt",
+"      ORDER  BY q1.volgnummer"
     ]
   },
   "gob_mapping": {
@@ -74,9 +74,9 @@
     "documentnummer": {
       "source_mapping": "documentnummer"
     },
-    "ligt_in_gemeente": {
+    "ligt_in_wijk": {
       "source_mapping": {
-        "bronwaarde": "ligt_in_gemeente"
+        "bronwaarde": "ligt_in_wijk"
       }
     },
     "geometrie": {
