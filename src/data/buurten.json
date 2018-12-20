@@ -22,6 +22,7 @@
     "query": [
 "    SELECT s.naam                               AS naam",
 "    ,      s.sdlcode || s.wijkcode || s.brtcode AS code",
+"    ,      NULL                                 AS identificatie",
 "    ,      q1.volgnummer                        AS volgnummer",
 "    ,      to_char(q1.ingsdatum, 'YYYY-MM-DD')  AS datum_begin_geldigheid",
 "    ,      to_char(q1.einddatum, 'YYYY-MM-DD')  AS datum_einde_geldigheid",
