@@ -93,6 +93,9 @@
         "bronwaarde": "ligt_in_wijk"
       }
     },
+    "cbs_code": {
+      "source_mapping": "cbs_code"
+    },
     "geometrie": {
       "source_mapping": "geometrie"
     }
