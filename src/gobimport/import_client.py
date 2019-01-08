@@ -143,6 +143,7 @@ class ImportClient:
             "source": self._dataset['source']['name'],
             "application": self._dataset['source'].get('application'),
             "depends_on": self._dataset['source'].get('depends_on', {}),
+            "enrich": self._dataset['source'].get('enrich', {}),
             "catalogue": self._dataset['catalogue'],
             "entity": self._dataset['entity'],
             "version": self._dataset['version'],
