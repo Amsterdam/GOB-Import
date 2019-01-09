@@ -15,6 +15,8 @@ class TestValidator(unittest.TestCase):
         self.valid_meetbouten = fixtures.get_valid_meetbouten()
         self.invalid_meetbouten = fixtures.get_invalid_meetbouten()
         self.fatal_meetbouten = fixtures.get_fatal_meetbouten()
+        self.nopubliceerbaar_meetbouten = fixtures.get_nopubliceerbaar_meetbouten()
+        self.nullpubliceerbaar_meetbouten = fixtures.get_nullpubliceerbaar_meetbouten()
 
         self.mock_import_client = mock.MagicMock(spec=ImportClient)
         self.mock_import_client.source = {
@@ -65,3 +67,20 @@ class TestValidator(unittest.TestCase):
 
         # Make sure the publiceerbaar has been listed as invalid
         self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)
+
+    def test_nopubliceerbaar(self):
+        validator = Validator(self.mock_import_client, 'meetbouten', self.nopubliceerbaar_meetbouten, 'identificatie')
+
+        with self.assertRaises(GOBException):
+            validator.validate()
+
+        # Make sure the publiceerbaar has been listed as invalid
+        self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)
+
+    def test_nullpubliceerbaar(self):
+        validator = Validator(self.mock_import_client, 'meetbouten', self.nullpubliceerbaar_meetbouten, 'identificatie')
+
+        validator.validate()
+
+        # Make sure the publiceerbaar has been listed as invalid
+        self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 0)

@@ -14,7 +14,7 @@ def get_valid_meetbouten():
         'identificatie': random_string(8, ['0','1','2','3','4','5','6','7','8','9']),
         'status_id': random_string(1, ['1','2','3']),
         'windrichting': random.choice(['N','NO','O','ZO','Z','ZW','W','NW']),
-        'publiceerbaar': random.choice(['J', 'N']),
+        'publiceerbaar': random.choice(['1', '0']),
     }]
 
 
@@ -23,7 +23,7 @@ def get_fatal_meetbouten():
         'identificatie': random_string(),
         'status_id': random_string(1, ['1','2','3']),
         'windrichting': random.choice(['N','NO','O','ZO','Z','ZW','W','NW']),
-        'publiceerbaar': random.choice(['J', 'N']),
+        'publiceerbaar': random.choice(['1', '0']),
     }]
 
 def get_invalid_meetbouten():
@@ -31,5 +31,21 @@ def get_invalid_meetbouten():
         'identificatie': random_string(8, ['0','1','2','3','4','5','6','7','8','9']),
         'status_id': '4',
         'windrichting': random.choice(['N','NO','O','ZO','Z','ZW','W','NW']),
-        'publiceerbaar': random.choice(['J', 'N']),
+        'publiceerbaar': random.choice(['1', '0']),
+    }]
+
+def get_nopubliceerbaar_meetbouten():
+    return [{
+        'identificatie': random_string(8, ['0','1','2','3','4','5','6','7','8','9']),
+        'status_id': random_string(1, ['1','2','3']),
+        'windrichting': random.choice(['N','NO','O','ZO','Z','ZW','W','NW']),
+        'publiceerbaar': '2',
+    }]
+
+def get_nullpubliceerbaar_meetbouten():
+    return [{
+        'identificatie': random_string(8, ['0','1','2','3','4','5','6','7','8','9']),
+        'status_id': random_string(1, ['1','2','3']),
+        'windrichting': random.choice(['N','NO','O','ZO','Z','ZW','W','NW']),
+        'publiceerbaar': None,
     }]

@@ -49,8 +49,8 @@ ENTITY_CHECKS = {
         ],
         "publiceerbaar": [
             {
-                "pattern": "^[J,N]$",
-                "msg": "Publiceerbaar should be one of [J,N]",
+                "pattern": "^[1,0]$",
+                "msg": "Publiceerbaar should be one of [1,0]",
                 "allow_null": True,
                 "type": QA.FATAL,
             },
