@@ -59,14 +59,7 @@
 "            ,h.windr AS windrichting",
 "            ,k.bou_nummer AS ligt_in_bouwblok",
 "            ,to_char(sdo_util.to_wktgeometry(h.geom)) AS geometrie",
-"            ,CASE h.orde",
-"                WHEN 1 THEN",
-"                 'J'",
-"                WHEN 0 THEN",
-"                 'N'",
-"                ELSE",
-"                 NULL",
-"             END AS publiceerbaar -- publiceren ja (1) of nee (0), fout (leeg) ",
+"            ,h.orde AS publiceerbaar -- publiceren ja (1) of nee (0), fout (leeg) ",
 "      FROM   grondslag.grs_hoogtepunten h",
 "      LEFT   OUTER JOIN grondslag.grs_kringpunten k",
 "      ON     h.id = k.hoo_id",
@@ -125,7 +118,7 @@
     },
     "publiceerbaar": {
       "source_mapping": "publiceerbaar",
-      "format": "JN"
+      "format": "10"
     }
   }
 }
