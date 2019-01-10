@@ -68,7 +68,7 @@ def _enrich_metingen(entities, log):     # noqa: C901
         # Convert refereert_aan_refpunt to JSON
         try:
             entity['refereert_aan_refpunt'] = entity['refereert_aan_refpunt'].split(';')
-        except KeyError:
+        except (KeyError, AttributeError) as e:
             pass
 
 
