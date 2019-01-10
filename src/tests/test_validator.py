@@ -62,20 +62,18 @@ class TestValidator(unittest.TestCase):
         missing_attr_meetbouten = self.valid_meetbouten[0].pop('publiceerbaar')
         validator = Validator(self.mock_import_client, 'meetbouten', self.valid_meetbouten, 'identificatie')
 
-        with self.assertRaises(GOBException):
-            validator.validate()
+        validator.validate()
 
         # Make sure the publiceerbaar has been listed as invalid
-        self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)
+        self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)   # Warning
 
     def test_nopubliceerbaar(self):
         validator = Validator(self.mock_import_client, 'meetbouten', self.nopubliceerbaar_meetbouten, 'identificatie')
 
-        with self.assertRaises(GOBException):
-            validator.validate()
+        validator.validate()
 
         # Make sure the publiceerbaar has been listed as invalid
-        self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)
+        self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)   # Warning
 
     def test_nullpubliceerbaar(self):
         validator = Validator(self.mock_import_client, 'meetbouten', self.nullpubliceerbaar_meetbouten, 'identificatie')
