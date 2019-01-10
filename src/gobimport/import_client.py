@@ -110,7 +110,7 @@ class ImportClient:
 
     def enrich(self):
         self.log(level='info', msg="Enrich")
-        enrich(self.catalogue, self.entity, self._data)
+        enrich(self.catalogue, self.entity, self._data, self.log)
 
     def convert(self):
         """Convert the input data to GOB format
@@ -143,6 +143,7 @@ class ImportClient:
             "source": self._dataset['source']['name'],
             "application": self._dataset['source'].get('application'),
             "depends_on": self._dataset['source'].get('depends_on', {}),
+            "enrich": self._dataset['source'].get('enrich', {}),
             "catalogue": self._dataset['catalogue'],
             "entity": self._dataset['entity'],
             "version": self._dataset['version'],
