@@ -4,8 +4,11 @@ The following connectors are implemented in this module:
     Database - Connects to a (oracle) database using connection details
 
 """
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.exc import DBAPIError
+
 from gobcore.exceptions import GOBException
 from gobimport.connector.config import DATABASE_CONFIGS, get_url
 
@@ -17,6 +20,9 @@ def connect_to_database(source):
 
     :return: a connection to the given database
     """
+    # Set the NLS_LANG variable to UTF-8 to get the correct encoding
+    os.environ["NLS_LANG"] = ".UTF8"
+
     # Get the database config based on the source name
     name = source['application']
     try:
