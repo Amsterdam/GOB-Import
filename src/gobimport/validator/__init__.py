@@ -52,7 +52,7 @@ ENTITY_CHECKS = {
                 "pattern": "^[1,0]$",
                 "msg": "Publiceerbaar should be one of [1,0]",
                 "allow_null": True,
-                "type": QA.FATAL,
+                "type": QA.WARNING,
             },
         ],
     },
