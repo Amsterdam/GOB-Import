@@ -19,6 +19,13 @@
         "volgnummer": "+"
       }
     },
+    "enrich": {
+      "identificatie": {
+        "type": "autoid",
+        "on": "code",
+        "template": "0363099XXXXXXX"
+      }
+    },
     "query": [
 "    SELECT s.code                               AS code",
 "    ,      NULL                                 AS identificatie",

@@ -17,11 +17,7 @@
 "    ,      m.hoogte                            AS hoogte_tov_nap",
 "    ,      q.nummer                            AS refereert_aan_refpunt",
 "    ,      b.omschrijving                      AS is_gemeten_door_onderneming",
-"    ,      CASE h1.orde",
-"                WHEN 1 THEN 'J'",
-"                WHEN 0 THEN 'N'",
-"                ELSE NULL",
-"           END                                 AS publiceerbaar -- publiceren ja (1) of nee (0), fout (leeg)",
+"    ,      h1.orde                             AS publiceerbaar -- publiceren ja (1) of nee (0)",
 "    FROM              grondslag.grs_hoogtepunten         h1",
 "    JOIN              grondslag.grs_metingen_herz        m  ON h1.id = m.hoo_id",
 "    LEFT OUTER JOIN  (SELECT r.met_id",
@@ -91,7 +87,7 @@
     },
     "publiceerbaar": {
       "source_mapping": "publiceerbaar",
-      "format": "JN"
+      "format": "10"
     }
   }
 }
