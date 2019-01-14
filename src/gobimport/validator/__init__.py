@@ -71,6 +71,14 @@ ENTITY_CHECKS = {
                 "type": QA.FATAL,
             },
         ],
+        "publiceerbaar": [
+            {
+                "pattern": "^[1,0]$",
+                "msg": "Publiceerbaar should be one of [1,0]",
+                "allow_null": True,
+                "type": QA.WARNING,
+            },
+        ],
     },
     "referentiepunten": {
         "publiceerbaar": [
