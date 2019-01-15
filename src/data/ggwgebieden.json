@@ -1,0 +1,54 @@
+{
+  "version": "0.1",
+  "catalogue": "gebieden",
+  "entity": "ggwgebieden",
+  "source": {
+    "name": "AMSBI",
+    "application": "Basisinformatie",
+    "entity_id": "GGW_IDENTIFICATIE",
+    "type": "objectstore",
+    "container": "gebieden",
+    "file_filter": "GGW_gebieden/GGW\\.xlsx$",
+    "file_type": "XLS"
+  },
+  "enrich": {
+    "identificatie": {
+      "type": "autoid",
+      "on": "code",
+      "template": "0363095XXXXXXX"
+    }
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "GGW_IDENTIFICATIE"
+    },
+    "naam": {
+      "source_mapping": "GGW_NAAM"
+    },
+    "code": {
+      "source_mapping": "GGW_CODE"
+    },
+    "datum_begin_geldigheid": {
+      "source_mapping": "GGW_BEGINDATUM"
+    },
+    "datum_einde_geldigheid": {
+      "source_mapping": "GGW_EINDDATUM"
+    },
+    "documentdatum": {
+      "source_mapping": "GGW_DOCUMENTDATUM"
+    },
+    "documentnummer": {
+      "source_mapping": "GGW_DOCUMENTNUMMER"
+    },
+    "ligt_in_stadsdeel": {
+      "source_mapping": {
+        "bronwaarde": "SDL_CODE"
+      }
+    },
+    "bestaat_uit_wijken": {
+      "source_mapping": {
+        "bronwaarde": "WIJKEN"
+      }
+    }
+  }
+}

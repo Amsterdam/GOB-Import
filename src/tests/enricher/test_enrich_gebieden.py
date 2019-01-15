@@ -3,6 +3,7 @@ import unittest
 from unittest import mock
 
 from gobimport.enricher.gebieden import _enrich_buurten, _enrich_wijken, CBS_BUURTEN_API, CBS_WIJKEN_API, _add_cbs_code
+from gobimport.enricher.gebieden import enrich_ggwgebieden, enrich_ggpgebieden
 
 class MockResponse:
 
@@ -129,3 +130,54 @@ class TestEnricher(unittest.TestCase):
 
         # Expect an empty string when datum_einde_geldigheid is not empty
         self.assertEqual('', self.entities[2]['cbs_code'])
+
+class TestGGWPEnricher(unittest.TestCase):
+
+    def setUp(self):
+        self.entitites = [
+            {
+
+            }
+        ]
+
+    def test_enrich_ggwgebieden(self):
+        ggwgebieden = [
+            {
+                "GGW_IDENTIFICATIE": "xyz123",
+                "GGW_BEGINDATUM": "YYYY-MM-DD HH:MM:SS",
+                "GGW_EINDDATUM": "YYYY-MM-DD HH:MM:SS.fff",
+                "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
+                "WIJKEN": "1, 2, 3"
+            }
+        ]
+        enrich_ggwgebieden(ggwgebieden, log=None)
+        self.assertEqual(ggwgebieden, [
+            {
+                "GGW_IDENTIFICATIE": None,
+                "GGW_BEGINDATUM": "YYYY-MM-DD",
+                "GGW_EINDDATUM": "YYYY-MM-DD",
+                "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
+                "WIJKEN": ["1", "2", "3"]
+            }
+        ])
+
+    def test_enrich_ggpgebieden(self):
+        ggpgebieden = [
+            {
+                "GGP_IDENTIFICATIE": "xyz123",
+                "GGP_BEGINDATUM": "YYYY-MM-DD HH:MM:SS",
+                "GGP_EINDDATUM": "YYYY-MM-DD HH:MM:SS.fff",
+                "GGP_DOCUMENTDATUM": None,
+                "BUURTEN": "1, 2, 3"
+            }
+        ]
+        enrich_ggpgebieden(ggpgebieden, log=None)
+        self.assertEqual(ggpgebieden, [
+            {
+                "GGP_IDENTIFICATIE": None,
+                "GGP_BEGINDATUM": "YYYY-MM-DD",
+                "GGP_EINDDATUM": "YYYY-MM-DD",
+                "GGP_DOCUMENTDATUM": None,
+                "BUURTEN": ["1", "2", "3"]
+            }
+        ])
