@@ -9,13 +9,13 @@
     "type": "objectstore",
     "container": "gebieden",
     "file_filter": "GGW_praktijkgebieden/GGP\\.xlsx$",
-    "file_type": "XLS"
-  },
-  "enrich": {
-    "identificatie": {
-      "type": "autoid",
-      "on": "code",
-      "template": "0363094XXXXXXX"
+    "file_type": "XLS",
+    "enrich": {
+      "identificatie": {
+        "type": "autoid",
+        "on": "code",
+        "template": "0363094XXXXXXX"
+      }
     }
   },
   "gob_mapping": {
