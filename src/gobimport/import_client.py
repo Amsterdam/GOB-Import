@@ -95,7 +95,7 @@ class ImportClient:
         elif self.source['type'] == "database":
             self._data = read_from_database(self._connection, self.source["query"])
         elif self.source['type'] == "objectstore":
-            self._data = read_from_objectstore(self._connection, self.source["container"], self.source["file_filter"])
+            self._data = read_from_objectstore(self._connection, self.source)
         else:
             raise NotImplementedError
 
@@ -172,8 +172,8 @@ class ImportClient:
             self.connect()
             self.read()
             self.inject()
-            self.validate()
             self.enrich()
+            self.validate()
             self.convert()
             self.publish()
         except Exception as e:

@@ -7,7 +7,7 @@ In order to prepare a more generic validation approach the validation has been s
 
 """
 from gobimport.enricher.meetbouten import _enrich_metingen
-from gobimport.enricher.gebieden import _enrich_buurten, _enrich_wijken
+from gobimport.enricher.gebieden import _enrich_buurten, _enrich_wijken, enrich_ggwgebieden, enrich_ggpgebieden
 
 
 def enrich(catalogue, entity_name, entities, log):
@@ -24,6 +24,8 @@ def enrich(catalogue, entity_name, entities, log):
         "metingen": _enrich_metingen,
         "buurten": _enrich_buurten,
         "wijken": _enrich_wijken,
+        "ggwgebieden": enrich_ggwgebieden,
+        "ggpgebieden": enrich_ggpgebieden
     }
 
     try:

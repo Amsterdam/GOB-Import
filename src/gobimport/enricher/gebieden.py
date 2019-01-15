@@ -32,6 +32,46 @@ def _enrich_wijken(entities, log):
     return entities
 
 
+def enrich_ggwgebieden(entities, log):
+    """Enrich GGW Gebieden
+
+    Add:
+    - Missing identificatie
+    - Interpret WIJKEN as a comma separated list of wijk codes
+    - Convert Excel DateTime values to dates
+
+    :param entities: a list of entities
+    :param log: log function
+    :return: None
+    """
+    for entity in entities:
+        entity["WIJKEN"] = entity["WIJKEN"].split(", ")
+        entity["GGW_IDENTIFICATIE"] = None
+        for date in ["GGW_BEGINDATUM", "GGW_EINDDATUM", "GGW_DOCUMENTDATUM"]:
+            if entity[date] is not None:
+                entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
+
+
+def enrich_ggpgebieden(entities, log):
+    """Enrich GGP Gebieden
+
+    Add:
+    - Missing identificatie
+    - Interpret BUURTEN as a comma separated list of buurt codes
+    - Convert Excel DateTime values to dates
+
+    :param entities: a list of entities
+    :param log: log function
+    :return: None
+    """
+    for entity in entities:
+        entity["BUURTEN"] = entity["BUURTEN"].split(", ")
+        entity["GGP_IDENTIFICATIE"] = None
+        for date in ["GGP_BEGINDATUM", "GGP_EINDDATUM", "GGP_DOCUMENTDATUM"]:
+            if entity[date] is not None:
+                entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
+
+
 def _add_cbs_code(entities, url, type, log):
     """
     Gets the CBS codes and tries to match them based on the inside

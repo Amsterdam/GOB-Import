@@ -190,10 +190,12 @@ class Validator:
         for entity in self.entities:
             id = f"{entity[self.source_id]}.{entity['volgnummer']}" if "volgnummer" in entity \
                 else entity[self.source_id]
-            if id not in primary_keys:
-                primary_keys.add(id)
-            else:
-                duplicates.add(id)
+            if id is not None:
+                # Only add ids that are not None, None id's can occur for imports of collections without ids
+                if id not in primary_keys:
+                    primary_keys.add(id)
+                else:
+                    duplicates.add(id)
         if duplicates:
             raise GOBException(f"Duplicate primary key(s) found in source: [{', '.join(duplicates)}]")
 
