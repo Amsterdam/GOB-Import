@@ -34,7 +34,7 @@ def _enrich_wijken(entities, log):
     return entities
 
 
-def volgnummer_from_date(date_str, date_format):
+def _volgnummer_from_date(date_str, date_format):
     """Generate a volgnummer from a date
 
     :param date_str: date string to derive volgnummer from
@@ -63,7 +63,7 @@ def enrich_ggw_ggp_gebieden(entities, prefix):
         entity[buurten_or_wijken] = entity[buurten_or_wijken].split(", ")
         entity["_IDENTIFICATIE"] = None
         entity["_REGISTRATIEDATUM"] = entity["_file_info"]["last_modified"]
-        entity["_VOLGNUMMER"] = volgnummer_from_date(entity["_REGISTRATIEDATUM"], "%Y-%m-%dT%H:%M:%S.%f")
+        entity["_VOLGNUMMER"] = _volgnummer_from_date(entity["_REGISTRATIEDATUM"], "%Y-%m-%dT%H:%M:%S.%f")
         for date in [f"{prefix}_{date}" for date in ["BEGINDATUM", "EINDDATUM", "DOCUMENTDATUM"]]:
             if entity[date] is not None:
                 entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
