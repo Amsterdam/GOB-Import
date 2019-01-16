@@ -64,8 +64,8 @@ class TestReader(unittest.TestCase):
     @mock.patch('gobimport.reader.objectstore.pandas.read_excel')
     def test_read_xls(self, mock_read, mock_io):
         mock_read.return_value = MockExcel()
-        result = _read_xls({})
-        self.assertEqual(result, [{"a": 1}])
+        result = _read_xls({}, {})
+        self.assertEqual(result, [{"a": 1, "_file_info": {}}])
 
     @mock.patch('gobimport.reader.objectstore.pandas.isnull')
     @mock.patch('gobimport.reader.objectstore.io.BytesIO')
@@ -73,5 +73,5 @@ class TestReader(unittest.TestCase):
     def test_read_xls_null_values(self, mock_read, mock_io, mock_isnull):
         mock_read.return_value = MockExcel()
         mock_isnull.return_value = True
-        result = _read_xls({})
+        result = _read_xls({}, {})
         self.assertEqual(result, [])

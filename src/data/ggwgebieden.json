@@ -5,7 +5,7 @@
   "source": {
     "name": "AMSBI",
     "application": "Basisinformatie",
-    "entity_id": "GGW_IDENTIFICATIE",
+    "entity_id": "GGW_CODE",
     "type": "objectstore",
     "container": "gebieden",
     "file_filter": "GGW_gebieden/GGW\\.xlsx$",
@@ -20,7 +20,13 @@
   },
   "gob_mapping": {
     "identificatie": {
-      "source_mapping": "GGW_IDENTIFICATIE"
+      "source_mapping": "_IDENTIFICATIE"
+    },
+    "volgnummer": {
+      "source_mapping": "_VOLGNUMMER"
+    },
+    "registratiedatum": {
+      "source_mapping": "_REGISTRATIEDATUM"
     },
     "naam": {
       "source_mapping": "GGW_NAAM"
