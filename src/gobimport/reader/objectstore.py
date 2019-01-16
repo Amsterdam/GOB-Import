@@ -21,23 +21,25 @@ def read_from_objectstore(connection, config):
     data = []
     for row in result:
         if pattern.match(row["name"]):
+            file_info = dict(row)    # File information
             if file_type == "XLS":
                 # Include (non-empty) Excel rows
                 obj = get_object(connection, row, container_name)
-                data += _read_xls(obj)
+                data += _read_xls(obj, file_info)
             else:
                 # Include file attributes
-                data.append(dict(row))
+                data.append(file_info)
 
     return data
 
 
-def _read_xls(obj):
+def _read_xls(obj, file_info):
     """Read XLS(X) object
 
     Read Excel object and return the (non-empty) rows
 
     :param obj: An Objectstore object
+    :param file_info: File information (name, last_modified, ...)
     :return: The list of non-empty rows
     """
     io_obj = io.BytesIO(obj)
@@ -54,6 +56,7 @@ def _read_xls(obj):
                 # Not NULL => row is not empty
                 empty = False
         if not empty:
+            row["_file_info"] = file_info
             data.append(row)
 
     return data

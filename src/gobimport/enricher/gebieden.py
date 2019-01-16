@@ -1,4 +1,6 @@
+from datetime import datetime
 import requests
+
 from shapely.geometry import shape
 from shapely.wkt import loads
 
@@ -32,6 +34,41 @@ def _enrich_wijken(entities, log):
     return entities
 
 
+def volgnummer_from_date(date_str, date_format):
+    """Generate a volgnummer from a date
+
+    :param date_str: date string to derive volgnummer from
+    :param date_format: format of date string
+    :return: a volgnummer that is higher for recent dates and lower for oldest dates
+    """
+    return int(datetime.strptime(date_str, date_format).timestamp())
+
+
+def enrich_ggw_ggp_gebieden(entities, prefix):
+    """Enrich GGW or GGP Gebieden
+
+    Add:
+    - Missing identificatie
+    - Set registratiedatum to the date of the file
+    - Set volgnummer to a number that corresponds to the registratiedatum
+    - Interpret WIJKEN or BUURTEN as a comma separated list of codes
+    - Convert Excel DateTime values to date strings in YYYY-MM-DD format
+
+    :param entities: a list of entities
+    :param prefix: GGW or GGP
+    :return: None
+    """
+    for entity in entities:
+        buurten_or_wijken = "WIJKEN" if prefix == "GGW" else "BUURTEN"
+        entity[buurten_or_wijken] = entity[buurten_or_wijken].split(", ")
+        entity["_IDENTIFICATIE"] = None
+        entity["_REGISTRATIEDATUM"] = entity["_file_info"]["last_modified"]
+        entity["_VOLGNUMMER"] = volgnummer_from_date(entity["_REGISTRATIEDATUM"], "%Y-%m-%dT%H:%M:%S.%f")
+        for date in [f"{prefix}_{date}" for date in ["BEGINDATUM", "EINDDATUM", "DOCUMENTDATUM"]]:
+            if entity[date] is not None:
+                entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
+
+
 def enrich_ggwgebieden(entities, log):
     """Enrich GGW Gebieden
 
@@ -44,12 +81,7 @@ def enrich_ggwgebieden(entities, log):
     :param log: log function
     :return: None
     """
-    for entity in entities:
-        entity["WIJKEN"] = entity["WIJKEN"].split(", ")
-        entity["GGW_IDENTIFICATIE"] = None
-        for date in ["GGW_BEGINDATUM", "GGW_EINDDATUM", "GGW_DOCUMENTDATUM"]:
-            if entity[date] is not None:
-                entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
+    enrich_ggw_ggp_gebieden(entities, "GGW")
 
 
 def enrich_ggpgebieden(entities, log):
@@ -64,12 +96,7 @@ def enrich_ggpgebieden(entities, log):
     :param log: log function
     :return: None
     """
-    for entity in entities:
-        entity["BUURTEN"] = entity["BUURTEN"].split(", ")
-        entity["GGP_IDENTIFICATIE"] = None
-        for date in ["GGP_BEGINDATUM", "GGP_EINDDATUM", "GGP_DOCUMENTDATUM"]:
-            if entity[date] is not None:
-                entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
+    enrich_ggw_ggp_gebieden(entities, "GGP")
 
 
 def _add_cbs_code(entities, url, type, log):

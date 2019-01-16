@@ -5,7 +5,7 @@
   "source": {
     "name": "AMSBI",
     "application": "Basisinformatie",
-    "entity_id": "GGP_IDENTIFICATIE",
+    "entity_id": "GGP_CODE",
     "type": "objectstore",
     "container": "gebieden",
     "file_filter": "GGW_praktijkgebieden/GGP\\.xlsx$",
@@ -20,7 +20,13 @@
   },
   "gob_mapping": {
     "identificatie": {
-      "source_mapping": "GGP_IDENTIFICATIE"
+      "source_mapping": "_IDENTIFICATIE"
+    },
+    "volgnummer": {
+      "source_mapping": "_VOLGNUMMER"
+    },
+    "registratiedatum": {
+      "source_mapping": "_REGISTRATIEDATUM"
     },
     "naam": {
       "source_mapping": "GGP_NAAM"
