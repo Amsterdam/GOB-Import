@@ -15,6 +15,12 @@
         "type": "autoid",
         "on": "code",
         "template": "0363094XXXXXXX"
+      },
+      "geometrie": {
+        "type": "geounion",
+        "on": "bestaat_uit_buurten.bronwaarde",
+        "from": "gebieden:buurten.code",
+        "geometrie": "geometrie"
       }
     }
   },
