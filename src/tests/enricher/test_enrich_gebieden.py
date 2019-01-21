@@ -149,7 +149,7 @@ class TestGGWPEnricher(unittest.TestCase):
                 "GGW_BEGINDATUM": "YYYY-MM-DD HH:MM:SS",
                 "GGW_EINDDATUM": "YYYY-MM-DD HH:MM:SS.fff",
                 "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
-                "WIJKEN": "1, 2, 3",
+                "BUURTEN": "1, 2, 3",
                 "_file_info": {
                     "last_modified": "2020-01-20T12:30:30.12345"
                 }
@@ -164,7 +164,7 @@ class TestGGWPEnricher(unittest.TestCase):
                 "GGW_BEGINDATUM": "YYYY-MM-DD",
                 "GGW_EINDDATUM": "YYYY-MM-DD",
                 "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
-                "WIJKEN": ["1", "2", "3"],
+                "BUURTEN": ["1", "2", "3"],
                 "_file_info": {"last_modified": "2020-01-20T12:30:30.12345"}
             }
         ])

@@ -61,7 +61,7 @@
     },
     "merk": {
       "source_mapping": {
-        "id": "merk_id",
+        "code": "merk_id",
         "omschrijving": "merk_omschrijving"
       }
     },
@@ -85,7 +85,7 @@
     },
     "status": {
       "source_mapping": {
-        "id": "status_id",
+        "code": "status_id",
         "omschrijving": "status_omschrijving"
       }
     },

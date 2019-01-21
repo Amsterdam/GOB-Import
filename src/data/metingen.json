@@ -49,14 +49,14 @@
     },
     "wijze_van_inwinnen": {
       "source_mapping": {
-        "id": "wijze_van_inwinnen_id",
+        "code": "wijze_van_inwinnen_id",
         "omschrijving": "wijze_van_inwinnen"
       }
     },
     "hoogte_tov_nap": {
       "source_mapping": "hoogte_tov_nap"
     },
-    "refereert_aan": {
+    "refereert_aan_referentiepunten": {
       "source_mapping": {
         "bronwaarde": "refereert_aan_refpunt"
       }

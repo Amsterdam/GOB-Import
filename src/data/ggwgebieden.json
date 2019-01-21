@@ -18,8 +18,8 @@
       },
       "geometrie": {
         "type": "geounion",
-        "on": "bestaat_uit_wijken.bronwaarde",
-        "from": "gebieden:wijken.code",
+        "on": "bestaat_uit_buurten.bronwaarde",
+        "from": "gebieden:buurten.code",
         "geometrie": "geometrie"
       }
     }
@@ -40,10 +40,10 @@
     "code": {
       "source_mapping": "GGW_CODE"
     },
-    "datum_begin_geldigheid": {
+    "begin_geldigheid": {
       "source_mapping": "GGW_BEGINDATUM"
     },
-    "datum_einde_geldigheid": {
+    "eind_geldigheid": {
       "source_mapping": "GGW_EINDDATUM"
     },
     "documentdatum": {
@@ -57,9 +57,9 @@
         "bronwaarde": "SDL_CODE"
       }
     },
-    "bestaat_uit_wijken": {
+    "bestaat_uit_buurten": {
       "source_mapping": {
-        "bronwaarde": "WIJKEN"
+        "bronwaarde": "BUURTEN"
       }
     }
   }
