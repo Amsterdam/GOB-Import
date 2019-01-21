@@ -1,0 +1,66 @@
+{
+  "version": "0.1",
+  "catalogue": "gebieden",
+  "entity": "ggpgebieden",
+  "source": {
+    "name": "AMSBI",
+    "application": "Basisinformatie",
+    "entity_id": "GGP_CODE",
+    "type": "objectstore",
+    "container": "gebieden",
+    "file_filter": "GGW_praktijkgebieden/GGP\\.xlsx$",
+    "file_type": "XLS",
+    "enrich": {
+      "identificatie": {
+        "type": "autoid",
+        "on": "code",
+        "template": "0363094XXXXXXX"
+      },
+      "geometrie": {
+        "type": "geounion",
+        "on": "bestaat_uit_buurten.bronwaarde",
+        "from": "gebieden:buurten.code",
+        "geometrie": "geometrie"
+      }
+    }
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "_IDENTIFICATIE"
+    },
+    "volgnummer": {
+      "source_mapping": "_VOLGNUMMER"
+    },
+    "registratiedatum": {
+      "source_mapping": "_REGISTRATIEDATUM"
+    },
+    "naam": {
+      "source_mapping": "GGP_NAAM"
+    },
+    "code": {
+      "source_mapping": "GGP_CODE"
+    },
+    "datum_begin_geldigheid": {
+      "source_mapping": "GGP_BEGINDATUM"
+    },
+    "datum_einde_geldigheid": {
+      "source_mapping": "GGP_EINDDATUM"
+    },
+    "documentdatum": {
+      "source_mapping": "GGP_DOCUMENTDATUM"
+    },
+    "documentnummer": {
+      "source_mapping": "GGP_DOCUMENTNUMMER"
+    },
+    "ligt_in_stadsdeel": {
+      "source_mapping": {
+        "bronwaarde": "SDL_CODE"
+      }
+    },
+    "bestaat_uit_buurten": {
+      "source_mapping": {
+        "bronwaarde": "BUURTEN"
+      }
+    }
+  }
+}

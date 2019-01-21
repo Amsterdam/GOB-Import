@@ -3,6 +3,7 @@ import unittest
 from unittest import mock
 
 from gobimport.enricher.gebieden import _enrich_buurten, _enrich_wijken, CBS_BUURTEN_API, CBS_WIJKEN_API, _add_cbs_code
+from gobimport.enricher.gebieden import enrich_ggwgebieden, enrich_ggpgebieden, _volgnummer_from_date
 
 class MockResponse:
 
@@ -129,3 +130,67 @@ class TestEnricher(unittest.TestCase):
 
         # Expect an empty string when datum_einde_geldigheid is not empty
         self.assertEqual('', self.entities[2]['cbs_code'])
+
+class TestGGWPEnricher(unittest.TestCase):
+
+    def setUp(self):
+        self.entitites = [
+            {
+
+            }
+        ]
+
+    def volgnummer(self, date_str):
+        return _volgnummer_from_date(date_str, "%Y-%m-%dT%H:%M:%S.%f")
+
+    def test_enrich_ggwgebieden(self):
+        ggwgebieden = [
+            {
+                "GGW_BEGINDATUM": "YYYY-MM-DD HH:MM:SS",
+                "GGW_EINDDATUM": "YYYY-MM-DD HH:MM:SS.fff",
+                "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
+                "WIJKEN": "1, 2, 3",
+                "_file_info": {
+                    "last_modified": "2020-01-20T12:30:30.12345"
+                }
+            }
+        ]
+        enrich_ggwgebieden(ggwgebieden, log=None)
+        self.assertEqual(ggwgebieden, [
+            {
+                "_IDENTIFICATIE": None,
+                "_REGISTRATIEDATUM": "2020-01-20T12:30:30.12345",
+                "_VOLGNUMMER": self.volgnummer("2020-01-20T12:30:30.12345"),
+                "GGW_BEGINDATUM": "YYYY-MM-DD",
+                "GGW_EINDDATUM": "YYYY-MM-DD",
+                "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
+                "WIJKEN": ["1", "2", "3"],
+                "_file_info": {"last_modified": "2020-01-20T12:30:30.12345"}
+            }
+        ])
+
+    def test_enrich_ggpgebieden(self):
+        ggpgebieden = [
+            {
+                "GGP_BEGINDATUM": "YYYY-MM-DD HH:MM:SS",
+                "GGP_EINDDATUM": "YYYY-MM-DD HH:MM:SS.fff",
+                "GGP_DOCUMENTDATUM": None,
+                "BUURTEN": "1, 2, 3",
+                "_file_info": {
+                    "last_modified": "2020-01-20T12:30:30.12345"
+                }
+            }
+        ]
+        enrich_ggpgebieden(ggpgebieden, log=None)
+        self.assertEqual(ggpgebieden, [
+            {
+                "_IDENTIFICATIE": None,
+                "_REGISTRATIEDATUM": "2020-01-20T12:30:30.12345",
+                "_VOLGNUMMER": self.volgnummer("2020-01-20T12:30:30.12345"),
+                "GGP_BEGINDATUM": "YYYY-MM-DD",
+                "GGP_EINDDATUM": "YYYY-MM-DD",
+                "GGP_DOCUMENTDATUM": None,
+                "BUURTEN": ["1", "2", "3"],
+                "_file_info": {"last_modified": "2020-01-20T12:30:30.12345"}
+            }
+        ])
