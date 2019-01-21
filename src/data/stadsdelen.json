@@ -30,7 +30,7 @@
 "    ,      '0363'                                                 AS ligt_in_gemeente",
 "    ,      t1.inwin                                               AS registratiedatum",
 "    ,      t1.guid                                                AS source_id",
-"    ,      t1.geometrie                                           AS geometrie",
+"    ,      sdo_util.to_wktgeometry(t1.geometrie)                  AS geometrie",
 "      FROM   gebieden.dgdtw_topografie t1",
 "      JOIN   gebieden.dgdtw_table_6027 s1 ON t1.id = s1.dgdtw_primary_key",
 "      -- volgnummer afleiden",
