@@ -70,10 +70,10 @@
     "geometrie": {
       "source_mapping": "geometrie"
     },
-    "datum_begin_geldigheid": {
+    "begin_geldigheid": {
       "source_mapping": "begin_geldigheid"
     },
-    "datum_einde_geldigheid": {
+    "eind_geldigheid": {
       "source_mapping": "eind_geldigheid"
     },
     "bagproces": {

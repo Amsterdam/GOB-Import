@@ -51,7 +51,7 @@ def enrich_ggw_ggp_gebieden(entities, prefix):
     - Missing identificatie
     - Set registratiedatum to the date of the file
     - Set volgnummer to a number that corresponds to the registratiedatum
-    - Interpret WIJKEN or BUURTEN as a comma separated list of codes
+    - Interpret BUURTEN as a comma separated list of codes
     - Convert Excel DateTime values to date strings in YYYY-MM-DD format
 
     :param entities: a list of entities
@@ -59,8 +59,7 @@ def enrich_ggw_ggp_gebieden(entities, prefix):
     :return: None
     """
     for entity in entities:
-        buurten_or_wijken = "WIJKEN" if prefix == "GGW" else "BUURTEN"
-        entity[buurten_or_wijken] = entity[buurten_or_wijken].split(", ")
+        entity["BUURTEN"] = entity["BUURTEN"].split(", ")
         entity["_IDENTIFICATIE"] = None
         entity["_REGISTRATIEDATUM"] = entity["_file_info"]["last_modified"]
         entity["_VOLGNUMMER"] = _volgnummer_from_date(entity["_REGISTRATIEDATUM"], "%Y-%m-%dT%H:%M:%S.%f")
@@ -74,7 +73,7 @@ def enrich_ggwgebieden(entities, log):
 
     Add:
     - Missing identificatie
-    - Interpret WIJKEN as a comma separated list of wijk codes
+    - Interpret BUURTEN as a comma separated list of buurt codes
     - Convert Excel DateTime values to dates
 
     :param entities: a list of entities
