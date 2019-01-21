@@ -29,6 +29,14 @@ DATABASE_CONFIGS = {
         'host': os.getenv("DBIGM_DATABASE_HOST", "hostname"),
         'port': os.getenv("DBIGM_DATABASE_PORT", 1521),
         'database': os.getenv("DBIGM_DATABASE", ""),
+    },
+    'Neuron': {
+        'drivername': ORACLE_DRIVER,
+        'username': os.getenv("BINNRN_DATABASE_USER", "gob"),
+        'password': os.getenv("BINNRN_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("BINNRN_DATABASE_HOST", "hostname"),
+        'port': os.getenv("BINNRN_DATABASE_PORT", 1521),
+        'database': os.getenv("BINNRN_DATABASE", ""),
     }
 }
 
