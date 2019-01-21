@@ -37,6 +37,9 @@
     "boolean": {
       "source_mapping": "boolean",
       "format": "JN"
+    },
+    "json": {
+      "source_mapping": "json"
     }
   }
 }
