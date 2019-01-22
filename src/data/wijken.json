@@ -20,28 +20,36 @@
       }
     },
     "query": [
-"    SELECT s.naam                               AS naam",
-"    ,      s.sdlcode || s.wijkcode              AS code",
-"    ,      q1.volgnummer                        AS volgnummer",
-"    ,      to_char(q1.ingsdatum, 'YYYY-MM-DD')  AS datum_begin_geldigheid",
-"    ,      to_char(q1.einddatum, 'YYYY-MM-DD')  AS datum_einde_geldigheid",
-"    ,      to_char(s.docdatum, 'YYYY-MM-DD')    AS documentdatum",
-"    ,      s.docnr                              AS documentnummer",
-"    ,      s.sdlcode                            AS ligt_in_stadsdeel",
-"    ,      t.inwin                              AS registratiedatum",
-"    ,      t.guid                               AS source_id",
-"    ,      sdo_util.to_wktgeometry(t.geometrie) AS geometrie",
-"      FROM   gebieden.dgdtw_topografie t",
-"      JOIN   gebieden.dgdtw_table_6025 s ON t.id = s.dgdtw_primary_key",
-"      JOIN  (SELECT t1.id",
-"    ,      t1.guid",
-"    ,      s1.ingsdatum",
-"    ,      s1.einddatum",
-"    ,      dense_rank() OVER (partition BY s1.sdlcode || s1.wijkcode ORDER BY t1.inwin) AS volgnummer",
+"    SELECT s1.naam                                                AS naam",
+"    ,      s1.sdlcode || s1.wijkcode                              AS code",
+"    ,      q2.volgnummer                                          AS volgnummer",
+"    ,      to_char(q2.ingsdatum, 'YYYY-MM-DD')                    AS datum_begin_geldigheid",
+"    ,      to_char(nvl(q2.einddatum, q3.ingsdatum), 'YYYY-MM-DD') AS datum_einde_geldigheid",
+"    ,      to_char(s1.docdatum, 'YYYY-MM-DD')                     AS documentdatum",
+"    ,      s1.docnr                                               AS documentnummer",
+"    ,      s1.sdlcode                                             AS ligt_in_stadsdeel",
+"    ,      t1.inwin                                               AS registratiedatum",
+"    ,      t1.guid                                                AS source_id",
+"    ,      sdo_util.to_wktgeometry(t1.geometrie)                  AS geometrie",
 "      FROM   gebieden.dgdtw_topografie t1",
-"      JOIN   gebieden.dgdtw_table_6025 s1 ON t1.id = s1.dgdtw_primary_key) q1 ON t.id = q1.id",
-"      WHERE  t.objectcode = 6025 -- wijk",
-"      ORDER  BY q1.volgnummer"
+"      JOIN   gebieden.dgdtw_table_6025 s1 ON t1.id = s1.dgdtw_primary_key",
+"      -- volgnummer afleiden",
+"      JOIN  (SELECT t2.id",
+"    ,      t2.guid",
+"    ,      s2.ingsdatum",
+"    ,      s2.einddatum",
+"    ,      dense_rank() OVER (partition BY t2.guid ORDER BY t2.inwin) AS volgnummer",
+"      FROM   gebieden.dgdtw_topografie t2",
+"      JOIN   gebieden.dgdtw_table_6025 s2 ON t2.id = s2.dgdtw_primary_key) q2 ON t1.id = q2.id",
+"      -- einddatum toestand selecteren (kan leeg zijn)",
+"      LEFT OUTER JOIN  (SELECT t3.guid",
+"    ,      t3.inwin",
+"    ,      s3.ingsdatum",
+"      FROM   gebieden.dgdtw_topografie t3",
+"      JOIN   gebieden.dgdtw_table_6025 s3 ON t3.id = s3.dgdtw_primary_key",
+"      WHERE  t3.verval IS NULL) q3 ON t1.guid = q3.guid AND t1.verval = q3.inwin",
+"      WHERE  t1.objectcode = 6025 -- wijk",
+"      ORDER  BY s1.sdlcode, s1.wijkcode, q2.volgnummer"
     ]
   },
   "gob_mapping": {
@@ -61,10 +69,10 @@
     "code": {
       "source_mapping": "code"
     },
-    "datum_begin_geldigheid": {
+    "begin_geldigheid": {
       "source_mapping": "datum_begin_geldigheid"
     },
-    "datum_einde_geldigheid": {
+    "eind_geldigheid": {
       "source_mapping": "datum_einde_geldigheid"
     },
     "documentdatum": {

@@ -1,0 +1,95 @@
+{
+  "version": "0.1",
+  "catalogue": "bag",
+  "entity": "woonplaatsen",
+  "source": {
+    "name": "AMSBI",
+    "application": "Neuron",
+    "entity_id": "identificatie",
+    "type": "database",
+    "schema": "Neuron",
+    "query": [
+"    SELECT w.woonplaatsnummer                                                AS identificatie",
+"    ,      w.woonplaatsvolgnummer                                            AS volgnummer",
+"    ,      s.status                                                          AS status_code",
+"    ,      s.omschrijving                                                    AS status_omschrijving",
+"    ,      CASE WHEN to_char(w.datumopvoer, 'HH24:MI:SS') = '00:00:00' THEN",
+"      to_char(w.datumopvoer, 'YYYY-MM-DD') ELSE",
+"      to_char(w.datumopvoer, 'YYYY-MM-DD HH24:MI:SS') END     AS begin_geldigheid",
+"    ,      CASE WHEN to_char(w.datumafvoer, 'HH24:MI:SS') = '00:00:00' THEN",
+"      to_char(w.datumafvoer, 'YYYY-MM-DD') ELSE",
+"      to_char(w.datumafvoer, 'YYYY-MM-DD HH24:MI:SS') END     AS eind_geldigheid",
+"    ,      w.indinonderzoek                                                  AS aanduiding_in_onderzoek",
+"    ,      w.indgeconstateerd                                                AS geconstateerd",
+"    ,      to_char(w.dd_document, 'YYYY-MM-DD')                              AS documentdatum",
+"    ,      w.documentnummer                                                  AS documentnummer",
+"    ,      w.naam                                                            AS naam",
+"    ,      '0363'                                                            AS ligt_in_gemeente",
+"    ,      to_char(nvl(w.modification, w.creation), 'YYYY-MM-DD HH24:MI:SS') AS registratiedatum",
+"    ,      w.woonplaatsnummer                                                AS source_id",
+"    ,      w.bagproces                                                       AS bagproces_code",
+"    ,      m.omschrijving                                                    AS bagproces_omschrijving",
+"    ,      sdo_util.to_wktgeometry(geometrie)                                AS geometrie",
+"      FROM   basis.woonplaats w",
+"      -- selecteren status",
+"      LEFT OUTER JOIN basis.woonplaatsstatus s ON w.status_id = s.status",
+"      -- selecteren bagproces / mutatiereden",
+"      LEFT OUTER JOIN basis.mutatiereden m ON w.bagproces = m.id",
+"      WHERE  w.indauthentiek = 'J'"
+    ]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "naam": {
+      "source_mapping": "naam"
+    },
+    "status": {
+      "source_mapping": {
+        "code": "status_code",
+        "omschrijving": "status_omschrijving"
+      }
+    },
+    "geconstateerd": {
+      "source_mapping": "geconstateerd"
+    },
+    "aanduiding_in_onderzoek": {
+      "source_mapping": "aanduiding_in_onderzoek",
+      "format": "JN"
+    },
+    "documentdatum": {
+      "source_mapping": "documentdatum"
+    },
+    "documentnummer": {
+      "source_mapping": "documentnummer"
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    },
+    "begin_geldigheid": {
+      "source_mapping": "begin_geldigheid"
+    },
+    "eind_geldigheid": {
+      "source_mapping": "eind_geldigheid"
+    },
+    "bagproces": {
+      "source_mapping": {
+        "code": "bagproces_code",
+        "omschrijving": "bagproces_omschrijving"
+      }
+    },
+    "registratiedatum": {
+      "source_mapping": "registratiedatum",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "ligt_in_gemeente": {
+      "source_mapping": {
+        "bronwaarde": "ligt_in_gemeente"
+      }
+    }
+  }
+}

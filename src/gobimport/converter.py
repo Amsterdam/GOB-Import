@@ -107,8 +107,8 @@ def convert_data(data, dataset):
         source_id_value = row[source_id_field]
         source_id_str_value = str(get_gob_type("GOB.String").from_value(source_id_value))
         if entity_specification.get("has_states", False):
-            # Source id + datum_begin_geldigheid is source id
-            source_id_str_value = f"{source_id_str_value}.{target_entity['datum_begin_geldigheid']}"
+            # Source id + begin_geldigheid is source id
+            source_id_str_value = f"{source_id_str_value}.{target_entity['begin_geldigheid']}"
         target_entity['_source_id'] = source_id_str_value
 
         entities.append(target_entity)

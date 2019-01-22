@@ -40,10 +40,10 @@
     "code": {
       "source_mapping": "GGP_CODE"
     },
-    "datum_begin_geldigheid": {
+    "begin_geldigheid": {
       "source_mapping": "GGP_BEGINDATUM"
     },
-    "datum_einde_geldigheid": {
+    "eind_geldigheid": {
       "source_mapping": "GGP_EINDDATUM"
     },
     "documentdatum": {
