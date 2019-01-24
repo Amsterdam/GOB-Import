@@ -40,6 +40,15 @@
     },
     "json": {
       "source_mapping": "json"
+    },
+    "datetime": {
+      "source_mapping": "datetime"
+    },
+    "polygon": {
+      "source_mapping": "polygon"
+    },
+    "geometry": {
+      "source_mapping": "geometry"
     }
   }
 }
