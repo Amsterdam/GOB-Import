@@ -124,14 +124,16 @@ def _add_cbs_code(entities, url, type, log):
 
         # Show a warning if the names do not match with CBS
         if match and entity['naam'] != match['naam']:
+            msg = "Naam and CBS naam don't match"
             extra_data = {
                 'data': {
+                    'id': msg,
                     'identificatie': entity['identificatie'],
                     'naam': entity['naam'],
                     'cbs_naam': match['naam'],
                 }
             }
-            log("warning", "Naam and CBS naam don't match", extra_data)
+            log("warning", msg, extra_data)
 
     return entities
 
@@ -152,14 +154,16 @@ def _match_cbs_features(entity, features, log):
         if geom.contains(feature['geometrie']) and not match:
             match = feature
         elif geom.contains(feature['geometrie']) and match:
+            msg = "Entity already had a match"
             extra_data = {
                 'data': {
+                    'id': msg,
                     'naam': entity['naam'],
                     'match': match['naam'],
                     'cbs_naam': feature['naam'],
                 }
             }
-            log("warning", "entity already had a match", extra_data)
+            log("warning", msg, extra_data)
 
     return match
 
