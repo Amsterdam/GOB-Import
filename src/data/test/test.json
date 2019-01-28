@@ -49,6 +49,12 @@
     },
     "geometry": {
       "source_mapping": "geometry"
+    },
+    "reference": {
+      "source_mapping": {
+        "id": "reference",
+        "bronwaarde": "string"
+      }
     }
   }
 }

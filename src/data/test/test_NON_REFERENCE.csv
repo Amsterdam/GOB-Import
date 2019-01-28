@@ -1,0 +1,2 @@
+,integer,decimal,character,string,date,point,boolean,json,datetime,polygon,geometry,reference
+,0,0.0,a,id 1,01-01-2001,POINT (0.0 0.0),J,{},2019-01-22T14:35:30.025457,"POLYGON ((0.0 0.0, 0.0 0.0, 0.0 0.0, 0.0 0.0))",POINT (0 0),null
