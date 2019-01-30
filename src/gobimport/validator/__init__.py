@@ -132,7 +132,7 @@ ENTITY_CHECKS = {
                         'max': NL_Y_MAX,
                     }
                 },
-                "msg": "geometrie should be a between 110000-136000 and 474000-502000",
+                "msg": f"geometrie coordinates should be between {NL_X_MIN}-{NL_X_MAX} and {NL_Y_MIN}-{NL_Y_MAX}",
                 "type": QA.FATAL,
             },
         ],
@@ -167,7 +167,7 @@ ENTITY_CHECKS = {
                         'max': NL_Y_MAX,
                     }
                 },
-                "msg": "geometrie should be a between 110000-136000 and 474000-502000",
+                "msg": f"geometrie coordinates should be between {NL_X_MIN}-{NL_X_MAX} and {NL_Y_MIN}-{NL_Y_MAX}",
                 "type": QA.FATAL,
             },
         ],
