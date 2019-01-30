@@ -38,7 +38,7 @@ def entity_validate(catalogue, entity_name, entities, log):
         return
 
     # Raise an Exception is a fatal validation has failed
-    if not validate_entities(entities, log) or not states_validated:
+    if not (validate_entities(entities, log) and states_validated):
         raise GOBException(
             f"Quality assurance failed for {entity_name}"
         )
@@ -67,6 +67,7 @@ def _validate_entity_state(entities, log):
            entity['eind_geldigheid'].to_db < entity['begin_geldigheid'].to_db:
             msg = "begin_geldigheid can not be after eind_geldigheid"
             extra_data = {
+                'id': msg,
                 'data': {
                     'identificatie': entity['identificatie'],
                     'begin_geldigheid': entity['begin_geldigheid'],
@@ -82,6 +83,7 @@ def _validate_entity_state(entities, log):
         if int(volgnummer) < 1 or volgnummer in volgnummers[identificatie]:
             msg = "volgnummer should be a positive number and unique in the collection"
             extra_data = {
+                'id': msg,
                 'data': {
                     'identificatie': entity['identificatie'],
                     'volgnummer': entity['volgnummer'],
