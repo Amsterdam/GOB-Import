@@ -116,7 +116,16 @@ ENTITY_CHECKS = {
         ],
         "geometrie": [
             {
-                "geometry": [[110000, 136000], [474000, 502000]],
+                "geometry": {
+                    'x': {
+                        'min': 110000,
+                        'max': 136000,
+                    },
+                    'y': {
+                        'min': 474000,
+                        'max': 502000,
+                    }
+                },
                 "msg": "geometrie should be a between 110000-136000 and 474000-502000",
                 "type": QA.FATAL,
             },
@@ -129,6 +138,51 @@ ENTITY_CHECKS = {
                 "type": QA.FATAL,
             },
         ]
+    },
+    "bouwblokken": {
+        "code": [
+            {
+                "pattern": "^[a-zA-Z]{2}\d{2}$",
+                "msg": "code should be 2 letters and 2 numbers",
+                "type": QA.FATAL
+            }
+        ],
+    },
+    "buurten": {
+        "geometrie": [
+            {
+                "geometry": {
+                    'x': {
+                        'min': 110000,
+                        'max': 136000,
+                    },
+                    'y': {
+                        'min': 474000,
+                        'max': 502000,
+                    }
+                },
+                "msg": "geometrie should be a between 110000-136000 and 474000-502000",
+                "type": QA.FATAL,
+            },
+        ],
+    },
+    "wijken": {
+        "documentnummer": [
+            {
+                "pattern": ".+",
+                "msg": "documentnummer should be filled",
+                "type": QA.WARNING,
+            },
+        ],
+    },
+    "ggpgebieden": {
+        "naam": [
+            {
+                "pattern": ".+",
+                "msg": "naam should be filled",
+                "type": QA.WARNING,
+            },
+        ],
     }
 }
 
@@ -286,10 +340,15 @@ class Validator:
         return value >= between[0] and value <= between[1] if value is not None else False
 
     def _geometry_check(self, between, value):
-        coords = re.findall('([0-9]+\.[0-9]{1,2})', value)
-        for count, value_range in enumerate(between):
-            # If the coord is outside of the supplied range, return False
-            if float(coords[count]) <= value_range[0] or float(coords[count]) >= value_range[1]:
+        coords = re.findall('([0-9]+\.[0-9]+)', value)
+        # Loop through all coords and check if they fill within the supplied range
+        # Even coords are x values, uneven are y values
+        coord_types = ['x', 'y']
+        for count, coord in enumerate(coords):
+            # Get the coord type
+            coord_type = coord_types[count % 2]
+            # If the coord is outside of the boundaries, retun false
+            if float(coord) < between[coord_type]['min'] or float(coord) > between[coord_type]['max']:
                 return False
         return True
 
