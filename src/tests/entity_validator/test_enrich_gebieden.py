@@ -56,9 +56,12 @@ class TestEntityValidator(unittest.TestCase):
         self.log.assert_called_with(
             "warning",
             "documentdatum can not be after eind_geldigheid",
-            {'data': {
-                'identificatie': self.entities[0]['identificatie'],
-                'documentdatum': self.entities[0]['documentdatum'],
-                'eind_geldigheid': self.entities[0]['eind_geldigheid'],
-            }}
+            {
+                'id': 'documentdatum can not be after eind_geldigheid',
+                'data': {
+                    'identificatie': self.entities[0]['identificatie'],
+                    'documentdatum': self.entities[0]['documentdatum'],
+                    'eind_geldigheid': self.entities[0]['eind_geldigheid'],
+                }
+            }
         )

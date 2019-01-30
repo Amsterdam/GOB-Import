@@ -17,6 +17,12 @@ MISSING_ATTR_FMT = "{attr} missing in entity: {entity}"
 QA_CHECK_FAILURE_FMT = "{msg}. Value was: {value}"
 
 
+NL_X_MIN = 110000
+NL_X_MAX = 136000
+NL_Y_MIN = 474000
+NL_Y_MAX = 502000
+
+
 class QA(Enum):
     FATAL = "fatal"
     WARNING = "warning"
@@ -118,12 +124,12 @@ ENTITY_CHECKS = {
             {
                 "geometry": {
                     'x': {
-                        'min': 110000,
-                        'max': 136000,
+                        'min': NL_X_MIN,
+                        'max': NL_X_MAX,
                     },
                     'y': {
-                        'min': 474000,
-                        'max': 502000,
+                        'min': NL_Y_MIN,
+                        'max': NL_Y_MAX,
                     }
                 },
                 "msg": "geometrie should be a between 110000-136000 and 474000-502000",
@@ -153,12 +159,12 @@ ENTITY_CHECKS = {
             {
                 "geometry": {
                     'x': {
-                        'min': 110000,
-                        'max': 136000,
+                        'min': NL_X_MIN,
+                        'max': NL_X_MAX,
                     },
                     'y': {
-                        'min': 474000,
-                        'max': 502000,
+                        'min': NL_Y_MIN,
+                        'max': NL_Y_MAX,
                     }
                 },
                 "msg": "geometrie should be a between 110000-136000 and 474000-502000",
