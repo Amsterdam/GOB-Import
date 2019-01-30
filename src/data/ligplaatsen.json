@@ -1,0 +1,120 @@
+{
+  "version": "0.1",
+  "catalogue": "bag",
+  "entity": "ligplaatsen",
+  "source": {
+    "name": "AMSBI",
+    "application": "Neuron",
+    "entity_id": "identificatie",
+    "type": "database",
+    "schema": "Neuron",
+    "query": [
+"    SELECT l.ligplaatsnummer                                                 AS identificatie",
+"    ,      l.ligplaatsvolgnummer                                             AS volgnummer",
+"    ,      l.indgeconstateerd                                                AS geconstateerd",
+"    ,      to_char(l.datumopvoer, 'YYYY-MM-DD HH24:MI:SS')                   AS begin_geldigheid",
+"    ,      to_char(l.datumafvoer, 'YYYY-MM-DD HH24:MI:SS')                   AS eind_geldigheid",
+"    ,      l.indinonderzoek                                                  AS aanduiding_in_onderzoek",
+"    ,      l.status                                                          AS status_code",
+"    ,      s.omschrijving                                                    AS status_omschrijving",
+"    ,      q1.adresnummer                                                    AS nummeraanduidingid_hoofd",
+"    ,      q2.adresnummer                                                    AS nummeraanduidingid_neven",
+"    ,      sdo_util.to_wktgeometry(l.geometrie)                              AS geometrie",
+"    ,      to_char(l.dd_document, 'YYYY-MM-DD')                              AS documentdatum",
+"    ,      l.documentnummer                                                  AS documentnummer",
+"    ,      l.bagproces                                                       AS bagproces_code",
+"    ,      m.omschrijving                                                    AS bagproces_omschrijving",
+"    ,      to_char(l.creation, 'YYYY-MM-DD HH24:MI:SS')                      AS registratiedatum",
+"    ,      l.ligplaatsnummer                                                 AS source_id",
+"      FROM   basis.ligplaats l",
+"      -- selecteren status",
+"      LEFT OUTER JOIN basis.ligplaatsstatus s  ON l.status = s.status",
+"      -- selecteren bagproces / mutatiereden",
+"      LEFT OUTER JOIN basis.mutatiereden m ON l.bagproces = m.id",
+"      -- selecteren hoofdadres(sen)",
+"      LEFT OUTER JOIN (SELECT la.ligplaats_id",
+"    ,      la.ligplaatsvolgnummer",
+"    ,      a.adresnummer",
+"      FROM   basis.ligplaats_adres la",
+"      JOIN  (SELECT adres_id, adresnummer",
+"      FROM   basis.adres",
+"      WHERE  indauthentiek = 'J'",
+"      GROUP BY adres_id, adresnummer) a ON a.adres_id = la.adres_id",
+"      WHERE  la.indhoofdadres = 'J') q1  ON l.ligplaats_id = q1.ligplaats_id",
+"      AND l.ligplaatsvolgnummer = q1.ligplaatsvolgnummer",
+"      -- selecteren nevenadres(sen)",
+"      LEFT OUTER JOIN (SELECT la.ligplaats_id",
+"    ,      la.ligplaatsvolgnummer",
+"    ,      listagg(a.adresnummer, ';') WITHIN GROUP (ORDER BY la.ligplaats_id,la.ligplaatsvolgnummer) AS adresnummer",
+"      FROM   basis.ligplaats_adres la",
+"      JOIN  (SELECT adres_id, adresnummer",
+"      FROM   basis.adres",
+"      WHERE  indauthentiek = 'J'",
+"      GROUP BY adres_id, adresnummer) a ON a.adres_id = la.adres_id",
+"      WHERE  la.indhoofdadres = 'N'",
+"      GROUP BY la.ligplaats_id,la.ligplaatsvolgnummer) q2  ON l.ligplaats_id = q2.ligplaats_id",
+"      AND l.ligplaatsvolgnummer = q2.ligplaatsvolgnummer",
+"      WHERE l.indauthentiek = 'J'",
+"      ORDER BY l.ligplaatsnummer, l.ligplaatsvolgnummer"
+    ]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "geconstateerd": {
+      "source_mapping": "geconstateerd",
+      "format": "JN"
+    },
+    "begin_geldigheid": {
+      "source_mapping": "begin_geldigheid",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "eind_geldigheid": {
+      "source_mapping": "eind_geldigheid",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "aanduiding_in_onderzoek": {
+      "source_mapping": "aanduiding_in_onderzoek",
+      "format": "JN"
+    },
+    "status": {
+      "source_mapping": {
+        "code": "status_code",
+        "omschrijving": "status_omschrijving"
+      }
+    },
+    "heeft_hoofdadres": {
+      "source_mapping": {
+        "bronwaarde": "nummeraanduidingid_hoofd"
+      }
+    },
+    "heeft_nevenadres": {
+      "source_mapping": {
+        "bronwaarde": "nummeraanduidingid_neven"
+      }
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    },
+    "documentdatum": {
+      "source_mapping": "documentdatum"
+    },
+    "documentnummer": {
+      "source_mapping": "documentnummer"
+    },
+    "bagproces": {
+      "source_mapping": {
+        "code": "bagproces_code",
+        "omschrijving": "bagproces_omschrijving"
+      }
+    },
+    "registratiedatum": {
+      "source_mapping": "registratiedatum",
+      "format": "%Y-%m-%d %H:%M:%S"
+    }
+  }
+}
