@@ -24,6 +24,7 @@ from gobimport.connector import connect_to_database, connect_to_objectstore, con
 from gobimport.reader import read_from_database, read_from_objectstore, read_from_file
 from gobimport.validator import Validator
 from gobimport.enricher import enrich
+from gobimport.entity_validator import entity_validate
 
 
 logger = get_logger(name="IMPORT")
@@ -128,6 +129,10 @@ class ImportClient:
         validator = Validator(self, self._dataset['entity'], self._data, self.source_id)
         validator.validate()
 
+    def entity_validate(self):
+        self.log(level='info', msg="Validate Entity")
+        entity_validate(self.catalogue, self.entity, self._gob_data, self.log)
+
     def publish(self):
         """The result of the import needs to be published.
 
@@ -175,6 +180,7 @@ class ImportClient:
             self.enrich()
             self.validate()
             self.convert()
+            self.entity_validate()
             self.publish()
         except Exception as e:
             # Print error message, the message that caused the error and a short stacktrace
