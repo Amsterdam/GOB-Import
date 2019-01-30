@@ -354,7 +354,7 @@ class Validator:
             # Get the coord type
             coord_type = coord_types[count % 2]
             # If the coord is outside of the boundaries, retun false
-            if float(coord) < between[coord_type]['min'] or float(coord) > between[coord_type]['max']:
+            if not(between[coord_type]['min'] <= float(coord) <= between[coord_type]['max']):
                 return False
         return True
 
