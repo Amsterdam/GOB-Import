@@ -98,7 +98,7 @@ if (BRANCH == "master") {
         stage('Push production image') {
             tryStep "image tagging", {
                 docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                def image = docker.image("datapunt/gob_import_client:${env.BUILD_NUMBER}-preproduction")
+                def image = docker.image("datapunt/gob_import_client:${env.BUILD_NUMBER}")
                     image.pull()
                     image.push("production")
                     image.push("latest")
