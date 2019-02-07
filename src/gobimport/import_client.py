@@ -36,7 +36,8 @@ class ImportClient:
     This class serves as the main client for which the import can be configured in a dataset.json
 
     """
-    def __init__(self, dataset):
+    def __init__(self, dataset, msg):
+        self.header = msg.get("header", {})
         self._dataset = dataset
         self.source = self._dataset['source']
         self.source_id = self._dataset['source']['entity_id']
@@ -144,6 +145,7 @@ class ImportClient:
         :return:
         """
         metadata = {
+            **self.header,
             "process_id": self.process_id,
             "source": self._dataset['source']['name'],
             "application": self._dataset['source'].get('application'),
