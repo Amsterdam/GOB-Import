@@ -7,14 +7,13 @@ from gobcore.typesystem import GOB
 from gobimport.entity_validator import entity_validate, _validate_entity_state
 
 
+@patch("gobimport.entity_validator.logger", MagicMock())
 class TestEntityValidator(unittest.TestCase):
 
     def setUp(self):
         self.mock_model = MagicMock(spec=GOBModel)
 
         self.entities = []
-        self.log = MagicMock()
-        pass
 
     @patch('gobimport.entity_validator.GOBModel')
     @patch('gobimport.entity_validator._validate_entity_state')
@@ -23,7 +22,7 @@ class TestEntityValidator(unittest.TestCase):
         self.mock_model.get_collection.return_value = {
             'has_states': False
         }
-        entity_validate('catalogue', 'collection', self.entities, self.log)
+        entity_validate('catalogue', 'collection', self.entities)
 
         # Assert _validate_entity_state not called for collections without state
         mock_validate_entity_state.assert_not_called()
@@ -35,7 +34,7 @@ class TestEntityValidator(unittest.TestCase):
         self.mock_model.get_collection.return_value = {
             'has_states': True
         }
-        entity_validate('catalogue', 'collection', self.entities, self.log)
+        entity_validate('catalogue', 'collection', self.entities)
 
         # Assert _validate_entity_state called for collections with state
         mock_validate_entity_state.assert_called_once()
@@ -51,7 +50,7 @@ class TestEntityValidator(unittest.TestCase):
 
         # Assert a GOBException was raised when _validate_entity_state fails
         with self.assertRaises(GOBException):
-            entity_validate('catalogue', 'buurten', self.entities, self.log)
+            entity_validate('catalogue', 'buurten', self.entities)
 
     def test_validate_entity_state_valid(self):
         self.entities = [
@@ -63,7 +62,7 @@ class TestEntityValidator(unittest.TestCase):
             }
         ]
 
-        self.assertTrue(_validate_entity_state(self.entities, self.log))
+        self.assertTrue(_validate_entity_state(self.entities))
 
     def test_validate_entity_state_invalid_begin_geldigheid(self):
         self.entities = [
@@ -76,8 +75,7 @@ class TestEntityValidator(unittest.TestCase):
         ]
 
         # Assert false returned and log to be called
-        self.assertFalse(_validate_entity_state(self.entities, self.log))
-        self.log.assert_called()
+        self.assertFalse(_validate_entity_state(self.entities))
 
     def test_validate_entity_state_invalid_volgnummer(self):
         self.entities = [
@@ -90,8 +88,7 @@ class TestEntityValidator(unittest.TestCase):
         ]
 
         # Assert false returned and log to be called
-        self.assertFalse(_validate_entity_state(self.entities, self.log))
-        self.log.assert_called()
+        self.assertFalse(_validate_entity_state(self.entities))
 
     def test_validate_entity_state_duplicate_volgnummer(self):
         self.entities = [
@@ -110,5 +107,4 @@ class TestEntityValidator(unittest.TestCase):
         ]
 
         # Assert false returned and log to be called
-        self.assertFalse(_validate_entity_state(self.entities, self.log))
-        self.log.assert_called()
+        self.assertFalse(_validate_entity_state(self.entities))
