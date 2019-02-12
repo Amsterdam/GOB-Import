@@ -2,12 +2,11 @@ import datetime
 import decimal
 
 
-def _enrich_metingen(entities, log):     # noqa: C901
+def _enrich_metingen(entities):     # noqa: C901
     """
     Enrich a metingen dataset.
 
     :param entities: a metingen dataset
-    :param log: the logging function of import client
     :return: None
     """
     update_attributes = [

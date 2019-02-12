@@ -10,6 +10,7 @@ from enum import Enum
 import re
 
 from gobcore.exceptions import GOBException
+from gobcore.logging.logger import logger
 
 
 # Log message formats
@@ -195,10 +196,7 @@ ENTITY_CHECKS = {
 
 class Validator:
 
-    def __init__(self, import_client, entity_name, entities, source_id):
-        # Save a reference to import_client to use logging function
-        self.import_client = import_client
-
+    def __init__(self, entity_name, entities, source_id):
         self.entity_name = entity_name
         self.entities = entities
         self.source_id = source_id
@@ -224,7 +222,7 @@ class Validator:
 
         if self.fatal:
             raise GOBException(
-                f"Quality assurance failed for {self.entity_name} from source {self.import_client.source['name']}"
+                f"Quality assurance failed for {self.entity_name}"
             )
 
         self._log(type=QA.INFO,
@@ -238,11 +236,11 @@ class Validator:
             "data": data
         }
         if type == QA.FATAL:
-            self.import_client.log("error", msg, extra_info)
+            logger.error(msg, extra_info)
         if type == QA.WARNING:
-            self.import_client.log("warning", msg, extra_info)
+            logger.warning(msg, extra_info)
         if type == QA.INFO:
-            self.import_client.log("info", msg, extra_info)
+            logger.info(msg, extra_info)
 
     def _validate_primary_key(self):
         primary_keys = set()

@@ -15,7 +15,7 @@ Todo: improve type conversion
 import datetime
 import traceback
 
-from gobcore.log import get_logger
+from gobcore.logging.logger import logger
 from gobcore.message_broker import publish
 
 from gobimport.converter import convert_data
@@ -25,9 +25,6 @@ from gobimport.reader import read_from_database, read_from_objectstore, read_fro
 from gobimport.validator import Validator
 from gobimport.enricher import enrich
 from gobimport.entity_validator import entity_validate
-
-
-logger = get_logger(name="IMPORT")
 
 
 class ImportClient:
@@ -47,7 +44,7 @@ class ImportClient:
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.now().replace(microsecond=0).timestamp())
         self.process_id = f"{start_timestamp}.{self.source_app}.{self.entity}"
-        self.extra_log_kwargs = {
+        extra_log_kwargs = {
             'process_id': self.process_id,
             'source': self.source['name'],
             'application': self.source.get('application'),
@@ -56,17 +53,14 @@ class ImportClient:
         }
 
         # Log start of import process
-        self.log(level='info',
-                 msg=f"Import dataset {self.entity} from {self.source_app} started")
+        logger.set_name("IMPORT")
+        logger.set_default_args(extra_log_kwargs)
+        logger.info(f"Import dataset {self.entity} from {self.source_app} started")
 
         self._connection = None     # Holds the connection to the source
         self._user = None           # Holds the user that connects to the source, eg user@database
         self._data = None           # Holds the data in imput format
         self._gob_data = None       # Holds the imported data in GOB format
-
-    def log(self, level, msg, extra_info={}):
-        log_func = getattr(logger, level)
-        log_func(msg, extra={**self.extra_log_kwargs, **extra_info})
 
     def connect(self):
         """The first step of every import is a technical step. A connection need to be setup to
@@ -83,8 +77,7 @@ class ImportClient:
         else:
             raise NotImplementedError
 
-        self.log(level='info',
-                 msg=f"Connection to {self.source_app} {self._user} has been made.")
+        logger.info(f"Connection to {self.source_app} {self._user} has been made.")
 
     def read(self):
         """Read the data from the data source
@@ -100,18 +93,17 @@ class ImportClient:
         else:
             raise NotImplementedError
 
-        self.log(level='info',
-                 msg=f"Data ({len(self._data)} records) has been imported from {self.source_app}.")
+        logger.info(f"Data ({len(self._data)} records) has been imported from {self.source_app}.")
 
     def inject(self):
         inject_spec = self.source.get("inject")
         if inject_spec:
-            self.log(level='info', msg="Inject conversion data")
+            logger.info("Inject conversion data")
             inject(inject_spec, self._data)
 
     def enrich(self):
-        self.log(level='info', msg="Enrich")
-        enrich(self.catalogue, self.entity, self._data, self.log)
+        logger.info("Enrich")
+        enrich(self.catalogue, self.entity, self._data)
 
     def convert(self):
         """Convert the input data to GOB format
@@ -121,17 +113,17 @@ class ImportClient:
         :return:
         """
         # Convert the input data to GOB data using the import mapping
-        self.log(level='info', msg="Convert")
+        logger.info("Convert")
         self._gob_data = convert_data(self._data, dataset=self._dataset)
 
     def validate(self):
-        self.log(level='info', msg="Validate")
-        validator = Validator(self, self._dataset['entity'], self._data, self.source_id)
+        logger.info("Validate")
+        validator = Validator(self._dataset['entity'], self._data, self.source_id)
         validator.validate()
 
     def entity_validate(self):
-        self.log(level='info', msg="Validate Entity")
-        entity_validate(self.catalogue, self.entity, self._gob_data, self.log)
+        logger.info("Validate Entity")
+        entity_validate(self.catalogue, self.entity, self._gob_data)
 
     def publish(self):
         """The result of the import needs to be published.
@@ -160,10 +152,9 @@ class ImportClient:
         }
 
         # Log end of import process
-        self.log(level='info',
-                 msg=f"Import dataset {self.entity} from {self.source_app} completed. "
-                     f"{summary['num_records']} records were read from the source.",
-                 extra_info={"data": summary})
+        logger.info(f"Import dataset {self.entity} from {self.source_app} completed. "
+                    f"{summary['num_records']} records were read from the source.",
+                    kwargs={"data": summary})
 
         import_message = {
             "header": metadata,
@@ -187,4 +178,4 @@ class ImportClient:
             stacktrace = traceback.format_exc(limit=-5)
             print("Import failed: {e}", stacktrace)
             # Log the error and a short error description
-            self.log(level='error', msg=f'Import failed: {e}')
+            logger.error(f'Import failed: {e}')

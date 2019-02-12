@@ -8,24 +8,25 @@ from collections import defaultdict
 
 from gobcore.exceptions import GOBException
 from gobcore.model import GOBModel
+from gobcore.logging.logger import logger
+
 from gobimport.entity_validator.gebieden import _validate_bouwblokken, _validate_buurten
 
 
-def entity_validate(catalogue, entity_name, entities, log):
+def entity_validate(catalogue, entity_name, entities):
     """
     Validate each entity in the list of entities for a given entity name
 
     :param catalogue: the name of the catalogue, e.g. meetbouten
     :param entity_name: the name of the entity, e.g. meetbouten
     :param entities: the list of entities
-    :param log: log function of the import client
     :return:
     """
     # if model has state, run validations for checks with state
     model = GOBModel()
     states_validated = True
     if model.get_collection(catalogue, entity_name).get('has_states'):
-        states_validated = _validate_entity_state(entities, log)
+        states_validated = _validate_entity_state(entities)
 
     validators = {
         "bouwblokken": _validate_bouwblokken,
@@ -38,13 +39,13 @@ def entity_validate(catalogue, entity_name, entities, log):
         return
 
     # Raise an Exception is a fatal validation has failed
-    if not (validate_entities(entities, log) and states_validated):
+    if not (validate_entities(entities) and states_validated):
         raise GOBException(
             f"Quality assurance failed for {entity_name}"
         )
 
 
-def _validate_entity_state(entities, log):
+def _validate_entity_state(entities):
     """
     Validate entitys with state to see if generic validations for states are correct.
 
@@ -54,7 +55,6 @@ def _validate_entity_state(entities, log):
     - volgnummer should be a positive number and unique in the collection
 
     :param entities: the list of entities
-    :param log: log function of the import client
     :return:
     """
     validated = True
@@ -74,7 +74,7 @@ def _validate_entity_state(entities, log):
                     'eind_geldigheid': entity['eind_geldigheid'],
                 }
             }
-            log("error", msg, extra_data)
+            logger.error(msg, extra_data)
             validated = False
 
         # volgnummer should a positive number and unique in the collection
@@ -89,7 +89,7 @@ def _validate_entity_state(entities, log):
                     'volgnummer': entity['volgnummer'],
                 }
             }
-            log("error", msg, extra_data)
+            logger.error(msg, extra_data)
             validated = False
         # Add the volgnummer to the set for this entity identificatie
         volgnummers[identificatie].add(volgnummer)

@@ -5,8 +5,10 @@ Validations which need to happen after converting the data to GOBModel.
 
 import datetime
 
+from gobcore.logging.logger import logger
 
-def _validate_bouwblokken(entities, log):
+
+def _validate_bouwblokken(entities):
     """
     Validate bouwblokken
 
@@ -15,7 +17,6 @@ def _validate_bouwblokken(entities, log):
     - begin_geldigheid can not be in the future (fatal)
 
     :param entities: the list of entities
-    :param log: log function of the import client
     :return:
     """
     validated = True
@@ -32,13 +33,13 @@ def _validate_bouwblokken(entities, log):
                     'begin_geldigheid': entity['begin_geldigheid'],
                 }
             }
-            log("error", msg, extra_data)
+            logger.error(msg, extra_data)
             validated = False
 
     return validated
 
 
-def _validate_buurten(entities, log):
+def _validate_buurten(entities):
     """
     Validate buurten
 
@@ -47,7 +48,6 @@ def _validate_buurten(entities, log):
     - documentdatum can not be after eind_geldigheid (warning)
 
     :param entities: the list of entities
-    :param log: log function of the import client
     :return:
     """
     validated = True
@@ -70,5 +70,5 @@ def _validate_buurten(entities, log):
                     'eind_geldigheid': entity['eind_geldigheid'],
                 }
             }
-            log("warning", msg, extra_data)
+            logger.warning(msg, extra_data)
     return validated

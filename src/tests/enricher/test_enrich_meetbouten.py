@@ -16,8 +16,6 @@ class TestEnricher(unittest.TestCase):
                 'refereert_aan_refpunt': '123;456'
             }
         ]
-        self.log = lambda x: x
-
         self.expected_attributes = [
             'type_meting',
             'hoeveelste_meting',
@@ -28,7 +26,7 @@ class TestEnricher(unittest.TestCase):
         ]
 
     def test_single_meting(self):
-        _enrich_metingen(self.entities, self.log)
+        _enrich_metingen(self.entities)
 
         for key in self.expected_attributes:
             self.assertIn(key, self.entities[0])
@@ -42,7 +40,7 @@ class TestEnricher(unittest.TestCase):
                 'hoogte_tov_nap': decimal.Decimal(0.2)
             }
         )
-        _enrich_metingen(self.entities, self.log)
+        _enrich_metingen(self.entities)
 
         for key in self.expected_attributes:
             self.assertIn(key, self.entities[0])
