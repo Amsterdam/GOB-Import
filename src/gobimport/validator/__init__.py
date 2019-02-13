@@ -10,11 +10,18 @@ from enum import Enum
 import re
 
 from gobcore.exceptions import GOBException
+from gobcore.logging.logger import logger
 
 
 # Log message formats
 MISSING_ATTR_FMT = "{attr} missing in entity: {entity}"
 QA_CHECK_FAILURE_FMT = "{msg}. Value was: {value}"
+
+
+NL_X_MIN = 110000
+NL_X_MAX = 136000
+NL_Y_MIN = 474000
+NL_Y_MAX = 502000
 
 
 class QA(Enum):
@@ -116,8 +123,17 @@ ENTITY_CHECKS = {
         ],
         "geometrie": [
             {
-                "geometry": [[110000, 136000], [474000, 502000]],
-                "msg": "geometrie should be a between 110000-136000 and 474000-502000",
+                "geometry": {
+                    'x': {
+                        'min': NL_X_MIN,
+                        'max': NL_X_MAX,
+                    },
+                    'y': {
+                        'min': NL_Y_MIN,
+                        'max': NL_Y_MAX,
+                    }
+                },
+                "msg": f"geometrie coordinates should be between {NL_X_MIN}-{NL_X_MAX} and {NL_Y_MIN}-{NL_Y_MAX}",
                 "type": QA.FATAL,
             },
         ],
@@ -129,16 +145,58 @@ ENTITY_CHECKS = {
                 "type": QA.FATAL,
             },
         ]
+    },
+    "bouwblokken": {
+        "code": [
+            {
+                "pattern": "^[a-zA-Z]{2}\d{2}$",
+                "msg": "code should be 2 letters and 2 numbers",
+                "type": QA.FATAL
+            }
+        ],
+    },
+    "buurten": {
+        "geometrie": [
+            {
+                "geometry": {
+                    'x': {
+                        'min': NL_X_MIN,
+                        'max': NL_X_MAX,
+                    },
+                    'y': {
+                        'min': NL_Y_MIN,
+                        'max': NL_Y_MAX,
+                    }
+                },
+                "msg": f"geometrie coordinates should be between {NL_X_MIN}-{NL_X_MAX} and {NL_Y_MIN}-{NL_Y_MAX}",
+                "type": QA.FATAL,
+            },
+        ],
+    },
+    "wijken": {
+        "documentnummer": [
+            {
+                "pattern": ".+",
+                "msg": "documentnummer should be filled",
+                "type": QA.WARNING,
+            },
+        ],
+    },
+    "ggpgebieden": {
+        "naam": [
+            {
+                "pattern": ".+",
+                "msg": "naam should be filled",
+                "type": QA.WARNING,
+            },
+        ],
     }
 }
 
 
 class Validator:
 
-    def __init__(self, import_client, entity_name, entities, source_id):
-        # Save a reference to import_client to use logging function
-        self.import_client = import_client
-
+    def __init__(self, entity_name, entities, source_id):
         self.entity_name = entity_name
         self.entities = entities
         self.source_id = source_id
@@ -164,7 +222,7 @@ class Validator:
 
         if self.fatal:
             raise GOBException(
-                f"Quality assurance failed for {self.entity_name} from source {self.import_client.source['name']}"
+                f"Quality assurance failed for {self.entity_name}"
             )
 
         self._log(type=QA.INFO,
@@ -178,11 +236,11 @@ class Validator:
             "data": data
         }
         if type == QA.FATAL:
-            self.import_client.log("error", msg, extra_info)
+            logger.error(msg, extra_info)
         if type == QA.WARNING:
-            self.import_client.log("warning", msg, extra_info)
+            logger.warning(msg, extra_info)
         if type == QA.INFO:
-            self.import_client.log("info", msg, extra_info)
+            logger.info(msg, extra_info)
 
     def _validate_primary_key(self):
         primary_keys = set()
@@ -286,10 +344,15 @@ class Validator:
         return value >= between[0] and value <= between[1] if value is not None else False
 
     def _geometry_check(self, between, value):
-        coords = re.findall('([0-9]+\.[0-9]{1,2})', value)
-        for count, value_range in enumerate(between):
-            # If the coord is outside of the supplied range, return False
-            if float(coords[count]) <= value_range[0] or float(coords[count]) >= value_range[1]:
+        coords = re.findall('([0-9]+\.[0-9]+)', value)
+        # Loop through all coords and check if they fill within the supplied range
+        # Even coords are x values, uneven are y values
+        coord_types = ['x', 'y']
+        for count, coord in enumerate(coords):
+            # Get the coord type
+            coord_type = coord_types[count % 2]
+            # If the coord is outside of the boundaries, retun false
+            if not(between[coord_type]['min'] <= float(coord) <= between[coord_type]['max']):
                 return False
         return True
 

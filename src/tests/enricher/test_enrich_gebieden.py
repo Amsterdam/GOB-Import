@@ -83,6 +83,7 @@ class MockResponse:
             }
         ]}
 
+@mock.patch("gobimport.enricher.gebieden.logger", mock.MagicMock())
 class TestEnricher(unittest.TestCase):
 
     def setUp(self):
@@ -106,24 +107,23 @@ class TestEnricher(unittest.TestCase):
                 'geometrie': 'POLYGON((2 2,3 2,3 3,2 3,2 2))'
             }
         ]
-        self.log = lambda x, y, z: x
 
     @mock.patch('gobimport.enricher.gebieden._add_cbs_code')
     def test_enrich_buurten(self, mock_add_cbs):
-        _enrich_buurten(self.entities, self.log)
+        _enrich_buurten(self.entities)
 
-        mock_add_cbs.assert_called_with(self.entities, CBS_BUURTEN_API, 'buurt', self.log)
+        mock_add_cbs.assert_called_with(self.entities, CBS_BUURTEN_API, 'buurt')
 
     @mock.patch('gobimport.enricher.gebieden._add_cbs_code')
     def test_enrich_wijken(self, mock_add_cbs):
-        _enrich_wijken(self.entities, self.log)
+        _enrich_wijken(self.entities)
 
-        mock_add_cbs.assert_called_with(self.entities, CBS_WIJKEN_API, 'wijk', self.log)
+        mock_add_cbs.assert_called_with(self.entities, CBS_WIJKEN_API, 'wijk')
 
     @mock.patch('gobimport.enricher.gebieden.requests.get')
     def test_add_cbs_code(self, mock_request):
         mock_request.return_value = MockResponse()
-        _add_cbs_code(self.entities, CBS_BUURTEN_API, 'buurt', self.log)
+        _add_cbs_code(self.entities, CBS_BUURTEN_API, 'buurt')
 
         # Expect cbs codes buurt
         self.assertEqual('BU03630001', self.entities[0]['cbs_code'])
@@ -155,7 +155,7 @@ class TestGGWPEnricher(unittest.TestCase):
                 }
             }
         ]
-        enrich_ggwgebieden(ggwgebieden, log=None)
+        enrich_ggwgebieden(ggwgebieden)
         self.assertEqual(ggwgebieden, [
             {
                 "_IDENTIFICATIE": None,
@@ -181,7 +181,7 @@ class TestGGWPEnricher(unittest.TestCase):
                 }
             }
         ]
-        enrich_ggpgebieden(ggpgebieden, log=None)
+        enrich_ggpgebieden(ggpgebieden)
         self.assertEqual(ggpgebieden, [
             {
                 "_IDENTIFICATIE": None,

@@ -1,6 +1,8 @@
 from datetime import datetime
 import requests
 
+from gobcore.logging.logger import logger
+
 from shapely.geometry import shape
 from shapely.wkt import loads
 
@@ -21,16 +23,16 @@ CBS_WIJKEN_API = 'https://geodata.nationaalgeoregister.nl/wijkenbuurten2018/wfs'
                  '<ogc:Literal>Amsterdam</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>'
 
 
-def _enrich_buurten(entities, log):
+def _enrich_buurten(entities):
     # Add the CBS Code
-    entities = _add_cbs_code(entities, CBS_BUURTEN_API, 'buurt', log)
+    entities = _add_cbs_code(entities, CBS_BUURTEN_API, 'buurt')
 
     return entities
 
 
-def _enrich_wijken(entities, log):
+def _enrich_wijken(entities):
     # Add the CBS Code
-    entities = _add_cbs_code(entities, CBS_WIJKEN_API, 'wijk', log)
+    entities = _add_cbs_code(entities, CBS_WIJKEN_API, 'wijk')
     return entities
 
 
@@ -68,7 +70,7 @@ def enrich_ggw_ggp_gebieden(entities, prefix):
                 entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
 
 
-def enrich_ggwgebieden(entities, log):
+def enrich_ggwgebieden(entities):
     """Enrich GGW Gebieden
 
     Add:
@@ -77,13 +79,12 @@ def enrich_ggwgebieden(entities, log):
     - Convert Excel DateTime values to dates
 
     :param entities: a list of entities
-    :param log: log function
     :return: None
     """
     enrich_ggw_ggp_gebieden(entities, "GGW")
 
 
-def enrich_ggpgebieden(entities, log):
+def enrich_ggpgebieden(entities):
     """Enrich GGP Gebieden
 
     Add:
@@ -92,13 +93,12 @@ def enrich_ggpgebieden(entities, log):
     - Convert Excel DateTime values to dates
 
     :param entities: a list of entities
-    :param log: log function
     :return: None
     """
     enrich_ggw_ggp_gebieden(entities, "GGP")
 
 
-def _add_cbs_code(entities, url, type, log):
+def _add_cbs_code(entities, url, type):
     """
     Gets the CBS codes and tries to match them based on the inside
     point of the geometry. Returns the entities enriched with CBS Code.
@@ -106,7 +106,6 @@ def _add_cbs_code(entities, url, type, log):
     :param entities: a list of entities ready for enrichment
     :param url: the url to the cbs code API
     :param type: the type of entity, needed to get the correct values from the API
-    :param log: log function of the import client
     :return: the entities enriched with CBS Code
     """
     features = _get_cbs_features(url, type)
@@ -118,7 +117,7 @@ def _add_cbs_code(entities, url, type, log):
             continue
 
         # Check which CBS feature lays within the geometry
-        match = _match_cbs_features(entity, features, log)
+        match = _match_cbs_features(entity, features)
 
         entity['cbs_code'] = match['code'] if match else ''
 
@@ -133,18 +132,17 @@ def _add_cbs_code(entities, url, type, log):
                     'cbs_naam': match['naam'],
                 }
             }
-            log("warning", msg, extra_data)
+            logger.warning(msg, extra_data)
 
     return entities
 
 
-def _match_cbs_features(entity, features, log):
+def _match_cbs_features(entity, features):
     """
     Match the geometry of an entity to the CBS inside point
 
     :param entity: the entity to match to
     :param features: the cbs features
-    :param log: log function of the import client
     :return: the matched cbs feature or none
     """
     geom = loads(entity['geometrie'])
@@ -163,7 +161,7 @@ def _match_cbs_features(entity, features, log):
                     'cbs_naam': feature['naam'],
                 }
             }
-            log("warning", msg, extra_data)
+            logger.warning(msg, extra_data)
 
     return match
 

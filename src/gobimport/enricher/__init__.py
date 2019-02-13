@@ -1,16 +1,12 @@
-""" Validator
+""" Enricher
 
-Basic validation logic
-
-The first version implements only the most basic validation logic
-In order to prepare a more generic validation approach the validation has been set up by means of regular expressions.
-
+This enricher calls some specific functions for collections to add missing values in the source.
 """
 from gobimport.enricher.meetbouten import _enrich_metingen
 from gobimport.enricher.gebieden import _enrich_buurten, _enrich_wijken, enrich_ggwgebieden, enrich_ggpgebieden
 
 
-def enrich(catalogue, entity_name, entities, log):
+def enrich(catalogue, entity_name, entities):
     """
     Enrich each entity in the list of entities for a given entity name
 
@@ -33,4 +29,4 @@ def enrich(catalogue, entity_name, entities, log):
     except KeyError:
         return
 
-    enrich_entities(entities, log)
+    enrich_entities(entities)

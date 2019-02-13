@@ -52,8 +52,8 @@
     },
     "reference": {
       "source_mapping": {
-        "id": "reference",
-        "bronwaarde": "string"
+        "identificatie": "reference",
+        "bronwaarde": "reference"
       }
     }
   }
