@@ -24,7 +24,6 @@ def entity_validate(catalogue, entity_name, entities):
     """
     model = GOBModel()
     states_validated = True
-    entities_validated = True
 
     # if model has state, run validations for checks with state
     if model.get_collection(catalogue, entity_name).get('has_states'):
@@ -35,11 +34,7 @@ def entity_validate(catalogue, entity_name, entities):
         "buurten": _validate_buurten,
     }
 
-    try:
-        validate_entities = validators[entity_name]
-        entities_validated = validate_entities(entities)
-    except KeyError:
-        pass
+    entities_validated = validators.get(entity_name, lambda _: True)
 
     # Raise an Exception is a fatal validation has failed
     if not (entities_validated and states_validated):
