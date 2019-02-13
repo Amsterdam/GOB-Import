@@ -23,11 +23,9 @@ def entity_validate(catalogue, entity_name, entities):
     :return:
     """
     model = GOBModel()
-    states_validated = True
 
     # if model has state, run validations for checks with state
-    if model.get_collection(catalogue, entity_name).get('has_states'):
-        states_validated = _validate_entity_state(entities)
+    states_validated = _validate_entity_state(entities) if model.has_states(catalogue, entity_name) else True
 
     validators = {
         "bouwblokken": _validate_bouwblokken,
@@ -58,6 +56,7 @@ def _validate_entity_state(entities):
     validated = True
 
     volgnummers = defaultdict(set)
+    end_date = {}
 
     for entity in entities:
         # begin_geldigheid can not be after eind_geldigheid when filled
@@ -89,6 +88,21 @@ def _validate_entity_state(entities):
             }
             logger.error(msg, extra_data)
             validated = False
+
+        # Only one eind_geldigheid may be empty per entity
+        eind_geldigheid = entity['eind_geldigheid']
+        if eind_geldigheid is None:
+            if end_date.get(identificatie):
+                msg = "Only one eind_geldigheid for every entity may be empty"
+                extra_data = {
+                    'id': msg,
+                    'data': {
+                        'identificatie': entity['identificatie'],
+                    }
+                }
+                logger.warning(msg, extra_data)
+            end_date[identificatie] = True
+
         # Add the volgnummer to the set for this entity identificatie
         volgnummers[identificatie].add(volgnummer)
 
