@@ -22,9 +22,11 @@ def entity_validate(catalogue, entity_name, entities):
     :param entities: the list of entities
     :return:
     """
-    # if model has state, run validations for checks with state
     model = GOBModel()
     states_validated = True
+    entities_validated = True
+
+    # if model has state, run validations for checks with state
     if model.get_collection(catalogue, entity_name).get('has_states'):
         states_validated = _validate_entity_state(entities)
 
@@ -35,11 +37,12 @@ def entity_validate(catalogue, entity_name, entities):
 
     try:
         validate_entities = validators[entity_name]
+        entities_validated = validate_entities(entities)
     except KeyError:
-        return
+        pass
 
     # Raise an Exception is a fatal validation has failed
-    if not (validate_entities(entities) and states_validated):
+    if not (entities_validated and states_validated):
         raise GOBException(
             f"Quality assurance failed for {entity_name}"
         )
