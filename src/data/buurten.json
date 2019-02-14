@@ -30,7 +30,7 @@
 "    SELECT s1.naam                                                AS naam",
 "    ,      s1.sdlcode || s1.wijkcode || s1.brtcode                AS code",
 "    ,      NULL                                                   AS identificatie",
-"    ,      q2.volgnummer                                          AS volgnummer",
+"    ,      q2.volgnummer - 1                                      AS volgnummer",
 "    ,      to_char(q2.ingsdatum, 'YYYY-MM-DD')                    AS datum_begin_geldigheid",
 "    ,      to_char(nvl(q2.einddatum, q3.ingsdatum), 'YYYY-MM-DD') AS datum_einde_geldigheid",
 "    ,      to_char(s1.docdatum, 'YYYY-MM-DD')                     AS documentdatum",
