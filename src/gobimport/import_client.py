@@ -43,7 +43,7 @@ class ImportClient:
         self.entity = self._dataset['entity']
 
         # Extra variables for logging
-        start_timestamp = int(datetime.datetime.now().replace(microsecond=0).timestamp())
+        start_timestamp = int(datetime.datetime.utcnow().replace(microsecond=0).timestamp())
         self.process_id = f"{start_timestamp}.{self.source_app}.{self.entity}"
         extra_log_kwargs = {
             'process_id': self.process_id,
@@ -146,7 +146,7 @@ class ImportClient:
             "catalogue": self._dataset['catalogue'],
             "entity": self._dataset['entity'],
             "version": self._dataset['version'],
-            "timestamp": datetime.datetime.now().isoformat()
+            "timestamp": datetime.datetime.utcnow().isoformat()
         }
 
         summary = {
