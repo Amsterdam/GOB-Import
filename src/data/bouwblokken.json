@@ -29,7 +29,7 @@
     "query": [
 "    SELECT s.code                               AS code",
 "    ,      NULL                                 AS identificatie",
-"    ,      q1.volgnummer                        AS volgnummer",
+"    ,      q1.volgnummer - 1                    AS volgnummer",
 "    ,      to_char(s.datum, 'YYYY-MM-DD')       AS datum_begin_geldigheid",
 "    ,      to_char(t.verval, 'YYYY-MM-DD')      AS datum_einde_geldigheid",
 "    ,      t.inwin                              AS registratiedatum",
