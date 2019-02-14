@@ -24,7 +24,7 @@ def _validate_bouwblokken(entities):
     for entity in entities:
         # begin_geldigheid can not be in the future
         # to_db is used to work around the typesystem: https://github.com/Amsterdam/GOB-Core/issues/127
-        if entity['begin_geldigheid'].to_db > datetime.datetime.now():
+        if entity['begin_geldigheid'].to_db > datetime.datetime.utcnow():
             msg = "begin_geldigheid can not be in the future"
             extra_data = {
                 'id': msg,
@@ -56,7 +56,7 @@ def _validate_buurten(entities):
         # get eind_geldigheid or use current date
         # to_db is used to work around the typesystem: https://github.com/Amsterdam/GOB-Core/issues/127
         eind_geldigheid = entity['eind_geldigheid'].to_db if entity['eind_geldigheid'].to_db \
-            else datetime.datetime.now()
+            else datetime.datetime.utcnow()
         documentdatum = entity['documentdatum'].to_db
         # documentdatum should not be after eind_geldigheid
         if documentdatum and documentdatum > eind_geldigheid:
