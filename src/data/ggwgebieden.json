@@ -29,10 +29,10 @@
       "source_mapping": "_IDENTIFICATIE"
     },
     "volgnummer": {
-      "source_mapping": "_VOLGNUMMER"
+      "source_mapping": "volgnummer"
     },
     "registratiedatum": {
-      "source_mapping": "_REGISTRATIEDATUM"
+      "source_mapping": "registratiedatum"
     },
     "naam": {
       "source_mapping": "GGW_NAAM"
