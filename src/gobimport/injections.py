@@ -22,8 +22,10 @@ def _apply_injection(row, key, operator, value):
     # Process an injection
     if operator == "=":  # Overwrite value
         row[key] = value
-    if operator == "+":  # Add to value
+    elif operator == "+":  # Add to value
         row[key] += value
+    elif operator == "+-1":  # Add to value
+        row[key] += value - 1
 
 
 def inject(inject_spec, data):
