@@ -124,7 +124,12 @@ class ImportClient:
 
     def entity_validate(self):
         logger.info("Validate Entity")
-        entity_validate(self.catalogue, self.entity, self._gob_data)
+        # Find the functional source id
+        # This is the functional field that is mapped onto the source_id
+        # or _source_id if no mapping exists
+        ids = [key for key, value in self._dataset["gob_mapping"].items() if value["source_mapping"] == self.source_id]
+        func_source_id = ids[0] if ids else "_source_id"
+        entity_validate(self.catalogue, self.entity, self._gob_data, func_source_id)
 
     def publish(self):
         """The result of the import needs to be published.
