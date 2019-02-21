@@ -4,6 +4,7 @@ This enricher calls some specific functions for collections to add missing value
 """
 from gobimport.enricher.meetbouten import _enrich_metingen
 from gobimport.enricher.gebieden import _enrich_buurten, _enrich_wijken, enrich_ggwgebieden, enrich_ggpgebieden
+from gobimport.enricher.bag import _enrich_nummeraanduidingen, _enrich_verblijfsobjecten, _enrich_panden
 
 
 def enrich(catalogue, entity_name, entities):
@@ -21,7 +22,10 @@ def enrich(catalogue, entity_name, entities):
         "buurten": _enrich_buurten,
         "wijken": _enrich_wijken,
         "ggwgebieden": enrich_ggwgebieden,
-        "ggpgebieden": enrich_ggpgebieden
+        "ggpgebieden": enrich_ggpgebieden,
+        "nummeraanduidingen": _enrich_nummeraanduidingen,
+        "verblijfsobjecten": _enrich_verblijfsobjecten,
+        "panden": _enrich_panden,
     }
 
     try:
