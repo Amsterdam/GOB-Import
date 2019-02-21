@@ -19,10 +19,8 @@ class TestEntityValidator(unittest.TestCase):
     @patch('gobimport.entity_validator._validate_entity_state')
     def test_entity_validate_without_state(self, mock_validate_entity_state, mock_model):
         mock_model.return_value = self.mock_model
-        self.mock_model.get_collection.return_value = {
-            'has_states': False
-        }
-        entity_validate('catalogue', 'collection', self.entities)
+        self.mock_model.has_states.return_value = False
+        entity_validate('catalogue', 'collection', self.entities, "identificatie")
 
         # Assert _validate_entity_state not called for collections without state
         mock_validate_entity_state.assert_not_called()
@@ -31,10 +29,8 @@ class TestEntityValidator(unittest.TestCase):
     @patch('gobimport.entity_validator._validate_entity_state')
     def test_entity_validate_with_state(self, mock_validate_entity_state, mock_model):
         mock_model.return_value = self.mock_model
-        self.mock_model.get_collection.return_value = {
-            'has_states': True
-        }
-        entity_validate('catalogue', 'collection', self.entities)
+        self.mock_model.has_states.return_value = True
+        entity_validate('catalogue', 'collection', self.entities, "identificatie")
 
         # Assert _validate_entity_state called for collections with state
         mock_validate_entity_state.assert_called_once()
@@ -43,14 +39,12 @@ class TestEntityValidator(unittest.TestCase):
     @patch('gobimport.entity_validator._validate_entity_state')
     def test_entity_validate_with_state_invalid(self, mock_validate_entity_state, mock_model):
         mock_model.return_value = self.mock_model
-        self.mock_model.get_collection.return_value = {
-            'has_states': True
-        }
+        self.mock_model.has_states.return_value = True
         mock_validate_entity_state.return_value = False
 
         # Assert a GOBException was raised when _validate_entity_state fails
         with self.assertRaises(GOBException):
-            entity_validate('catalogue', 'buurten', self.entities)
+            entity_validate('catalogue', 'buurten', self.entities, "identificatie")
 
     def test_validate_entity_state_valid(self):
         self.entities = [
@@ -62,7 +56,7 @@ class TestEntityValidator(unittest.TestCase):
             }
         ]
 
-        self.assertTrue(_validate_entity_state(self.entities))
+        self.assertTrue(_validate_entity_state(self.entities, "identificatie"))
 
     def test_validate_entity_state_invalid_begin_geldigheid(self):
         self.entities = [
@@ -74,8 +68,8 @@ class TestEntityValidator(unittest.TestCase):
             }
         ]
 
-        # Assert false returned and log to be called
-        self.assertFalse(_validate_entity_state(self.entities))
+        # invalid begin geldigheid is not an error but a warning
+        self.assertTrue(_validate_entity_state(self.entities, "identificatie"))
 
     def test_validate_entity_state_invalid_volgnummer(self):
         self.entities = [
@@ -88,7 +82,7 @@ class TestEntityValidator(unittest.TestCase):
         ]
 
         # Assert false returned and log to be called
-        self.assertFalse(_validate_entity_state(self.entities))
+        self.assertFalse(_validate_entity_state(self.entities, "identificatie"))
 
     def test_validate_entity_state_duplicate_volgnummer(self):
         self.entities = [
@@ -107,4 +101,4 @@ class TestEntityValidator(unittest.TestCase):
         ]
 
         # Assert false returned and log to be called
-        self.assertFalse(_validate_entity_state(self.entities))
+        self.assertFalse(_validate_entity_state(self.entities, "identificatie"))

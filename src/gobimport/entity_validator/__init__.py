@@ -13,7 +13,7 @@ from gobcore.logging.logger import logger
 from gobimport.entity_validator.gebieden import _validate_bouwblokken, _validate_buurten
 
 
-def entity_validate(catalogue, entity_name, entities):
+def entity_validate(catalogue, entity_name, entities, source_id):
     """
     Validate each entity in the list of entities for a given entity name
 
@@ -22,30 +22,26 @@ def entity_validate(catalogue, entity_name, entities):
     :param entities: the list of entities
     :return:
     """
-    # if model has state, run validations for checks with state
     model = GOBModel()
-    states_validated = True
-    if model.get_collection(catalogue, entity_name).get('has_states'):
-        states_validated = _validate_entity_state(entities)
+
+    # if model has state, run validations for checks with state
+    states_validated = not model.has_states(catalogue, entity_name) or _validate_entity_state(entities, source_id)
 
     validators = {
         "bouwblokken": _validate_bouwblokken,
         "buurten": _validate_buurten,
     }
 
-    try:
-        validate_entities = validators[entity_name]
-    except KeyError:
-        return
+    entities_validated = validators.get(entity_name, lambda *args: True)(entities, source_id)
 
     # Raise an Exception is a fatal validation has failed
-    if not (validate_entities(entities) and states_validated):
+    if not (entities_validated and states_validated):
         raise GOBException(
             f"Quality assurance failed for {entity_name}"
         )
 
 
-def _validate_entity_state(entities):
+def _validate_entity_state(entities, source_id):
     """
     Validate entitys with state to see if generic validations for states are correct.
 
@@ -60,6 +56,7 @@ def _validate_entity_state(entities):
     validated = True
 
     volgnummers = defaultdict(set)
+    end_date = {}
 
     for entity in entities:
         # begin_geldigheid can not be after eind_geldigheid when filled
@@ -69,28 +66,42 @@ def _validate_entity_state(entities):
             extra_data = {
                 'id': msg,
                 'data': {
-                    'identificatie': entity['identificatie'],
+                    'identificatie': entity[source_id],
                     'begin_geldigheid': entity['begin_geldigheid'],
                     'eind_geldigheid': entity['eind_geldigheid'],
                 }
             }
-            logger.error(msg, extra_data)
-            validated = False
+            logger.warning(msg, extra_data)
 
         # volgnummer should a positive number and unique in the collection
         volgnummer = str(entity['volgnummer'])
-        identificatie = str(entity['identificatie'])
+        identificatie = str(entity[source_id])
         if int(volgnummer) < 1 or volgnummer in volgnummers[identificatie]:
             msg = "volgnummer should be a positive number and unique in the collection"
             extra_data = {
                 'id': msg,
                 'data': {
-                    'identificatie': entity['identificatie'],
+                    'identificatie': entity[source_id],
                     'volgnummer': entity['volgnummer'],
                 }
             }
             logger.error(msg, extra_data)
             validated = False
+
+        # Only one eind_geldigheid may be empty per entity
+        eind_geldigheid = entity['eind_geldigheid']
+        if eind_geldigheid is None:
+            if end_date.get(identificatie):
+                msg = "Only one eind_geldigheid for every entity may be empty"
+                extra_data = {
+                    'id': msg,
+                    'data': {
+                        'identificatie': entity[source_id],
+                    }
+                }
+                logger.warning(msg, extra_data)
+            end_date[identificatie] = True
+
         # Add the volgnummer to the set for this entity identificatie
         volgnummers[identificatie].add(volgnummer)
 

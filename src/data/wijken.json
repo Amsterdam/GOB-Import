@@ -16,7 +16,7 @@
       "on": "code",
       "conversions": {
         "identificatie": "=",
-        "volgnummer": "+"
+        "volgnummer": "+-1"
       }
     },
     "query": [

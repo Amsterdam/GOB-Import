@@ -183,7 +183,7 @@ ENTITY_CHECKS = {
         ],
     },
     "ggpgebieden": {
-        "naam": [
+        "GGP_NAAM": [
             {
                 "pattern": ".+",
                 "msg": "naam should be filled",

@@ -9,27 +9,24 @@
     "type": "database",
     "schema": "Neuron",
     "query": [
-"    SELECT w.woonplaatsnummer                                                AS identificatie",
-"    ,      w.woonplaatsvolgnummer                                            AS volgnummer",
-"    ,      s.status                                                          AS status_code",
-"    ,      s.omschrijving                                                    AS status_omschrijving",
-"    ,      CASE WHEN to_char(w.datumopvoer, 'HH24:MI:SS') = '00:00:00' THEN",
-"      to_char(w.datumopvoer, 'YYYY-MM-DD') ELSE",
-"      to_char(w.datumopvoer, 'YYYY-MM-DD HH24:MI:SS') END     AS begin_geldigheid",
-"    ,      CASE WHEN to_char(w.datumafvoer, 'HH24:MI:SS') = '00:00:00' THEN",
-"      to_char(w.datumafvoer, 'YYYY-MM-DD') ELSE",
-"      to_char(w.datumafvoer, 'YYYY-MM-DD HH24:MI:SS') END     AS eind_geldigheid",
-"    ,      w.indinonderzoek                                                  AS aanduiding_in_onderzoek",
-"    ,      w.indgeconstateerd                                                AS geconstateerd",
-"    ,      to_char(w.dd_document, 'YYYY-MM-DD')                              AS documentdatum",
-"    ,      w.documentnummer                                                  AS documentnummer",
-"    ,      w.naam                                                            AS naam",
-"    ,      '0363'                                                            AS ligt_in_gemeente",
-"    ,      to_char(nvl(w.modification, w.creation), 'YYYY-MM-DD HH24:MI:SS') AS registratiedatum",
-"    ,      w.woonplaatsnummer                                                AS source_id",
-"    ,      w.bagproces                                                       AS bagproces_code",
-"    ,      m.omschrijving                                                    AS bagproces_omschrijving",
-"    ,      sdo_util.to_wktgeometry(geometrie)                                AS geometrie",
+"    SELECT w.woonplaatsnummer                                                                     AS identificatie",
+"    ,      w.woonplaatsvolgnummer                                                                 AS volgnummer",
+"    ,      s.status                                                                               AS status_code",
+"    ,      s.omschrijving                                                                         AS status_omschrijving",
+"    ,      to_char(w.datumopvoer, 'YYYY-MM-DD HH24:MI:SS')                                        AS begin_geldigheid",
+"    ,      to_char(w.datumafvoer, 'YYYY-MM-DD HH24:MI:SS')                                        AS eind_geldigheid",
+"    ,      w.indinonderzoek                                                                       AS aanduiding_in_onderzoek",
+"    ,      w.indgeconstateerd                                                                     AS geconstateerd",
+"    ,      to_char(w.dd_document, 'YYYY-MM-DD')                                                   AS documentdatum",
+"    ,      w.documentnummer                                                                       AS documentnummer",
+"    ,      TRIM(nvl(regexp_substr(w.documentnummer, '^(.*?)_', 1, 1, NULL, 1), w.documentnummer)) AS dossier",
+"    ,      w.naam                                                                                 AS naam",
+"    ,      '0363'                                                                                 AS ligt_in_gemeente",
+"    ,      to_char(w.creation, 'YYYY-MM-DD HH24:MI:SS')                                           AS registratiedatum",
+"    ,      w.woonplaatsnummer                                                                     AS source_id",
+"    ,      w.bagproces                                                                            AS bagproces_code",
+"    ,      m.omschrijving                                                                         AS bagproces_omschrijving",
+"    ,      sdo_util.to_wktgeometry(geometrie)                                                     AS geometrie",
 "      FROM   basis.woonplaats w",
 "      -- selecteren status",
 "      LEFT OUTER JOIN basis.woonplaatsstatus s ON w.status_id = s.status",
@@ -71,10 +68,12 @@
       "source_mapping": "geometrie"
     },
     "begin_geldigheid": {
-      "source_mapping": "begin_geldigheid"
+      "source_mapping": "begin_geldigheid",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "eind_geldigheid": {
-      "source_mapping": "eind_geldigheid"
+      "source_mapping": "eind_geldigheid",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "bagproces": {
       "source_mapping": {

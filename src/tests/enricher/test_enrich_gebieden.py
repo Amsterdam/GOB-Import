@@ -159,8 +159,8 @@ class TestGGWPEnricher(unittest.TestCase):
         self.assertEqual(ggwgebieden, [
             {
                 "_IDENTIFICATIE": None,
-                "_REGISTRATIEDATUM": "2020-01-20T12:30:30.12345",
-                "_VOLGNUMMER": self.volgnummer("2020-01-20T12:30:30.12345"),
+                "registratiedatum": "2020-01-20T12:30:30.12345",
+                "volgnummer": self.volgnummer("2020-01-20T12:30:30.12345"),
                 "GGW_BEGINDATUM": "YYYY-MM-DD",
                 "GGW_EINDDATUM": "YYYY-MM-DD",
                 "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
@@ -185,8 +185,8 @@ class TestGGWPEnricher(unittest.TestCase):
         self.assertEqual(ggpgebieden, [
             {
                 "_IDENTIFICATIE": None,
-                "_REGISTRATIEDATUM": "2020-01-20T12:30:30.12345",
-                "_VOLGNUMMER": self.volgnummer("2020-01-20T12:30:30.12345"),
+                "registratiedatum": "2020-01-20T12:30:30.12345",
+                "volgnummer": self.volgnummer("2020-01-20T12:30:30.12345"),
                 "GGP_BEGINDATUM": "YYYY-MM-DD",
                 "GGP_EINDDATUM": "YYYY-MM-DD",
                 "GGP_DOCUMENTDATUM": None,

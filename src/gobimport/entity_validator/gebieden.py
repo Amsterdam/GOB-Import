@@ -8,7 +8,7 @@ import datetime
 from gobcore.logging.logger import logger
 
 
-def _validate_bouwblokken(entities):
+def _validate_bouwblokken(entities, source_id):
     """
     Validate bouwblokken
 
@@ -24,12 +24,13 @@ def _validate_bouwblokken(entities):
     for entity in entities:
         # begin_geldigheid can not be in the future
         # to_db is used to work around the typesystem: https://github.com/Amsterdam/GOB-Core/issues/127
-        if entity['begin_geldigheid'].to_db > datetime.datetime.now():
+        identificatie = str(entity[source_id])
+        if entity['begin_geldigheid'].to_db > datetime.datetime.utcnow():
             msg = "begin_geldigheid can not be in the future"
             extra_data = {
                 'id': msg,
                 'data': {
-                    'identificatie': entity['identificatie'],
+                    'identificatie': identificatie,
                     'begin_geldigheid': entity['begin_geldigheid'],
                 }
             }
@@ -39,7 +40,7 @@ def _validate_bouwblokken(entities):
     return validated
 
 
-def _validate_buurten(entities):
+def _validate_buurten(entities, source_id):
     """
     Validate buurten
 
@@ -55,8 +56,9 @@ def _validate_buurten(entities):
     for entity in entities:
         # get eind_geldigheid or use current date
         # to_db is used to work around the typesystem: https://github.com/Amsterdam/GOB-Core/issues/127
+        identificatie = str(entity[source_id])
         eind_geldigheid = entity['eind_geldigheid'].to_db if entity['eind_geldigheid'].to_db \
-            else datetime.datetime.now()
+            else datetime.datetime.utcnow()
         documentdatum = entity['documentdatum'].to_db
         # documentdatum should not be after eind_geldigheid
         if documentdatum and documentdatum > eind_geldigheid:
@@ -65,7 +67,7 @@ def _validate_buurten(entities):
             extra_data = {
                 'id': msg,
                 'data': {
-                    'identificatie': entity['identificatie'],
+                    'identificatie': identificatie,
                     'documentdatum': entity['documentdatum'],
                     'eind_geldigheid': entity['eind_geldigheid'],
                 }

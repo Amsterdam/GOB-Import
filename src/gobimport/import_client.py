@@ -43,7 +43,7 @@ class ImportClient:
         self.entity = self._dataset['entity']
 
         # Extra variables for logging
-        start_timestamp = int(datetime.datetime.now().replace(microsecond=0).timestamp())
+        start_timestamp = int(datetime.datetime.utcnow().replace(microsecond=0).timestamp())
         self.process_id = f"{start_timestamp}.{self.source_app}.{self.entity}"
         extra_log_kwargs = {
             'process_id': self.process_id,
@@ -124,7 +124,12 @@ class ImportClient:
 
     def entity_validate(self):
         logger.info("Validate Entity")
-        entity_validate(self.catalogue, self.entity, self._gob_data)
+        # Find the functional source id
+        # This is the functional field that is mapped onto the source_id
+        # or _source_id if no mapping exists
+        ids = [key for key, value in self._dataset["gob_mapping"].items() if value["source_mapping"] == self.source_id]
+        func_source_id = ids[0] if ids else "_source_id"
+        entity_validate(self.catalogue, self.entity, self._gob_data, func_source_id)
 
     def publish(self):
         """The result of the import needs to be published.
@@ -146,7 +151,7 @@ class ImportClient:
             "catalogue": self._dataset['catalogue'],
             "entity": self._dataset['entity'],
             "version": self._dataset['version'],
-            "timestamp": datetime.datetime.now().isoformat()
+            "timestamp": datetime.datetime.utcnow().isoformat()
         }
 
         summary = {

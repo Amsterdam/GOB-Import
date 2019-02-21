@@ -90,8 +90,8 @@ def convert_data(data, dataset):
     entities = []
 
     gob_model = GOBModel()
-    entity_specification = gob_model.get_collection(dataset['catalogue'], dataset['entity'])
-    entity_model = entity_specification['fields']
+    collection = gob_model.get_collection(dataset['catalogue'], dataset['entity'])
+    fields = collection['fields']
 
     mapping = dataset['gob_mapping']
 
@@ -99,18 +99,12 @@ def convert_data(data, dataset):
     extract_fields = [field for field, meta in mapping.items() if 'source_mapping' in meta]
 
     for row in data:
-        # extract source fields into target entity
-        target_entity = {field: _extract_field(row, mapping[field], entity_model[field]) for field in extract_fields}
+        # extract source fields into entity
+        entity = {field: _extract_field(row, mapping[field], fields[field]) for field in extract_fields}
 
-        # add explicit source id, as string, to target_entity
-        source_id_field = dataset['source']['entity_id']
-        source_id_value = row[source_id_field]
-        source_id_str_value = str(get_gob_type("GOB.String").from_value(source_id_value))
-        if entity_specification.get("has_states", False):
-            # Source id + begin_geldigheid is source id
-            source_id_str_value = f"{source_id_str_value}.{target_entity['begin_geldigheid']}"
-        target_entity['_source_id'] = source_id_str_value
+        # add explicit source id, as string, to entity
+        entity['_source_id'] = gob_model.get_source_id(entity=row, input_spec=dataset)
 
-        entities.append(target_entity)
+        entities.append(entity)
 
     return entities
