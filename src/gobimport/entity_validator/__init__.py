@@ -13,7 +13,7 @@ from gobcore.logging.logger import logger
 from gobimport.entity_validator.gebieden import _validate_bouwblokken, _validate_buurten
 
 
-def entity_validate(catalogue, entity_name, entities):
+def entity_validate(catalogue, entity_name, entities, source_id):
     """
     Validate each entity in the list of entities for a given entity name
 
@@ -25,14 +25,14 @@ def entity_validate(catalogue, entity_name, entities):
     model = GOBModel()
 
     # if model has state, run validations for checks with state
-    states_validated = _validate_entity_state(entities) if model.has_states(catalogue, entity_name) else True
+    states_validated = not model.has_states(catalogue, entity_name) or _validate_entity_state(entities, source_id)
 
     validators = {
         "bouwblokken": _validate_bouwblokken,
         "buurten": _validate_buurten,
     }
 
-    entities_validated = validators.get(entity_name, lambda _: True)
+    entities_validated = validators.get(entity_name, lambda *args: True)(entities, source_id)
 
     # Raise an Exception is a fatal validation has failed
     if not (entities_validated and states_validated):
@@ -41,7 +41,7 @@ def entity_validate(catalogue, entity_name, entities):
         )
 
 
-def _validate_entity_state(entities):
+def _validate_entity_state(entities, source_id):
     """
     Validate entitys with state to see if generic validations for states are correct.
 
@@ -66,23 +66,22 @@ def _validate_entity_state(entities):
             extra_data = {
                 'id': msg,
                 'data': {
-                    'identificatie': entity['identificatie'],
+                    'identificatie': entity[source_id],
                     'begin_geldigheid': entity['begin_geldigheid'],
                     'eind_geldigheid': entity['eind_geldigheid'],
                 }
             }
-            logger.error(msg, extra_data)
-            validated = False
+            logger.warning(msg, extra_data)
 
         # volgnummer should a positive number and unique in the collection
         volgnummer = str(entity['volgnummer'])
-        identificatie = str(entity['identificatie'])
+        identificatie = str(entity[source_id])
         if int(volgnummer) < 1 or volgnummer in volgnummers[identificatie]:
             msg = "volgnummer should be a positive number and unique in the collection"
             extra_data = {
                 'id': msg,
                 'data': {
-                    'identificatie': entity['identificatie'],
+                    'identificatie': entity[source_id],
                     'volgnummer': entity['volgnummer'],
                 }
             }
@@ -97,7 +96,7 @@ def _validate_entity_state(entities):
                 extra_data = {
                     'id': msg,
                     'data': {
-                        'identificatie': entity['identificatie'],
+                        'identificatie': entity[source_id],
                     }
                 }
                 logger.warning(msg, extra_data)
