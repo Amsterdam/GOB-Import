@@ -21,7 +21,7 @@
 "    ,      w.documentnummer                                                                       AS documentnummer",
 "    ,      TRIM(nvl(regexp_substr(w.documentnummer, '^(.*?)_', 1, 1, NULL, 1), w.documentnummer)) AS dossier",
 "    ,      w.naam                                                                                 AS naam",
-"    ,      '0363'                                                                                 AS ligt_in_BRK_gemeente",
+"    ,      '0363'                                                                                 AS ligt_in_gemeente",
 "    ,      to_char(w.creation, 'YYYY-MM-DD HH24:MI:SS')                                           AS registratiedatum",
 "    ,      w.woonplaatsnummer                                                                     AS source_id",
 "    ,      w.bagproces                                                                            AS bagproces_code",
@@ -68,10 +68,12 @@
       "source_mapping": "geometrie"
     },
     "begin_geldigheid": {
-      "source_mapping": "begin_geldigheid"
+      "source_mapping": "begin_geldigheid",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "eind_geldigheid": {
-      "source_mapping": "eind_geldigheid"
+      "source_mapping": "eind_geldigheid",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "bagproces": {
       "source_mapping": {
@@ -85,7 +87,7 @@
     },
     "ligt_in_gemeente": {
       "source_mapping": {
-        "bronwaarde": "ligt_in_BRK_gemeente"
+        "bronwaarde": "ligt_in_gemeente"
       }
     }
   }
