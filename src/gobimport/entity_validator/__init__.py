@@ -59,19 +59,7 @@ def _validate_entity_state(entities, source_id):
     end_date = {}
 
     for entity in entities:
-        # begin_geldigheid can not be after eind_geldigheid when filled
-        if entity['eind_geldigheid'].to_db and \
-           entity['eind_geldigheid'].to_db < entity['begin_geldigheid'].to_db:
-            msg = "begin_geldigheid can not be after eind_geldigheid"
-            extra_data = {
-                'id': msg,
-                'data': {
-                    'identificatie': entity[source_id],
-                    'begin_geldigheid': entity['begin_geldigheid'],
-                    'eind_geldigheid': entity['eind_geldigheid'],
-                }
-            }
-            logger.warning(msg, extra_data)
+        validated = _validate_begin_geldigheid(entity, source_id)
 
         # volgnummer should a positive number and unique in the collection
         volgnummer = str(entity['volgnummer'])
@@ -104,5 +92,38 @@ def _validate_entity_state(entities, source_id):
 
         # Add the volgnummer to the set for this entity identificatie
         volgnummers[identificatie].add(volgnummer)
+
+    return validated
+
+
+def _validate_begin_geldigheid(entity, source_id):
+    validated = True
+
+    # begin_geldigheid should be filled
+    if not entity['begin_geldigheid']:
+        msg = "begin_geldigheid should be filled"
+        extra_data = {
+            'id': msg,
+            'data': {
+                'identificatie': entity[source_id],
+                'begin_geldigheid': entity['begin_geldigheid'],
+            }
+        }
+        logger.error(msg, extra_data)
+        validated = False
+
+    # begin_geldigheid can not be after eind_geldigheid when filled
+    if entity['eind_geldigheid'].to_db and \
+       entity['eind_geldigheid'].to_db < entity['begin_geldigheid'].to_db:
+        msg = "begin_geldigheid can not be after eind_geldigheid"
+        extra_data = {
+            'id': msg,
+            'data': {
+                'identificatie': entity[source_id],
+                'begin_geldigheid': entity['begin_geldigheid'],
+                'eind_geldigheid': entity['eind_geldigheid'],
+            }
+        }
+        logger.warning(msg, extra_data)
 
     return validated
