@@ -1,8 +1,48 @@
 CODE_TABLE_FIELDS = ['code', 'omschrijving']
 
 
+def _enrich_woonplaatsen(entities):
+    """Enrich woonplaatsen
+
+    :param entities: a list of entities imported from the source
+    :return:
+    """
+    for entity in entities:
+        _extract_dossier(entity)
+
+
+def _enrich_openbareruimtes(entities):
+    """Enrich openbareruimtes
+
+    :param entities: a list of entities imported from the source
+    :return:
+    """
+    for entity in entities:
+        _extract_dossier(entity)
+
+
 def _enrich_nummeraanduidingen(entities):
     """Enrich nummeraanduidingen
+
+    :param entities: a list of entities imported from the source
+    :return:
+    """
+    for entity in entities:
+        _extract_dossier(entity)
+
+
+def _enrich_ligplaatsen(entities):
+    """Enrich ligplaatsen
+
+    :param entities: a list of entities imported from the source
+    :return:
+    """
+    for entity in entities:
+        _extract_dossier(entity)
+
+
+def _enrich_standplaatsen(entities):
+    """Enrich standplaatsen
 
     :param entities: a list of entities imported from the source
     :return:

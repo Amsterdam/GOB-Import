@@ -107,6 +107,11 @@
     "documentnummer": {
       "source_mapping": "documentnummer"
     },
+    "heeft_brondocumenten": {
+      "source_mapping": {
+        "bronwaarde": "dossier"
+      }
+    },
     "bagproces": {
       "source_mapping": {
         "code": "bagproces_code",

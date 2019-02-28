@@ -27,12 +27,12 @@
 "    ,      w.bagproces                                                                            AS bagproces_code",
 "    ,      m.omschrijving                                                                         AS bagproces_omschrijving",
 "    ,      sdo_util.to_wktgeometry(geometrie)                                                     AS geometrie",
-"      FROM   basis.woonplaats w",
-"      -- selecteren status",
-"      LEFT OUTER JOIN basis.woonplaatsstatus s ON w.status_id = s.status",
-"      -- selecteren bagproces / mutatiereden",
-"      LEFT OUTER JOIN basis.mutatiereden m ON w.bagproces = m.id",
-"      WHERE  w.indauthentiek = 'J'"
+"    FROM   basis.woonplaats w",
+"    -- selecteren status",
+"    LEFT OUTER JOIN basis.woonplaatsstatus s ON w.status_id = s.status",
+"    -- selecteren bagproces / mutatiereden",
+"    LEFT OUTER JOIN basis.mutatiereden m ON w.bagproces = m.id",
+"    WHERE  w.indauthentiek = 'J'"
     ]
   },
   "gob_mapping": {
@@ -74,6 +74,11 @@
     "eind_geldigheid": {
       "source_mapping": "eind_geldigheid",
       "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "heeft_brondocumenten": {
+      "source_mapping": {
+        "bronwaarde": "dossier"
+      }
     },
     "bagproces": {
       "source_mapping": {
