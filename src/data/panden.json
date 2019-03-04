@@ -69,8 +69,7 @@
 "                                                                             AND x1.verblijfseenheidvolgnummer = x2.verblijfsobjectvolgnummer",
 "                     GROUP BY x1.gebouw_id, x1.gebouwvolgnummer) y ON  y.gebouw_id = g.gebouw_id",
 "                                                                   AND y.gebouwvolgnummer = g.gebouwvolgnummer",
-"    WHERE g.indauthentiek = 'J'",
-"    AND ROWNUM <= 1000"
+"    WHERE g.indauthentiek = 'J'"
     ]
   },
   "gob_mapping": {
