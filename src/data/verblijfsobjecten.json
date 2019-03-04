@@ -231,7 +231,7 @@
     },
     "gebruiksdoel_zorgfunctie": {
       "source_mapping": {
-        "bronwaarde": "gebruiksdoel_woonfunctie"
+        "bronwaarde": "gebruiksdoel_gezondheidszorg"
       }
     },
     "aantal_eenheden_complex": {
