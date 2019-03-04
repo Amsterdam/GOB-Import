@@ -6,7 +6,7 @@
     "name": "AMSBI",
     "application": "Neuron",
     "entity_id": "identificatie",
-    "type": "database",
+    "type": "oracle",
     "schema": "Neuron",
     "query": [
 "    SELECT v.verblijfseenheidnummer                                                               AS identificatie",
@@ -162,8 +162,7 @@
 "                     AND    vg.gebruiksdoel_id = 4",
 "                     AND    q1.min_gebruiksdoel != 1) q7  ON v.verblijfseenheid_id = q7.verblijfsobject_id",
 "                                                         AND v.verblijfseenheidvolgnummer = q7.verblijfsobjectvolgnummer",
-"    WHERE    v.indauthentiek = 'J'",
-"    AND ROWNUM <= 1000"
+"    WHERE    v.indauthentiek = 'J'"
     ]
   },
   "gob_mapping": {

@@ -84,7 +84,7 @@ def log_date_comparison(entity, date_field, compare_date_field, source_id):
     :return:
     """
     identificatie = str(entity[source_id])
-    msg = "{date_field} can not be after {compare_date_field}"
+    msg = f"{date_field} can not be after {compare_date_field}"
     extra_data = {
         'id': msg,
         'data': {
