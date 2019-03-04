@@ -6,7 +6,7 @@
     "name": "AMSBI",
     "application": "DGDialog",
     "entity_id": "source_id",
-    "type": "database",
+    "type": "oracle",
     "schema": "dgdialog",
     "depends_on": {
       "_application": "DIVA"

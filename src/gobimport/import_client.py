@@ -20,8 +20,8 @@ from gobcore.message_broker import publish
 
 from gobimport.converter import convert_data
 from gobimport.injections import inject
-from gobimport.connector import connect_to_database, connect_to_objectstore, connect_to_file
-from gobimport.reader import read_from_database, read_from_objectstore, read_from_file
+from gobimport.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
+from gobimport.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
 from gobimport.validator import Validator
 from gobimport.enricher import enrich
 from gobimport.entity_validator import entity_validate
@@ -73,6 +73,8 @@ class ImportClient:
             self._connection, self._user = connect_to_file(config=self.source['config'])
         elif self.source['type'] == "database":
             self._connection, self._user = connect_to_database(self.source)
+        elif self.source['type'] == "oracle":
+            self._connection, self._user = connect_to_oracle(self.source)
         elif self.source['type'] == "objectstore":
             self._connection, self._user = connect_to_objectstore(self.source)
         else:
@@ -89,6 +91,8 @@ class ImportClient:
             self._data = read_from_file(self._connection)
         elif self.source['type'] == "database":
             self._data = read_from_database(self._connection, self.source["query"])
+        elif self.source['type'] == "oracle":
+                self._data = read_from_oracle(self._connection, self.source["query"])
         elif self.source['type'] == "objectstore":
             self._data = read_from_objectstore(self._connection, self.source)
         else:

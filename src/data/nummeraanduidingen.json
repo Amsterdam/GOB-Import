@@ -6,7 +6,7 @@
     "name": "AMSBI",
     "application": "Neuron",
     "entity_id": "identificatie",
-    "type": "database",
+    "type": "oracle",
     "schema": "Neuron",
     "query": [
 "    SELECT a.adresnummer                                                                          AS identificatie",

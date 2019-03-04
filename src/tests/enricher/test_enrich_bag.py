@@ -33,7 +33,7 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['gebruiksdoel'],[{'code': '01', 'omschrijving': 'doel1'}, {'code': '02', 'omschrijving': 'doel2'}])
         self.assertEqual(entities[0]['gebruiksdoel_woonfunctie'],{'code': '01', 'omschrijving': 'doel1'})
         self.assertEqual(entities[0]['gebruiksdoel_gezondheidszorg'],{'code': '01', 'omschrijving': 'doel1'})
-        self.assertEqual(entities[0]['toegang'],{'code': '01', 'omschrijving': 'doel1'})
+        self.assertEqual(entities[0]['toegang'],[{'code': '01', 'omschrijving': 'doel1'}])
         self.assertEqual(entities[0]['pandidentificatie'],['1234', '5678'])
 
     def test_enrich_panden(self):
