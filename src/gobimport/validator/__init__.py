@@ -147,6 +147,13 @@ ENTITY_CHECKS = {
         ]
     },
     "bouwblokken": {
+        "source_id": [
+            {
+                "pattern": "^{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}}$",
+                "msg": "source_id should be a 4-2-2-2-6 bytes hexidecimal value",
+                "type": QA.WARNING
+            }
+        ],
         "code": [
             {
                 "pattern": "^[a-zA-Z]{2}\d{2}$",
@@ -174,9 +181,16 @@ ENTITY_CHECKS = {
         ],
     },
     "wijken": {
+        "code": [
+            {
+                "pattern": "^[a-zA-Z]{1}\d{2}$",
+                "msg": "code should be 1 letter and 2 numbers",
+                "type": QA.FATAL
+            }
+        ],
         "documentnummer": [
             {
-                "pattern": ".+",
+                "pattern": "^.+$",
                 "msg": "documentnummer should be filled",
                 "type": QA.WARNING,
             },
@@ -185,8 +199,8 @@ ENTITY_CHECKS = {
     "ggpgebieden": {
         "GGP_NAAM": [
             {
-                "pattern": ".+",
-                "msg": "naam should be filled",
+                "pattern": "^[^0-9]+$",
+                "msg": "naam should be filled and not contain numbers",
                 "type": QA.WARNING,
             },
         ],
@@ -338,6 +352,8 @@ class Validator:
         allow_null = check.get('allow_null')
         if allow_null and value is None:
             return True
+        elif not allow_null and value is None:
+            return False
         return re.compile(check['pattern']).match(str(value))
 
     def _between_check(self, between, value):

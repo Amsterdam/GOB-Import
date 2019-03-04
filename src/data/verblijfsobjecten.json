@@ -6,7 +6,7 @@
     "name": "AMSBI",
     "application": "Neuron",
     "entity_id": "identificatie",
-    "type": "database",
+    "type": "oracle",
     "schema": "Neuron",
     "query": [
 "    SELECT v.verblijfseenheidnummer                                                               AS identificatie",
@@ -26,10 +26,10 @@
 "    ,      m.omschrijving                                                                         AS bagproces_omschrijving",
 "    ,      v.vloeroppervlakte                                                                     AS oppervlakte",
 "    ,      v.aantal_bouwlagen                                                                     AS aantal_bouwlagen",
-"    ,      v.hoogste_bouwlaag                                                                     AS hoogste_bouwlaag",
-"    ,      v.laagste_bouwlaag                                                                     AS laagste_bouwlaag",
+"    ,      round(v.hoogste_bouwlaag)                                                              AS hoogste_bouwlaag",
+"    ,      round(v.laagste_bouwlaag)                                                              AS laagste_bouwlaag",
 "    ,      v.aantal_verhuurbare_eenheden                                                          AS aantal_verhuurbare_eenheden",
-"    ,      v.toegang_bouwlaag                                                                     AS verdieping_toegang",
+"    ,      round(v.toegang_bouwlaag)                                                              AS verdieping_toegang",
 "    ,      v.redenopvoer                                                                          AS redenopvoer_code",
 "    ,      ov.omschrijving                                                                        AS redenopvoer_omschrijving",
 "    ,      v.redenafvoer                                                                          AS redenafvoer_code",
@@ -162,8 +162,7 @@
 "                     AND    vg.gebruiksdoel_id = 4",
 "                     AND    q1.min_gebruiksdoel != 1) q7  ON v.verblijfseenheid_id = q7.verblijfsobject_id",
 "                                                         AND v.verblijfseenheidvolgnummer = q7.verblijfsobjectvolgnummer",
-"    WHERE    v.indauthentiek = 'J'",
-"    AND ROWNUM <= 1000"
+"    WHERE    v.indauthentiek = 'J'"
     ]
   },
   "gob_mapping": {

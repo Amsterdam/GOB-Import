@@ -37,6 +37,7 @@ class TestEntityValidator(unittest.TestCase):
                 'identificatie': GOB.String.from_value('1234567890'),
                 'documentdatum': GOB.Date.from_value('2018-01-01'),
                 'eind_geldigheid': GOB.Date.from_value('2019-01-01'),
+                'registratiedatum': GOB.Date.from_value('2019-01-01'),
             }
         ]
         self.assertTrue(_validate_buurten(self.entities, "identificatie"))
@@ -49,19 +50,10 @@ class TestEntityValidator(unittest.TestCase):
                 'identificatie': GOB.String.from_value('1234567890'),
                 'documentdatum': GOB.Date.from_value('2020-01-01'),
                 'eind_geldigheid': GOB.Date.from_value('2019-01-01'),
+                'registratiedatum': GOB.Date.from_value('2019-01-01'),
             }
         ]
 
         # This test should only call log with a warning statement and return True
         self.assertTrue(_validate_buurten(self.entities, "identificatie"))
-        mock_logger.warning.assert_called_with(
-            "documentdatum can not be after eind_geldigheid",
-            {
-                'id': 'documentdatum can not be after eind_geldigheid',
-                'data': {
-                    'identificatie': self.entities[0]['identificatie'],
-                    'documentdatum': self.entities[0]['documentdatum'],
-                    'eind_geldigheid': self.entities[0]['eind_geldigheid'],
-                }
-            }
-        )
+        mock_logger.warning.assert_called()

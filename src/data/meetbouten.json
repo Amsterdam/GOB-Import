@@ -6,7 +6,7 @@
     "name": "AMSBI",
     "application": "Grondslag",
     "entity_id": "identificatie",
-    "type": "database",
+    "type": "oracle",
     "schema": "grondslag",
     "query": [
 "      SELECT h.nummer AS identificatie",

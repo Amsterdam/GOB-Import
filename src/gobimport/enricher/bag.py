@@ -1,8 +1,48 @@
 CODE_TABLE_FIELDS = ['code', 'omschrijving']
 
 
+def _enrich_woonplaatsen(entities):
+    """Enrich woonplaatsen
+
+    :param entities: a list of entities imported from the source
+    :return:
+    """
+    for entity in entities:
+        _extract_dossier(entity)
+
+
+def _enrich_openbareruimtes(entities):
+    """Enrich openbareruimtes
+
+    :param entities: a list of entities imported from the source
+    :return:
+    """
+    for entity in entities:
+        _extract_dossier(entity)
+
+
 def _enrich_nummeraanduidingen(entities):
     """Enrich nummeraanduidingen
+
+    :param entities: a list of entities imported from the source
+    :return:
+    """
+    for entity in entities:
+        _extract_dossier(entity)
+
+
+def _enrich_ligplaatsen(entities):
+    """Enrich ligplaatsen
+
+    :param entities: a list of entities imported from the source
+    :return:
+    """
+    for entity in entities:
+        _extract_dossier(entity)
+
+
+def _enrich_standplaatsen(entities):
+    """Enrich standplaatsen
 
     :param entities: a list of entities imported from the source
     :return:
@@ -26,9 +66,17 @@ def _enrich_verblijfsobjecten(entities):
             entity['gebruiksdoel'].append(_extract_code_table(gebruiksdoel, CODE_TABLE_FIELDS))
 
         # Extract code tables for fields
-        _extract_code_tables(entity, ['gebruiksdoel_woonfunctie', 'gebruiksdoel_gezondheidszorg', 'toegang'])
+        _extract_code_tables(entity, ['gebruiksdoel_woonfunctie', 'gebruiksdoel_gezondheidszorg'])
 
-        entity['pandidentificatie'] = entity['pandidentificatie'].split(";")
+        # Toegang can be a multivalue code table
+        if entity['toegang']:
+            toegangen = entity['toegang'].split(";")
+            entity['toegang'] = []
+            for toegang in toegangen:
+                entity['toegang'].append(_extract_code_table(toegang, CODE_TABLE_FIELDS))
+
+        if entity['pandidentificatie']:
+            entity['pandidentificatie'] = entity['pandidentificatie'].split(";")
 
 
 def _enrich_panden(entities):
@@ -75,7 +123,6 @@ def _extract_code_table(value, fields, separator="|"):
     """
     code_table = {}
     values = value.split(separator)
-    print(values)
     for count, value in enumerate(values):
         code_table[fields[count]] = value
     return code_table

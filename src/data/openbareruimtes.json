@@ -6,7 +6,7 @@
     "name": "AMSBI",
     "application": "Neuron",
     "entity_id": "identificatie",
-    "type": "database",
+    "type": "oracle",
     "schema": "Neuron",
     "query": [
 "    SELECT o.openbareruimtenummer                                                                 AS identificatie",
@@ -26,29 +26,29 @@
 "    ,      o.openbareruimtetype                                                                   AS type_code",
 "    ,      t.omschrijving                                                                         AS type_omschrijving",
 "    ,      CASE o.tekst",
-"      WHEN '16' THEN NULL",
-"      ELSE o.tekst",
-"      END                                                                                         AS beschrijving_naam",
+"            WHEN '16' THEN NULL",
+"            ELSE o.tekst",
+"           END                                                                                    AS beschrijving_naam",
 "    ,      o.bagproces                                                                            AS bagproces_code",
 "    ,      m.omschrijving                                                                         AS bagproces_omschrijving",
 "    ,      to_char(o.creation, 'YYYY-MM-DD HH24:MI:SS')                                           AS registratiedatum",
 "    ,      o.openbareruimtenummer                                                                 AS source_id",
 "    ,      sdo_util.to_wktgeometry(o.geometrie)                                                   AS geometrie",
-"      FROM   basis.openbareruimte o",
-"      -- selecteren woonplaats",
-"      LEFT OUTER JOIN (SELECT w.woonplaats_id",
-"    ,      w.woonplaatsnummer",
-"      FROM   basis.woonplaats w",
-"      WHERE  w.indauthentiek = 'J'",
-"      GROUP BY w.woonplaats_id",
-"    ,      w.woonplaatsnummer) q ON o.woonplaats_id = q.woonplaats_id",
-"      -- selecteren openbare ruimte type",
-"      LEFT OUTER JOIN basis.openbareruimtetype t ON o.openbareruimtetype = t.code",
-"      -- selecteren status",
-"      LEFT OUTER JOIN basis.openbareruimtestatus s ON o.status_id = s.status",
-"      -- selecteren bagproces / mutatiereden",
-"      LEFT OUTER JOIN basis.mutatiereden m ON o.bagproces = m.id",
-"      WHERE  o.indauthentiek = 'J'"
+"    FROM   basis.openbareruimte o",
+"    -- selecteren woonplaats",
+"    LEFT OUTER JOIN (SELECT w.woonplaats_id",
+"                     ,      w.woonplaatsnummer",
+"                     FROM   basis.woonplaats w",
+"                     WHERE  w.indauthentiek = 'J'",
+"                     GROUP BY w.woonplaats_id",
+"                     ,      w.woonplaatsnummer) q ON o.woonplaats_id = q.woonplaats_id",
+"    -- selecteren openbare ruimte type",
+"    LEFT OUTER JOIN basis.openbareruimtetype t ON o.openbareruimtetype = t.code",
+"    -- selecteren status",
+"    LEFT OUTER JOIN basis.openbareruimtestatus s ON o.status_id = s.status",
+"    -- selecteren bagproces / mutatiereden",
+"    LEFT OUTER JOIN basis.mutatiereden m ON o.bagproces = m.id",
+"    WHERE  o.indauthentiek = 'J'"
       ]
   },
   "gob_mapping": {
@@ -105,6 +105,11 @@
     },
     "beschrijving": {
       "source_mapping": "beschrijving_naam"
+    },
+    "heeft_brondocumenten": {
+      "source_mapping": {
+        "bronwaarde": "dossier"
+      }
     },
     "bagproces": {
       "source_mapping": {
