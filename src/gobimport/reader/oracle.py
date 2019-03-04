@@ -31,9 +31,7 @@ def read_from_oracle(connection, query):
     cursor.execute("\n".join(query))
     cursor.rowfactory = makedict(cursor)
 
-    data = []
-    for obj in cursor.fetchall():
-        data.append(obj)
+    data = [obj for obj in cursor.fetchall()]
 
     if len(data) == 0:
         raise GOBException('No results found for database query')
