@@ -58,6 +58,14 @@ class ImportClient:
         logger.set_default_args(extra_log_kwargs)
         logger.info(f"Import dataset {self.entity} from {self.source_app} started")
 
+        self.clear_data()
+
+    def clear_data(self):
+        """
+        Clears local data
+
+        :return: None
+        """
         self._connection = None     # Holds the connection to the source
         self._user = None           # Holds the user that connects to the source, eg user@database
         self._data = None           # Holds the data in imput format
@@ -190,3 +198,5 @@ class ImportClient:
             print("Import failed: {e}", stacktrace)
             # Log the error and a short error description
             logger.error(f'Import failed: {e}')
+        finally:
+            self.clear_data()
