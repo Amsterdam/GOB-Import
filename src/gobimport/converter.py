@@ -98,13 +98,22 @@ def convert_data(data, dataset):
     # Extract the fields that have a source mapping defined
     extract_fields = [field for field, meta in mapping.items() if 'source_mapping' in meta]
 
-    for row in data:
+    n = 0
+    while data:
+        n += 1
+        if n % 10000 == 0:
+            print(n)
+
+        # Delete original data
+        row = data.pop(0)
+
         # extract source fields into entity
         entity = {field: _extract_field(row, mapping[field], fields[field]) for field in extract_fields}
 
         # add explicit source id, as string, to entity
         entity['_source_id'] = gob_model.get_source_id(entity=row, input_spec=dataset)
 
+        # Save converted data
         entities.append(entity)
 
     return entities
