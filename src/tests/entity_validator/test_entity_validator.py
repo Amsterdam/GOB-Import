@@ -1,3 +1,4 @@
+import datetime
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -49,10 +50,10 @@ class TestEntityValidator(unittest.TestCase):
     def test_validate_entity_state_valid(self):
         self.entities = [
             {
-                'identificatie': GOB.String.from_value('1234567890'),
-                'volgnummer': GOB.String.from_value('1'),
-                'begin_geldigheid': GOB.Date.from_value('2018-01-01'),
-                'eind_geldigheid': GOB.Date.from_value('2019-01-01'),
+                'identificatie': '1234567890',
+                'volgnummer': '1',
+                'begin_geldigheid': datetime.datetime(2018, 1, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1),
             }
         ]
 
@@ -61,10 +62,10 @@ class TestEntityValidator(unittest.TestCase):
     def test_validate_entity_state_invalid_begin_geldigheid(self):
         self.entities = [
             {
-                'identificatie': GOB.String.from_value('1234567890'),
-                'volgnummer': GOB.String.from_value('1'),
-                'begin_geldigheid': GOB.Date.from_value('2019-02-01'),
-                'eind_geldigheid': GOB.Date.from_value('2019-01-01'),
+                'identificatie': '1234567890',
+                'volgnummer': '1',
+                'begin_geldigheid': datetime.datetime(2019, 2, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1),
             }
         ]
 
@@ -74,10 +75,10 @@ class TestEntityValidator(unittest.TestCase):
     def test_validate_entity_state_invalid_volgnummer(self):
         self.entities = [
             {
-                'identificatie': GOB.String.from_value('1234567890'),
-                'volgnummer': GOB.String.from_value('-1'),
-                'begin_geldigheid': GOB.Date.from_value('2018-01-01'),
-                'eind_geldigheid': GOB.Date.from_value('2019-01-01'),
+                'identificatie': '1234567890',
+                'volgnummer': '-1',
+                'begin_geldigheid': datetime.datetime(2018, 1, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1),
             }
         ]
 
@@ -87,16 +88,16 @@ class TestEntityValidator(unittest.TestCase):
     def test_validate_entity_state_duplicate_volgnummer(self):
         self.entities = [
             {
-                'identificatie': GOB.String.from_value('1234567890'),
-                'volgnummer': GOB.String.from_value('1'),
-                'begin_geldigheid': GOB.Date.from_value('2018-01-01'),
-                'eind_geldigheid': GOB.Date.from_value('2019-01-01'),
+                'identificatie': '1234567890',
+                'volgnummer': '1',
+                'begin_geldigheid': datetime.datetime(2018, 1, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1),
             },
             {
-                'identificatie': GOB.String.from_value('1234567890'),
-                'volgnummer': GOB.String.from_value('1'),
-                'begin_geldigheid': GOB.Date.from_value('2018-01-01'),
-                'eind_geldigheid': GOB.Date.from_value('2019-01-01'),
+                'identificatie': '1234567890',
+                'volgnummer': '1',
+                'begin_geldigheid': datetime.datetime(2018, 1, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1),
             }
         ]
 

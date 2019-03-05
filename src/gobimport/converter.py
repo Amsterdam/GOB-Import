@@ -8,7 +8,7 @@ Todo:
 """
 import re
 
-from gobcore.typesystem import get_gob_type
+from gobcore.typesystem import get_gob_type, get_value
 from gobcore.model import GOBModel
 from gobcore.exceptions import GOBException
 
@@ -109,6 +109,9 @@ def convert_data(data, dataset):
 
         # extract source fields into entity
         entity = {field: _extract_field(row, mapping[field], fields[field]) for field in extract_fields}
+
+        # Convert GOBTypes to python objects
+        entity = get_value(entity)
 
         # add explicit source id, as string, to entity
         entity['_source_id'] = gob_model.get_source_id(entity=row, input_spec=dataset)
