@@ -106,22 +106,22 @@ def _validate_begin_geldigheid(entity, source_id):
             'id': msg,
             'data': {
                 'identificatie': entity[source_id],
-                'begin_geldigheid': entity['begin_geldigheid'],
+                'begin_geldigheid': entity['begin_geldigheid'].isoformat(),
             }
         }
         logger.error(msg, extra_data)
         validated = False
 
     # begin_geldigheid can not be after eind_geldigheid when filled
-    if entity['eind_geldigheid'].to_db and \
-       entity['eind_geldigheid'].to_db < entity['begin_geldigheid'].to_db:
+    if entity['eind_geldigheid'] and \
+       entity['eind_geldigheid'] < entity['begin_geldigheid']:
         msg = "begin_geldigheid can not be after eind_geldigheid"
         extra_data = {
             'id': msg,
             'data': {
                 'identificatie': entity[source_id],
-                'begin_geldigheid': entity['begin_geldigheid'],
-                'eind_geldigheid': entity['eind_geldigheid'],
+                'begin_geldigheid': entity['begin_geldigheid'].isoformat(),
+                'eind_geldigheid': entity['eind_geldigheid'].isoformat(),
             }
         }
         logger.warning(msg, extra_data)
