@@ -37,6 +37,14 @@ DATABASE_CONFIGS = {
         'host': os.getenv("BINNRN_DATABASE_HOST", "hostname"),
         'port': os.getenv("BINNRN_DATABASE_PORT", 1521),
         'database': os.getenv("BINNRN_DATABASE", ""),
+    },
+    'Decos': {
+        'drivername': ORACLE_DRIVER,
+        'username': os.getenv("DBIDC_DATABASE_USER", "gob"),
+        'password': os.getenv("DBIDC_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("DBIDC_DATABASE_HOST", "hostname"),
+        'port': os.getenv("DBIDC_DATABASE_PORT", 1521),
+        'database': os.getenv("DBIDC_DATABASE", ""),
     }
 }
 
