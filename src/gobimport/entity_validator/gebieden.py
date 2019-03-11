@@ -24,7 +24,7 @@ def _validate_bouwblokken(entities, source_id):
     for entity in entities:
         # begin_geldigheid can not be in the future
         identificatie = str(entity[source_id])
-        if entity['begin_geldigheid'] > datetime.datetime.utcnow():
+        if entity['begin_geldigheid'] > datetime.datetime.utcnow().date():
             msg = "begin_geldigheid can not be in the future"
             extra_data = {
                 'id': msg,
