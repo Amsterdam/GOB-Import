@@ -15,7 +15,7 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'begin_geldigheid': datetime.datetime(2018, 1, 1),
+                'begin_geldigheid': datetime.date(2018, 1, 1),
                 'eind_geldigheid': None,
             }
         ]
@@ -26,7 +26,7 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'begin_geldigheid': datetime.datetime(2020, 1, 1),
+                'begin_geldigheid': datetime.date(2020, 1, 1),
                 'eind_geldigheid': None,
             }
         ]
