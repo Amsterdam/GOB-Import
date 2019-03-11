@@ -229,7 +229,7 @@
         "bronwaarde": "gebruiksdoel_woonfunctie"
       }
     },
-    "gebruiksdoel_zorgfunctie": {
+    "gebruiksdoel_gezondheidszorgfunctie": {
       "source_mapping": {
         "bronwaarde": "gebruiksdoel_gezondheidszorg"
       }
@@ -251,6 +251,12 @@
     },
     "aantal_kamers": {
       "source_mapping": "aantal_kamers"
+    },
+    "eigendomsverhouding": {
+      "source_mapping": {
+        "code": "eigendomsverhouding_code",
+        "omschrijving": "eigendomsverhouding_omschrijv"
+      }
     },
     "feitelijk_gebruik": {
       "source_mapping": {
