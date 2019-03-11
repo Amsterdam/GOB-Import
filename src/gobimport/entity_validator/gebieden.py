@@ -55,7 +55,8 @@ def _validate_buurten(entities, source_id):
     for entity in entities:
         # get eind_geldigheid or use current date
         eind_geldigheid = entity['eind_geldigheid'] if entity['eind_geldigheid'] \
-            else datetime.datetime.utcnow()
+            else datetime.datetime.utcnow().date()
+
         documentdatum = entity['documentdatum']
         # documentdatum should not be after eind_geldigheid
         if documentdatum and documentdatum > eind_geldigheid:
@@ -63,7 +64,7 @@ def _validate_buurten(entities, source_id):
 
         registratiedatum = entity['registratiedatum']
         # registratiedatum should not be after eind_geldigheid
-        if registratiedatum and registratiedatum > eind_geldigheid:
+        if registratiedatum and registratiedatum.date() > eind_geldigheid:
             log_date_comparison(entity, 'registratiedatum', 'eind_geldigheid', source_id)
 
     return validated
