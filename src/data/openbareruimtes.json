@@ -103,7 +103,7 @@
         "omschrijving": "type_omschrijving"
       }
     },
-    "beschrijving": {
+    "beschrijving_naam": {
       "source_mapping": "beschrijving_naam"
     },
     "heeft_brondocumenten": {
