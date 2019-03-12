@@ -103,7 +103,7 @@ def _calculate_zakkingssnelheid(zakking, aantal_dagen):
     :return: the amount of zakking per year in mm/j
     """
     try:
-        zakkingssnelheid = decimal.Decimal(str(365 / aantal_dagen)) * zakking
+        zakkingssnelheid = decimal.Decimal(str(365 / aantal_dagen)) * decimal.Decimal(str(zakking))
     except ZeroDivisionError:
         zakkingssnelheid = 0
     return zakkingssnelheid
