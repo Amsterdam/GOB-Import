@@ -19,7 +19,8 @@ def read_from_database(connection, query):
         raise GOBException('No results found for database query')
 
     data = []
-    for row in result:
+    while result:
+        row = result.pop(0)
         data.append(dict(row))
 
     return data
