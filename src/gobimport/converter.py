@@ -11,6 +11,7 @@ import re
 from gobcore.typesystem import get_gob_type, get_value
 from gobcore.model import GOBModel
 from gobcore.exceptions import GOBException
+from gobcore.utils import ProgressTicker
 
 
 def _apply_filters(raw_value, filters):
@@ -98,11 +99,9 @@ def convert_data(data, dataset):
     # Extract the fields that have a source mapping defined
     extract_fields = [field for field, meta in mapping.items() if 'source_mapping' in meta]
 
-    n = 0
+    progress = ProgressTicker("Convert data", 10000)
     while data:
-        n += 1
-        if n % 10000 == 0:
-            print(n)
+        progress.tick()
 
         # Delete original data
         row = data.pop(0)
