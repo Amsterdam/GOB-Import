@@ -30,7 +30,7 @@ class TestEntityValidator(unittest.TestCase):
                 'eind_geldigheid': None,
             }
         ]
-        self.assertFalse(_validate_bouwblokken(self.entities, "identificatie"))
+        self.assertTrue(_validate_bouwblokken(self.entities, "identificatie"))
 
     @patch("gobimport.entity_validator.gebieden.logger")
     def test_validate_buurten_valid(self, mock_logger):
