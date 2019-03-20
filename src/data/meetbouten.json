@@ -113,6 +113,16 @@
         "bronwaarde": "ligt_in_bouwblok"
       }
     },
+    "ligt_in_buurt": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
+    "ligt_in_stadsdeel": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
     "geometrie": {
       "source_mapping": "geometrie"
     },
