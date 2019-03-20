@@ -14,7 +14,7 @@ def _validate_bouwblokken(entities, source_id):
 
     Checks that are being performed:
 
-    - begin_geldigheid can not be in the future (fatal)
+    - begin_geldigheid can not be in the future (not fatal)
 
     :param entities: the list of entities
     :return:
@@ -33,8 +33,7 @@ def _validate_bouwblokken(entities, source_id):
                     'begin_geldigheid': entity['begin_geldigheid'].isoformat(),
                 }
             }
-            logger.error(msg, extra_data)
-            validated = False
+            logger.warning(msg, extra_data)
 
     return validated
 
