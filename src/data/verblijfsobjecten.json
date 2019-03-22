@@ -279,6 +279,11 @@
         "omschrijving": "redenafvoer_omschrijving"
       }
     },
+    "ligt_in_buurt": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
     "heeft_brondocumenten": {
       "source_mapping": {
         "bronwaarde": "dossier"

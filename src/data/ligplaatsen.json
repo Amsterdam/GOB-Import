@@ -112,6 +112,11 @@
         "bronwaarde": "dossier"
       }
     },
+    "ligt_in_buurt": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
     "bagproces": {
       "source_mapping": {
         "code": "bagproces_code",

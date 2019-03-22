@@ -51,6 +51,7 @@ ENTITY_CHECKS = {
             {
                 "pattern": "^(N|NO|O|ZO|Z|ZW|W|NW)$",
                 "msg": "Windrichting should be one of [N,NO,O,ZO,Z,ZW,W,NW]",
+                "allow_null": True,
                 "type": QA.WARNING,
             }
         ],
@@ -179,6 +180,13 @@ ENTITY_CHECKS = {
                 "type": QA.FATAL,
             },
         ],
+        "naam": [
+            {
+                "pattern": "^.+$",
+                "msg": "naam should be filled",
+                "type": QA.WARNING
+            }
+        ],
     },
     "wijken": {
         "code": [
@@ -198,6 +206,24 @@ ENTITY_CHECKS = {
     },
     "ggpgebieden": {
         "GGP_NAAM": [
+            {
+                "pattern": "^[^0-9]+$",
+                "msg": "naam should be filled and not contain numbers",
+                "type": QA.WARNING,
+            },
+        ],
+    },
+    "ggwgebieden": {
+        "GGW_NAAM": [
+            {
+                "pattern": "^[^0-9]+$",
+                "msg": "naam should be filled and not contain numbers",
+                "type": QA.WARNING,
+            },
+        ],
+    },
+    "stadsdelen": {
+        "naam": [
             {
                 "pattern": "^[^0-9]+$",
                 "msg": "naam should be filled and not contain numbers",
