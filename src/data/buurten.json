@@ -92,6 +92,16 @@
         "bronwaarde": "ligt_in_wijk"
       }
     },
+    "_ligt_in_ggpgebied": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
+    "_ligt_in_ggwgebied": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
     "cbs_code": {
       "source_mapping": "cbs_code"
     },
