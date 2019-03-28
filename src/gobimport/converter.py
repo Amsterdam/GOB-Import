@@ -28,21 +28,64 @@ def _apply_filters(raw_value, filters):
     return value
 
 
+def _is_literal(field):
+    """
+    Tells if a field contains a literal value
+
+    Literal values start with '='
+
+    :param field: field name
+    :return: True if field is a literal value
+    """
+    return field[0] == "="
+
+
+def _literal_value(field):
+    """
+    Returns the literal value of a literal field
+
+    Example: '=geometrie' returns 'geometrie'
+
+    :param field: field name
+    :return: the literal value of the field
+    """
+    return field[1:]
+
+
+def _get_value(row, field):
+    """
+    Gets the value for a field in a row
+
+    :param row: row of fields
+    :param field: field name
+    :return: the value of the specified field in the specified row
+    """
+    if _is_literal(field):
+        # Literal value
+        return _literal_value(field)
+    else:
+        # Source value
+        return row[field]
+
+
 def _extract_references(row, field_source, field_type):   # noqa: C901
     # If we can expect multiple references create an array of dicts
     if field_type == 'GOB.ManyReference':
         value = []
         # For each attribute in the source mapping, loop through all values and add them to the correct dict
         for attribute, source_mapping in field_source.items():
-            if row[source_mapping]:
-                for idx, v in enumerate(row[source_mapping]):
+            source_value = _get_value(row, source_mapping)
+            if _is_literal(source_mapping):
+                value.append({attribute: source_value})
+            elif source_value:
+                for idx, v in enumerate(source_value):
                     # Try to update the dictionary with the attribute and value or create a new dict
                     try:
                         value[idx].update({attribute: v})
                     except IndexError:
                         value.append({attribute: v})
     else:
-        value = {attribute: row[source_mapping] for attribute, source_mapping in field_source.items()}
+        value = {attribute: _get_value(row, source_mapping) for attribute, source_mapping in field_source.items()}
 
     return value
 
@@ -66,7 +109,7 @@ def _extract_field(row, metadata, typeinfo):
     if isinstance(field_source, dict):
         value = _extract_references(row, field_source, field_type)
     else:
-        value = row[field_source]
+        value = _get_value(row, field_source)
 
     if "filters" in metadata:
         # If we are dealing with a dict, apply filters to the correct attribute
@@ -92,7 +135,7 @@ def convert_data(data, dataset):
 
     gob_model = GOBModel()
     collection = gob_model.get_collection(dataset['catalogue'], dataset['entity'])
-    fields = collection['fields']
+    fields = collection['all_fields']
 
     mapping = dataset['gob_mapping']
 

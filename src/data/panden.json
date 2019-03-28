@@ -134,6 +134,11 @@
     "laagste_bouwlaag": {
       "source_mapping": "laagste_bouwlaag"
     },
+    "ligt_in_bouwblok": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
     "heeft_brondocumenten": {
       "source_mapping": {
         "bronwaarde": "dossier"
