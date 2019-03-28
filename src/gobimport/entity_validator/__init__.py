@@ -59,8 +59,8 @@ def _validate_entity_state(entities, source_id):
     end_date = {}
 
     for entity in entities:
-        validated = _validate_begin_geldigheid(entity, source_id)
-
+        if not _validate_begin_geldigheid(entity, source_id):
+            validated = False
         # volgnummer should a positive number and unique in the collection
         volgnummer = str(entity['volgnummer'])
         identificatie = str(entity[source_id])
@@ -106,7 +106,7 @@ def _validate_begin_geldigheid(entity, source_id):
             'id': msg,
             'data': {
                 'identificatie': entity[source_id],
-                'begin_geldigheid': entity['begin_geldigheid'].isoformat(),
+                'begin_geldigheid': entity['begin_geldigheid'],
             }
         }
         logger.error(msg, extra_data)
