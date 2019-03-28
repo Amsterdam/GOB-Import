@@ -1,0 +1,55 @@
+{
+  "version": "0.1",
+  "source": {
+    "application": "Neuron",
+    "type": "oracle",
+    "schema": "BRK"
+  },
+  "destination": {
+    "application": "GOBPrepare",
+    "schema": "brk"
+  },
+  "action": {
+    "type": "clone",
+    "ignore": [
+      "MDRT_2DD90$",
+      "MDRT_2DD9B$",
+      "MDRT_2DDA6$",
+      "MDRT_2DDAF$",
+      "MDRT_2DDB8$",
+      "MDRT_2DDC3$",
+      "MDRT_2DDCD$",
+      "MDRT_2DDD4$",
+      "MDRT_2DDDF$",
+      "MDRT_2DDEA$",
+      "MDRT_2DDF5$",
+      "MDXT_2DD90$",
+      "MDXT_2DD9B$",
+      "MDXT_2DDA6$",
+      "MDXT_2DDAF$",
+      "MDXT_2DDB8$",
+      "MDXT_2DDC3$",
+      "MDXT_2DDCD$",
+      "MDXT_2DDD4$",
+      "MDXT_2DDDF$",
+      "MDXT_2DDEA$",
+      "MDXT_2DDF5$"
+    ],
+    "mask": {
+      "SUBJECT": {
+        "bsn": "*****",
+        "voornamen": "*****",
+        "voorvoegselsgeslsnaam": "*****",
+        "geslachtsnaam": "*****",
+        "geboortedatum": "****-**-**",
+        "partner_geslachtsnaam": "*****",
+        "partner_voornamen": "*****",
+        "partner_voorvoegselsgeslsnaam": "*****",
+        "kad_voornamen": "*****",
+        "kad_voorvoegselsgeslsnaam": "*****",
+        "kad_geslachtsnaam": "*****",
+        "kad_geboortedatum": "****-**-**"
+      }
+    }
+  }
+}

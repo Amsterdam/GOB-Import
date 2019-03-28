@@ -1,6 +1,6 @@
 from sqlalchemy.exc import DBAPIError
 
-from gobcore.exceptions import GOBException
+from gobcore.exceptions import GOBException, GOBEmptyResultException
 
 
 def read_from_database(connection, query):
@@ -16,7 +16,7 @@ def read_from_database(connection, query):
         raise GOBException(f'Database connection failed. Error: {e}.')
 
     if len(result) == 0:
-        raise GOBException('No results found for database query')
+        raise GOBEmptyResultException('No results found for database query')
 
     data = []
     while result:
