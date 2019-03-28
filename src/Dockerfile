@@ -22,6 +22,7 @@ RUN rm requirements.txt
 
 # Copy gobimport module
 COPY gobimport gobimport
+COPY gobprepare gobprepare
 
 # For the current test period, add the datafiles
 COPY data data
