@@ -38,8 +38,8 @@ class OracleToPostgresCloner():
         self._dst_schema = dst_schema
 
         if config is not None:
-            self._mask_columns = config['mask'] if 'mask' in config else {}
-            self._ignore_tables = config['ignore'] if 'ignore' in config else []
+            self._mask_columns = config.get('mask', {})
+            self._ignore_tables = config.get('ignore', [])
 
     def _read_source_table_names(self) -> list:
         """Returns a list of table names present in given schema
