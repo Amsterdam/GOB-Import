@@ -4,6 +4,7 @@ import re
 from sqlalchemy.engine.url import URL
 
 ORACLE_DRIVER = 'oracle+cx_oracle'
+POSTGRES_DRIVER = 'postgresql'
 
 DATABASE_CONFIGS = {
     'Grondslag': {
@@ -45,6 +46,14 @@ DATABASE_CONFIGS = {
         'host': os.getenv("DBIDC_DATABASE_HOST", "hostname"),
         'port': os.getenv("DBIDC_DATABASE_PORT", 1521),
         'database': os.getenv("DBIDC_DATABASE", ""),
+    },
+    'GOBPrepare': {
+        'drivername': POSTGRES_DRIVER,
+        'username': os.getenv("GOB_PREPARE_DATABASE_USER", "gob"),
+        'password': os.getenv("GOB_PREPARE_DATABASE_PASSWORD", "insecure"),
+        'host': os.getenv("GOB_PREPARE_DATABASE_HOST", "hostname"),
+        'port': os.getenv("GOB_PREPARE_DATABASE_PORT", 5408),
+        'database': os.getenv("GOB_PREPARE_DATABASE", ""),
     }
 }
 
