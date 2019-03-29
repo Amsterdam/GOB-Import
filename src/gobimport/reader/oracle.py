@@ -1,6 +1,6 @@
 import cx_Oracle
 
-from gobcore.exceptions import GOBException
+from gobcore.exceptions import GOBEmptyResultException
 
 
 def makedict(cursor):
@@ -34,6 +34,6 @@ def read_from_oracle(connection, query):
     data = [obj for obj in cursor.fetchall()]
 
     if len(data) == 0:
-        raise GOBException('No results found for database query')
+        raise GOBEmptyResultException('No results found for database query')
 
     return data

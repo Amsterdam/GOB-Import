@@ -52,7 +52,7 @@
     },
     "reference": {
       "source_mapping": {
-        "identificatie": "reference",
+        "_id": "reference",
         "bronwaarde": "reference"
       }
     }

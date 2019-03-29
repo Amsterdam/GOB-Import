@@ -135,7 +135,7 @@ def convert_data(data, dataset):
 
     gob_model = GOBModel()
     collection = gob_model.get_collection(dataset['catalogue'], dataset['entity'])
-    fields = collection['fields']
+    fields = collection['all_fields']
 
     mapping = dataset['gob_mapping']
 
