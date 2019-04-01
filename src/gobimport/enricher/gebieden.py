@@ -125,8 +125,8 @@ def _add_cbs_code(entities, url, type):
         if match and entity['naam'] != match['naam']:
             msg = "Naam and CBS naam don't match"
             extra_data = {
+                'id': msg,
                 'data': {
-                    'id': msg,
                     'identificatie': entity['identificatie'],
                     'naam': entity['naam'],
                     'cbs_naam': match['naam'],
