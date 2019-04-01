@@ -1,92 +1,69 @@
+"""
+BAG enrichment
+
+"""
+from gobimport.enricher.enricher import Enricher
+
 CODE_TABLE_FIELDS = ['code', 'omschrijving']
 
 
-def _enrich_woonplaatsen(entities):
-    """Enrich woonplaatsen
+class BAGEnricher(Enricher):
 
-    :param entities: a list of entities imported from the source
-    :return:
-    """
-    for entity in entities:
-        _extract_dossier(entity)
+    @classmethod
+    def enriches(cls, catalog_name, entity_name):
+        if catalog_name == "bag":
+            enricher = BAGEnricher(catalog_name, entity_name)
+            return enricher._enrich_entity is not None
 
+    def __init__(self, _, entity_name):
+        super().__init__({
+            "woonplaatsen": self.enrich_woonplaats,
+            "openbareruimtes": self.enrich_openbareruimte,
+            "nummeraanduidingen": self.enrich_nummeraanduiding,
+            "ligplaatsen": self.enrich_ligplaats,
+            "standplaatsen": self.enrich_standplaats,
+            "verblijfsobjecten": self.enrich_verblijfsobject,
+            "panden": self.enrich_pand,
+        }, entity_name)
 
-def _enrich_openbareruimtes(entities):
-    """Enrich openbareruimtes
+    def enrich_woonplaats(self, woonplaats):
+        _extract_dossier(woonplaats)
 
-    :param entities: a list of entities imported from the source
-    :return:
-    """
-    for entity in entities:
-        _extract_dossier(entity)
+    def enrich_openbareruimte(self, openbareruimte):
+        _extract_dossier(openbareruimte)
 
+    def enrich_nummeraanduiding(self, nummeraanduiding):
+        _extract_dossier(nummeraanduiding)
 
-def _enrich_nummeraanduidingen(entities):
-    """Enrich nummeraanduidingen
+    def enrich_ligplaats(self, ligplaats):
+        _extract_dossier(ligplaats)
 
-    :param entities: a list of entities imported from the source
-    :return:
-    """
-    for entity in entities:
-        _extract_dossier(entity)
+    def enrich_standplaats(self, standplaats):
+        _extract_dossier(standplaats)
 
+    def enrich_pand(self, pand):
+        _extract_dossier(pand)
 
-def _enrich_ligplaatsen(entities):
-    """Enrich ligplaatsen
+    def enrich_verblijfsobject(self, verblijfsobject):
+        _extract_dossier(verblijfsobject)
 
-    :param entities: a list of entities imported from the source
-    :return:
-    """
-    for entity in entities:
-        _extract_dossier(entity)
-
-
-def _enrich_standplaatsen(entities):
-    """Enrich standplaatsen
-
-    :param entities: a list of entities imported from the source
-    :return:
-    """
-    for entity in entities:
-        _extract_dossier(entity)
-
-
-def _enrich_verblijfsobjecten(entities):
-    """Enrich verblijfsobjecten
-
-    :param entities: a list of entities imported from the source
-    :return:
-    """
-    for entity in entities:
-        _extract_dossier(entity)
-
-        gebruiksdoelen = entity['gebruiksdoel'].split(";")
-        entity['gebruiksdoel'] = []
+        gebruiksdoelen = verblijfsobject['gebruiksdoel'].split(";")
+        verblijfsobject['gebruiksdoel'] = []
         for gebruiksdoel in gebruiksdoelen:
-            entity['gebruiksdoel'].append(_extract_code_table(gebruiksdoel, CODE_TABLE_FIELDS))
+            verblijfsobject['gebruiksdoel'].append(_extract_code_table(gebruiksdoel, CODE_TABLE_FIELDS))
 
         # Extract code tables for fields
-        _extract_code_tables(entity, ['gebruiksdoel_woonfunctie', 'gebruiksdoel_gezondheidszorg'])
+        _extract_code_tables(verblijfsobject, ['gebruiksdoel_woonfunctie', 'gebruiksdoel_gezondheidszorg'])
 
         # Toegang can be a multivalue code table
-        if entity['toegang']:
-            toegangen = entity['toegang'].split(";")
-            entity['toegang'] = []
+        if verblijfsobject['toegang']:
+            toegangen = verblijfsobject['toegang'].split(";")
+            verblijfsobject['toegang'] = []
             for toegang in toegangen:
-                entity['toegang'].append(_extract_code_table(toegang, CODE_TABLE_FIELDS))
+                verblijfsobject['toegang'].append(_extract_code_table(toegang, CODE_TABLE_FIELDS))
 
-        if entity['pandidentificatie']:
-            entity['pandidentificatie'] = entity['pandidentificatie'].split(";")
-
-
-def _enrich_panden(entities):
-    """Enrich panden
-
-    :param entities: a list of entities imported from the source
-    :return:
-    """
-    for entity in entities:
-        _extract_dossier(entity)
+        if verblijfsobject['pandidentificatie']:
+            verblijfsobject['pandidentificatie'] = verblijfsobject['pandidentificatie'].split(";")
 
 
 def _extract_dossier(entity):

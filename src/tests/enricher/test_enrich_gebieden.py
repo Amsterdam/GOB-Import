@@ -2,8 +2,8 @@ import decimal
 import unittest
 from unittest import mock
 
-from gobimport.enricher.gebieden import _enrich_buurten, _enrich_wijken, CBS_BUURTEN_API, CBS_WIJKEN_API, _add_cbs_code
-from gobimport.enricher.gebieden import enrich_ggwgebieden, enrich_ggpgebieden, _volgnummer_from_date
+from gobimport.enricher.gebieden import GebiedenEnricher, CBS_BUURTEN_API, CBS_WIJKEN_API
+from gobimport.enricher.gebieden import _volgnummer_from_date
 
 class MockResponse:
 
@@ -108,22 +108,28 @@ class TestEnricher(unittest.TestCase):
             }
         ]
 
-    @mock.patch('gobimport.enricher.gebieden._add_cbs_code')
+    @mock.patch.object(GebiedenEnricher, '_add_cbs_code')
     def test_enrich_buurten(self, mock_add_cbs):
-        _enrich_buurten(self.entities)
+        enricher = GebiedenEnricher("gebieden", "buurten")
+        for entity in self.entities:
+            enricher.enrich(entity)
 
-        mock_add_cbs.assert_called_with(self.entities, CBS_BUURTEN_API, 'buurt')
+        mock_add_cbs.assert_called_with(self.entities[2], CBS_BUURTEN_API, 'buurt')
 
-    @mock.patch('gobimport.enricher.gebieden._add_cbs_code')
+    @mock.patch.object(GebiedenEnricher, '_add_cbs_code')
     def test_enrich_wijken(self, mock_add_cbs):
-        _enrich_wijken(self.entities)
+        enricher = GebiedenEnricher("gebieden", "wijken")
+        for entity in self.entities:
+            enricher.enrich(entity)
 
-        mock_add_cbs.assert_called_with(self.entities, CBS_WIJKEN_API, 'wijk')
+        mock_add_cbs.assert_called_with(self.entities[2], CBS_WIJKEN_API, 'wijk')
 
     @mock.patch('gobimport.enricher.gebieden.requests.get')
     def test_add_cbs_code(self, mock_request):
         mock_request.return_value = MockResponse()
-        _add_cbs_code(self.entities, CBS_BUURTEN_API, 'buurt')
+        enricher = GebiedenEnricher("gebieden", "buurten")
+        for entity in self.entities:
+            enricher._add_cbs_code(entity, CBS_BUURTEN_API, 'buurt')
 
         # Expect cbs codes buurt
         self.assertEqual('BU03630001', self.entities[0]['cbs_code'])
@@ -134,7 +140,7 @@ class TestEnricher(unittest.TestCase):
 class TestGGWPEnricher(unittest.TestCase):
 
     def setUp(self):
-        self.entitites = [
+        self.entities = [
             {
 
             }
@@ -155,7 +161,9 @@ class TestGGWPEnricher(unittest.TestCase):
                 }
             }
         ]
-        enrich_ggwgebieden(ggwgebieden)
+        enricher = GebiedenEnricher("gebieden", "ggwgebieden")
+        for entity in ggwgebieden:
+            enricher.enrich(entity)
         self.assertEqual(ggwgebieden, [
             {
                 "_IDENTIFICATIE": None,
@@ -181,7 +189,9 @@ class TestGGWPEnricher(unittest.TestCase):
                 }
             }
         ]
-        enrich_ggpgebieden(ggpgebieden)
+        enricher = GebiedenEnricher("gebieden", "ggpgebieden")
+        for entity in ggpgebieden:
+            enricher.enrich(entity)
         self.assertEqual(ggpgebieden, [
             {
                 "_IDENTIFICATIE": None,

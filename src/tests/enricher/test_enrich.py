@@ -1,17 +1,21 @@
 import unittest
 from unittest import mock
 
-from gobimport.enricher import enrich
+from gobimport.enricher import Enricher, MeetboutenEnricher
 
 class TestEnricher(unittest.TestCase):
 
     def setUp(self):
-        self.entities = []
+        self.entities = [{}]
 
-    @mock.patch('gobimport.enricher._enrich_metingen')
+    @mock.patch.object(MeetboutenEnricher, 'enrich_meting')
     def test_valid_enrich(self, mock_enrich):
-        enrich('meetbouten', 'metingen', self.entities)
+        enricher = Enricher('meetbouten', 'metingen')
+        for entity in self.entities:
+            enricher.enrich(entity)
         mock_enrich.assert_called()
 
     def test_invalid_enrich(self):
-        enrich('test', 'test', self.entities)
+        enricher = Enricher('test', 'test')
+        for entity in self.entities:
+            enricher.enrich(entity)

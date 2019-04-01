@@ -1,37 +1,56 @@
+"""
+Meetbouten enrichment
+
+"""
 import datetime
 import decimal
 
+from gobimport.enricher.enricher import Enricher
 
-def _enrich_metingen(entities):     # noqa: C901
-    """
-    Enrich a metingen dataset.
 
-    :param entities: a metingen dataset
-    :return: None
-    """
-    update_attributes = [
-        'type_meting',
-        'hoeveelste_meting',
-        'aantal_dagen',
-        'zakking',
-        'zakking_cumulatief',
-        'zakkingssnelheid'
-    ]
+class MeetboutenEnricher(Enricher):
 
-    # Keep a dict of metingen by meetboutid
-    meetbouten = {}
-    for entity in entities:
-        meetboutid = entity['hoort_bij_meetbout']
+    @classmethod
+    def enriches(cls, catalog_name, entity_name):
+        if catalog_name == "meetbouten":
+            enricher = MeetboutenEnricher(catalog_name, entity_name)
+            return enricher._enrich_entity is not None
 
-        huidige_datum = datetime.datetime.strptime(entity['datum'], '%Y-%m-%d')
+    def __init__(self, _, entity_name):
+        super().__init__({
+            "metingen": self.enrich_meting,
+        }, entity_name)
+
+        # Keep a dict of metingen by meetboutid
+        self.meetbouten = {}
+
+    def enrich_meting(self, meting):  # noqa: C901
+        """
+        Enrich a meting
+
+        :param meting: a meting
+        :return: None
+        """
+        update_attributes = [
+            'type_meting',
+            'hoeveelste_meting',
+            'aantal_dagen',
+            'zakking',
+            'zakking_cumulatief',
+            'zakkingssnelheid'
+        ]
+
+        meetboutid = meting['hoort_bij_meetbout']
+
+        huidige_datum = datetime.datetime.strptime(meting['datum'], '%Y-%m-%d')
 
         try:
-            meetbout = meetbouten[meetboutid]
+            meetbout = self.meetbouten[meetboutid]
             # If this meetbout has been measured before it is a 'Herhaalmeting', and update the count
             meetbout['type_meting'] = 'H'
             meetbout['hoeveelste_meting'] = meetbout['hoeveelste_meting'] + 1
         except KeyError:
-            meetbout = meetbouten[meetboutid] = {
+            meetbout = self.meetbouten[meetboutid] = {
                 'type_meting': 'N',
                 'hoeveelste_meting': 1,
                 'aantal_dagen': 0,
@@ -40,7 +59,7 @@ def _enrich_metingen(entities):     # noqa: C901
                 'zakkingssnelheid': 0,
                 '_eerste_datum': huidige_datum,
                 '_vorige_datum': huidige_datum,
-                '_vorige_hoogte': entity['hoogte_tov_nap']
+                '_vorige_hoogte': meting['hoogte_tov_nap']
             }
 
         # Calculate number of days since previous meting
@@ -50,11 +69,11 @@ def _enrich_metingen(entities):     # noqa: C901
         meetbout['_vorige_datum'] = huidige_datum
 
         # Calculate zakking since previous meting
-        meetbout['zakking'] = _calculate_zakking(meetbout['_vorige_hoogte'], entity['hoogte_tov_nap'])
+        meetbout['zakking'] = _calculate_zakking(meetbout['_vorige_hoogte'], meting['hoogte_tov_nap'])
         meetbout['zakking_cumulatief'] += meetbout['zakking']
 
         # Store the value for the next interation
-        meetbout['_vorige_hoogte'] = entity['hoogte_tov_nap']
+        meetbout['_vorige_hoogte'] = meting['hoogte_tov_nap']
 
         # Calculate zakkingssnelheid
         aantal_dagen_sinds_eerste_meting = _calculate_days_since(meetbout['_eerste_datum'], huidige_datum)
@@ -62,11 +81,11 @@ def _enrich_metingen(entities):     # noqa: C901
                                                                    aantal_dagen_sinds_eerste_meting)
 
         for attr in update_attributes:
-            entity[attr] = meetbout[attr]
+            meting[attr] = meetbout[attr]
 
         # Convert refereert_aan_refpunt to JSON
         try:
-            entity['refereert_aan_refpunt'] = entity['refereert_aan_refpunt'].split(';')
+            meting['refereert_aan_refpunt'] = meting['refereert_aan_refpunt'].split(';')
         except (KeyError, AttributeError) as e:
             pass
 

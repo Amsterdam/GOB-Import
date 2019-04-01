@@ -2,7 +2,7 @@ import decimal
 import unittest
 from unittest import mock
 
-from gobimport.enricher.meetbouten import _enrich_metingen
+from gobimport.enricher.meetbouten import MeetboutenEnricher
 
 class TestEnricher(unittest.TestCase):
 
@@ -26,7 +26,9 @@ class TestEnricher(unittest.TestCase):
         ]
 
     def test_single_meting(self):
-        _enrich_metingen(self.entities)
+        enricher = MeetboutenEnricher("meetbouten", "metingen")
+        for entity in self.entities:
+            enricher.enrich(entity)
 
         for key in self.expected_attributes:
             self.assertIn(key, self.entities[0])
@@ -40,7 +42,9 @@ class TestEnricher(unittest.TestCase):
                 'hoogte_tov_nap': decimal.Decimal(0.2)
             }
         )
-        _enrich_metingen(self.entities)
+        enricher = MeetboutenEnricher("meetbouten", "metingen")
+        for entity in self.entities:
+            enricher.enrich(entity)
 
         for key in self.expected_attributes:
             self.assertIn(key, self.entities[0])

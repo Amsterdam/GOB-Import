@@ -19,11 +19,11 @@ from gobcore.logging.logger import logger
 from gobcore.message_broker import publish
 
 from gobimport.converter import convert_data
-from gobimport.injections import inject, Injector
+from gobimport.injections import Injector
 from gobimport.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
 from gobimport.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
 from gobimport.validator import Validator
-from gobimport.enricher import enrich
+from gobimport.enricher import Enricher
 from gobimport.entity_validator import entity_validate
 
 
@@ -61,6 +61,7 @@ class ImportClient:
         self.clear_data()
 
         self.injector = Injector(self.source.get("inject"))
+        self.enricher = Enricher(self.catalogue, self.entity)
 
     def clear_data(self):
         """
@@ -115,8 +116,8 @@ class ImportClient:
             self.injector.inject(row)
 
     def enrich(self):
-        logger.info("Enrich")
-        enrich(self.catalogue, self.entity, self._data)
+        for row in self._data:
+            self.enricher.enrich(row)
 
     def convert(self):
         """Convert the input data to GOB format
