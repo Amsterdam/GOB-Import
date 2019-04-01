@@ -15,13 +15,14 @@ Todo: improve type conversion
 import datetime
 import traceback
 
+from gobcore.database.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
+from gobcore.database.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
 from gobcore.logging.logger import logger
 from gobcore.message_broker import publish
 
 from gobimport.converter import Converter
 from gobimport.injections import Injector
-from gobimport.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
-from gobimport.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
+from gobimport.config import get_database_config, get_objectstore_config
 from gobimport.validator import Validator
 from gobimport.enricher import Enricher
 from gobimport.entity_validator import EntityValidator
@@ -92,11 +93,11 @@ class ImportClient:
         if self.source['type'] == "file":
             self._connection, self._user = connect_to_file(config=self.source['config'])
         elif self.source['type'] == "database":
-            self._connection, self._user = connect_to_database(self.source)
+            self._connection, self._user = connect_to_database(get_database_config(self.source['application']))
         elif self.source['type'] == "oracle":
-            self._connection, self._user = connect_to_oracle(self.source)
+            self._connection, self._user = connect_to_oracle(get_database_config(self.source['application']))
         elif self.source['type'] == "objectstore":
-            self._connection, self._user = connect_to_objectstore(self.source)
+            self._connection, self._user = connect_to_objectstore(get_objectstore_config(self.source['application']))
         else:
             raise NotImplementedError
 
