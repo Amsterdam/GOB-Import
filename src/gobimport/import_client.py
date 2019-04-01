@@ -131,9 +131,10 @@ class ImportClient:
         self._gob_data = convert_data(self._data, dataset=self._dataset)
 
     def validate(self):
-        logger.info("Validate")
-        validator = Validator(self._dataset['entity'], self._data, self.source_id)
-        validator.validate()
+        validator = Validator(self._dataset['entity'], self.source_id)
+        for row in self._data:
+            validator.validate(row)
+        validator.result()
 
     def entity_validate(self):
         logger.info("Validate Entity")
