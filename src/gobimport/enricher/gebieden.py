@@ -1,7 +1,12 @@
+"""
+Gebieden enrichment
+
+"""
 from datetime import datetime
 import requests
 
 from gobcore.logging.logger import logger
+from gobimport.enricher.enricher import Enricher
 
 from shapely.geometry import shape
 from shapely.wkt import loads
@@ -23,101 +28,56 @@ CBS_WIJKEN_API = 'https://geodata.nationaalgeoregister.nl/wijkenbuurten2018/wfs'
                  '<ogc:Literal>Amsterdam</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>'
 
 
-def _enrich_buurten(entities):
-    # Add the CBS Code
-    entities = _add_cbs_code(entities, CBS_BUURTEN_API, 'buurt')
+class GebiedenEnricher(Enricher):
 
-    return entities
+    @classmethod
+    def enriches(cls, catalog_name, entity_name):
+        if catalog_name == "gebieden":
+            enricher = GebiedenEnricher(catalog_name, entity_name)
+            return enricher._enrich_entity is not None
 
+    def __init__(self, _, entity_name):
+        super().__init__({
+            "buurten": self.enrich_buurt,
+            "wijken": self.enrich_wijk,
+            "ggwgebieden": self.enrich_ggwgebied,
+            "ggpgebieden": self.enrich_ggpgebied,
+        }, entity_name)
 
-def _enrich_wijken(entities):
-    # Add the CBS Code
-    entities = _add_cbs_code(entities, CBS_WIJKEN_API, 'wijk')
-    return entities
+        self.features = {}
 
+    def enrich_buurt(self, buurt):
+        self._add_cbs_code(buurt, CBS_BUURTEN_API, 'buurt')
 
-def _volgnummer_from_date(date_str, date_format):
-    """Generate a volgnummer from a date
+    def enrich_wijk(self, wijk):
+        self._add_cbs_code(wijk, CBS_WIJKEN_API, 'wijk')
 
-    :param date_str: date string to derive volgnummer from
-    :param date_format: format of date string
-    :return: a volgnummer that is higher for recent dates and lower for oldest dates
-    """
-    return int(datetime.strptime(date_str, date_format).timestamp())
+    def enrich_ggwgebied(self, ggwgebied):
+        self._enrich_ggw_ggp_gebied(ggwgebied, "GGW")
 
+    def enrich_ggpgebied(self, ggpgebied):
+        self._enrich_ggw_ggp_gebied(ggpgebied, "GGP")
 
-def enrich_ggw_ggp_gebieden(entities, prefix):
-    """Enrich GGW or GGP Gebieden
+    def _add_cbs_code(self, entity, url, type):
+        """
+        Gets the CBS codes and tries to match them based on the inside
+        point of the geometry. Returns the entities enriched with CBS Code.
 
-    Add:
-    - Missing identificatie
-    - Set registratiedatum to the date of the file
-    - Set volgnummer to a number that corresponds to the registratiedatum
-    - Interpret BUURTEN as a comma separated list of codes
-    - Convert Excel DateTime values to date strings in YYYY-MM-DD format
+        :param entities: a list of entities ready for enrichment
+        :param url: the url to the cbs code API
+        :param type: the type of entity, needed to get the correct values from the API
+        :return: the entities enriched with CBS Code
+        """
+        if not self.features.get(type):
+            self.features[type] = _get_cbs_features(url, type)
 
-    :param entities: a list of entities
-    :param prefix: GGW or GGP
-    :return: None
-    """
-    for entity in entities:
-        entity["BUURTEN"] = entity["BUURTEN"].split(", ")
-        entity["_IDENTIFICATIE"] = None
-        entity["registratiedatum"] = entity["_file_info"]["last_modified"]
-        entity["volgnummer"] = _volgnummer_from_date(entity["registratiedatum"], "%Y-%m-%dT%H:%M:%S.%f")
-        for date in [f"{prefix}_{date}" for date in ["BEGINDATUM", "EINDDATUM", "DOCUMENTDATUM"]]:
-            if entity[date] is not None:
-                entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
-
-
-def enrich_ggwgebieden(entities):
-    """Enrich GGW Gebieden
-
-    Add:
-    - Missing identificatie
-    - Interpret BUURTEN as a comma separated list of buurt codes
-    - Convert Excel DateTime values to dates
-
-    :param entities: a list of entities
-    :return: None
-    """
-    enrich_ggw_ggp_gebieden(entities, "GGW")
-
-
-def enrich_ggpgebieden(entities):
-    """Enrich GGP Gebieden
-
-    Add:
-    - Missing identificatie
-    - Interpret BUURTEN as a comma separated list of buurt codes
-    - Convert Excel DateTime values to dates
-
-    :param entities: a list of entities
-    :return: None
-    """
-    enrich_ggw_ggp_gebieden(entities, "GGP")
-
-
-def _add_cbs_code(entities, url, type):
-    """
-    Gets the CBS codes and tries to match them based on the inside
-    point of the geometry. Returns the entities enriched with CBS Code.
-
-    :param entities: a list of entities ready for enrichment
-    :param url: the url to the cbs code API
-    :param type: the type of entity, needed to get the correct values from the API
-    :return: the entities enriched with CBS Code
-    """
-    features = _get_cbs_features(url, type)
-
-    for entity in entities:
         # Leave entities without datum_einde_geldigheid empty
         if entity['datum_einde_geldigheid']:
             entity['cbs_code'] = ''
-            continue
+            return
 
         # Check which CBS feature lays within the geometry
-        match = _match_cbs_features(entity, features)
+        match = _match_cbs_features(entity, self.features[type])
 
         entity['cbs_code'] = match['code'] if match else ''
 
@@ -134,7 +94,37 @@ def _add_cbs_code(entities, url, type):
             }
             logger.warning(msg, extra_data)
 
-    return entities
+    def _enrich_ggw_ggp_gebied(self, entity, prefix):
+        """Enrich GGW or GGP Gebieden
+
+        Add:
+        - Missing identificatie
+        - Set registratiedatum to the date of the file
+        - Set volgnummer to a number that corresponds to the registratiedatum
+        - Interpret BUURTEN as a comma separated list of codes
+        - Convert Excel DateTime values to date strings in YYYY-MM-DD format
+
+        :param entities: a list of entities
+        :param prefix: GGW or GGP
+        :return: None
+        """
+        entity["BUURTEN"] = entity["BUURTEN"].split(", ")
+        entity["_IDENTIFICATIE"] = None
+        entity["registratiedatum"] = entity["_file_info"]["last_modified"]
+        entity["volgnummer"] = _volgnummer_from_date(entity["registratiedatum"], "%Y-%m-%dT%H:%M:%S.%f")
+        for date in [f"{prefix}_{date}" for date in ["BEGINDATUM", "EINDDATUM", "DOCUMENTDATUM"]]:
+            if entity[date] is not None:
+                entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
+
+
+def _volgnummer_from_date(date_str, date_format):
+    """Generate a volgnummer from a date
+
+    :param date_str: date string to derive volgnummer from
+    :param date_format: format of date string
+    :return: a volgnummer that is higher for recent dates and lower for oldest dates
+    """
+    return int(datetime.strptime(date_str, date_format).timestamp())
 
 
 def _match_cbs_features(entity, features):

@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from gobimport.enricher import bag
+from gobimport.enricher.bag import BAGEnricher
 
 
 class TestBAGEnrichment(unittest.TestCase):
@@ -12,7 +12,10 @@ class TestBAGEnrichment(unittest.TestCase):
                 'dossier': 'dossier1;dossier2',
             }
         ]
-        bag._enrich_nummeraanduidingen(entities)
+
+        enricher = BAGEnricher("bag", "nummeraanduidingen")
+        for entity in entities:
+            enricher.enrich(entity)
 
         self.assertEqual(entities[0]['dossier'],['dossier1', 'dossier2'])
 
@@ -27,7 +30,9 @@ class TestBAGEnrichment(unittest.TestCase):
                 'pandidentificatie': "1234;5678"
             }
         ]
-        bag._enrich_verblijfsobjecten(entities)
+        enricher = BAGEnricher("bag", "verblijfsobjecten")
+        for entity in entities:
+            enricher.enrich(entity)
 
         self.assertEqual(entities[0]['dossier'],['dossier1', 'dossier2'])
         self.assertEqual(entities[0]['gebruiksdoel'],[{'code': '01', 'omschrijving': 'doel1'}, {'code': '02', 'omschrijving': 'doel2'}])
@@ -42,6 +47,8 @@ class TestBAGEnrichment(unittest.TestCase):
                 'dossier': 'dossier1;dossier2',
             }
         ]
-        bag._enrich_panden(entities)
+        enricher = BAGEnricher("bag", "panden")
+        for entity in entities:
+            enricher.enrich(entity)
 
         self.assertEqual(entities[0]['dossier'],['dossier1', 'dossier2'])
