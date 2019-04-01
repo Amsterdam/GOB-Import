@@ -236,39 +236,43 @@ ENTITY_CHECKS = {
 
 class Validator:
 
-    def __init__(self, entity_name, entities, source_id):
+    def __init__(self, entity_name, source_id):
         self.entity_name = entity_name
-        self.entities = entities
         self.source_id = source_id
 
         checks = ENTITY_CHECKS.get(entity_name, {})
         self.collection_qa = {f"num_invalid_{attr}": 0 for attr in checks.keys()}
-        self.collection_qa['num_records'] = len(entities)
         self.fatal = False
 
-    def validate(self):
-        """
-        Validate each entity in the list of entities for a given entity name
+        self.primary_keys = set()
+        self.duplicates = set()
 
-        :param self:
-        :return:
-        """
-
-        # Validate uniqueness of primary key
-        self._validate_primary_key()
-
-        # Run quality checks on the collection and individual entities
-        self._validate_quality()
-
+    def result(self):
         if self.fatal:
             raise GOBException(
                 f"Quality assurance failed for {self.entity_name}"
             )
 
+        if self.duplicates:
+            raise GOBException(f"Duplicate primary key(s) found in source: [{', '.join(self.duplicates)}]")
+
         self._log(type=QA.INFO,
                   id=None,
                   msg=f"Quality assurance passed",
                   data=self.collection_qa)
+
+    def validate(self, entity):
+        """
+        Validate a single entity
+
+        :param self:
+        :return:
+        """
+        # Validate uniqueness of primary key
+        self._validate_primary_key(entity)
+
+        # Run quality checks on the collection and individual entities
+        self._validate_quality(entity)
 
     def _log(self, type, id, msg, data):
         extra_info = {
@@ -282,20 +286,15 @@ class Validator:
         if type == QA.INFO:
             logger.info(msg, extra_info)
 
-    def _validate_primary_key(self):
-        primary_keys = set()
-        duplicates = set()
-        for entity in self.entities:
-            id = f"{entity[self.source_id]}.{entity['volgnummer']}" if "volgnummer" in entity \
-                else entity[self.source_id]
-            if id is not None:
-                # Only add ids that are not None, None id's can occur for imports of collections without ids
-                if id not in primary_keys:
-                    primary_keys.add(id)
-                else:
-                    duplicates.add(id)
-        if duplicates:
-            raise GOBException(f"Duplicate primary key(s) found in source: [{', '.join(duplicates)}]")
+    def _validate_primary_key(self, entity):
+        id = f"{entity[self.source_id]}.{entity['volgnummer']}" if "volgnummer" in entity \
+            else entity[self.source_id]
+        if id is not None:
+            # Only add ids that are not None, None id's can occur for imports of collections without ids
+            if id not in self.primary_keys:
+                self.primary_keys.add(id)
+            else:
+                self.duplicates.add(id)
 
     def _validate_entity(self, entity):
         """
@@ -398,9 +397,9 @@ class Validator:
                 return False
         return True
 
-    def _validate_quality(self):
+    def _validate_quality(self, entity):
         """
-        Validate a list of entities.
+        Validate an entity.
 
         Fails on any fatal validation check
         Warns on any warning validation check
@@ -412,7 +411,6 @@ class Validator:
         :return: Result of the qa checks, and a boolean if fatal errors have been found
         """
         # Validate on individual entities
-        for entity in self.entities:
-            invalid_attrs = self._validate_entity(entity)
-            for attr in invalid_attrs:
-                self.collection_qa[f"num_invalid_{attr}"] += 1
+        invalid_attrs = self._validate_entity(entity)
+        for attr in invalid_attrs:
+            self.collection_qa[f"num_invalid_{attr}"] += 1
