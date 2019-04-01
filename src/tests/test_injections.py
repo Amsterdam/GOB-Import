@@ -3,8 +3,9 @@ import json
 
 from unittest import mock
 
-from gobimport.injections import inject, _apply_injection
+from gobimport.injections import Injector
 
+@mock.patch("gobimport.injections.logger", mock.MagicMock())
 class TestInjections(unittest.TestCase):
 
     def setUp(self):
@@ -12,7 +13,8 @@ class TestInjections(unittest.TestCase):
 
     def test_no_injections(self):
         data = []
-        inject(None, data)
+        injector = Injector(None)
+        injector.inject(data)
 
         self.assertEqual(data, [])
 
@@ -31,7 +33,9 @@ class TestInjections(unittest.TestCase):
             }
         }
         data = []
-        inject(inject_spec, data)
+        injector = Injector(inject_spec)
+        for row in data:
+            injector.inject(row)
         self.assertEqual(data, [])
 
     @mock.patch('builtins.open')
@@ -55,16 +59,19 @@ class TestInjections(unittest.TestCase):
             }
         }
         data = []
-        inject(inject_spec, data)
+        injector = Injector(inject_spec)
+        for row in data:
+            injector.inject(row)
         self.assertEqual(data, [])
 
     def test_apply_injection(self):
         row = {}
-        _apply_injection(row, "key", "=", "aap")
+        injector = Injector(None)
+        injector._apply(row, "key", "=", "aap")
         self.assertEqual(row, {"key": "aap"})
 
         row = {"key": 1}
-        _apply_injection(row, "key", "+", 1)
+        injector._apply(row, "key", "+", 1)
         self.assertEqual(row, {"key": 2})
 
     @mock.patch('builtins.open')
@@ -139,5 +146,7 @@ class TestInjections(unittest.TestCase):
                 "field3": "x"
             }
         ]
-        inject(inject_spec, data)
+        injector = Injector(inject_spec)
+        for row in data:
+            injector.inject(row)
         self.assertEqual(data, expect)

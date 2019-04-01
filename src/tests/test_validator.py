@@ -29,61 +29,72 @@ class TestValidator(unittest.TestCase):
         }
 
     def test_validat_data(self):
-        validator = Validator('meetbouten', self.valid_meetbouten, 'identificatie')
-        validator.validate()
+        validator = Validator('meetbouten', 'identificatie')
+        for entity in self.valid_meetbouten:
+            validator.validate(entity)
 
     def test_duplicate_primary_key(self):
         self.valid_meetbouten.append(self.valid_meetbouten[0])
-        validator = Validator('meetbouten', self.valid_meetbouten, 'identificatie')
+        validator = Validator('meetbouten', 'identificatie')
 
         with self.assertRaises(GOBException):
-            validator.validate()
+            for entity in self.valid_meetbouten:
+                validator.validate(entity)
+            validator.result()
 
     def test_invalid_data(self):
-        validator = Validator('meetbouten', self.invalid_meetbouten, 'identificatie')
-        validator.validate()
+        validator = Validator('meetbouten', 'identificatie')
+        for entity in self.invalid_meetbouten:
+            validator.validate(entity)
 
         # Make sure the statusid has been listed as invalid
         self.assertEqual(validator.collection_qa['num_invalid_status_id'], 1)
 
     def test_fatal_value(self):
-        validator = Validator('meetbouten', self.fatal_meetbouten, 'identificatie')
+        validator = Validator('meetbouten', 'identificatie')
 
         with self.assertRaises(GOBException):
-            validator.validate()
+            for entity in self.fatal_meetbouten:
+                validator.validate(entity)
+            validator.result()
 
         # Make sure the identificatie has been listed as invalid
         self.assertEqual(validator.collection_qa['num_invalid_identificatie'], 1)
 
     def test_missing_warning_data(self):
         missing_attr_meetbouten = self.valid_meetbouten[0].pop('status_id')
-        validator = Validator('meetbouten', self.valid_meetbouten, 'identificatie')
-        validator.validate()
+        validator = Validator('meetbouten', 'identificatie')
+
+        for entity in self.valid_meetbouten:
+            validator.validate(entity)
 
         # Make sure the publiceerbaar has been listed as invalid
         self.assertEqual(validator.collection_qa['num_invalid_status_id'], 1)
 
     def test_missing_fatal_data(self):
         missing_attr_meetbouten = self.valid_meetbouten[0].pop('publiceerbaar')
-        validator = Validator('meetbouten', self.valid_meetbouten, 'identificatie')
+        validator = Validator('meetbouten', 'identificatie')
 
-        validator.validate()
+        for entity in self.valid_meetbouten:
+            validator.validate(entity)
 
         # Make sure the publiceerbaar has been listed as invalid
         self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)   # Warning
 
     def test_nopubliceerbaar(self):
-        validator = Validator('meetbouten', self.nopubliceerbaar_meetbouten, 'identificatie')
+        validator = Validator('meetbouten', 'identificatie')
 
-        validator.validate()
+        for entity in self.nopubliceerbaar_meetbouten:
+            validator.validate(entity)
 
         # Make sure the publiceerbaar has been listed as invalid
         self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)   # Warning
 
     def test_nullpubliceerbaar(self):
-        validator = Validator('meetbouten', self.nullpubliceerbaar_meetbouten, 'identificatie')
+        validator = Validator('meetbouten', 'identificatie')
 
-        validator.validate()
+        for entity in self.nullpubliceerbaar_meetbouten:
+            validator.validate(entity)
 
         # Make sure the publiceerbaar has been listed as invalid
         self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 0)

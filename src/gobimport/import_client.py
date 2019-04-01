@@ -19,11 +19,11 @@ from gobcore.logging.logger import logger
 from gobcore.message_broker import publish
 
 from gobimport.converter import convert_data
-from gobimport.injections import inject
+from gobimport.injections import Injector
 from gobimport.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
 from gobimport.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
 from gobimport.validator import Validator
-from gobimport.enricher import enrich
+from gobimport.enricher import Enricher
 from gobimport.entity_validator import entity_validate
 
 
@@ -59,6 +59,9 @@ class ImportClient:
         logger.info(f"Import dataset {self.entity} from {self.source_app} started")
 
         self.clear_data()
+
+        self.injector = Injector(self.source.get("inject"))
+        self.enricher = Enricher(self.catalogue, self.entity)
 
     def clear_data(self):
         """
@@ -100,7 +103,7 @@ class ImportClient:
         elif self.source['type'] == "database":
             self._data = read_from_database(self._connection, self.source["query"])
         elif self.source['type'] == "oracle":
-                self._data = read_from_oracle(self._connection, self.source["query"])
+            self._data = read_from_oracle(self._connection, self.source["query"])
         elif self.source['type'] == "objectstore":
             self._data = read_from_objectstore(self._connection, self.source)
         else:
@@ -109,14 +112,12 @@ class ImportClient:
         logger.info(f"Data ({len(self._data)} records) has been imported from {self.source_app}.")
 
     def inject(self):
-        inject_spec = self.source.get("inject")
-        if inject_spec:
-            logger.info("Inject conversion data")
-            inject(inject_spec, self._data)
+        for row in self._data:
+            self.injector.inject(row)
 
     def enrich(self):
-        logger.info("Enrich")
-        enrich(self.catalogue, self.entity, self._data)
+        for row in self._data:
+            self.enricher.enrich(row)
 
     def convert(self):
         """Convert the input data to GOB format
@@ -130,9 +131,10 @@ class ImportClient:
         self._gob_data = convert_data(self._data, dataset=self._dataset)
 
     def validate(self):
-        logger.info("Validate")
-        validator = Validator(self._dataset['entity'], self._data, self.source_id)
-        validator.validate()
+        validator = Validator(self._dataset['entity'], self.source_id)
+        for row in self._data:
+            validator.validate(row)
+        validator.result()
 
     def entity_validate(self):
         logger.info("Validate Entity")
