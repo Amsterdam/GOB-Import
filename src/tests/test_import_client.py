@@ -1,10 +1,12 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
+from gobcore.model import GOBModel
 from gobimport.import_client import ImportClient
 from tests import fixtures
 
 
+@patch.object(GOBModel, 'has_states', MagicMock())
 @patch('gobimport.import_client.logger')
 class TestImportClient(TestCase):
 
@@ -22,6 +24,7 @@ class TestImportClient(TestCase):
             },
             'catalogue': fixtures.random_string(),
             'entity': fixtures.random_string(),
+            'gob_mapping': {}
         }
 
         self.mock_msg = {

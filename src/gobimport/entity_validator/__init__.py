@@ -4,126 +4,52 @@ Validation will take place after the imported data has been converted into the G
 This is done to be able to perform comparisons between dates in the imported data or
 run specific validation for certain collections.
 """
-from collections import defaultdict
-
 from gobcore.exceptions import GOBException
-from gobcore.model import GOBModel
-from gobcore.logging.logger import logger
 
-from gobimport.entity_validator.gebieden import _validate_bouwblokken, _validate_buurten
-
-
-def entity_validate(catalogue, entity_name, entities, source_id):
-    """
-    Validate each entity in the list of entities for a given entity name
-
-    :param catalogue: the name of the catalogue, e.g. meetbouten
-    :param entity_name: the name of the entity, e.g. meetbouten
-    :param entities: the list of entities
-    :return:
-    """
-    model = GOBModel()
-
-    # if model has state, run validations for checks with state
-    states_validated = not model.has_states(catalogue, entity_name) or _validate_entity_state(entities, source_id)
-
-    validators = {
-        "bouwblokken": _validate_bouwblokken,
-        "buurten": _validate_buurten,
-    }
-
-    entities_validated = validators.get(entity_name, lambda *args: True)(entities, source_id)
-
-    # Raise an Exception is a fatal validation has failed
-    if not (entities_validated and states_validated):
-        raise GOBException(
-            f"Quality assurance failed for {entity_name}"
-        )
+from gobimport.entity_validator.state import StateValidator
+from gobimport.entity_validator.gebieden import GebiedenValidator
 
 
-def _validate_entity_state(entities, source_id):
-    """
-    Validate entitys with state to see if generic validations for states are correct.
+class EntityValidator:
 
-    Checks that are being performed:
+    def __init__(self, catalog_name, entity_name, source_id):
+        """
+        Select all applicable entity validators for the given catalog and entity
 
-    - begin_geldigheid should not be after eind_geldigheid (when filled)
-    - volgnummer should be a positive number and unique in the collection
+        :param catalog_name:
+        :param entity_name:
+        :param source_id:
+        """
+        self.catalog_name = catalog_name
+        self.entity_name = entity_name
 
-    :param entities: the list of entities
-    :return:
-    """
-    validated = True
+        self.validators = []
+        for Validator in [StateValidator, GebiedenValidator]:
+            if Validator.validates(catalog_name, entity_name):
+                self.validators.append(Validator(catalog_name, entity_name, source_id))
 
-    volgnummers = defaultdict(set)
-    end_date = {}
+    def validate(self, entity):
+        """
+        Validate the entity for all applicable validation tests
 
-    for entity in entities:
-        if not _validate_begin_geldigheid(entity, source_id):
-            validated = False
-        # volgnummer should a positive number and unique in the collection
-        volgnummer = str(entity['volgnummer'])
-        identificatie = str(entity[source_id])
-        if int(volgnummer) < 1 or volgnummer in volgnummers[identificatie]:
-            msg = "volgnummer should be a positive number and unique in the collection"
-            extra_data = {
-                'id': msg,
-                'data': {
-                    'identificatie': entity[source_id],
-                    'volgnummer': entity['volgnummer'],
-                }
-            }
-            logger.error(msg, extra_data)
-            validated = False
+        :param entity:
+        :return: None
+        """
+        for validator in self.validators:
+            validator.validate(entity)
 
-        # Only one eind_geldigheid may be empty per entity
-        eind_geldigheid = entity['eind_geldigheid']
-        if eind_geldigheid is None:
-            if end_date.get(identificatie):
-                msg = "Only one eind_geldigheid for every entity may be empty"
-                extra_data = {
-                    'id': msg,
-                    'data': {
-                        'identificatie': entity[source_id],
-                    }
-                }
-                logger.warning(msg, extra_data)
-            end_date[identificatie] = True
+    def result(self):
+        """
+        Checks for fatal errors
 
-        # Add the volgnummer to the set for this entity identificatie
-        volgnummers[identificatie].add(volgnummer)
+        Any non-True result for any of the validators raises an exception
 
-    return validated
-
-
-def _validate_begin_geldigheid(entity, source_id):
-    validated = True
-
-    # begin_geldigheid should be filled
-    if not entity['begin_geldigheid']:
-        msg = "begin_geldigheid should be filled"
-        extra_data = {
-            'id': msg,
-            'data': {
-                'identificatie': entity[source_id],
-                'begin_geldigheid': entity['begin_geldigheid'],
-            }
-        }
-        logger.error(msg, extra_data)
-        validated = False
-
-    # begin_geldigheid can not be after eind_geldigheid when filled
-    if entity['eind_geldigheid'] and \
-       entity['eind_geldigheid'] < entity['begin_geldigheid']:
-        msg = "begin_geldigheid can not be after eind_geldigheid"
-        extra_data = {
-            'id': msg,
-            'data': {
-                'identificatie': entity[source_id],
-                'begin_geldigheid': entity['begin_geldigheid'].isoformat(),
-                'eind_geldigheid': entity['eind_geldigheid'].isoformat(),
-            }
-        }
-        logger.warning(msg, extra_data)
-
-    return validated
+        :return:
+        """
+        results = [validator.result() for validator in self.validators]
+        # Raise an Exception is a fatal validation has failed
+        if False in results:
+            raise GOBException(
+                f"Quality assurance failed for {self.catalog_name}.{self.entity_name}"
+            )
+        return True
