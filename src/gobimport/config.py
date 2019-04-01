@@ -3,8 +3,9 @@ import re
 
 from sqlalchemy.engine.url import URL
 
+from gobcore.exceptions import GOBException
+
 ORACLE_DRIVER = 'oracle+cx_oracle'
-POSTGRES_DRIVER = 'postgresql'
 
 DATABASE_CONFIGS = {
     'Grondslag': {
@@ -46,14 +47,6 @@ DATABASE_CONFIGS = {
         'host': os.getenv("DBIDC_DATABASE_HOST", "hostname"),
         'port': os.getenv("DBIDC_DATABASE_PORT", 1521),
         'database': os.getenv("DBIDC_DATABASE", ""),
-    },
-    'GOBPrepare': {
-        'drivername': POSTGRES_DRIVER,
-        'username': os.getenv("GOB_PREPARE_DATABASE_USER", "gob"),
-        'password': os.getenv("GOB_PREPARE_DATABASE_PASSWORD", "insecure"),
-        'host': os.getenv("GOB_PREPARE_DATABASE_HOST", "hostname"),
-        'port': os.getenv("GOB_PREPARE_DATABASE_PORT", 5408),
-        'database': os.getenv("GOB_PREPARE_DATABASE", ""),
     }
 }
 
@@ -68,6 +61,27 @@ OBJECTSTORE_CONFIGS = {
         "REGION_NAME": 'NL'
     }
 }
+
+
+def get_database_config(name: str):
+    try:
+        config = DATABASE_CONFIGS[name]
+    except KeyError:
+        raise GOBException(f"Database config for source {name} not found.")
+
+    config['url'] = get_url(config)
+    config['name'] = name
+    return config
+
+
+def get_objectstore_config(name: str):
+    try:
+        config = OBJECTSTORE_CONFIGS[name]
+    except KeyError:
+        raise GOBException(f"Objectstore config for source {name} not found.")
+
+    config['name'] = name
+    return config
 
 
 def get_url(db_config):

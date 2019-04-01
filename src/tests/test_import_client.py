@@ -43,7 +43,9 @@ class TestImportClient(TestCase):
         mock_logger.set_default_args.assert_called()
         mock_logger.info.assert_called()
 
-    def test_connect(self, mock_logger):
+    @patch("gobimport.import_client.get_database_config")
+    @patch("gobimport.import_client.get_objectstore_config")
+    def test_connect(self, mock_objectstore_config, mock_database_config, mock_logger):
         test_connect_types = [
             ('gobimport.import_client.connect_to_file', 'file'),
             ('gobimport.import_client.connect_to_database', 'database'),
