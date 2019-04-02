@@ -16,7 +16,7 @@ import datetime
 import traceback
 
 from gobcore.database.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
-from gobcore.database.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
+from gobcore.database.reader import query_database, query_objectstore, query_file, query_oracle
 from gobcore.logging.logger import logger
 from gobcore.message_broker import publish
 
@@ -26,6 +26,7 @@ from gobimport.config import get_database_config, get_objectstore_config
 from gobimport.validator import Validator
 from gobimport.enricher import Enricher
 from gobimport.entity_validator import EntityValidator
+from gobimport.writer import Writer
 
 
 class ImportClient:
@@ -72,6 +73,7 @@ class ImportClient:
         self.validator = Validator(self.entity, self.source_id)
         self.converter = Converter(self.catalogue, self.entity, self._dataset)
         self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
+        self.writer = Writer()
 
     def clear_data(self):
         """
@@ -109,46 +111,15 @@ class ImportClient:
         :return:
         """
         if self.source['type'] == "file":
-            self._data = read_from_file(self._connection)
+            self._data = query_file(self._connection)
         elif self.source['type'] == "database":
-            self._data = read_from_database(self._connection, self.source["query"])
+            self._data = query_database(self._connection, self.source["query"])
         elif self.source['type'] == "oracle":
-            self._data = read_from_oracle(self._connection, self.source["query"])
+            self._data = query_oracle(self._connection, self.source["query"])
         elif self.source['type'] == "objectstore":
-            self._data = read_from_objectstore(self._connection, self.source)
+            self._data = query_objectstore(self._connection, self.source)
         else:
             raise NotImplementedError
-
-        logger.info(f"Data ({len(self._data)} records) has been imported from {self.source_app}.")
-
-    def inject(self):
-        for row in self._data:
-            self.injector.inject(row)
-
-    def enrich(self):
-        for row in self._data:
-            self.enricher.enrich(row)
-
-    def convert(self):
-        """Convert the input data to GOB format
-
-        :return:
-        """
-        self._gob_data = []
-        for row in self._data:
-            entity = self.converter.convert(row)
-            self._gob_data.append(entity)
-        del self._data
-
-    def validate(self):
-        for row in self._data:
-            self.validator.validate(row)
-        self.validator.result()
-
-    def entity_validate(self):
-        for entity in self._gob_data:
-            self.entity_validator.validate(entity)
-        self.entity_validator.result()
 
     def publish(self):
         """The result of the import needs to be published.
@@ -174,7 +145,7 @@ class ImportClient:
         }
 
         summary = {
-            'num_records': len(self._gob_data)
+            'num_records': self.n_rows
         }
 
         # Log end of import process
@@ -185,7 +156,7 @@ class ImportClient:
         import_message = {
             "header": metadata,
             "summary": summary,
-            "contents": self._gob_data
+            "contents_ref": self.writer.filename
         }
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
 
