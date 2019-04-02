@@ -18,7 +18,7 @@ import traceback
 from gobcore.logging.logger import logger
 from gobcore.message_broker import publish
 
-from gobimport.converter import convert_data
+from gobimport.converter import Converter
 from gobimport.injections import Injector
 from gobimport.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
 from gobimport.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
@@ -69,6 +69,7 @@ class ImportClient:
         self.injector = Injector(self.source.get("inject"))
         self.enricher = Enricher(self.catalogue, self.entity)
         self.validator = Validator(self.entity, self.source_id)
+        self.converter = Converter(self.catalogue, self.entity, self._dataset)
         self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
 
     def clear_data(self):
@@ -130,13 +131,13 @@ class ImportClient:
     def convert(self):
         """Convert the input data to GOB format
 
-        Todo: quality check (where should that be implemented) make sure no double id's are imported.
-
         :return:
         """
-        # Convert the input data to GOB data using the import mapping
-        logger.info("Convert")
-        self._gob_data = convert_data(self._data, dataset=self._dataset)
+        self._gob_data = []
+        for row in self._data:
+            entity = self.converter.convert(row)
+            self._gob_data.append(entity)
+        del self._data
 
     def validate(self):
         for row in self._data:
