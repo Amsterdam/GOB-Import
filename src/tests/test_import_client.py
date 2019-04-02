@@ -6,6 +6,7 @@ from gobimport.import_client import ImportClient
 from tests import fixtures
 
 
+@patch('gobimport.converter.GOBModel', MagicMock(spec=GOBModel))
 @patch.object(GOBModel, 'has_states', MagicMock())
 @patch('gobimport.import_client.logger')
 class TestImportClient(TestCase):
@@ -30,6 +31,7 @@ class TestImportClient(TestCase):
         self.mock_msg = {
             'header': {}
         }
+
 
     def test_init(self, mock_logger):
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
