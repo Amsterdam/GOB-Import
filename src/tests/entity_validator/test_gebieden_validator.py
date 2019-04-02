@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from gobcore.typesystem import GOB
-from gobimport.entity_validator.gebieden import _validate_bouwblokken, _validate_buurten
+from gobimport.entity_validator.gebieden import GebiedenValidator
 
 
 class TestEntityValidator(unittest.TestCase):
@@ -19,7 +19,10 @@ class TestEntityValidator(unittest.TestCase):
                 'eind_geldigheid': None,
             }
         ]
-        self.assertTrue(_validate_bouwblokken(self.entities, "identificatie"))
+        validator = GebiedenValidator("gebieden", "bouwblokken", "identificatie")
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertTrue(validator.result())
 
     @patch("gobimport.entity_validator.gebieden.logger", MagicMock())
     def test_validate_bouwblokken_invalid(self):
@@ -30,7 +33,10 @@ class TestEntityValidator(unittest.TestCase):
                 'eind_geldigheid': None,
             }
         ]
-        self.assertTrue(_validate_bouwblokken(self.entities, "identificatie"))
+        validator = GebiedenValidator("gebieden", "bouwblokken", "identificatie")
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertTrue(validator.result())
 
     @patch("gobimport.entity_validator.gebieden.logger")
     def test_validate_buurten_valid(self, mock_logger):
@@ -44,7 +50,10 @@ class TestEntityValidator(unittest.TestCase):
             }
         ]
         # This test should only call log with a warning statement and return True
-        self.assertTrue(_validate_buurten(self.entities, "identificatie"))
+        validator = GebiedenValidator("gebieden", "buurten", "identificatie")
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertTrue(validator.result())
         mock_logger.warning.assert_called()
 
     @patch("gobimport.entity_validator.gebieden.logger")
@@ -60,5 +69,8 @@ class TestEntityValidator(unittest.TestCase):
         ]
 
         # This test should only call log with a warning statement and return True
-        self.assertTrue(_validate_buurten(self.entities, "identificatie"))
+        validator = GebiedenValidator("gebieden", "buurten", "identificatie")
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertTrue(validator.result())
         mock_logger.warning.assert_called()

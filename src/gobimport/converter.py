@@ -11,7 +11,39 @@ import re
 from gobcore.typesystem import get_gob_type, get_value
 from gobcore.model import GOBModel
 from gobcore.exceptions import GOBException
-from gobcore.utils import ProgressTicker
+
+
+class Converter:
+
+    def __init__(self, catalog_name, entity_name, input_spec):
+        self.gob_model = GOBModel()
+        collection = self.gob_model.get_collection(catalog_name, entity_name)
+
+        self.input_spec = input_spec
+        self.mapping = input_spec['gob_mapping']
+        self.fields = collection['all_fields']
+
+        # Extract the fields that have a source mapping defined
+        self.extract_fields = [field for field, meta in self.mapping.items() if 'source_mapping' in meta]
+
+    def convert(self, row):
+        """
+        Convert the given data using the definitions in the dataset
+
+        :param row: data in external format
+        :return: entity in GOB format
+        """
+
+        # extract source fields into entity
+        entity = {field: _extract_field(row, self.mapping[field], self.fields[field]) for field in self.extract_fields}
+
+        # Convert GOBTypes to python objects
+        entity = get_value(entity)
+
+        # add explicit source id, as string, to entity
+        entity['_source_id'] = self.gob_model.get_source_id(entity=row, input_spec=self.input_spec)
+
+        return entity
 
 
 def _apply_filters(raw_value, filters):
@@ -121,44 +153,3 @@ def _extract_field(row, metadata, typeinfo):
             value = _apply_filters(value, metadata["filters"])
 
     return gob_type.from_value(value, **kwargs)
-
-
-def convert_data(data, dataset):
-    """
-    Convert the given data using the definitions in the dataset
-
-    :param data:
-    :param dataset:
-    :return: An array of data items (entities)
-    """
-    entities = []
-
-    gob_model = GOBModel()
-    collection = gob_model.get_collection(dataset['catalogue'], dataset['entity'])
-    fields = collection['all_fields']
-
-    mapping = dataset['gob_mapping']
-
-    # Extract the fields that have a source mapping defined
-    extract_fields = [field for field, meta in mapping.items() if 'source_mapping' in meta]
-
-    progress = ProgressTicker("Convert data", 10000)
-    while data:
-        progress.tick()
-
-        # Delete original data
-        row = data.pop(0)
-
-        # extract source fields into entity
-        entity = {field: _extract_field(row, mapping[field], fields[field]) for field in extract_fields}
-
-        # Convert GOBTypes to python objects
-        entity = get_value(entity)
-
-        # add explicit source id, as string, to entity
-        entity['_source_id'] = gob_model.get_source_id(entity=row, input_spec=dataset)
-
-        # Save converted data
-        entities.append(entity)
-
-    return entities

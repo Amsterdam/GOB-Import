@@ -15,16 +15,17 @@ Todo: improve type conversion
 import datetime
 import traceback
 
+from gobcore.database.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
+from gobcore.database.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
 from gobcore.logging.logger import logger
 from gobcore.message_broker import publish
 
-from gobimport.converter import convert_data
+from gobimport.converter import Converter
 from gobimport.injections import Injector
-from gobimport.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
-from gobimport.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
+from gobimport.config import get_database_config, get_objectstore_config
 from gobimport.validator import Validator
 from gobimport.enricher import Enricher
-from gobimport.entity_validator import entity_validate
+from gobimport.entity_validator import EntityValidator
 
 
 class ImportClient:
@@ -41,6 +42,12 @@ class ImportClient:
         self.source_app = self._dataset['source'].get('application', self._dataset['source']['name'])
         self.catalogue = self._dataset['catalogue']
         self.entity = self._dataset['entity']
+
+        # Find the functional source id
+        # This is the functional field that is mapped onto the source_id
+        # or _source_id if no mapping exists
+        ids = [key for key, value in self._dataset["gob_mapping"].items() if value["source_mapping"] == self.source_id]
+        self.func_source_id = ids[0] if ids else "_source_id"
 
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.utcnow().replace(microsecond=0).timestamp())
@@ -62,6 +69,9 @@ class ImportClient:
 
         self.injector = Injector(self.source.get("inject"))
         self.enricher = Enricher(self.catalogue, self.entity)
+        self.validator = Validator(self.entity, self.source_id)
+        self.converter = Converter(self.catalogue, self.entity, self._dataset)
+        self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
 
     def clear_data(self):
         """
@@ -83,11 +93,11 @@ class ImportClient:
         if self.source['type'] == "file":
             self._connection, self._user = connect_to_file(config=self.source['config'])
         elif self.source['type'] == "database":
-            self._connection, self._user = connect_to_database(self.source)
+            self._connection, self._user = connect_to_database(get_database_config(self.source['application']))
         elif self.source['type'] == "oracle":
-            self._connection, self._user = connect_to_oracle(self.source)
+            self._connection, self._user = connect_to_oracle(get_database_config(self.source['application']))
         elif self.source['type'] == "objectstore":
-            self._connection, self._user = connect_to_objectstore(self.source)
+            self._connection, self._user = connect_to_objectstore(get_objectstore_config(self.source['application']))
         else:
             raise NotImplementedError
 
@@ -122,28 +132,23 @@ class ImportClient:
     def convert(self):
         """Convert the input data to GOB format
 
-        Todo: quality check (where should that be implemented) make sure no double id's are imported.
-
         :return:
         """
-        # Convert the input data to GOB data using the import mapping
-        logger.info("Convert")
-        self._gob_data = convert_data(self._data, dataset=self._dataset)
+        self._gob_data = []
+        for row in self._data:
+            entity = self.converter.convert(row)
+            self._gob_data.append(entity)
+        del self._data
 
     def validate(self):
-        validator = Validator(self._dataset['entity'], self.source_id)
         for row in self._data:
-            validator.validate(row)
-        validator.result()
+            self.validator.validate(row)
+        self.validator.result()
 
     def entity_validate(self):
-        logger.info("Validate Entity")
-        # Find the functional source id
-        # This is the functional field that is mapped onto the source_id
-        # or _source_id if no mapping exists
-        ids = [key for key, value in self._dataset["gob_mapping"].items() if value["source_mapping"] == self.source_id]
-        func_source_id = ids[0] if ids else "_source_id"
-        entity_validate(self.catalogue, self.entity, self._gob_data, func_source_id)
+        for entity in self._gob_data:
+            self.entity_validator.validate(entity)
+        self.entity_validator.result()
 
     def publish(self):
         """The result of the import needs to be published.

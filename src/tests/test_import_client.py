@@ -1,10 +1,13 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
+from gobcore.model import GOBModel
 from gobimport.import_client import ImportClient
 from tests import fixtures
 
 
+@patch('gobimport.converter.GOBModel', MagicMock(spec=GOBModel))
+@patch.object(GOBModel, 'has_states', MagicMock())
 @patch('gobimport.import_client.logger')
 class TestImportClient(TestCase):
 
@@ -22,11 +25,13 @@ class TestImportClient(TestCase):
             },
             'catalogue': fixtures.random_string(),
             'entity': fixtures.random_string(),
+            'gob_mapping': {}
         }
 
         self.mock_msg = {
             'header': {}
         }
+
 
     def test_init(self, mock_logger):
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
@@ -38,7 +43,9 @@ class TestImportClient(TestCase):
         mock_logger.set_default_args.assert_called()
         mock_logger.info.assert_called()
 
-    def test_connect(self, mock_logger):
+    @patch("gobimport.import_client.get_database_config")
+    @patch("gobimport.import_client.get_objectstore_config")
+    def test_connect(self, mock_objectstore_config, mock_database_config, mock_logger):
         test_connect_types = [
             ('gobimport.import_client.connect_to_file', 'file'),
             ('gobimport.import_client.connect_to_database', 'database'),
