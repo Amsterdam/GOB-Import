@@ -5,7 +5,6 @@ from unittest import mock
 
 from gobimport.injections import Injector
 
-@mock.patch("gobimport.injections.logger", mock.MagicMock())
 class TestInjections(unittest.TestCase):
 
     def setUp(self):

@@ -71,10 +71,10 @@ class TestImportClient(TestCase):
 
     def test_read(self, mock_logger):
         test_read_types = [
-            ('gobimport.import_client.read_from_file', 'file'),
-            ('gobimport.import_client.read_from_database', 'database'),
-            ('gobimport.import_client.read_from_oracle', 'oracle'),
-            ('gobimport.import_client.read_from_objectstore', 'objectstore'),
+            ('gobimport.import_client.query_file', 'file'),
+            ('gobimport.import_client.query_database', 'database'),
+            ('gobimport.import_client.query_oracle', 'oracle'),
+            ('gobimport.import_client.query_objectstore', 'objectstore'),
         ]
 
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
