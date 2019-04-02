@@ -164,11 +164,30 @@ class ImportClient:
         try:
             self.connect()
             self.read()
-            self.inject()
-            self.enrich()
-            self.validate()
-            self.convert()
-            self.entity_validate()
+
+            self.n_rows = 0
+            for row in self._data:
+                self.n_rows += 1
+
+                self.injector.inject(row)
+
+                self.enricher.enrich(row)
+
+                self.validator.validate(row)
+
+                entity = self.converter.convert(row)
+
+                self.entity_validator.validate(entity)
+
+                self.writer.write(entity)
+
+            self.validator.result()
+            self.entity_validator.result()
+
+            self.writer.close()
+
+            logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}.")
+
             self.publish()
         except Exception as e:
             # Print error message, the message that caused the error and a short stacktrace
