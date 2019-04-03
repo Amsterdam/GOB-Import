@@ -44,7 +44,7 @@
     },
     "ligt_in_buurt": {
       "source_mapping": {
-        "bronwaarde": "ligt_in_buurt"
+        "bronwaarde": "=geometrie"
       }
     },
     "geometrie": {
