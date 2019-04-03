@@ -18,6 +18,8 @@ import traceback
 from gobcore.database.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
 from gobcore.database.reader import query_database, query_objectstore, query_file, query_oracle
 from gobcore.logging.logger import logger
+from gobcore.utils import ProgressTicker
+
 from gobcore.message_broker import publish
 from gobcore.message_broker.offline_contents import ContentsWriter
 
@@ -161,15 +163,22 @@ class ImportClient:
 
     def start_import_process(self):
         try:
+            n_rows = 0
+            row = None
+            entity = None
+
+            logger.info(f"Connect to {self.source_app}")
             self.connect()
             self.read()
 
-            with ContentsWriter() as writer:
-                self.filename = writer.filename
+            logger.info(f"Start import from {self.source_app}")
+            with ContentsWriter() as writer, \
+                    ProgressTicker(f"Import {self.catalogue} {self.entity}", 10000) as progress:
 
-                self.n_rows = 0
+                self.filename = writer.filename
                 for row in self._data:
-                    self.n_rows += 1
+                    progress.tick()
+                    n_rows += 1
 
                     self.injector.inject(row)
 
@@ -186,14 +195,24 @@ class ImportClient:
                 self.validator.result()
                 self.entity_validator.result()
 
-            logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}.")
+            logger.info(f"Data ({n_rows} records) has been imported from {self.source_app}")
 
             self.publish()
         except Exception as e:
             # Print error message, the message that caused the error and a short stacktrace
             stacktrace = traceback.format_exc(limit=-5)
-            print("Import failed: {e}", stacktrace)
+            print("Import failed at row {n_rows}: {e}", stacktrace)
+            print("Row", row)
             # Log the error and a short error description
-            logger.error(f'Import failed: {e}')
+            logger.error(f'Import failed at row {n_rows}: {e}')
+            logger.error(
+                "Import has failed",
+                {
+                    "data": {
+                        "error": str(e),  # Include a short error description,
+                        "row number": n_rows,
+                        self.source_id: row[self.source_id]
+                    }
+                })
         finally:
             self.clear_data()
