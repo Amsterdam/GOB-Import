@@ -16,9 +16,12 @@ import datetime
 import traceback
 
 from gobcore.database.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
-from gobcore.database.reader import read_from_database, read_from_objectstore, read_from_file, read_from_oracle
+from gobcore.database.reader import query_database, query_objectstore, query_file, query_oracle
 from gobcore.logging.logger import logger
+from gobcore.utils import ProgressTicker
+
 from gobcore.message_broker import publish
+from gobcore.message_broker.offline_contents import ContentsWriter
 
 from gobimport.converter import Converter
 from gobimport.injections import Injector
@@ -109,46 +112,15 @@ class ImportClient:
         :return:
         """
         if self.source['type'] == "file":
-            self._data = read_from_file(self._connection)
+            self._data = query_file(self._connection)
         elif self.source['type'] == "database":
-            self._data = read_from_database(self._connection, self.source["query"])
+            self._data = query_database(self._connection, self.source["query"])
         elif self.source['type'] == "oracle":
-            self._data = read_from_oracle(self._connection, self.source["query"])
+            self._data = query_oracle(self._connection, self.source["query"])
         elif self.source['type'] == "objectstore":
-            self._data = read_from_objectstore(self._connection, self.source)
+            self._data = query_objectstore(self._connection, self.source)
         else:
             raise NotImplementedError
-
-        logger.info(f"Data ({len(self._data)} records) has been imported from {self.source_app}.")
-
-    def inject(self):
-        for row in self._data:
-            self.injector.inject(row)
-
-    def enrich(self):
-        for row in self._data:
-            self.enricher.enrich(row)
-
-    def convert(self):
-        """Convert the input data to GOB format
-
-        :return:
-        """
-        self._gob_data = []
-        for row in self._data:
-            entity = self.converter.convert(row)
-            self._gob_data.append(entity)
-        del self._data
-
-    def validate(self):
-        for row in self._data:
-            self.validator.validate(row)
-        self.validator.result()
-
-    def entity_validate(self):
-        for entity in self._gob_data:
-            self.entity_validator.validate(entity)
-        self.entity_validator.result()
 
     def publish(self):
         """The result of the import needs to be published.
@@ -174,7 +146,7 @@ class ImportClient:
         }
 
         summary = {
-            'num_records': len(self._gob_data)
+            'num_records': self.n_rows
         }
 
         # Log end of import process
@@ -185,25 +157,62 @@ class ImportClient:
         import_message = {
             "header": metadata,
             "summary": summary,
-            "contents": self._gob_data
+            "contents_ref": self.filename
         }
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
 
     def start_import_process(self):
         try:
+            n_rows = 0
+            row = None
+            entity = None
+
+            logger.info(f"Connect to {self.source_app}")
             self.connect()
             self.read()
-            self.inject()
-            self.enrich()
-            self.validate()
-            self.convert()
-            self.entity_validate()
+
+            logger.info(f"Start import from {self.source_app}")
+            with ContentsWriter() as writer, \
+                    ProgressTicker(f"Import {self.catalogue} {self.entity}", 10000) as progress:
+
+                self.filename = writer.filename
+                for row in self._data:
+                    progress.tick()
+                    n_rows += 1
+
+                    self.injector.inject(row)
+
+                    self.enricher.enrich(row)
+
+                    self.validator.validate(row)
+
+                    entity = self.converter.convert(row)
+
+                    self.entity_validator.validate(entity)
+
+                    writer.write(entity)
+
+                self.validator.result()
+                self.entity_validator.result()
+
+            logger.info(f"Data ({n_rows} records) has been imported from {self.source_app}")
+
             self.publish()
         except Exception as e:
             # Print error message, the message that caused the error and a short stacktrace
             stacktrace = traceback.format_exc(limit=-5)
-            print("Import failed: {e}", stacktrace)
+            print("Import failed at row {n_rows}: {e}", stacktrace)
+            print("Row", row)
             # Log the error and a short error description
-            logger.error(f'Import failed: {e}')
+            logger.error(f'Import failed at row {n_rows}: {e}')
+            logger.error(
+                "Import has failed",
+                {
+                    "data": {
+                        "error": str(e),  # Include a short error description,
+                        "row number": n_rows,
+                        self.source_id: row[self.source_id]
+                    }
+                })
         finally:
             self.clear_data()

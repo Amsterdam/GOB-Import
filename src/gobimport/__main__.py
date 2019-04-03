@@ -10,8 +10,10 @@ from gobimport.mapping import get_mapping
 
 
 def handle_import_msg(msg):
-    assert(msg['dataset_file'])
-    dataset = get_mapping(msg['dataset_file'])
+    dataset_file = msg['dataset_file'] if 'dataset_file' in msg else msg.get('header').get('dataset_file')
+    assert dataset_file
+
+    dataset = get_mapping(dataset_file)
     # Create a new import client and start the process
     import_client = ImportClient(dataset=dataset, msg=msg)
     import_client.start_import_process()
@@ -26,4 +28,10 @@ SERVICEDEFINITION = {
     }
 }
 
-messagedriven_service(SERVICEDEFINITION, "Import")
+
+def init():
+    if __name__ == "__main__":
+        messagedriven_service(SERVICEDEFINITION, "Import")
+
+
+init()

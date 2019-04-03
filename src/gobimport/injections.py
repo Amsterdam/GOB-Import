@@ -9,8 +9,6 @@ ToDo: handle data that has states (key consists of multiple items)
 """
 import json
 
-from gobcore.logging.logger import logger
-
 
 class Injector:
 
@@ -18,8 +16,6 @@ class Injector:
         self.inject_spec = inject_spec
 
         if inject_spec:
-            logger.info("Inject conversion data")
-
             # {
             #     "from": "<input file name>",
             #     "on": "<fieldname of field that relates the two sources>",
