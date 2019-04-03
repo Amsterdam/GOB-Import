@@ -65,7 +65,7 @@ OBJECTSTORE_CONFIGS = {
 
 def get_database_config(name: str):
     try:
-        config = DATABASE_CONFIGS[name]
+        config = DATABASE_CONFIGS[name].copy()
     except KeyError:
         raise GOBException(f"Database config for source {name} not found.")
 
