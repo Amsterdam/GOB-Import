@@ -163,7 +163,7 @@ class ImportClient:
 
     def start_import_process(self):
         try:
-            n_rows = 0
+            self.n_rows = 0
             row = None
             entity = None
 
@@ -178,7 +178,7 @@ class ImportClient:
                 self.filename = writer.filename
                 for row in self._data:
                     progress.tick()
-                    n_rows += 1
+                    self.n_rows += 1
 
                     self.injector.inject(row)
 
@@ -195,22 +195,22 @@ class ImportClient:
                 self.validator.result()
                 self.entity_validator.result()
 
-            logger.info(f"Data ({n_rows} records) has been imported from {self.source_app}")
+            logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}")
 
             self.publish()
         except Exception as e:
             # Print error message, the message that caused the error and a short stacktrace
             stacktrace = traceback.format_exc(limit=-5)
-            print("Import failed at row {n_rows}: {e}", stacktrace)
+            print("Import failed at row {self.n_rows}: {e}", stacktrace)
             print("Row", row)
             # Log the error and a short error description
-            logger.error(f'Import failed at row {n_rows}: {e}')
+            logger.error(f'Import failed at row {self.n_rows}: {e}')
             logger.error(
                 "Import has failed",
                 {
                     "data": {
                         "error": str(e),  # Include a short error description,
-                        "row number": n_rows,
+                        "row number": self.n_rows,
                         self.source_id: row[self.source_id]
                     }
                 })
