@@ -19,6 +19,7 @@ from gobcore.database.connector import connect_to_database, connect_to_objectsto
 from gobcore.database.reader import query_database, query_objectstore, query_file, query_oracle
 from gobcore.logging.logger import logger
 from gobcore.message_broker import publish
+from gobcore.message_broker.offline_contents import ContentsWriter
 
 from gobimport.converter import Converter
 from gobimport.injections import Injector
@@ -26,7 +27,6 @@ from gobimport.config import get_database_config, get_objectstore_config
 from gobimport.validator import Validator
 from gobimport.enricher import Enricher
 from gobimport.entity_validator import EntityValidator
-from gobimport.writer import Writer
 
 
 class ImportClient:
@@ -73,7 +73,6 @@ class ImportClient:
         self.validator = Validator(self.entity, self.source_id)
         self.converter = Converter(self.catalogue, self.entity, self._dataset)
         self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
-        self.writer = Writer()
 
     def clear_data(self):
         """
@@ -156,7 +155,7 @@ class ImportClient:
         import_message = {
             "header": metadata,
             "summary": summary,
-            "contents_ref": self.writer.filename
+            "contents_ref": self.filename
         }
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
 
@@ -165,26 +164,27 @@ class ImportClient:
             self.connect()
             self.read()
 
-            self.n_rows = 0
-            for row in self._data:
-                self.n_rows += 1
+            with ContentsWriter() as writer:
+                self.filename = writer.filename
 
-                self.injector.inject(row)
+                self.n_rows = 0
+                for row in self._data:
+                    self.n_rows += 1
 
-                self.enricher.enrich(row)
+                    self.injector.inject(row)
 
-                self.validator.validate(row)
+                    self.enricher.enrich(row)
 
-                entity = self.converter.convert(row)
+                    self.validator.validate(row)
 
-                self.entity_validator.validate(entity)
+                    entity = self.converter.convert(row)
 
-                self.writer.write(entity)
+                    self.entity_validator.validate(entity)
 
-            self.validator.result()
-            self.entity_validator.result()
+                    writer.write(entity)
 
-            self.writer.close()
+                self.validator.result()
+                self.entity_validator.result()
 
             logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}.")
 
