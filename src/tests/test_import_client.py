@@ -23,6 +23,7 @@ class TestImportClient(TestCase):
                 'config': {},
                 'query': fixtures.random_string(),
             },
+            'version': 0.1,
             'catalogue': fixtures.random_string(),
             'entity': fixtures.random_string(),
             'gob_mapping': {}
@@ -92,3 +93,14 @@ class TestImportClient(TestCase):
         with self.assertRaises(NotImplementedError):
             self.import_client.source['type'] = fixtures.random_string()
             self.import_client.read()
+
+    @patch('gobimport.import_client.publish')
+    def test_publish(self, mock_publish, mock_logger):
+        self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
+        self.import_client.n_rows = 10
+        self.import_client.filename = "filename"
+        self.import_client.publish()
+        mock_publish.assert_called()
+
+
+
