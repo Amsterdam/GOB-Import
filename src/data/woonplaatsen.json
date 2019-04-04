@@ -21,7 +21,7 @@
 "    ,      w.documentnummer                                                                       AS documentnummer",
 "    ,      TRIM(NVL(regexp_substr(w.documentnummer, '^(.*?)_', 1, 1, NULL, 1), w.documentnummer)) AS dossier",
 "    ,      w.naam                                                                                 AS naam",
-"    ,      '0363'                                                                                 AS ligt_in_BRK_gemeente",
+"    ,      '0363'                                                                                 AS ligt_in_gemeente",
 "    ,      to_char(w.creation, 'YYYY-MM-DD HH24:MI:SS')                                           AS registratiedatum",
 "    ,      w.woonplaats_id                                                                        AS source_id",
 "    ,      NVL2(q2.datumopvoer, to_char(q2.datumopvoer, 'YYYY-MM-DD HH24:MI:SS')",
@@ -110,7 +110,7 @@
       "source_mapping": "registratiedatum",
       "format": "%Y-%m-%d %H:%M:%S"
     },
-    "ligt_in_BRK_gemeente": {
+    "ligt_in_gemeente": {
       "source_mapping": {
         "bronwaarde": "ligt_in_gemeente"
       }
