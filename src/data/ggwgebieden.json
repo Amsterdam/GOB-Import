@@ -7,8 +7,7 @@
     "application": "Basisinformatie",
     "entity_id": "GGW_CODE",
     "type": "objectstore",
-    "container": "gebieden",
-    "file_filter": "GGW_gebieden/GGW\\.xlsx$",
+    "file_filter": "gebieden/GGW_gebieden/GGW\\.xlsx$",
     "file_type": "XLS",
     "enrich": {
       "identificatie": {

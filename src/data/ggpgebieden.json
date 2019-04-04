@@ -7,8 +7,7 @@
     "application": "Basisinformatie",
     "entity_id": "GGP_CODE",
     "type": "objectstore",
-    "container": "gebieden",
-    "file_filter": "GGW_praktijkgebieden/GGP\\.xlsx$",
+    "file_filter": "gebieden/GGW_praktijkgebieden/GGP\\.xlsx$",
     "file_type": "XLS",
     "enrich": {
       "identificatie": {
