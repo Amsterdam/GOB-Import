@@ -7,8 +7,7 @@
     "application": "Basisinformatie",
     "entity_id": "name",
     "type": "objectstore",
-    "container": "meetbouten",
-    "file_filter": ".+\\.jpg$"
+    "file_filter": "meetbouten/rollagen/.+\\.jpg$"
   },
   "gob_mapping": {
     "identificatie": {
