@@ -1,0 +1,53 @@
+{
+  "version": "0.1",
+  "catalogue": "gebieden",
+  "entity": "stadsdelen",
+  "source": {
+    "name": "AMSBI",
+    "application": "Basisinformatie",
+    "entity_id": "identificatie",
+    "type": "objectstore",
+    "file_filter": "gebieden/Stadsdelen/DIVA_gebieden_stadsdelen.csv",
+    "file_type": "CSV",
+    "delimiter": ";",
+    "operators": ["lowercase_keys"]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "registratiedatum": {
+      "source_mapping": "registratiedatum",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "naam": {
+      "source_mapping": "naam"
+    },
+    "code": {
+      "source_mapping": "code"
+    },
+    "begin_geldigheid": {
+      "source_mapping": "begin_geldigheid"
+    },
+    "eind_geldigheid": {
+      "source_mapping": "eind_geldigheid"
+    },
+    "documentdatum": {
+      "source_mapping": "documentdatum"
+    },
+    "documentnummer": {
+      "source_mapping": "documentnummer"
+    },
+    "ligt_in_gemeente": {
+      "source_mapping": {
+        "bronwaarde": "ligt_in_gemeente"
+      }
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    }
+  }
+}
