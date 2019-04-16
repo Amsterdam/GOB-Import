@@ -1,7 +1,7 @@
 {
   "version": "0.1",
   "catalogue": "brk",
-  "entity": "kadastraal_object",
+  "entity": "kadastraleobjecten",
   "source": {
     "name": "AMSBI",
     "application": "GOBPrepare",
@@ -56,22 +56,22 @@
     "identificatie": {
       "source_mapping": "brk_kot_id"
     },
-    "aangeduid_door_burgerlijke_gemeente": {
+    "aangeduid_door_gemeente": {
       "source_mapping": {
         "bronwaarde": "brg_gemeente_id"
       }
     },
-    "aangeduid_door_kadastrale_gemeente": {
+    "aangeduid_door_kadastralegemeente": {
       "source_mapping": {
         "bronwaarde": "kad_gemeentecode"
       }
     },
-    "aangeduid_door_kadastrale_gemeentecode": {
+    "aangeduid_door_kadastralegemeentecode": {
       "source_mapping": {
         "bronwaarde": "akrkadgemcode_code"
       }
     },
-    "aangeduid_door_kadastrale_sectie": {
+    "aangeduid_door_kadastralesectie": {
       "source_mapping": {
         "bronwaarde": "sectie"
       }
