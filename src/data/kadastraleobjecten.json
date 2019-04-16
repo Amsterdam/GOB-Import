@@ -49,7 +49,7 @@
       "   ST_AsText(bijpijling_geometrie) AS bijpijling_geometrie,",
       "   relatie_g_perceel,",
       "   adressen",
-      "FROM brk_prep.kadastraal_object LIMIT 10"
+      "FROM brk_prep.kadastraal_object"
     ]
   },
   "gob_mapping": {
