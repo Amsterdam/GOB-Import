@@ -15,8 +15,14 @@ Todo: improve type conversion
 import datetime
 import traceback
 
-from gobcore.database.connector import connect_to_database, connect_to_objectstore, connect_to_file, connect_to_oracle
-from gobcore.database.reader import query_database, query_objectstore, query_file, query_oracle
+from gobcore.database.connector import (
+    connect_to_database,
+    connect_to_objectstore,
+    connect_to_file,
+    connect_to_oracle,
+    connect_to_postgresql
+)
+from gobcore.database.reader import query_database, query_objectstore, query_file, query_oracle, query_postgresql
 from gobcore.logging.logger import logger
 from gobcore.utils import ProgressTicker
 
@@ -101,6 +107,8 @@ class ImportClient:
             self._connection, self._user = connect_to_oracle(get_database_config(self.source['application']))
         elif self.source['type'] == "objectstore":
             self._connection, self._user = connect_to_objectstore(get_objectstore_config(self.source['application']))
+        elif self.source['type'] == "postgres":
+            self._connection, self._user = connect_to_postgresql(get_database_config(self.source['application']))
         else:
             raise NotImplementedError
 
@@ -119,6 +127,8 @@ class ImportClient:
             self._data = query_oracle(self._connection, self.source["query"])
         elif self.source['type'] == "objectstore":
             self._data = query_objectstore(self._connection, self.source)
+        elif self.source['type'] == "postgres":
+            self._data = query_postgresql(self._connection, self.source["query"])
         else:
             raise NotImplementedError
 

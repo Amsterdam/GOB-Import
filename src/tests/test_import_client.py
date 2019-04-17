@@ -52,6 +52,7 @@ class TestImportClient(TestCase):
             ('gobimport.import_client.connect_to_database', 'database'),
             ('gobimport.import_client.connect_to_oracle', 'oracle'),
             ('gobimport.import_client.connect_to_objectstore', 'objectstore'),
+            ('gobimport.import_client.connect_to_postgresql', 'postgres'),
         ]
 
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
@@ -76,6 +77,7 @@ class TestImportClient(TestCase):
             ('gobimport.import_client.query_database', 'database'),
             ('gobimport.import_client.query_oracle', 'oracle'),
             ('gobimport.import_client.query_objectstore', 'objectstore'),
+            ('gobimport.import_client.query_postgresql', 'postgres'),
         ]
 
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
