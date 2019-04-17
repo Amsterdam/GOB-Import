@@ -72,6 +72,30 @@ def _is_literal(field):
     return field[0] == "="
 
 
+def _is_object_reference(field: str):
+    """
+    Returns whether the field references an object attribute
+
+    :param field:
+    :return:
+    """
+    return isinstance(field, str) and re.search(r"^[a-z_]+\.[a-z_]+$", field, flags=re.I) is not None
+
+
+def _split_object_reference(field: str):
+    """
+    Splits the object reference in the source column and attribute name
+
+    :param field:
+    :return:
+    """
+    try:
+        source, attr = field.split(".")
+        return source, attr
+    except ValueError:
+        raise GOBException("Object reference should contain exactly one dot (.)")
+
+
 def _literal_value(field):
     """
     Returns the literal value of a literal field
@@ -95,6 +119,9 @@ def _get_value(row, field):
     if _is_literal(field):
         # Literal value
         return _literal_value(field)
+    elif _is_object_reference(field):
+        column, _ = _split_object_reference(field)
+        return row[column]
     else:
         # Source value
         return row[field]
@@ -109,6 +136,17 @@ def _extract_references(row, field_source, field_type):   # noqa: C901
             source_value = _get_value(row, source_mapping)
             if _is_literal(source_mapping):
                 value.append({attribute: source_value})
+            elif _is_object_reference(source_mapping) and source_value:
+                column, attr = _split_object_reference(source_mapping)
+
+                for idx, v in enumerate(source_value):
+                    if not isinstance(v, dict):
+                        raise GOBException("References should be dicts when referencing by attribute")
+                    # Merge referenced value with existing values
+                    try:
+                        value[idx].update({attribute: v[attr]})
+                    except IndexError:
+                        value.append({attribute: v[attr], **v})
             elif source_value:
                 for idx, v in enumerate(source_value):
                     # Try to update the dictionary with the attribute and value or create a new dict
