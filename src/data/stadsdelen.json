@@ -8,16 +8,11 @@
     "entity_id": "source_id",
     "type": "oracle",
     "schema": "dgdialog",
-    "depends_on": {
-      "_application": "DIVA"
-    },
-    "inject": {
-      "from": "data/stadsdelen.conversion.json",
+    "merge": {
+      "dataset": "data/stadsdelen.diva.csv.json",
+      "id": "diva_into_dgdialog",
       "on": "code",
-      "conversions": {
-        "identificatie": "=",
-        "volgnummer": "+-1"
-      }
+      "copy": ["identificatie", "volgnummer"]
     },
     "query": [
 "    SELECT s1.naam                                                AS naam",
