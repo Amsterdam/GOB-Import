@@ -74,7 +74,12 @@ def _is_literal(field):
 
 def _is_object_reference(field: str):
     """
-    Returns whether the field references an object attribute
+    Returns whether the field references an object attribute. Used when the input value is a JSON column with
+    a list of objects and we are referencing an attribute of these objects.
+
+    Example: A JSON column with name 'json_column', with value
+    [{'attribute': 'referenced_value'}, {'attribute': 'referenced_value2'}]
+    The object reference in this case would be 'json_column.attribute'
 
     :param field:
     :return:
