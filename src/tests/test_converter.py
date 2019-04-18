@@ -38,7 +38,7 @@ class TestConverter(unittest.TestCase):
         )
 
         for testcase, result in testcases:
-            self.assertEqual(result, _is_object_reference(testcase), "Case {} should return {}".format(testcase, result))
+            self.assertEqual(result, _is_object_reference(testcase), f"Case {testcase} should return {result}")
 
     def test_extract_references_bronwaarde_object_ref(self):
         row = {
