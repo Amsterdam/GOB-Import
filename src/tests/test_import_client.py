@@ -44,58 +44,6 @@ class TestImportClient(TestCase):
         mock_logger.set_default_args.assert_called()
         mock_logger.info.assert_called()
 
-    @patch("gobimport.import_client.get_database_config")
-    @patch("gobimport.import_client.get_objectstore_config")
-    def test_connect(self, mock_objectstore_config, mock_database_config, mock_logger):
-        test_connect_types = [
-            ('gobimport.import_client.connect_to_file', 'file'),
-            ('gobimport.import_client.connect_to_database', 'database'),
-            ('gobimport.import_client.connect_to_oracle', 'oracle'),
-            ('gobimport.import_client.connect_to_objectstore', 'objectstore'),
-            ('gobimport.import_client.connect_to_postgresql', 'postgres'),
-        ]
-
-        self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
-
-        for connect_type in test_connect_types:
-             with patch(connect_type[0]) as mock_connect:
-                 mock_connect.return_value = (MagicMock, 'user')
-
-                 self.import_client.source['type'] = connect_type[1]
-                 self.import_client.connect()
-
-                 mock_connect.assert_called()
-
-        # Assert not implemented is raised with undefined connection type
-        with self.assertRaises(NotImplementedError):
-            self.import_client.source['type'] = fixtures.random_string()
-            self.import_client.connect()
-
-    def test_read(self, mock_logger):
-        test_read_types = [
-            ('gobimport.import_client.query_file', 'file'),
-            ('gobimport.import_client.query_database', 'database'),
-            ('gobimport.import_client.query_oracle', 'oracle'),
-            ('gobimport.import_client.query_objectstore', 'objectstore'),
-            ('gobimport.import_client.query_postgresql', 'postgres'),
-        ]
-
-        self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
-
-        for read_type in test_read_types:
-             with patch(read_type[0]) as mock_read:
-                 mock_read.return_value = []
-
-                 self.import_client.source['type'] = read_type[1]
-                 self.import_client.read()
-
-                 mock_read.assert_called()
-
-        # Assert not implemented is raised with undefined read type
-        with self.assertRaises(NotImplementedError):
-            self.import_client.source['type'] = fixtures.random_string()
-            self.import_client.read()
-
     @patch('gobimport.import_client.publish')
     def test_publish(self, mock_publish, mock_logger):
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)

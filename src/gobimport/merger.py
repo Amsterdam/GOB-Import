@@ -59,3 +59,4 @@ class Merger:
             for merge_item in self.merge_items.values():
                 for entity in merge_item["entities"]:
                     write(entity)
+            self.merge_items = {}
