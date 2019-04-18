@@ -47,7 +47,7 @@ class TestMerger(unittest.TestCase):
             "a": None,
             "b": None,
             "c": None,
-            "volgnummer": None
+            "volgnummer": 1
         }
         write = lambda e: written.append(e)
 
@@ -56,8 +56,24 @@ class TestMerger(unittest.TestCase):
             "a": 31,
             "b": 32,
             "c": None,
-            "volgnummer": None
+            "volgnummer": 1
         })
+
+        # Only volgnummer 1 entities get merged
+        entity = {
+            "a": None,
+            "b": None,
+            "c": None,
+            "volgnummer": 2
+        }
+        merger._merge_diva_into_dgdialog(entity, write, entities)
+        self.assertEqual(entity, {
+            "a": None,
+            "b": None,
+            "c": None,
+            "volgnummer": 2
+        })
+
         # Remember that entities get sorted inside the merge method!
         self.assertEqual(written, [entities[0], entities[1]])
 

@@ -1,3 +1,8 @@
+"""
+Reader
+
+Contains logic to connect and read from a variety of datasources
+"""
 from gobcore.logging.logger import logger
 from gobcore.database.connector import (
     connect_to_database,
@@ -54,7 +59,7 @@ class Reader:
     def read(self):
         """Read the data from the data source
 
-        :return:
+        :return: iterable dataset
         """
         assert self._connection is not None, "No connection, connect should succeed before read"
 
