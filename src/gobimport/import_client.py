@@ -15,23 +15,16 @@ Todo: improve type conversion
 import datetime
 import traceback
 
-from gobcore.database.connector import (
-    connect_to_database,
-    connect_to_objectstore,
-    connect_to_file,
-    connect_to_oracle,
-    connect_to_postgresql
-)
-from gobcore.database.reader import query_database, query_objectstore, query_file, query_oracle, query_postgresql
 from gobcore.logging.logger import logger
 from gobcore.utils import ProgressTicker
 
 from gobcore.message_broker import publish
 from gobcore.message_broker.offline_contents import ContentsWriter
 
+from gobimport.reader import Reader
 from gobimport.converter import Converter
 from gobimport.injections import Injector
-from gobimport.config import get_database_config, get_objectstore_config
+from gobimport.merger import Merger
 from gobimport.validator import Validator
 from gobimport.enricher import Enricher
 from gobimport.entity_validator import EntityValidator
@@ -45,18 +38,12 @@ class ImportClient:
     """
     def __init__(self, dataset, msg):
         self.header = msg.get("header", {})
-        self._dataset = dataset
-        self.source = self._dataset['source']
-        self.source_id = self._dataset['source']['entity_id']
-        self.source_app = self._dataset['source'].get('application', self._dataset['source']['name'])
-        self.catalogue = self._dataset['catalogue']
-        self.entity = self._dataset['entity']
 
-        # Find the functional source id
-        # This is the functional field that is mapped onto the source_id
-        # or _source_id if no mapping exists
-        ids = [key for key, value in self._dataset["gob_mapping"].items() if value["source_mapping"] == self.source_id]
-        self.func_source_id = ids[0] if ids else "_source_id"
+        self.init_dataset(dataset)
+
+        self.validator = Validator(self.entity, self.source_id)
+        self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
+        self.merger = Merger(self)
 
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.utcnow().replace(microsecond=0).timestamp())
@@ -74,63 +61,23 @@ class ImportClient:
         logger.set_default_args(extra_log_kwargs)
         logger.info(f"Import dataset {self.entity} from {self.source_app} started")
 
-        self.clear_data()
+    def init_dataset(self, dataset):
+        self.dataset = dataset
+        self.source = self.dataset['source']
+        self.source_id = self.dataset['source']['entity_id']
+        self.source_app = self.dataset['source'].get('application', self.dataset['source']['name'])
+        self.catalogue = self.dataset['catalogue']
+        self.entity = self.dataset['entity']
+
+        # Find the functional source id
+        # This is the functional field that is mapped onto the source_id
+        # or _source_id if no mapping exists
+        ids = [key for key, value in self.dataset["gob_mapping"].items() if value["source_mapping"] == self.source_id]
+        self.func_source_id = ids[0] if ids else "_source_id"
 
         self.injector = Injector(self.source.get("inject"))
         self.enricher = Enricher(self.catalogue, self.entity)
-        self.validator = Validator(self.entity, self.source_id)
-        self.converter = Converter(self.catalogue, self.entity, self._dataset)
-        self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
-
-    def clear_data(self):
-        """
-        Clears local data
-
-        :return: None
-        """
-        self._connection = None     # Holds the connection to the source
-        self._user = None           # Holds the user that connects to the source, eg user@database
-        self._data = None           # Holds the data in imput format
-        self._gob_data = None       # Holds the imported data in GOB format
-
-    def connect(self):
-        """The first step of every import is a technical step. A connection need to be setup to
-        connect to a database, filesystem, API, ...
-
-        :return:
-        """
-        if self.source['type'] == "file":
-            self._connection, self._user = connect_to_file(config=self.source['config'])
-        elif self.source['type'] == "database":
-            self._connection, self._user = connect_to_database(get_database_config(self.source['application']))
-        elif self.source['type'] == "oracle":
-            self._connection, self._user = connect_to_oracle(get_database_config(self.source['application']))
-        elif self.source['type'] == "objectstore":
-            self._connection, self._user = connect_to_objectstore(get_objectstore_config(self.source['application']))
-        elif self.source['type'] == "postgres":
-            self._connection, self._user = connect_to_postgresql(get_database_config(self.source['application']))
-        else:
-            raise NotImplementedError
-
-        logger.info(f"Connection to {self.source_app} {self._user} has been made.")
-
-    def read(self):
-        """Read the data from the data source
-
-        :return:
-        """
-        if self.source['type'] == "file":
-            self._data = query_file(self._connection)
-        elif self.source['type'] == "database":
-            self._data = query_database(self._connection, self.source["query"])
-        elif self.source['type'] == "oracle":
-            self._data = query_oracle(self._connection, self.source["query"])
-        elif self.source['type'] == "objectstore":
-            self._data = query_objectstore(self._connection, self.source)
-        elif self.source['type'] == "postgres":
-            self._data = query_postgresql(self._connection, self.source["query"])
-        else:
-            raise NotImplementedError
+        self.converter = Converter(self.catalogue, self.entity, self.dataset)
 
     def publish(self):
         """The result of the import needs to be published.
@@ -145,13 +92,13 @@ class ImportClient:
         metadata = {
             **self.header,
             "process_id": self.process_id,
-            "source": self._dataset['source']['name'],
-            "application": self._dataset['source'].get('application'),
-            "depends_on": self._dataset['source'].get('depends_on', {}),
-            "enrich": self._dataset['source'].get('enrich', {}),
-            "catalogue": self._dataset['catalogue'],
-            "entity": self._dataset['entity'],
-            "version": self._dataset['version'],
+            "source": self.dataset['source']['name'],
+            "application": self.dataset['source'].get('application'),
+            "depends_on": self.dataset['source'].get('depends_on', {}),
+            "enrich": self.dataset['source'].get('enrich', {}),
+            "catalogue": self.dataset['catalogue'],
+            "entity": self.dataset['entity'],
+            "version": self.dataset['version'],
             "timestamp": datetime.datetime.utcnow().isoformat()
         }
 
@@ -171,48 +118,58 @@ class ImportClient:
         }
         publish("gob.workflow.proposal", "fullimport.proposal", import_message)
 
+    def import_data(self, write, progress):
+        logger.info(f"Connect to {self.source_app}")
+        reader = Reader(self.source, self.source_app)
+        reader.connect()
+
+        logger.info(f"Start import from {self.source_app}")
+        self.n_rows = 0
+        for row in reader.read():
+            progress.tick()
+
+            self.row = row
+            self.n_rows += 1
+
+            self.injector.inject(row)
+
+            self.enricher.enrich(row)
+
+            self.validator.validate(row)
+
+            self.merger.merge(row, write)
+
+            entity = self.converter.convert(row)
+
+            self.entity_validator.validate(entity)
+
+            write(entity)
+
+        self.validator.result()
+        logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}")
+
     def start_import_process(self):
         try:
-            self.n_rows = 0
-            row = None
-            entity = None
+            self.row = None
 
-            logger.info(f"Connect to {self.source_app}")
-            self.connect()
-            self.read()
-
-            logger.info(f"Start import from {self.source_app}")
             with ContentsWriter() as writer, \
                     ProgressTicker(f"Import {self.catalogue} {self.entity}", 10000) as progress:
 
                 self.filename = writer.filename
-                for row in self._data:
-                    progress.tick()
-                    self.n_rows += 1
 
-                    self.injector.inject(row)
+                self.merger.prepare(progress)
 
-                    self.enricher.enrich(row)
+                self.import_data(writer.write, progress)
 
-                    self.validator.validate(row)
+                self.merger.finish(writer.write)
 
-                    entity = self.converter.convert(row)
-
-                    self.entity_validator.validate(entity)
-
-                    writer.write(entity)
-
-                self.validator.result()
                 self.entity_validator.result()
-
-            logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}")
 
             self.publish()
         except Exception as e:
             # Print error message, the message that caused the error and a short stacktrace
             stacktrace = traceback.format_exc(limit=-5)
             print("Import failed at row {self.n_rows}: {e}", stacktrace)
-            print("Row", row)
             # Log the error and a short error description
             logger.error(f'Import failed at row {self.n_rows}: {e}')
             logger.error(
@@ -221,8 +178,6 @@ class ImportClient:
                     "data": {
                         "error": str(e),  # Include a short error description,
                         "row number": self.n_rows,
-                        self.source_id: row[self.source_id]
+                        self.source_id: self.row[self.source_id]
                     }
                 })
-        finally:
-            self.clear_data()
