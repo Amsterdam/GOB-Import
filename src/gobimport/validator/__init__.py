@@ -150,6 +150,7 @@ ENTITY_CHECKS = {
     "bouwblokken": {
         "source_id": [
             {
+                "source_app": "DGDialog",
                 "pattern": "^{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}}$",
                 "msg": "source_id should be a 4-2-2-2-6 bytes hexidecimal value",
                 "type": QA.WARNING
@@ -236,7 +237,8 @@ ENTITY_CHECKS = {
 
 class Validator:
 
-    def __init__(self, entity_name, source_id):
+    def __init__(self, source_app, entity_name, source_id):
+        self.source_app = source_app
         self.entity_name = entity_name
         self.source_id = source_id
 
@@ -314,6 +316,9 @@ class Validator:
 
         for attr, entity_checks in qa_checks.items():
             for check in entity_checks:
+                if check.get("source_app", self.source_app) != self.source_app:
+                    # Checks can be made app specific by setting the source_app attribute
+                    continue
                 # Check if the attribute is available
                 if not self._attr_check(check, attr, entity):
                     # Add the attribute to the set of non-valid attributes for count
