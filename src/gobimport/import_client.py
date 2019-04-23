@@ -41,7 +41,6 @@ class ImportClient:
 
         self.init_dataset(dataset)
 
-        self.validator = Validator(self.entity, self.source_id)
         self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
         self.merger = Merger(self)
 
@@ -77,6 +76,7 @@ class ImportClient:
 
         self.injector = Injector(self.source.get("inject"))
         self.enricher = Enricher(self.catalogue, self.entity)
+        self.validator = Validator(self.source_app, self.entity, self.source_id)
         self.converter = Converter(self.catalogue, self.entity, self.dataset)
 
     def publish(self):
