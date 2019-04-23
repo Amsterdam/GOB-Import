@@ -28,9 +28,7 @@ class Reader:
         :param source: source definition object
         :param app: name of the import (often equal to source.application)
         """
-        keys = ['type', 'application', 'query', 'config']
-        self.source = {key: value for key, value in source.items() if key in keys}
-        # self.source = source
+        self.source = source
         self.app = app
 
         self._connection = None

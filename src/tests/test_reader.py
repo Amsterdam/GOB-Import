@@ -20,8 +20,6 @@ class TestReader(unittest.TestCase):
     def test_constructor(self):
         reader = Reader(self.source, self.app)
         self.assertEqual(reader.app, self.app)
-        self.assertNotEqual(reader.source, self.source)
-        del self.source["any other item"]
         self.assertEqual(reader.source, self.source)
         self.assertEqual(reader._connection, None)
 
