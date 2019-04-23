@@ -91,19 +91,19 @@ class TestEnricher(unittest.TestCase):
             {
                 'identificatie': '1234',
                 'naam': 'Buurt',
-                'datum_einde_geldigheid': '',
+                'eind_geldigheid': '',
                 'geometrie': 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
             },
             {
                 'identificatie': '1235',
                 'naam': 'Buurt',
-                'datum_einde_geldigheid': '',
+                'eind_geldigheid': '',
                 'geometrie': 'POLYGON((1 1,2 1,2 2,1 2,1 1))'
             },
             {
                 'identificatie': '1236',
                 'naam': 'Buurt',
-                'datum_einde_geldigheid': '2015-01-01',
+                'eind_geldigheid': '2015-01-01',
                 'geometrie': 'POLYGON((2 2,3 2,3 3,2 3,2 2))'
             }
         ]
