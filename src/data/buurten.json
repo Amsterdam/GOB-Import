@@ -31,8 +31,8 @@
 "    ,      s1.sdlcode || s1.wijkcode || s1.brtcode                AS code",
 "    ,      NULL                                                   AS identificatie",
 "    ,      q2.volgnummer                                          AS volgnummer",
-"    ,      to_char(q2.ingsdatum, 'YYYY-MM-DD')                    AS datum_begin_geldigheid",
-"    ,      to_char(nvl(q2.einddatum, q3.ingsdatum), 'YYYY-MM-DD') AS datum_einde_geldigheid",
+"    ,      to_char(q2.ingsdatum, 'YYYY-MM-DD')                    AS begin_geldigheid",
+"    ,      to_char(nvl(q2.einddatum, q3.ingsdatum), 'YYYY-MM-DD') AS eind_geldigheid",
 "    ,      to_char(s1.docdatum, 'YYYY-MM-DD')                     AS documentdatum",
 "    ,      s1.docnr                                               AS documentnummer",
 "    ,      s1.sdlcode || s1.wijkcode                              AS ligt_in_wijk",
@@ -76,10 +76,10 @@
       "source_mapping": "code"
     },
     "begin_geldigheid": {
-      "source_mapping": "datum_begin_geldigheid"
+      "source_mapping": "begin_geldigheid"
     },
     "eind_geldigheid": {
-      "source_mapping": "datum_einde_geldigheid"
+      "source_mapping": "eind_geldigheid"
     },
     "documentdatum": {
       "source_mapping": "documentdatum"
