@@ -1,13 +1,13 @@
 {
   "version": "0.1",
   "catalogue": "gebieden",
-  "entity": "stadsdelen",
+  "entity": "buurten",
   "source": {
     "name": "AMSBI",
     "application": "Basisinformatie",
     "entity_id": "identificatie",
     "type": "objectstore",
-    "file_filter": "gebieden/Stadsdelen/DIVA_gebieden_stadsdelen.csv",
+    "file_filter": "gebieden/Buurten/DIVA_gebieden_buurten.csv",
     "file_type": "CSV",
     "delimiter": ";",
     "encoding": "Latin-1",
@@ -42,10 +42,23 @@
     "documentnummer": {
       "source_mapping": "documentnummer"
     },
-    "ligt_in_gemeente": {
+    "ligt_in_wijk": {
       "source_mapping": {
-        "bronwaarde": "ligt_in_gemeente"
+        "bronwaarde": "ligt_in_wijk"
       }
+    },
+    "_ligt_in_ggpgebied": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
+    "_ligt_in_ggwgebied": {
+      "source_mapping": {
+        "bronwaarde": "=geometrie"
+      }
+    },
+    "cbs_code": {
+      "source_mapping": "cbs_code"
     },
     "geometrie": {
       "source_mapping": "geometrie"
