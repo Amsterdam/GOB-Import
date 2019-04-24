@@ -1,13 +1,13 @@
 {
   "version": "0.1",
   "catalogue": "gebieden",
-  "entity": "stadsdelen",
+  "entity": "bouwblokken",
   "source": {
     "name": "AMSBI",
     "application": "Basisinformatie",
     "entity_id": "identificatie",
     "type": "objectstore",
-    "file_filter": "gebieden/Stadsdelen/DIVA_gebieden_stadsdelen.csv",
+    "file_filter": "gebieden/Bouwblokken/DIVA_gebieden_bouwblokken.csv",
     "file_type": "CSV",
     "delimiter": ";",
     "encoding": "Latin-1",
@@ -24,9 +24,6 @@
       "source_mapping": "registratiedatum",
       "format": "%Y-%m-%d %H:%M:%S"
     },
-    "naam": {
-      "source_mapping": "naam"
-    },
     "code": {
       "source_mapping": "code"
     },
@@ -36,15 +33,9 @@
     "eind_geldigheid": {
       "source_mapping": "eind_geldigheid"
     },
-    "documentdatum": {
-      "source_mapping": "documentdatum"
-    },
-    "documentnummer": {
-      "source_mapping": "documentnummer"
-    },
-    "ligt_in_gemeente": {
+    "ligt_in_buurt": {
       "source_mapping": {
-        "bronwaarde": "ligt_in_gemeente"
+        "bronwaarde": "=geometrie"
       }
     },
     "geometrie": {

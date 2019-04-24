@@ -8,23 +8,18 @@
     "entity_id": "source_id",
     "type": "oracle",
     "schema": "dgdialog",
-    "depends_on": {
-      "_application": "DIVA"
-    },
-    "inject": {
-      "from": "data/wijken.conversion.json",
+    "merge": {
+      "dataset": "data/wijken.diva.csv.json",
+      "id": "diva_into_dgdialog",
       "on": "code",
-      "conversions": {
-        "identificatie": "=",
-        "volgnummer": "+-1"
-      }
+      "copy": ["identificatie", "volgnummer"]
     },
     "query": [
 "    SELECT s1.naam                                                AS naam",
 "    ,      s1.sdlcode || s1.wijkcode                              AS code",
 "    ,      q2.volgnummer                                          AS volgnummer",
-"    ,      to_char(q2.ingsdatum, 'YYYY-MM-DD')                    AS datum_begin_geldigheid",
-"    ,      to_char(nvl(q2.einddatum, q3.ingsdatum), 'YYYY-MM-DD') AS datum_einde_geldigheid",
+"    ,      to_char(q2.ingsdatum, 'YYYY-MM-DD')                    AS begin_geldigheid",
+"    ,      to_char(nvl(q2.einddatum, q3.ingsdatum), 'YYYY-MM-DD') AS eind_geldigheid",
 "    ,      to_char(s1.docdatum, 'YYYY-MM-DD')                     AS documentdatum",
 "    ,      s1.docnr                                               AS documentnummer",
 "    ,      s1.sdlcode                                             AS ligt_in_stadsdeel",
@@ -69,10 +64,10 @@
       "source_mapping": "code"
     },
     "begin_geldigheid": {
-      "source_mapping": "datum_begin_geldigheid"
+      "source_mapping": "begin_geldigheid"
     },
     "eind_geldigheid": {
-      "source_mapping": "datum_einde_geldigheid"
+      "source_mapping": "eind_geldigheid"
     },
     "documentdatum": {
       "source_mapping": "documentdatum"

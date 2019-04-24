@@ -72,7 +72,7 @@ class GebiedenEnricher(Enricher):
             self.features[type] = _get_cbs_features(url, type)
 
         # Leave entities without datum_einde_geldigheid empty
-        if entity['datum_einde_geldigheid']:
+        if entity['eind_geldigheid']:
             entity['cbs_code'] = ''
             return
 

@@ -8,16 +8,11 @@
     "entity_id": "source_id",
     "type": "oracle",
     "schema": "dgdialog",
-    "depends_on": {
-      "_application": "DIVA"
-    },
-    "inject": {
-      "from": "data/bouwblokken.conversion.json",
+    "merge": {
+      "dataset": "data/bouwblokken.diva.csv.json",
+      "id": "diva_into_dgdialog",
       "on": "code",
-      "conversions": {
-        "identificatie": "=",
-        "volgnummer": "+-1"
-      }
+      "copy": ["identificatie", "volgnummer"]
     },
     "enrich": {
       "identificatie": {
@@ -30,8 +25,8 @@
 "    SELECT s.code                               AS code",
 "    ,      NULL                                 AS identificatie",
 "    ,      q1.volgnummer                        AS volgnummer",
-"    ,      to_char(s.datum, 'YYYY-MM-DD')       AS datum_begin_geldigheid",
-"    ,      to_char(t.verval, 'YYYY-MM-DD')      AS datum_einde_geldigheid",
+"    ,      to_char(s.datum, 'YYYY-MM-DD')       AS begin_geldigheid",
+"    ,      to_char(t.verval, 'YYYY-MM-DD')      AS eind_geldigheid",
 "    ,      t.inwin                              AS registratiedatum",
 "    ,      t.guid                               AS source_id",
 "    ,      sdo_util.to_wktgeometry(t.geometrie) AS geometrie",
@@ -62,10 +57,10 @@
       "source_mapping": "code"
     },
     "begin_geldigheid": {
-      "source_mapping": "datum_begin_geldigheid"
+      "source_mapping": "begin_geldigheid"
     },
     "eind_geldigheid": {
-      "source_mapping": "datum_einde_geldigheid"
+      "source_mapping": "eind_geldigheid"
     },
     "ligt_in_buurt": {
       "source_mapping": {

@@ -29,13 +29,13 @@ class TestValidator(unittest.TestCase):
         }
 
     def test_validat_data(self):
-        validator = Validator('meetbouten', 'identificatie')
+        validator = Validator('source_app', 'meetbouten', 'identificatie')
         for entity in self.valid_meetbouten:
             validator.validate(entity)
 
     def test_duplicate_primary_key(self):
         self.valid_meetbouten.append(self.valid_meetbouten[0])
-        validator = Validator('meetbouten', 'identificatie')
+        validator = Validator('source_app', 'meetbouten', 'identificatie')
 
         with self.assertRaises(GOBException):
             for entity in self.valid_meetbouten:
@@ -43,7 +43,7 @@ class TestValidator(unittest.TestCase):
             validator.result()
 
     def test_invalid_data(self):
-        validator = Validator('meetbouten', 'identificatie')
+        validator = Validator('source_app', 'meetbouten', 'identificatie')
         for entity in self.invalid_meetbouten:
             validator.validate(entity)
 
@@ -51,7 +51,7 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(validator.collection_qa['num_invalid_status_id'], 1)
 
     def test_fatal_value(self):
-        validator = Validator('meetbouten', 'identificatie')
+        validator = Validator('source_app', 'meetbouten', 'identificatie')
 
         with self.assertRaises(GOBException):
             for entity in self.fatal_meetbouten:
@@ -63,7 +63,7 @@ class TestValidator(unittest.TestCase):
 
     def test_missing_warning_data(self):
         missing_attr_meetbouten = self.valid_meetbouten[0].pop('status_id')
-        validator = Validator('meetbouten', 'identificatie')
+        validator = Validator('source_app', 'meetbouten', 'identificatie')
 
         for entity in self.valid_meetbouten:
             validator.validate(entity)
@@ -73,7 +73,7 @@ class TestValidator(unittest.TestCase):
 
     def test_missing_fatal_data(self):
         missing_attr_meetbouten = self.valid_meetbouten[0].pop('publiceerbaar')
-        validator = Validator('meetbouten', 'identificatie')
+        validator = Validator('source_app', 'meetbouten', 'identificatie')
 
         for entity in self.valid_meetbouten:
             validator.validate(entity)
@@ -82,7 +82,7 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)   # Warning
 
     def test_nopubliceerbaar(self):
-        validator = Validator('meetbouten', 'identificatie')
+        validator = Validator('source_app', 'meetbouten', 'identificatie')
 
         for entity in self.nopubliceerbaar_meetbouten:
             validator.validate(entity)
@@ -91,7 +91,7 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)   # Warning
 
     def test_nullpubliceerbaar(self):
-        validator = Validator('meetbouten', 'identificatie')
+        validator = Validator('source_app', 'meetbouten', 'identificatie')
 
         for entity in self.nullpubliceerbaar_meetbouten:
             validator.validate(entity)
