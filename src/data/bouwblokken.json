@@ -29,6 +29,7 @@
 "    ,      to_char(t.verval, 'YYYY-MM-DD')      AS eind_geldigheid",
 "    ,      t.inwin                              AS registratiedatum",
 "    ,      t.guid                               AS source_id",
+"    ,      to_char(t.verval, 'YYYY-MM-DD HH24:MI:SS') AS expirationdate",
 "    ,      sdo_util.to_wktgeometry(t.geometrie) AS geometrie",
 "    ,      NULL                                 AS ligt_in_buurt",
 "      FROM   gebieden.dgdtw_topografie t",
@@ -64,8 +65,12 @@
     },
     "ligt_in_buurt": {
       "source_mapping": {
-        "bronwaarde": "=geomtrie"
+        "bronwaarde": "=geometrie"
       }
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "geometrie": {
       "source_mapping": "geometrie"

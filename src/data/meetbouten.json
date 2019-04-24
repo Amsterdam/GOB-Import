@@ -60,6 +60,7 @@
 "            ,k.bou_nummer AS ligt_in_bouwblok",
 "            ,to_char(sdo_util.to_wktgeometry(h.geom)) AS geometrie",
 "            ,h.orde AS publiceerbaar -- publiceren ja (1) of nee (0), fout (leeg) ",
+"            ,to_char(h.vervaldatum,'YYYY-MM-DD HH24:MI:SS') AS expirationdate",
 "      FROM   grondslag.grs_hoogtepunten h",
 "      LEFT   OUTER JOIN grondslag.grs_kringpunten k",
 "      ON     h.id = k.hoo_id",
@@ -122,6 +123,10 @@
       "source_mapping": {
         "bronwaarde": "=geometrie"
       }
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "geometrie": {
       "source_mapping": "geometrie"

@@ -17,6 +17,7 @@
 "    ,      to_char(d.ingangsdatum_cyclus, 'YYYY-MM-DD')                             AS datum_begin_geldigheid",
 "    ,      to_char(d.einddatum_cyclus, 'YYYY-MM-DD')                                AS datum_einde_geldigheid",
 "    ,      '0' || d.brt_id                                                          AS ligt_in_buurt",
+"    ,      to_char(d.einddatum_cyclus, 'YYYY-MM-DD HH24:MI:SS')                     AS expirationdate",
 "    ,      sdo_util.to_wktgeometry(g.geometrie)                                     AS geometrie",
 "      FROM   gegmag.gbd_bouwblok_data d",
 "      LEFT OUTER JOIN gegmag.gbd_bouwblok_geometrie g ON d.id = g.bbc_id"
@@ -46,6 +47,10 @@
       "source_mapping": {
         "bronwaarde": "=geometrie"
       }
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "geometrie": {
       "source_mapping": "geometrie"

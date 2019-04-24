@@ -19,6 +19,7 @@
 "    ,      to_char(d.documentdatum_mutatie, 'YYYY-MM-DD')                           AS documentdatum",
 "    ,      d.documentnummer_mutatie                                                 AS documentnummer",
 "    ,      '0363'                                                                   AS ligt_in_gemeente",
+"    ,      to_char(d.einddatum_cyclus, 'YYYY-MM-DD HH24:MI:SS')                     AS expirationdate",
 "    ,      sdo_util.to_wktgeometry(g.geometrie)                                     AS geometrie",
 "      FROM   gegmag.gbd_stadsdeel_data               d",
 "      LEFT OUTER JOIN gegmag.gbd_stadsdeel_geometrie g ON d.id = g.sdc_id"
@@ -57,6 +58,10 @@
       "source_mapping": {
         "bronwaarde": "ligt_in_gemeente"
       }
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "geometrie": {
       "source_mapping": "geometrie"
