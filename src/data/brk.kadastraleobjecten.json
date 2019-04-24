@@ -161,7 +161,7 @@
     },
     "heeft_een_relatie_met_verblijfsobject": {
       "source_mapping": {
-        "bronwaarde": "adressen"
+        "bronwaarde": "adressen.bag_id"
       }
     }
   }

@@ -8,6 +8,8 @@ services:
     environment:
       MESSAGE_BROKER_ADDRESS: rabbitmq
       GOB_SHARED_DIR: /app/shared
+      PREPARE_DATABASE_PORT_OVERRIDE: 5432
+      PREPARE_DATABASE_HOST_OVERRIDE: prepare_database
     env_file: .env
     volumes:
       - gob-volume:/app/shared
