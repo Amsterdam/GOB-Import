@@ -1,0 +1,92 @@
+{
+  "version": "0.1",
+  "catalogue": "brk",
+  "entity": "zakelijkerechten",
+  "source": {
+    "name": "AMSBI",
+    "application": "GOBPrepare",
+    "entity_id": "id",
+    "type": "postgres",
+    "schema": "GOBPrepare",
+    "query": [
+      "SELECT",
+      "   id,",
+      "   identificatie,",
+      "   aardzakelijkrecht_code,",
+      "   aardzakelijkrecht_oms,",
+      "   aardzakelijkrecht_akr_code,",
+      "   is_belast_met_nrn_zrt_id,",
+      "   ontstaan_uit,",
+      "   betrokken_bij,",
+      "   isbeperkt_tot,",
+      "   nrn_asg_id,",
+      "   asg_app_rechtsplitstype_code,",
+      "   asg_app_rechtsplitstype_oms,",
+      "   asg_einddatum,",
+      "   asg_actueel,",
+      "   concat(rust_op_kadastraalobject_id || '.' || rust_op_kadastraalobj_volgnr) as rust_op_kadastraalobject_source_id,",
+      "   zrt_einddatum,",
+      "   kot_status_code,",
+      "   toestandsdatum",
+      "FROM brk_prep.zakelijk_recht"
+    ]
+  },
+  "gob_mapping": {
+    "_nrn_id": {
+      "source_mapping": "id"
+    },
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "belast_met": {
+      "source_mapping": {
+        "bronwaarde": "is_belast_met_nrn_zrt_id.zakelijkrecht_id"
+      }
+    },
+    "ontstaan_uit": {
+      "source_mapping": "ontstaan_uit"
+    },
+    "betrokken_bij": {
+      "source_mapping": "betrokken_bij"
+    },
+    "is_beperkt_tot": {
+      "source_mapping": "isbeperkt_tot"
+    },
+    "rust_op": {
+      "source_mapping": {
+        "bronwaarde": "rust_op_kadastraalobject_source_id"
+      }
+    },
+    "appartementsrechtsplitsingidentificatie": {
+      "source_mapping": "nrn_asg_id"
+    },
+    "appartementsrechtsplitsingtype": {
+      "source_mapping": {
+        "code": "asg_app_rechtsplitstype_code",
+        "omschrijving": "asg_app_rechtsplitstype_oms"
+      }
+    },
+    "einddatum_appartementsrechtsplitsing": {
+      "source_mapping": "asg_einddatum"
+    },
+    "indicatie_actueel_appartementsrechtsplitsing": {
+      "source_mapping": "asg_actueel"
+    },
+    "aard_zakelijk_recht": {
+      "source_mapping": {
+        "code": "aardzakelijkrecht_code",
+        "omschrijving": "aardzakelijkrecht_oms"
+      }
+    },
+    "akr_aard_zakelijk_recht": {
+      "source_mapping": "aardzakelijkrecht_akr_code"
+    },
+    "toestandsdatum": {
+      "source_mapping": "toestandsdatum"
+    },
+    "einddatum": {
+      "source_mapping": "zrt_einddatum"
+    }
+  }
+}
+
