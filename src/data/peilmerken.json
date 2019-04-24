@@ -24,6 +24,7 @@
 "    ,      s.omschrijving                           AS status_omschrijving",
 "    ,      to_char(h.vervaldatum, 'YYYY-MM-DD')     AS vervaldatum",
 "    ,      k.bou_nummer                             AS ligt_in_bouwblok",
+"    ,      to_char(h.vervaldatum, 'YYYY-MM-DD HH24:MI:SS') AS expirationdate",
 "    ,      CASE",
 "            WHEN (substr(h.nummer,1,3) = '000'",
 "            OR   h.mer_id IN ('-','+'))",
@@ -101,6 +102,10 @@
     "publiceerbaar": {
       "source_mapping": "publiceerbaar",
       "format": "JN"
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
     }
   }
 }

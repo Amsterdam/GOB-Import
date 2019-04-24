@@ -173,6 +173,10 @@
     "registratiedatum": {
       "source_mapping": "registratiedatum",
       "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
     }
   }
 }
