@@ -103,15 +103,18 @@ class ImportClient:
         }
 
         summary = {
-            'num_records': self.n_rows,
-            'warnings': logger.get_warnings(),
-            'errors': logger.get_errors()
+            'num_records': self.n_rows
         }
 
         # Log end of import process
         logger.info(f"Import dataset {self.entity} from {self.source_app} completed. "
                     f"{summary['num_records']} records were read from the source.",
                     kwargs={"data": summary})
+
+        summary.update({
+            'warnings': logger.get_warnings(),
+            'errors': logger.get_errors()
+        })
 
         import_message = {
             "header": metadata,
