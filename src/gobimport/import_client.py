@@ -56,7 +56,7 @@ class ImportClient:
         }
 
         # Log start of import process
-        logger.set_name("IMPORT")
+        logger.configure(msg, "IMPORT")
         logger.set_default_args(extra_log_kwargs)
         logger.info(f"Import dataset {self.entity} from {self.source_app} started")
 
@@ -152,7 +152,11 @@ class ImportClient:
             write(entity)
 
         self.validator.result()
-        logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}")
+
+        if self.n_rows > 0:
+            logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}")
+        else:
+            logger.error(f"No records could be imported from {self.source_app}")
 
     def import_dataset(self):
         try:
