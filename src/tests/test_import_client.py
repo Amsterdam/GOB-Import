@@ -44,13 +44,14 @@ class TestImportClient(TestCase):
         mock_logger.set_default_args.assert_called()
         mock_logger.info.assert_called()
 
-    @patch('gobimport.import_client.publish')
-    def test_publish(self, mock_publish, mock_logger):
+    def test_publish(self, mock_logger):
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
         self.import_client.n_rows = 10
         self.import_client.filename = "filename"
-        self.import_client.publish()
-        mock_publish.assert_called()
+        msg = self.import_client.get_result_msg()
+        self.assertEqual(msg['contents_ref'], 'filename')
+        self.assertEqual(msg['summary']['num_records'], 10)
+        self.assertEqual(msg['header']['version'], 0.1)
 
 
 

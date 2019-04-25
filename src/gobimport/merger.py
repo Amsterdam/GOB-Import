@@ -82,7 +82,7 @@ class Merger:
             # Import merge data
             mapping = get_mapping(merge_def["dataset"])
             self.import_client.init_dataset(mapping)
-            self.import_client.import_data(lambda e: self._collect_entity(e, merge_def), progress)
+            self.import_client.import_rows(lambda e: self._collect_entity(e, merge_def), progress)
 
             # Restore original dataset
             self.import_client.init_dataset(primary_dataset)

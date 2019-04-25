@@ -18,7 +18,6 @@ import traceback
 from gobcore.logging.logger import logger
 from gobcore.utils import ProgressTicker
 
-from gobcore.message_broker import publish
 from gobcore.message_broker.offline_contents import ContentsWriter
 
 from gobimport.reader import Reader
@@ -52,7 +51,8 @@ class ImportClient:
             'source': self.source['name'],
             'application': self.source.get('application'),
             'catalogue': self.catalogue,
-            'entity': self.entity
+            'entity': self.entity,
+            **self.header
         }
 
         # Log start of import process
@@ -79,7 +79,7 @@ class ImportClient:
         self.validator = Validator(self.source_app, self.entity, self.source_id)
         self.converter = Converter(self.catalogue, self.entity, self.dataset)
 
-    def publish(self):
+    def get_result_msg(self):
         """The result of the import needs to be published.
 
         Publication includes a header, summary and results
@@ -103,7 +103,9 @@ class ImportClient:
         }
 
         summary = {
-            'num_records': self.n_rows
+            'num_records': self.n_rows,
+            'warnings': logger.get_warnings(),
+            'errors': logger.get_errors()
         }
 
         # Log end of import process
@@ -116,9 +118,10 @@ class ImportClient:
             "summary": summary,
             "contents_ref": self.filename
         }
-        publish("gob.workflow.proposal", "fullimport.proposal", import_message)
 
-    def import_data(self, write, progress):
+        return import_message
+
+    def import_rows(self, write, progress):
         logger.info(f"Connect to {self.source_app}")
         reader = Reader(self.source, self.source_app)
         reader.connect()
@@ -148,7 +151,7 @@ class ImportClient:
         self.validator.result()
         logger.info(f"Data ({self.n_rows} records) has been imported from {self.source_app}")
 
-    def start_import_process(self):
+    def import_dataset(self):
         try:
             self.row = None
 
@@ -159,13 +162,12 @@ class ImportClient:
 
                 self.merger.prepare(progress)
 
-                self.import_data(writer.write, progress)
+                self.import_rows(writer.write, progress)
 
                 self.merger.finish(writer.write)
 
                 self.entity_validator.result()
 
-            self.publish()
         except Exception as e:
             # Print error message, the message that caused the error and a short stacktrace
             stacktrace = traceback.format_exc(limit=-5)
@@ -181,3 +183,5 @@ class ImportClient:
                         self.source_id: self.row[self.source_id]
                     }
                 })
+
+        return self.get_result_msg()
