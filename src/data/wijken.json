@@ -25,6 +25,7 @@
 "    ,      s1.sdlcode                                             AS ligt_in_stadsdeel",
 "    ,      t1.inwin                                               AS registratiedatum",
 "    ,      t1.guid                                                AS source_id",
+"    ,      to_char(nvl(q2.einddatum, q3.ingsdatum), 'YYYY-MM-DD HH24:MI:SS') AS expirationdate",
 "    ,      sdo_util.to_wktgeometry(t1.geometrie)                  AS geometrie",
 "    FROM   gebieden.dgdtw_topografie t1",
 "    JOIN   gebieden.dgdtw_table_6025 s1 ON t1.id = s1.dgdtw_primary_key",
@@ -87,6 +88,10 @@
     },
     "cbs_code": {
       "source_mapping": "cbs_code"
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "geometrie": {
       "source_mapping": "geometrie"

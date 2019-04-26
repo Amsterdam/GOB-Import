@@ -19,6 +19,7 @@
       "    ,      to_char(d.documentdatum_mutatie, 'YYYY-MM-DD')                           AS documentdatum",
       "    ,      d.documentnummer_mutatie                                                 AS documentnummer",
       "    ,      '0' || d.BCE_ID                                                          AS ligt_in_wijk",
+      "    ,      to_char(d.einddatum_cyclus, 'YYYY-MM-DD HH24:MI:SS')                     AS expirationdate",
       "    ,      sdo_util.to_wktgeometry(g.geometrie)                                     AS geometrie",
       "    FROM   gegmag.gbd_buurt_data               d",
       "    LEFT OUTER JOIN gegmag.gbd_buurt_geometrie g ON d.id = g.btc_id"
@@ -70,6 +71,10 @@
     },
     "cbs_code": {
       "source_mapping": "cbs_code"
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
     },
     "geometrie": {
       "source_mapping": "geometrie"
