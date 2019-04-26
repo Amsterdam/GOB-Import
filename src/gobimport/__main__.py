@@ -2,7 +2,6 @@
 
 This component imports data sources
 """
-from gobcore.message_broker import publish
 from gobcore.message_broker.config import WORKFLOW_EXCHANGE, IMPORT_QUEUE, RESULT_QUEUE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 
@@ -18,8 +17,7 @@ def handle_import_msg(msg):
 
     # Create a new import client and start the process
     import_client = ImportClient(dataset=dataset, msg=msg)
-    msg = import_client.import_dataset()
-    publish(RESULT_QUEUE, "import.result", msg)
+    return import_client.import_dataset()
 
 
 SERVICEDEFINITION = {
@@ -27,7 +25,12 @@ SERVICEDEFINITION = {
         'exchange': WORKFLOW_EXCHANGE,
         'queue': IMPORT_QUEUE,
         'key': "import.start",
-        'handler': handle_import_msg
+        'handler': handle_import_msg,
+        'report': {
+            'exchange': WORKFLOW_EXCHANGE,
+            'queue': RESULT_QUEUE,
+            'key': 'import.result'
+        }
     }
 }
 

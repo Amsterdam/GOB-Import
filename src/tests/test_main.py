@@ -16,8 +16,7 @@ class TestMain(TestCase):
 
     @patch("gobimport.__main__.ImportClient")
     @patch("gobimport.__main__.get_mapping")
-    @patch("gobimport.__main__.publish")
-    def test_handle_prepare_msg(self, mock_publish, mock_get_mapping, mock_import_client):
+    def test_handle_prepare_msg(self, mock_get_mapping, mock_import_client):
         mock_import_client_instance = MagicMock()
         mock_import_client.return_value = mock_import_client_instance
         mock_get_mapping.return_value = "mapped_file"
@@ -31,8 +30,7 @@ class TestMain(TestCase):
 
     @patch("gobimport.__main__.ImportClient")
     @patch("gobimport.__main__.get_mapping")
-    @patch("gobimport.__main__.publish")
-    def test_handle_prepare_msg_dataset_from_header(self, mock_publish, mock_get_mapping, mock_import_client):
+    def test_handle_prepare_msg_dataset_from_header(self, mock_get_mapping, mock_import_client):
         mock_import_client_instance = MagicMock()
         mock_import_client.return_value = mock_import_client_instance
         mock_get_mapping.return_value = "mapped_file"
