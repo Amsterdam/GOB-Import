@@ -18,6 +18,7 @@
 "    ,      q.nummer                            AS refereert_aan_refpunt",
 "    ,      b.omschrijving                      AS is_gemeten_door_onderneming",
 "    ,      h1.orde                             AS publiceerbaar -- publiceren ja (1) of nee (0)",
+"    ,      m.id                                AS source_id",
 "    ,      to_char(h1.vervaldatum,'YYYY-MM-DD HH24:MI:SS') AS expirationdate",
 "    FROM              grondslag.grs_hoogtepunten         h1",
 "    JOIN              grondslag.grs_metingen_herz        m  ON h1.id = m.hoo_id",
@@ -89,6 +90,9 @@
     "publiceerbaar": {
       "source_mapping": "publiceerbaar",
       "format": "10"
+    },
+    "_source_id": {
+      "source_mapping": "source_id"
     },
     "_expiration_date": {
       "source_mapping": "expirationdate",

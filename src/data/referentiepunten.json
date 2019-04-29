@@ -67,6 +67,7 @@
 "              WHEN vervaldatum IS NOT NULL THEN 'N'",
 "              ELSE 'J'",
 "              END                                                           AS publiceerbaar",
+"      ,      h.id AS source_id",
 "      ,      to_char(h.vervaldatum, 'YYYY-MM-DD HH24:MI:SS') AS expirationdate",
 "      FROM   grs_hoogtepunten h",
 "      LEFT OUTER JOIN   grondslag.grs_kringpunten  k ON h.id = k.hoo_id",
@@ -171,6 +172,9 @@
     "publiceerbaar": {
       "source_mapping": "publiceerbaar",
       "format": "JN"
+    },
+    "_source_id": {
+      "source_mapping": "source_id"
     },
     "_expiration_date": {
       "source_mapping": "expirationdate",
