@@ -14,6 +14,14 @@
       "on": "code",
       "copy": ["identificatie", "volgnummer"]
     },
+    "inject": {
+      "from": "data/bouwblokken.conversion.json",
+      "on": "code",
+      "conversions": {
+        "identificatie": "=",
+        "volgnummer": "+-1"
+      }
+    },
     "enrich": {
       "identificatie": {
         "type": "autoid",
@@ -71,6 +79,9 @@
     "_expiration_date": {
       "source_mapping": "expirationdate",
       "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "_source_id": {
+      "source_mapping": "source_id"
     },
     "geometrie": {
       "source_mapping": "geometrie"
