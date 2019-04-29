@@ -84,6 +84,9 @@
       "source_mapping": "expirationdate",
       "format": "%Y-%m-%d %H:%M:%S"
     },
+    "_source_id": {
+      "source_mapping": "source_id"
+    },
     "geometrie": {
       "source_mapping": "geometrie"
     }
