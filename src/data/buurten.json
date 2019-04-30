@@ -12,7 +12,7 @@
       "dataset": "data/buurten.diva.csv.json",
       "id": "diva_into_dgdialog",
       "on": "code",
-      "copy": ["identificatie", "volgnummer"]
+      "copy": ["identificatie"]
     },
     "enrich": {
       "identificatie": {
@@ -104,6 +104,9 @@
     "_expiration_date": {
       "source_mapping": "expirationdate",
       "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "_source_id": {
+      "source_mapping": "source_id"
     },
     "geometrie": {
       "source_mapping": "geometrie"

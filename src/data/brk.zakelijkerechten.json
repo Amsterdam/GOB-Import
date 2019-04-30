@@ -12,6 +12,7 @@
       "SELECT",
       "   id,",
       "   identificatie,",
+      "   rust_op_kadastraalobj_volgnr as volgnummer,",
       "   aardzakelijkrecht_code,",
       "   aardzakelijkrecht_oms,",
       "   aardzakelijkrecht_akr_code,",
@@ -26,6 +27,7 @@
       "   asg_actueel,",
       "   concat(rust_op_kadastraalobject_id || '.' || rust_op_kadastraalobj_volgnr) as rust_op_kadastraalobject_source_id,",
       "   zrt_einddatum,",
+      "   zrt_begindatum,",
       "   kot_status_code,",
       "   toestandsdatum",
       "FROM brk_prep.zakelijk_recht"
@@ -37,6 +39,15 @@
     },
     "identificatie": {
       "source_mapping": "identificatie"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "begin_geldigheid": {
+      "source_mapping": "zrt_begindatum"
+    },
+    "eind_geldigheid": {
+      "source_mapping": "zrt_einddatum"
     },
     "belast_met": {
       "source_mapping": {

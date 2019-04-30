@@ -26,7 +26,7 @@ class TestMain(TestCase):
         mock_get_mapping.assert_called_with('data/somefile.json')
 
         mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg)
-        mock_import_client_instance.start_import_process.assert_called_once()
+        mock_import_client_instance.import_dataset.assert_called_once()
 
     @patch("gobimport.__main__.ImportClient")
     @patch("gobimport.__main__.get_mapping")
@@ -41,7 +41,7 @@ class TestMain(TestCase):
 
         mock_get_mapping.assert_called_with('data/fromheader.json')
         mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg)
-        mock_import_client_instance.start_import_process.assert_called_once()
+        mock_import_client_instance.import_dataset.assert_called_once()
 
     def test_handle_prepare_msg_without_dataset(self):
         del self.mock_msg['dataset_file']
