@@ -34,6 +34,9 @@
     ]
   },
   "gob_mapping": {
+    "_nrn_id": {
+      "source_mapping": "id"
+    },
     "identificatie": {
       "source_mapping": "identificatie"
     },
