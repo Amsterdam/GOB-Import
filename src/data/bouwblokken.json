@@ -12,15 +12,7 @@
       "dataset": "data/bouwblokken.diva.csv.json",
       "id": "diva_into_dgdialog",
       "on": "code",
-      "copy": ["identificatie", "volgnummer"]
-    },
-    "inject": {
-      "from": "data/bouwblokken.conversion.json",
-      "on": "code",
-      "conversions": {
-        "identificatie": "=",
-        "volgnummer": "+-1"
-      }
+      "copy": ["identificatie"]
     },
     "enrich": {
       "identificatie": {
