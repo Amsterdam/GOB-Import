@@ -41,7 +41,6 @@ class TestImportClient(TestCase):
 
         # Assert the logger is configured and called
         mock_logger.configure.assert_called()
-        mock_logger.set_default_args.assert_called()
         mock_logger.info.assert_called()
 
     def test_publish(self, mock_logger):
