@@ -36,8 +36,6 @@ class ImportClient:
 
     """
     def __init__(self, dataset, msg):
-        self.header = msg.get("header", {})
-
         self.init_dataset(dataset)
 
         self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
@@ -46,18 +44,19 @@ class ImportClient:
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.utcnow().replace(microsecond=0).timestamp())
         self.process_id = f"{start_timestamp}.{self.source_app}.{self.entity}"
-        extra_log_kwargs = {
+
+        self.header = {
+            **msg.get("header", {}),
             'process_id': self.process_id,
             'source': self.source['name'],
             'application': self.source.get('application'),
             'catalogue': self.catalogue,
             'entity': self.entity,
-            **self.header
         }
+        msg["header"] = self.header
 
         # Log start of import process
         logger.configure(msg, "IMPORT")
-        logger.set_default_args(extra_log_kwargs)
         logger.info(f"Import dataset {self.entity} from {self.source_app} started")
 
     def init_dataset(self, dataset):
@@ -89,15 +88,10 @@ class ImportClient:
 
         :return:
         """
-        metadata = {
+        header = {
             **self.header,
-            "process_id": self.process_id,
-            "source": self.dataset['source']['name'],
-            "application": self.dataset['source'].get('application'),
             "depends_on": self.dataset['source'].get('depends_on', {}),
             "enrich": self.dataset['source'].get('enrich', {}),
-            "catalogue": self.dataset['catalogue'],
-            "entity": self.dataset['entity'],
             "version": self.dataset['version'],
             "timestamp": datetime.datetime.utcnow().isoformat()
         }
@@ -117,7 +111,7 @@ class ImportClient:
         })
 
         import_message = {
-            "header": metadata,
+            "header": header,
             "summary": summary,
             "contents_ref": self.filename
         }
