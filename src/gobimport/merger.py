@@ -50,19 +50,23 @@ class Merger:
         :param entities:
         :return:
         """
-        if entity["volgnummer"] != 1:
-            # Only match DGDialog entities with volgnummer 1
-            return
-
         copy = self.merge_def["copy"]
         entities.sort(key=lambda e: int(e["volgnummer"]))
 
-        for diva_entity in entities[:-1]:
-            write(diva_entity)
-
+        # The attributes to copy are derived from the most recent entity
         merge_entity = entities[-1]
+
+        if entity["volgnummer"] == 1:
+            # Write the previous entities before the first new entity
+            for diva_entity in entities[:-1]:
+                write(diva_entity)
+
+        # Copy the specified attributes
         for key in copy:
             entity[key] = merge_entity[key]
+
+        # Update the volgnummer
+        entity["volgnummer"] = str(int(merge_entity["volgnummer"]) + int(entity["volgnummer"]) - 1)
 
     def prepare(self, progress):
         """
@@ -106,8 +110,6 @@ class Merger:
                 entities = merge_item["entities"]
 
                 self.merge_func(entity, write, entities)
-
-                del self.merge_items[entity[on]]
 
     def finish(self, write):
         """

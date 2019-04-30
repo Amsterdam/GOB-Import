@@ -56,10 +56,9 @@ class TestMerger(unittest.TestCase):
             "a": 31,
             "b": 32,
             "c": None,
-            "volgnummer": 1
+            "volgnummer": '3'
         })
 
-        # Only volgnummer 1 entities get merged
         entity = {
             "a": None,
             "b": None,
@@ -68,10 +67,10 @@ class TestMerger(unittest.TestCase):
         }
         merger._merge_diva_into_dgdialog(entity, write, entities)
         self.assertEqual(entity, {
-            "a": None,
-            "b": None,
+            "a": 31,
+            "b": 32,
             "c": None,
-            "volgnummer": 2
+            "volgnummer": '4'
         })
 
         # Remember that entities get sorted inside the merge method!
@@ -142,15 +141,16 @@ class TestMerger(unittest.TestCase):
         }
 
         merger.merge(entity, lambda e: None)
-        self.assertEqual(entity, {"any on": 1, "a": 2, "volgnummer": 1})
+        self.assertEqual(entity, {"any on": 1, "a": 2, "volgnummer": '1'})
         self.assertIsNotNone(merger.merge_items[2])
-        self.assertIsNone(merger.merge_items.get(1))
-        self.assertEqual(len(merger.merge_items.keys()), 1)
+        self.assertIsNotNone(merger.merge_items[1])
+        self.assertEqual(len(merger.merge_items.keys()), 2)
 
         finished = []
         merger.finish(lambda e: finished.append(e))
+        self.assertIsNone(merger.merge_items.get(1))
         self.assertIsNone(merger.merge_items.get(2))
-        self.assertEqual(len(finished), 1)
+        self.assertEqual(len(finished), 2)
 
     def test_finish(self):
         pass
