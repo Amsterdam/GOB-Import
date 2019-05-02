@@ -12,7 +12,7 @@
       "dataset": "data/wijken.diva.csv.json",
       "id": "diva_into_dgdialog",
       "on": "code",
-      "copy": ["identificatie", "volgnummer"]
+      "copy": ["identificatie"]
     },
     "query": [
 "    SELECT s1.naam                                                AS naam",
