@@ -114,7 +114,6 @@ class Merger:
 
                 self.merged.append(entity[on])
 
-
     def finish(self, write):
         """
         During the merging entities get written
