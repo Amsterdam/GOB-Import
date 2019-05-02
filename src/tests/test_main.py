@@ -2,7 +2,8 @@ from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
 from gobcore.exceptions import GOBException
-from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION, extract_dataset_from_msg
+from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION, extract_dataset_from_msg,\
+    _extract_dataset_variable
 
 
 class TestMain(TestCase):
@@ -18,7 +19,7 @@ class TestMain(TestCase):
     @patch("gobimport.__main__.ImportClient")
     @patch("gobimport.__main__.get_mapping")
     @patch("gobimport.__main__.extract_dataset_from_msg")
-    def test_handle_prepare_msg(self, mock_extract_dataset, mock_get_mapping, mock_import_client):
+    def test_handle_import_msg(self, mock_extract_dataset, mock_get_mapping, mock_import_client):
         mock_import_client_instance = MagicMock()
         mock_import_client.return_value = mock_import_client_instance
         mock_extract_dataset.return_value = "dataset_file"
@@ -31,22 +32,48 @@ class TestMain(TestCase):
         mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg)
         mock_import_client_instance.import_dataset.assert_called_once()
 
-    @patch("gobimport.__main__.get_dataset_file_location")
-    def test_extract_dataset_from_msg(self, mock_get_dataset_file_location):
-        def side_effect(arg):
-            vals = {"data:set:3": "dataset3.json", "data:set:4": "dataset4.json"}
-            return vals[arg]
+    def test_extract_dataset_variable_str(self):
+        dataset = "somedataset.json"
+        self.assertEqual(dataset, _extract_dataset_variable(dataset))
 
-        mock_get_dataset_file_location.side_effect = side_effect
+    @patch("gobimport.__main__.get_dataset_file_location")
+    def test_extract_dataset_variable_dict(self, mock_get_dataset_file_location):
+        dataset = {
+            'catalogue': 'somecatalogue',
+            'collection': 'somecollection',
+            'application': 'someapplication',
+        }
+        mock_get_dataset_file_location.return_value = 'returned_dataset_location.json'
+        result = _extract_dataset_variable(dataset)
+        self.assertEqual(mock_get_dataset_file_location.return_value, result)
+        mock_get_dataset_file_location.assert_called_with("somecatalogue", "somecollection", "someapplication")
+
+    def test_extract_dataset_variable_dict_invalid(self):
+        valid_dataset = {
+            'catalogue': 'somecatalogue',
+            'collection': 'somecollection',
+            'application': 'someapplication',
+        }
+
+        for k in valid_dataset.keys():
+            invalid_dataset = { key: valid_dataset[key] for key in valid_dataset.keys() if key is not k }
+
+            with self.assertRaisesRegexp(GOBException, 'Missing dataset keys'):
+                _extract_dataset_variable(invalid_dataset)
+
+    def test_extract_dataset_variable_invalid_type(self):
+        with self.assertRaisesRegexp(GOBException, 'Dataset of invalid type'):
+            _extract_dataset_variable([])
+
+    @patch("gobimport.__main__._extract_dataset_variable")
+    def test_extract_dataset_from_msg(self, mock_extract_dataset_variable):
         testcases = [
             (
                 {
-                    "dataset_file": "dataset1.json",
+                    "dataset": "dataset1.json",
                     "contents": {
-                        "dataset_file": "dataset2.json",
-                        "dataset": "data:set:4"
+                        "dataset": "dataset2.json"
                     },
-                    "dataset": "data:set:3",
                 },
                 "dataset1.json",
                 "Data set file in message root should have priority",
@@ -54,40 +81,17 @@ class TestMain(TestCase):
             (
                 {
                     "contents": {
-                        "dataset_file": "dataset2.json",
-                        "dataset": "data:set:4"
+                        "dataset": "dataset2.json"
                     },
-                    "dataset": "data:set:3",
                 },
                 "dataset2.json",
-                "Data set file in contents should have priority",
-            ),
-            (
-                {
-                    "contents": {
-                        "dataset": "data:set:4"
-                    },
-                    "dataset": "data:set:3",
-                },
-                "dataset3.json",
-                "Dataset in message root should have priority",
-            ),
-            (
-                {
-                    "contents": {
-                        "dataset": "data:set:4"
-                    },
-                },
-                "dataset4.json",
-                "Should return dataset referenced in contents"
-            ),
+                "Data set in contents should have second priority",
+            )
         ]
 
         for message, result, error_message in testcases:
-            self.assertEqual(result, extract_dataset_from_msg(message), error_message)
-
-        with self.assertRaisesRegexp(GOBException, 'Missing dataset file'):
-            extract_dataset_from_msg({})
+            extract_dataset_from_msg(message)
+            mock_extract_dataset_variable.assert_called_with(result)
 
     @patch("gobimport.__main__.messagedriven_service")
     def test_main_entry(self, mock_messagedriven_service):
