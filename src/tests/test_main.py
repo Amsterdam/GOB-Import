@@ -1,7 +1,9 @@
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
-from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION
+from gobcore.exceptions import GOBException
+from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION, extract_dataset_from_msg,\
+    _extract_dataset_variable
 
 
 class TestMain(TestCase):
@@ -16,39 +18,80 @@ class TestMain(TestCase):
 
     @patch("gobimport.__main__.ImportClient")
     @patch("gobimport.__main__.get_mapping")
-    def test_handle_prepare_msg(self, mock_get_mapping, mock_import_client):
+    @patch("gobimport.__main__.extract_dataset_from_msg")
+    def test_handle_import_msg(self, mock_extract_dataset, mock_get_mapping, mock_import_client):
         mock_import_client_instance = MagicMock()
         mock_import_client.return_value = mock_import_client_instance
+        mock_extract_dataset.return_value = "dataset_file"
         mock_get_mapping.return_value = "mapped_file"
         handle_import_msg(self.mock_msg)
 
-        # Assert 'dataset_file' in body has priority over header 'dataset_file'
-        mock_get_mapping.assert_called_with('data/somefile.json')
+        mock_extract_dataset.assert_called_with(self.mock_msg)
+        mock_get_mapping.assert_called_with("dataset_file")
 
         mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg)
         mock_import_client_instance.import_dataset.assert_called_once()
 
-    @patch("gobimport.__main__.ImportClient")
-    @patch("gobimport.__main__.get_mapping")
-    def test_handle_prepare_msg_dataset_from_header(self, mock_get_mapping, mock_import_client):
-        mock_import_client_instance = MagicMock()
-        mock_import_client.return_value = mock_import_client_instance
-        mock_get_mapping.return_value = "mapped_file"
+    def test_extract_dataset_variable_str(self):
+        dataset = "somedataset.json"
+        self.assertEqual(dataset, _extract_dataset_variable(dataset))
 
-        del self.mock_msg['dataset_file']
+    @patch("gobimport.__main__.get_dataset_file_location")
+    def test_extract_dataset_variable_dict(self, mock_get_dataset_file_location):
+        dataset = {
+            'catalogue': 'somecatalogue',
+            'collection': 'somecollection',
+            'application': 'someapplication',
+        }
+        mock_get_dataset_file_location.return_value = 'returned_dataset_location.json'
+        result = _extract_dataset_variable(dataset)
+        self.assertEqual(mock_get_dataset_file_location.return_value, result)
+        mock_get_dataset_file_location.assert_called_with("somecatalogue", "somecollection", "someapplication")
 
-        handle_import_msg(self.mock_msg)
+    def test_extract_dataset_variable_dict_invalid(self):
+        valid_dataset = {
+            'catalogue': 'somecatalogue',
+            'collection': 'somecollection',
+            'application': 'someapplication',
+        }
 
-        mock_get_mapping.assert_called_with('data/fromheader.json')
-        mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg)
-        mock_import_client_instance.import_dataset.assert_called_once()
+        for k in valid_dataset.keys():
+            invalid_dataset = { key: valid_dataset[key] for key in valid_dataset.keys() if key is not k }
 
-    def test_handle_prepare_msg_without_dataset(self):
-        del self.mock_msg['dataset_file']
-        del self.mock_msg['header']['dataset_file']
+            with self.assertRaisesRegexp(GOBException, 'Missing dataset keys'):
+                _extract_dataset_variable(invalid_dataset)
 
-        with self.assertRaises(AssertionError):
-            handle_import_msg(self.mock_msg)
+    def test_extract_dataset_variable_invalid_type(self):
+        with self.assertRaisesRegexp(GOBException, 'Dataset of invalid type'):
+            _extract_dataset_variable([])
+
+    @patch("gobimport.__main__._extract_dataset_variable")
+    def test_extract_dataset_from_msg(self, mock_extract_dataset_variable):
+        testcases = [
+            (
+                {
+                    "dataset": "dataset1.json",
+                    "contents": {
+                        "dataset": "dataset2.json"
+                    },
+                },
+                "dataset1.json",
+                "Data set file in message root should have priority",
+            ),
+            (
+                {
+                    "contents": {
+                        "dataset": "dataset2.json"
+                    },
+                },
+                "dataset2.json",
+                "Data set in contents should have second priority",
+            )
+        ]
+
+        for message, result, error_message in testcases:
+            extract_dataset_from_msg(message)
+            mock_extract_dataset_variable.assert_called_with(result)
 
     @patch("gobimport.__main__.messagedriven_service")
     def test_main_entry(self, mock_messagedriven_service):
