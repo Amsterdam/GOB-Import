@@ -10,7 +10,7 @@ from collections import defaultdict
 
 from gobcore.exceptions import GOBException
 
-DATASET_DIR = 'data/'
+DATASET_DIR = os.path.join(os.path.dirname(__file__), '../data/')
 
 
 def _build_dataset_locations_mapping():
