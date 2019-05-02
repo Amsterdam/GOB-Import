@@ -150,7 +150,7 @@ class TestMerger(unittest.TestCase):
         merger.finish(lambda e: finished.append(e))
         self.assertIsNone(merger.merge_items.get(1))
         self.assertIsNone(merger.merge_items.get(2))
-        self.assertEqual(len(finished), 2)
+        self.assertEqual(len(finished), 1)
 
     def test_finish(self):
         pass

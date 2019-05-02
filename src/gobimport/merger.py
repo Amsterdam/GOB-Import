@@ -30,6 +30,7 @@ class Merger:
         self.import_client = import_client
         self.merge_def = None
         self.merge_items = {}
+        self.merged = []
 
     def _collect_entity(self, entity, merge_def):
         """
@@ -111,6 +112,8 @@ class Merger:
 
                 self.merge_func(entity, write, entities)
 
+                self.merged.append(entity[on])
+
     def finish(self, write):
         """
         During the merging entities get written
@@ -120,7 +123,8 @@ class Merger:
         :return:
         """
         if self.merge_def:
-            for merge_item in self.merge_items.values():
-                for entity in merge_item["entities"]:
-                    write(entity)
+            for on, merge_item in self.merge_items.items():
+                if on not in self.merged:
+                    for entity in merge_item["entities"]:
+                        write(entity)
             self.merge_items = {}
