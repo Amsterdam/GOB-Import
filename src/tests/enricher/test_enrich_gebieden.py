@@ -110,7 +110,7 @@ class TestEnricher(unittest.TestCase):
 
     @mock.patch.object(GebiedenEnricher, '_add_cbs_code')
     def test_enrich_buurten(self, mock_add_cbs):
-        enricher = GebiedenEnricher("gebieden", "buurten")
+        enricher = GebiedenEnricher("app", "gebieden", "buurten")
         for entity in self.entities:
             enricher.enrich(entity)
 
@@ -118,7 +118,7 @@ class TestEnricher(unittest.TestCase):
 
     @mock.patch.object(GebiedenEnricher, '_add_cbs_code')
     def test_enrich_wijken(self, mock_add_cbs):
-        enricher = GebiedenEnricher("gebieden", "wijken")
+        enricher = GebiedenEnricher("app", "gebieden", "wijken")
         for entity in self.entities:
             enricher.enrich(entity)
 
@@ -127,7 +127,7 @@ class TestEnricher(unittest.TestCase):
     @mock.patch('gobimport.enricher.gebieden.requests.get')
     def test_add_cbs_code(self, mock_request):
         mock_request.return_value = MockResponse()
-        enricher = GebiedenEnricher("gebieden", "buurten")
+        enricher = GebiedenEnricher("app", "gebieden", "buurten")
         for entity in self.entities:
             enricher._add_cbs_code(entity, CBS_BUURTEN_API, 'buurt')
 
@@ -161,7 +161,7 @@ class TestGGWPEnricher(unittest.TestCase):
                 }
             }
         ]
-        enricher = GebiedenEnricher("gebieden", "ggwgebieden")
+        enricher = GebiedenEnricher("app", "gebieden", "ggwgebieden")
         for entity in ggwgebieden:
             enricher.enrich(entity)
         self.assertEqual(ggwgebieden, [
@@ -189,7 +189,7 @@ class TestGGWPEnricher(unittest.TestCase):
                 }
             }
         ]
-        enricher = GebiedenEnricher("gebieden", "ggpgebieden")
+        enricher = GebiedenEnricher("app", "gebieden", "ggpgebieden")
         for entity in ggpgebieden:
             enricher.enrich(entity)
         self.assertEqual(ggpgebieden, [

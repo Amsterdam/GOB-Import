@@ -11,15 +11,15 @@ from gobimport.enricher.enricher import Enricher
 class MeetboutenEnricher(Enricher):
 
     @classmethod
-    def enriches(cls, catalog_name, entity_name):
+    def enriches(cls, app_name, catalog_name, entity_name):
         if catalog_name == "meetbouten":
-            enricher = MeetboutenEnricher(catalog_name, entity_name)
+            enricher = MeetboutenEnricher(app_name, catalog_name, entity_name)
             return enricher._enrich_entity is not None
 
-    def __init__(self, _, entity_name):
-        super().__init__({
+    def __init__(self, app_name, catalogue_name, entity_name):
+        super().__init__(app_name, catalogue_name, entity_name, methods={
             "metingen": self.enrich_meting,
-        }, entity_name)
+        })
 
         # Keep a dict of metingen by meetboutid
         self.meetbouten = {}
