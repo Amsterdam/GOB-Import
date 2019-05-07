@@ -10,12 +10,12 @@ class TestEnricher(unittest.TestCase):
 
     @mock.patch.object(MeetboutenEnricher, 'enrich_meting')
     def test_valid_enrich(self, mock_enrich):
-        enricher = Enricher('meetbouten', 'metingen')
+        enricher = Enricher('app', 'meetbouten', 'metingen')
         for entity in self.entities:
             enricher.enrich(entity)
         mock_enrich.assert_called()
 
     def test_invalid_enrich(self):
-        enricher = Enricher('test', 'test')
+        enricher = Enricher('app', 'test', 'test')
         for entity in self.entities:
             enricher.enrich(entity)

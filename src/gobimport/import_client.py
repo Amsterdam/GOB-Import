@@ -74,7 +74,7 @@ class ImportClient:
         self.func_source_id = ids[0] if ids else "_source_id"
 
         self.injector = Injector(self.source.get("inject"))
-        self.enricher = Enricher(self.catalogue, self.entity)
+        self.enricher = Enricher(self.source_app, self.catalogue, self.entity)
         self.validator = Validator(self.source_app, self.entity, self.source_id)
         self.converter = Converter(self.catalogue, self.entity, self.dataset)
 

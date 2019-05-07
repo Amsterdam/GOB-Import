@@ -10,13 +10,13 @@ CODE_TABLE_FIELDS = ['code', 'omschrijving']
 class BAGEnricher(Enricher):
 
     @classmethod
-    def enriches(cls, catalog_name, entity_name):
+    def enriches(cls, app_name, catalog_name, entity_name):
         if catalog_name == "bag":
-            enricher = BAGEnricher(catalog_name, entity_name)
+            enricher = BAGEnricher(app_name, catalog_name, entity_name)
             return enricher._enrich_entity is not None
 
-    def __init__(self, _, entity_name):
-        super().__init__({
+    def __init__(self, app_name, catalogue_name, entity_name):
+        super().__init__(app_name, catalogue_name, entity_name, methods={
             "woonplaatsen": self.enrich_woonplaats,
             "openbareruimtes": self.enrich_openbareruimte,
             "nummeraanduidingen": self.enrich_nummeraanduiding,
@@ -24,7 +24,7 @@ class BAGEnricher(Enricher):
             "standplaatsen": self.enrich_standplaats,
             "verblijfsobjecten": self.enrich_verblijfsobject,
             "panden": self.enrich_pand,
-        }, entity_name)
+        })
 
     def enrich_woonplaats(self, woonplaats):
         _extract_dossier(woonplaats)

@@ -9,7 +9,7 @@ class Enricher(ABC):
 
     @classmethod
     @abstractmethod
-    def enriches(cls, catalog_name, entity_name):
+    def enriches(cls, app_name, catalog_name, entity_name):
         """
         Tells wether this class enriches the given catalog - entity
         :param catalog_name:
@@ -18,13 +18,16 @@ class Enricher(ABC):
         """
         pass
 
-    def __init__(self, methods, entity_name):
+    def __init__(self, app_name, catalogue_name, entity_name, methods):
         """
         Given the methods and entity name, the enrich_entity method is set
 
         :param methods:
         :param entity_name:
         """
+        self.app_name = app_name
+        self.catalogue_name = catalogue_name
+        self.entity_name = entity_name
         self._enrich_entity = methods.get(entity_name)
 
     def enrich(self, entity):
