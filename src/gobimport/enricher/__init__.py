@@ -9,7 +9,7 @@ from gobimport.enricher.bag import BAGEnricher
 
 class Enricher:
 
-    def __init__(self, catalog_name, entity_name):
+    def __init__(self, app_name, catalog_name, entity_name):
         """
         Select all applicable enrichers for the given catalog and entity
 
@@ -17,9 +17,9 @@ class Enricher:
         :param entity_name:
         """
         self.enrichers = []
-        for Enricher in [GebiedenEnricher, MeetboutenEnricher, BAGEnricher]:
-            if Enricher.enriches(catalog_name, entity_name):
-                self.enrichers.append(Enricher(catalog_name, entity_name))
+        for CatalogueEnricher in [GebiedenEnricher, MeetboutenEnricher, BAGEnricher]:
+            if CatalogueEnricher.enriches(app_name, catalog_name, entity_name):
+                self.enrichers.append(CatalogueEnricher(app_name, catalog_name, entity_name))
 
     def enrich(self, entity):
         """

@@ -31,18 +31,18 @@ CBS_WIJKEN_API = 'https://geodata.nationaalgeoregister.nl/wijkenbuurten2018/wfs'
 class GebiedenEnricher(Enricher):
 
     @classmethod
-    def enriches(cls, catalog_name, entity_name):
+    def enriches(cls, app_name, catalog_name, entity_name):
         if catalog_name == "gebieden":
-            enricher = GebiedenEnricher(catalog_name, entity_name)
+            enricher = GebiedenEnricher(app_name, catalog_name, entity_name)
             return enricher._enrich_entity is not None
 
-    def __init__(self, _, entity_name):
-        super().__init__({
+    def __init__(self, app_name, catalogue_name, entity_name):
+        super().__init__(app_name, catalogue_name, entity_name, methods={
             "buurten": self.enrich_buurt,
             "wijken": self.enrich_wijk,
             "ggwgebieden": self.enrich_ggwgebied,
             "ggpgebieden": self.enrich_ggpgebied,
-        }, entity_name)
+        })
 
         self.features = {}
 
@@ -83,7 +83,7 @@ class GebiedenEnricher(Enricher):
 
         # Show a warning if the names do not match with CBS
         if match and entity['naam'] != match['naam']:
-            msg = "Naam and CBS naam don't match"
+            msg = f"Naam and CBS naam don't match in {self.app_name}"
             extra_data = {
                 'id': msg,
                 'data': {

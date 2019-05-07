@@ -26,7 +26,7 @@ class TestEnricher(unittest.TestCase):
         ]
 
     def test_single_meting(self):
-        enricher = MeetboutenEnricher("meetbouten", "metingen")
+        enricher = MeetboutenEnricher("app", "meetbouten", "metingen")
         for entity in self.entities:
             enricher.enrich(entity)
 
@@ -42,7 +42,7 @@ class TestEnricher(unittest.TestCase):
                 'hoogte_tov_nap': decimal.Decimal(0.2)
             }
         )
-        enricher = MeetboutenEnricher("meetbouten", "metingen")
+        enricher = MeetboutenEnricher("app", "meetbouten", "metingen")
         for entity in self.entities:
             enricher.enrich(entity)
 

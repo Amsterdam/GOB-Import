@@ -13,7 +13,7 @@ class TestBAGEnrichment(unittest.TestCase):
             }
         ]
 
-        enricher = BAGEnricher("bag", "nummeraanduidingen")
+        enricher = BAGEnricher("app", "bag", "nummeraanduidingen")
         for entity in entities:
             enricher.enrich(entity)
 
@@ -30,7 +30,7 @@ class TestBAGEnrichment(unittest.TestCase):
                 'pandidentificatie': "1234;5678"
             }
         ]
-        enricher = BAGEnricher("bag", "verblijfsobjecten")
+        enricher = BAGEnricher("app", "bag", "verblijfsobjecten")
         for entity in entities:
             enricher.enrich(entity)
 
@@ -47,7 +47,7 @@ class TestBAGEnrichment(unittest.TestCase):
                 'dossier': 'dossier1;dossier2',
             }
         ]
-        enricher = BAGEnricher("bag", "panden")
+        enricher = BAGEnricher("app", "bag", "panden")
         for entity in entities:
             enricher.enrich(entity)
 
