@@ -83,11 +83,10 @@ class GebiedenEnricher(Enricher):
 
         # Show a warning if the names do not match with CBS
         if match and entity['naam'] != match['naam']:
-            msg = "Naam and CBS naam don't match"
+            msg = f"Naam and CBS naam don't match in {self.app_name}"
             extra_data = {
                 'id': msg,
                 'data': {
-                    'application': self.app_name,
                     'identificatie': entity['identificatie'],
                     'naam': entity['naam'],
                     'cbs_naam': match['naam'],
