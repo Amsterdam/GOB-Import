@@ -18,10 +18,6 @@
       "   aardzakelijkrecht_akr_code,",
       "   is_belast_met,",
       "   belast,",
-      "   ontstaan_uit_ref,",
-      "   betrokken_bij_ref,",
-      "   ontstaan_uit_asg_id,",
-      "   betrokken_bij_asg_id,",
       "   ontstaan_uit,",
       "   betrokken_bij,",
       "   isbeperkt_tot,",
@@ -36,7 +32,7 @@
       "   zrt_begindatum,",
       "   kot_status_code,",
       "   toestandsdatum",
-      "FROM brk_prep.zakelijk_recht ORDER BY id LIMIT 1000"
+      "FROM brk_prep.zakelijk_recht"
     ]
   },
   "gob_mapping": {
@@ -55,42 +51,30 @@
     "eind_geldigheid": {
       "source_mapping": "zrt_einddatum"
     },
-    "belast": {
+    "belast_zakelijkerechten": {
       "source_mapping": {
         "bronwaarde": "belast.zrt_identificatie"
       }
     },
-    "belast_met": {
+    "belast_met_zakelijkerechten": {
       "source_mapping": {
         "bronwaarde": "is_belast_met.zrt_identificatie"
       }
     },
-    "ontstaan_uit": {
+    "ontstaan_uit_zakelijkerechten": {
       "source_mapping": {
         "bronwaarde": "ontstaan_uit.zrt_identificatie"
       }
     },
-    "betrokken_bij": {
+    "betrokken_bij_zakelijkerechten": {
       "source_mapping": {
         "bronwaarde": "betrokken_bij.zrt_identificatie"
-      }
-    },
-    "_betrokken_bij_asg": {
-      "source_mapping": {
-        "id": "betrokken_bij_asg_id",
-        "vve": "betrokken_bij_ref"
-      }
-    },
-    "_ontstaan_uit_asg": {
-      "source_mapping": {
-        "id": "ontstaan_uit_asg_id",
-        "vve": "ontstaan_uit_ref"
       }
     },
     "is_beperkt_tot": {
       "source_mapping": "isbeperkt_tot"
     },
-    "rust_op": {
+    "rust_op_kadastraalobject": {
       "source_mapping": {
         "bronwaarde": "rust_op_kadastraal_object_identificatie"
       }
