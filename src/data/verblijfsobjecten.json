@@ -245,14 +245,10 @@
       "source_mapping": "documentnummer"
     },
     "gebruiksdoel_woonfunctie": {
-      "source_mapping": {
-        "bronwaarde": "gebruiksdoel_woonfunctie"
-      }
+      "source_mapping": "gebruiksdoel_woonfunctie"
     },
     "gebruiksdoel_gezondheidszorgfunctie": {
-      "source_mapping": {
-        "bronwaarde": "gebruiksdoel_gezondheidszorg"
-      }
+      "source_mapping": "gebruiksdoel_gezondheidszorg"
     },
     "aantal_eenheden_complex": {
       "source_mapping": "aantal_verhuurbare_eenheden"

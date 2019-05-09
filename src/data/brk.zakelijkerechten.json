@@ -16,7 +16,8 @@
       "   aardzakelijkrecht_code,",
       "   aardzakelijkrecht_oms,",
       "   aardzakelijkrecht_akr_code,",
-      "   is_belast_met_nrn_zrt_id,",
+      "   is_belast_met,",
+      "   belast,",
       "   ontstaan_uit,",
       "   betrokken_bij,",
       "   isbeperkt_tot,",
@@ -26,6 +27,7 @@
       "   asg_einddatum,",
       "   asg_actueel,",
       "   concat(rust_op_kadastraalobject_id || '.' || rust_op_kadastraalobj_volgnr) as rust_op_kadastraalobject_source_id,",
+      "   kadastraal_object_id as rust_op_kadastraal_object_identificatie,",
       "   zrt_einddatum,",
       "   zrt_begindatum,",
       "   kot_status_code,",
@@ -49,23 +51,32 @@
     "eind_geldigheid": {
       "source_mapping": "zrt_einddatum"
     },
-    "belast_met": {
+    "belast_zakelijkerechten": {
       "source_mapping": {
-        "bronwaarde": "is_belast_met_nrn_zrt_id.zakelijkrecht_id"
+        "bronwaarde": "belast.zrt_identificatie"
       }
     },
-    "ontstaan_uit": {
-      "source_mapping": "ontstaan_uit"
+    "belast_met_zakelijkerechten": {
+      "source_mapping": {
+        "bronwaarde": "is_belast_met.zrt_identificatie"
+      }
     },
-    "betrokken_bij": {
-      "source_mapping": "betrokken_bij"
+    "ontstaan_uit_zakelijkerechten": {
+      "source_mapping": {
+        "bronwaarde": "ontstaan_uit.zrt_identificatie"
+      }
+    },
+    "betrokken_bij_zakelijkerechten": {
+      "source_mapping": {
+        "bronwaarde": "betrokken_bij.zrt_identificatie"
+      }
     },
     "is_beperkt_tot": {
       "source_mapping": "isbeperkt_tot"
     },
-    "rust_op": {
+    "rust_op_kadastraalobject": {
       "source_mapping": {
-        "bronwaarde": "rust_op_kadastraalobject_source_id"
+        "bronwaarde": "rust_op_kadastraal_object_identificatie"
       }
     },
     "appartementsrechtsplitsingidentificatie": {
