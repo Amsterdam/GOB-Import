@@ -17,8 +17,15 @@ class TestReader(unittest.TestCase):
         }
         self.app = "Any app"
 
+    def dataset(self):
+        return {
+            "gob_mapping": {},
+            "catalogue": "test_catalogue",
+            "entity": "test_entity"
+        }
+
     def test_constructor(self):
-        reader = Reader(self.source, self.app)
+        reader = Reader(self.source, self.app, self.dataset())
         self.assertEqual(reader.app, self.app)
         self.assertEqual(reader.source, self.source)
         self.assertEqual(reader._connection, None)
@@ -34,7 +41,7 @@ class TestReader(unittest.TestCase):
             ('gobimport.reader.connect_to_postgresql', 'postgres'),
         ]
 
-        reader = Reader(self.source, self.app)
+        reader = Reader(self.source, self.app, self.dataset())
         for connect_type in test_connect_types:
              with mock.patch(connect_type[0]) as mock_connect:
                  mock_connect.return_value = (mock.MagicMock, 'user')
@@ -60,7 +67,7 @@ class TestReader(unittest.TestCase):
             ('gobimport.reader.query_postgresql', 'postgres'),
         ]
 
-        reader = Reader(self.source, self.app)
+        reader = Reader(self.source, self.app, self.dataset())
         reader._connection = "any connection"
 
         for read_type in test_read_types:

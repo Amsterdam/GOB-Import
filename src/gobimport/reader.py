@@ -77,6 +77,12 @@ class Reader:
                 row[attr] = read_protect(row[attr])
         return row
 
+    def _query(self, query):
+        if self.secure_attributes:
+            for result in query:
+                yield self._protect_row(result)
+        else:
+            yield from query
 
     def read(self):
         """Read the data from the data source
@@ -98,8 +104,4 @@ class Reader:
         else:
             raise NotImplementedError
 
-        if self.secure_attributes:
-            for result in query:
-                yield self._protect_row(result)
-        else:
-            yield from query
+        return self._query(query)
