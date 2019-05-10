@@ -195,4 +195,4 @@ def _extract_field(row, metadata, typeinfo):
             # Apply any filters to the raw value
             value = _apply_filters(value, metadata["filters"])
 
-    return gob_type.from_value(value, **kwargs)
+    return gob_type.from_value_secure(value, typeinfo, **kwargs)
