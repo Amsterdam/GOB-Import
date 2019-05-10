@@ -120,7 +120,7 @@ class ImportClient:
 
     def import_rows(self, write, progress):
         logger.info(f"Connect to {self.source_app}")
-        reader = Reader(self.source, self.source_app)
+        reader = Reader(self.source, self.source_app, self.dataset)
         reader.connect()
 
         logger.info(f"Start import from {self.source_app}")
