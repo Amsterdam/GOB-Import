@@ -1,6 +1,8 @@
 import unittest
+from unittest import mock
 
-from gobimport.converter import _apply_filters, _extract_references, _is_object_reference
+from gobcore.model import GOBModel
+from gobimport.converter import _apply_filters, _extract_references, _is_object_reference, Converter
 from tests.fixtures import random_string
 
 
@@ -112,3 +114,27 @@ class TestConverter(unittest.TestCase):
             "another_col": row["ref_col"][1]["another_col"],
         }]
         self.assertEqual(expected_result, result)
+
+    @mock.patch("gobimport.converter.GOBModel", mock.MagicMock(spec=GOBModel))
+    def test_convert(self):
+        row = {
+            "id": random_string(),
+            "name": random_string(),
+            "col": random_string(),
+            "ref_col": [{
+                "ref_attr": random_string(),
+                "other_ref_attr": random_string(),
+                "other_col": random_string(),
+                "another_col": random_string(),
+            }, {
+                "ref_attr": random_string(),
+                "other_ref_attr": random_string(),
+                "other_col": random_string(),
+                "another_col": random_string(),
+            }],
+        }
+        converter = Converter("catalog", "entity", {
+            "gob_mapping": {}
+        })
+        result = converter.convert(row)
+        self.assertEqual(result, {"_source_id": mock.ANY})
