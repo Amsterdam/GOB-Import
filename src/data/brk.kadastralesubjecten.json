@@ -5,7 +5,7 @@
   "source": {
     "name": "AMSBI",
     "application": "GOBPrepare",
-    "entity_id": "identificatie",
+    "entity_id": "nrn_sjt_id",
     "type": "postgres",
     "schema": "GOBPrepare",
     "query": [
@@ -74,6 +74,9 @@
     ]
   },
   "gob_mapping": {
+    "id": {
+      "source_mapping": "nrn_sjt_id"
+    },
     "identificatie": {
       "source_mapping": "identificatie"
     },

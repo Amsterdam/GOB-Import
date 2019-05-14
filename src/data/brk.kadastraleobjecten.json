@@ -53,6 +53,9 @@
     ]
   },
   "gob_mapping": {
+    "id": {
+      "source_mapping": "nrn_kot_id"
+    },
     "identificatie": {
       "source_mapping": "brk_kot_id"
     },

@@ -32,6 +32,9 @@
     ]
   },
   "gob_mapping": {
+    "id": {
+      "source_mapping": "nrn_tng_id"
+    },
     "identificatie": {
       "source_mapping": "brk_tng_id"
     },
