@@ -1,0 +1,63 @@
+{
+  "version": "0.1",
+  "catalogue": "brk",
+  "entity": "aantekeningenrechten",
+  "source": {
+    "name": "AMSBI",
+    "application": "GOBPrepare",
+    "entity_id": "identificatie",
+    "type": "postgres",
+    "schema": "GOBPrepare",
+    "query": [
+      "SELECT",
+      "   brk_atg_id                    AS identificatie,",
+      "   nrn_atg_id,",
+      "   atg_aardaantekening_code,",
+      "   atg_aardaantekening_oms,",
+      "   atg_omschrijving,",
+      "   atg_einddatum,",
+      "   brk_sjt_ids,",
+      "   nrn_tng_ids,",
+      "   nrn_sdl_ids,",
+      "   toestandsdatum,",
+      "   expiration_date",
+      "FROM brk_prep.aantekening_recht"
+    ]
+  },
+  "gob_mapping": {
+    "id": {
+      "source_mapping": "nrn_atg_id"
+    },
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "aard": {
+      "source_mapping": {
+        "code": "atg_aardaantekening_code",
+        "omschrijving": "atg_aardaantekening_oms"
+      }
+    },
+    "omschrijving": {
+      "source_mapping": "atg_omschrijving"
+    },
+    "betrokken_tenaamstelling": {
+      "source_mapping": {
+        "bronwaarde": "nrn_tng_ids.nrn_tng_id"
+      }
+    },
+    "heeft_betrokken_persoon": {
+      "source_mapping": {
+        "bronwaarde": "brk_sjt_ids.brk_sjt_id"
+      }
+    },
+    "is_gebaseerd_op_stukdeel": {
+      "source_mapping": {
+        "bronwaarde": "nrn_sdl_ids.nrn_sdl_id"
+      }
+    },
+    "einddatum": {
+      "source_mapping": "expiration_date"
+    }
+  }
+}
+
