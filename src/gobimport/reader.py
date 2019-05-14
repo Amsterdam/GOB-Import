@@ -40,7 +40,7 @@ class Reader:
 
         catalogue = dataset['catalogue']
         entity = dataset['entity']
-        gob_attributes = GOBModel().get_collection(catalogue, entity)["attributes"]
+        gob_attributes = GOBModel().get_collection(catalogue, entity)["all_fields"]
 
         self.secure_attributes = []
         for maps_on, map_spec in mapping.items():

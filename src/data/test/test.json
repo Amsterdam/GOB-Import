@@ -2,6 +2,7 @@
   "version": "0.1",
   "catalogue": "test_catalogue",
   "entity": "test_entity",
+  "min_rows": 0,
   "source": {
     "name": "test",
     "application": "TEST",
