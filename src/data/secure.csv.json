@@ -1,0 +1,41 @@
+{
+  "version": "0.1",
+  "catalogue": "test_catalogue",
+  "entity": "secure",
+  "source": {
+    "name": "AMSBI",
+    "application": "Basisinformatie",
+    "entity_id": "id",
+    "type": "objectstore",
+    "file_filter": "secure/secure.csv",
+    "file_type": "CSV",
+    "delimiter": ",",
+    "encoding": "Latin-1",
+    "operators": ["lowercase_keys"]
+  },
+  "gob_mapping": {
+    "id": {
+      "source_mapping": "id"
+    },
+    "secure_string": {
+      "source_mapping": "sec_string"
+    },
+    "secure_number": {
+      "source_mapping": "sec_number"
+    },
+    "secure_datetime": {
+      "source_mapping": "sec_datetime",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "string": {
+      "source_mapping": "string"
+    },
+    "number": {
+      "source_mapping": "number"
+    },
+    "datetime": {
+      "source_mapping": "datetime",
+      "format": "%Y-%m-%d %H:%M:%S"
+    }
+  }
+}

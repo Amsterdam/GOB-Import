@@ -26,7 +26,8 @@
       "   asg_app_rechtsplitstype_oms,",
       "   asg_einddatum,",
       "   asg_actueel,",
-      "   concat(rust_op_kadastraalobject_id || '.' || rust_op_kadastraalobj_volgnr) as rust_op_kadastraalobject_source_id,",
+      "   rust_op_kadastraalobject_id,",
+      "   rust_op_kadastraalobj_volgnr,",
       "   kadastraal_object_id as rust_op_kadastraal_object_identificatie,",
       "   zrt_einddatum,",
       "   zrt_begindatum,",
@@ -36,7 +37,7 @@
     ]
   },
   "gob_mapping": {
-    "_nrn_id": {
+    "id": {
       "source_mapping": "id"
     },
     "identificatie": {
