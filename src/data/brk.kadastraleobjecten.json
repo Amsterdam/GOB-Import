@@ -48,7 +48,8 @@
       "   ST_AsText(perceelnummer_geometrie) AS perceelnummer_geometrie,           -- plaatscoordinaten",
       "   ST_AsText(bijpijling_geometrie) AS bijpijling_geometrie,",
       "   relatie_g_perceel,",
-      "   adressen",
+      "   adressen,",
+      "   ontstaan_uit_kadastraalobject",
       "FROM brk_prep.kadastraal_object"
     ]
   },
@@ -159,12 +160,17 @@
     },
     "is_ontstaan_uit_g_perceel": {
       "source_mapping": {
-        "bronwaarde": "relatie_g_perceel"
+        "bronwaarde": "relatie_g_perceel.brk_kot_id"
       }
     },
     "heeft_een_relatie_met_verblijfsobject": {
       "source_mapping": {
         "bronwaarde": "adressen.bag_id"
+      }
+    },
+    "is_ontstaan_uit_kadastraalobject": {
+      "source_mapping": {
+        "bronwaarde": "ontstaan_uit_kadastraalobject.brk_kot_id"
       }
     }
   }
