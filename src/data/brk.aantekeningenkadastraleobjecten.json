@@ -1,0 +1,75 @@
+{
+  "version": "0.1",
+  "catalogue": "brk",
+  "entity": "aantekeningenkadastraleobjecten",
+  "source": {
+    "name": "AMSBI",
+    "application": "GOBPrepare",
+    "entity_id": "brk_atg_id",
+    "type": "postgres",
+    "schema": "GOBPrepare",
+    "query": [
+      "SELECT",
+      "   brk_atg_id,",
+      "   nrn_atg_id,",
+      "   atg_aardaantekening_code,",
+      "   atg_aardaantekening_oms,",
+      "   atg_omschrijving,",
+      "   atg_einddatum,",
+      "   brk_kot_id,",
+      "   nrn_kot_id,",
+      "   nrn_kot_volgnr as volgnummer,",
+      "   brk_sjt_ids,",
+      "   nrn_sdl_ids,",
+      "   toestandsdatum,",
+      "   expiration_date,",
+      "   begindatum",
+      "FROM brk_prep.aantekening_kadastraal_object"
+    ]
+  },
+  "gob_mapping": {
+    "id": {
+      "source_mapping": "nrn_atg_id"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "begin_geldigheid": {
+      "source_mapping": "begindatum"
+    },
+    "eind_geldigheid": {
+      "source_mapping": "expiration_date"
+    },
+    "identificatie": {
+      "source_mapping": "brk_atg_id"
+    },
+    "aard": {
+      "source_mapping": {
+        "code": "atg_aardaantekening_code",
+        "omschrijving": "atg_aardaantekening_oms"
+      }
+    },
+    "omschrijving": {
+      "source_mapping": "atg_omschrijving"
+    },
+    "heeft_betrokken_persoon": {
+      "source_mapping": {
+        "bronwaarde": "brk_sjt_ids.brk_sjt_id"
+      }
+    },
+    "heeft_betrekking_op_kadastraal_object": {
+      "source_mapping": {
+        "bronwaarde": "brk_kot_id"
+      }
+    },
+    "is_gebaseerd_op_stukdeel": {
+      "source_mapping": {
+        "bronwaarde": "nrn_sdl_ids.nrn_sdl_id"
+      }
+    },
+    "einddatum": {
+      "source_mapping": "expiration_date"
+    }
+  }
+}
+
