@@ -35,6 +35,9 @@ class ImportClient:
     This class serves as the main client for which the import can be configured in a dataset.json
 
     """
+
+    n_rows = 0
+
     def __init__(self, dataset, msg):
         self.init_dataset(dataset)
 
