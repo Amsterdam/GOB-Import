@@ -35,6 +35,9 @@ class ImportClient:
     This class serves as the main client for which the import can be configured in a dataset.json
 
     """
+
+    n_rows = 0
+
     def __init__(self, dataset, msg):
         self.init_dataset(dataset)
 
@@ -183,7 +186,7 @@ class ImportClient:
                     "data": {
                         "error": str(e),  # Include a short error description,
                         "row number": self.n_rows,
-                        self.source_id: self.row[self.source_id]
+                        self.source_id: self.row[self.source_id] if self.row else "",
                     }
                 })
 
