@@ -68,7 +68,7 @@
         "bronwaarde": "atg_ids.brk_atg_id"
       }
     },
-    "is_bron_voor_zakelijk_recht_ontstaan_uit_appartementsrechtsplitsing": {
+    "is_bron_voor_zakelijk_recht": {
       "source_mapping": {
         "bronwaarde": "zrt_ids.brk_zrt_id"
       }

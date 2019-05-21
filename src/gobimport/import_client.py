@@ -186,7 +186,7 @@ class ImportClient:
                     "data": {
                         "error": str(e),  # Include a short error description,
                         "row number": self.n_rows,
-                        self.source_id: self.row[self.source_id]
+                        self.source_id: self.row[self.source_id] if self.row else "",
                     }
                 })
 
