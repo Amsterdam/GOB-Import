@@ -1,0 +1,109 @@
+{
+  "version": "0.1",
+  "catalogue": "brk",
+  "entity": "stukdelen",
+  "source": {
+    "name": "AMSBI",
+    "application": "GOBPrepare",
+    "entity_id": "nrn_sdl_id",
+    "type": "postgres",
+    "schema": "GOBPrepare",
+    "query": [
+      "SELECT",
+      "   brk_sdl_id,",
+      "   nrn_sdl_id,",
+      "   sdl_aard_stukdeel_code,",
+      "   sdl_aard_stukdeel_oms,",
+      "   sdl_koopsom,",
+      "   sdl_koopsom_valuta,",
+      "   brk_stk_id,",
+      "   nrn_stk_id,",
+      "   stk_akr_portefeuillenr,",
+      "   stk_tijdstip_aanbieding,",
+      "   stk_reeks_code,",
+      "   stk_volgnummer,",
+      "   stk_registercode_code,",
+      "   stk_registercode_oms,",
+      "   stk_soortregister_code,",
+      "   stk_soortregister_oms,",
+      "   stk_deel_soort,",
+      "   tng_ids,",
+      "   atg_ids,",
+      "   zrt_ids,",
+      "   toestandsdatum",
+      "FROM brk_prep.stukdeel"
+    ]
+  },
+  "gob_mapping": {
+    "id": {
+      "source_mapping": "nrn_sdl_id"
+    },
+    "identificatie": {
+      "source_mapping": "brk_sdl_id"
+    },
+    "aard": {
+      "source_mapping": {
+        "code": "sdl_aard_stukdeel_code",
+        "omschrijving": "sdl_aard_stukdeel_oms"
+      }
+    },
+    "bedrag_transactie": {
+      "source_mapping": {
+        "bedrag": "sdl_koopsom",
+        "valuta": "sdl_koopsom_valuta"
+      }
+    },
+    "is_bron_voor_tenaamstelling": {
+      "source_mapping": {
+        "bronwaarde": "tng_ids.nrn_tng_id"
+      }
+    },
+    "is_bron_voor_aantekening_kadastraal_object": {
+      "source_mapping": {
+        "bronwaarde": "atg_ids.brk_atg_id"
+      }
+    },
+    "is_bron_voor_aantekening_recht": {
+      "source_mapping": {
+        "bronwaarde": "atg_ids.brk_atg_id"
+      }
+    },
+    "is_bron_voor_zakelijk_recht_ontstaan_uit_appartementsrechtsplitsing": {
+      "source_mapping": {
+        "bronwaarde": "zrt_ids.brk_zrt_id"
+      }
+    },
+    "stukidentificatie": {
+      "source_mapping": {
+        "bronwaarde": "brk_stk_id"
+      }
+    },
+    "portefeuillenummer_akr": {
+      "source_mapping": "stk_akr_portefeuillenr"
+    },
+    "tijdstip_aanbieding_stuk": {
+      "source_mapping": "stk_tijdstip_aanbieding"
+    },
+    "reeks": {
+      "source_mapping": "stk_reeks_code"
+    },
+    "volgnummer_stuk": {
+      "source_mapping": "stk_volgnummer"
+    },
+    "registercode_stuk": {
+      "source_mapping": {
+        "code": "stk_registercode_code",
+        "omschrijving": "stk_registercode_oms"
+      }
+    },
+    "soort_register_stuk": {
+      "source_mapping": {
+        "code": "stk_soortregister_code",
+        "omschrijving": "stk_soortregister_oms"
+      }
+    },
+    "deel_soort_stuk": {
+      "source_mapping": "stk_deel_soort"
+    }
+  }
+}
