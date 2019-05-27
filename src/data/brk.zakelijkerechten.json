@@ -19,7 +19,9 @@
       "   is_belast_met,",
       "   belast,",
       "   ontstaan_uit,",
+      "   ontstaan_uit_ref,",
       "   betrokken_bij,",
+      "   betrokken_bij_ref,",
       "   isbeperkt_tot,",
       "   nrn_asg_id,",
       "   asg_app_rechtsplitstype_code,",
@@ -67,10 +69,16 @@
         "bronwaarde": "ontstaan_uit.zrt_identificatie"
       }
     },
+    "ontstaan_uit_appartementsrechtsplitsing": {
+      "source_mapping": "ontstaan_uit_ref"
+    },
     "betrokken_bij_zakelijkerechten": {
       "source_mapping": {
         "bronwaarde": "betrokken_bij.zrt_identificatie"
       }
+    },
+    "betrokken_bij_appartementsrechtsplitsing": {
+      "source_mapping": "betrokken_bij_ref"
     },
     "is_beperkt_tot": {
       "source_mapping": "isbeperkt_tot"
@@ -81,7 +89,7 @@
       }
     },
     "appartementsrechtsplitsingidentificatie": {
-      "source_mapping": "nrn_asg_id"
+      "source_mapping": "ontstaan_uit_ref"
     },
     "appartementsrechtsplitsingtype": {
       "source_mapping": {
