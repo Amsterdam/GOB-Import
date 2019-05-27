@@ -1,0 +1,2 @@
+,integer,decimal,character,string,date,point,boolean,json,datetime,polygon,geometry,reference
+,11,11.2,b,id 1,02-01-2001,POINT (11.2 12.3),N,"{ ""str"": ""b"", ""array"": [11, 12, 13], ""bool"": false, ""null"": null}",2019-02-22T14:37:30.025457,"POLYGON (( 1.0 1.0,  1.0  1.0,  1.0 1.0,  1.0 1.0))",POINT (3 3),refid 2
