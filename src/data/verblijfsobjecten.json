@@ -108,7 +108,7 @@
 "    -- selecteren pand(en)",
 "    LEFT OUTER JOIN (SELECT q.verblijfseenheid_id",
 "                     ,      q.verblijfseenheidvolgnummer",
-"                     ,      listagg(q.gebouwnummer || '|' ||q.gebouwvolgnummer, ';') WITHIN GROUP (ORDER BY q.verblijfseenheid_id, q.verblijfseenheidvolgnummer) AS pandidentificatie",
+"                     ,      listagg(q.gebouwnummer, ';') WITHIN GROUP (ORDER BY q.verblijfseenheid_id, q.verblijfseenheidvolgnummer) AS pandidentificatie",
 "                     FROM  (SELECT vg.verblijfseenheid_id",
 "                            ,      vg.verblijfseenheidvolgnummer",
 "                            ,      g.gebouw_id",
