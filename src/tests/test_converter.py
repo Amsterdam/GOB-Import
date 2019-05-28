@@ -1,8 +1,9 @@
 import unittest
 from unittest import mock
 
+from decimal import Decimal
 from gobcore.model import GOBModel
-from gobimport.converter import _apply_filters, _extract_references, _is_object_reference, Converter
+from gobimport.converter import _apply_filters, _extract_references, _is_object_reference, Converter, _json_safe_value
 from tests.fixtures import random_string
 
 
@@ -114,6 +115,38 @@ class TestConverter(unittest.TestCase):
             "another_col": row["ref_col"][1]["another_col"],
         }]
         self.assertEqual(expected_result, result)
+
+    @mock.patch("gobimport.converter._json_safe_value", lambda x: 'safe ' + x)
+    @mock.patch("gobimport.converter._get_value", lambda x, y: x[y])
+    def test_extract_references_not_many(self):
+        row = {
+            "rowkey a": "val a",
+            "rowkey b": "val b",
+        }
+        field_source = {
+            "key a": "rowkey a",
+            "key b": "rowkey b"
+        }
+        field_type = "GOB.JSON"
+
+        expected_result = {
+            'key a': 'safe val a',
+            'key b': 'safe val b',
+        }
+
+        self.assertEqual(expected_result, _extract_references(row, field_source, field_type))
+
+    def test_json_safe_value(self):
+        testcases = [
+            ("abc", "abc"),
+            (12, 12),
+            (12.2, 12.2),
+            (None, None),
+            (Decimal(1.5), "1.5")
+        ]
+
+        for arg, result in testcases:
+            self.assertEqual(result, _json_safe_value(arg))
 
     @mock.patch("gobimport.converter.GOBModel", mock.MagicMock(spec=GOBModel))
     def test_convert(self):
