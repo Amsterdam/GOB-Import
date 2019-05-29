@@ -8,6 +8,7 @@ Todo:
 """
 import re
 
+from decimal import Decimal
 from gobcore.typesystem import get_gob_type, get_value
 from gobcore.model import GOBModel
 from gobcore.exceptions import GOBException
@@ -132,6 +133,18 @@ def _get_value(row, field):
         return row[field]
 
 
+def _json_safe_value(value):
+    """
+    Transforms value to a type that is safe for JSON serialisation.
+
+    :param value:
+    :return:
+    """
+    if isinstance(value, Decimal):
+        return str(value)
+    return value
+
+
 def _extract_references(row, field_source, field_type):   # noqa: C901
     # If we can expect multiple references create an array of dicts
     if field_type == 'GOB.ManyReference':
@@ -160,7 +173,8 @@ def _extract_references(row, field_source, field_type):   # noqa: C901
                     except IndexError:
                         value.append({attribute: v})
     else:
-        value = {attribute: _get_value(row, source_mapping) for attribute, source_mapping in field_source.items()}
+        value = {attribute: _json_safe_value(_get_value(row, source_mapping))
+                 for attribute, source_mapping in field_source.items()}
 
     return value
 
