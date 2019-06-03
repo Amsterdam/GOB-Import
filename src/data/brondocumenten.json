@@ -10,7 +10,6 @@
     "schema": "Decos",
     "query": [
 "    SELECT b.subject2                                          AS documentnummer",
-"    ,      regexp_substr(b.subject2, '^(.*?)_', 1, 1, NULL, 1) AS dossier",
 "    ,      UPPER(substr(b.subject2, 1, 2))                     AS bronleverancier_code",
 "    ,      CASE UPPER(substr(b.subject2, 1, 2))",
 "            WHEN 'SA' THEN 'Stadsdeel Centrum'",
@@ -89,16 +88,12 @@
 "    WHERE  d.item_deleted IS NULL",
 "    AND    b.item_deleted IS NULL",
 "    AND    b.subject2 IS NOT NULL",
-"    AND    UPPER(substr(b.subject1, 8, 2)) IN ('GV', 'MB', 'PC', 'RO', 'SA', 'SB', 'SC', 'SD', 'SE', 'SF', 'SG', 'SH', 'SJ', 'SK', 'SM', 'SN', 'SP', 'SQ', 'SR', 'ST', 'SU', 'SV', 'SW', 'TM')",
-"    AND b.subject2 NOT IN ('MB00000896_RB13ML.pdf', 'MB00000608_RB17ML.pdf')"
+"    AND    UPPER(substr(b.subject1, 8, 2)) IN ('GV', 'MB', 'PC', 'RO', 'SA', 'SB', 'SC', 'SD', 'SE', 'SF', 'SG', 'SH', 'SJ', 'SK', 'SM', 'SN', 'SP', 'SQ', 'SR', 'ST', 'SU', 'SV', 'SW', 'TM')"
     ]
   },
   "gob_mapping": {
     "documentnummer": {
       "source_mapping": "documentnummer"
-    },
-    "dossier": {
-      "source_mapping": "dossier"
     },
     "bronleverancier": {
       "source_mapping": {
