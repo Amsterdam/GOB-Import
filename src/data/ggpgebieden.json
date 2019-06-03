@@ -9,6 +9,10 @@
     "type": "objectstore",
     "file_filter": "gebieden/GGW_praktijkgebieden/GGP\\.xlsx$",
     "file_type": "XLS",
+    "depends_on": {
+      "catalogue": "gebieden",
+      "entity": "buurten"
+    },
     "enrich": {
       "identificatie": {
         "type": "autoid",
