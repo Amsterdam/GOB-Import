@@ -126,7 +126,7 @@
     "documentnummer": {
       "source_mapping": "documentnummer"
     },
-    "heeft_brondocumenten": {
+    "heeft_dossier": {
       "source_mapping": {
         "bronwaarde": "dossier"
       }
