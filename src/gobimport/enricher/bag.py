@@ -22,23 +22,12 @@ class BAGEnricher(Enricher):
         self.multiple_values_logged = False
 
         super().__init__(app_name, catalogue_name, entity_name, methods={
-            "woonplaatsen": self.enrich_woonplaats,
-            "openbareruimtes": self.enrich_openbareruimte,
             "nummeraanduidingen": self.enrich_nummeraanduiding,
-            "ligplaatsen": self.enrich_ligplaats,
-            "standplaatsen": self.enrich_standplaats,
             "verblijfsobjecten": self.enrich_verblijfsobject,
-            "panden": self.enrich_pand,
+            "dossiers": self.enrich_dossier,
         })
 
-    def enrich_woonplaats(self, woonplaats):
-        _extract_dossier(woonplaats)
-
-    def enrich_openbareruimte(self, openbareruimte):
-        _extract_dossier(openbareruimte)
-
     def enrich_nummeraanduiding(self, nummeraanduiding):
-        _extract_dossier(nummeraanduiding)
 
         # ligt_in_woonplaats can have multiple values, use the last value and log a warning
         bronwaarde = nummeraanduiding['ligt_in_bag_woonplaats']
@@ -57,17 +46,10 @@ class BAGEnricher(Enricher):
                 logger.warning(msg, extra_data)
                 self.multiple_values_logged = True
 
-    def enrich_ligplaats(self, ligplaats):
-        _extract_dossier(ligplaats)
-
-    def enrich_standplaats(self, standplaats):
-        _extract_dossier(standplaats)
-
-    def enrich_pand(self, pand):
-        _extract_dossier(pand)
+    def enrich_dossier(self, dossier):
+        dossier['heeft_bag_brondocument'] = dossier['heeft_bag_brondocument'].split(";")
 
     def enrich_verblijfsobject(self, verblijfsobject):
-        _extract_dossier(verblijfsobject)
 
         gebruiksdoelen = verblijfsobject['gebruiksdoel'].split(";")
         verblijfsobject['gebruiksdoel'] = []
@@ -86,15 +68,6 @@ class BAGEnricher(Enricher):
 
         if verblijfsobject['pandidentificatie']:
             verblijfsobject['pandidentificatie'] = verblijfsobject['pandidentificatie'].split(";")
-
-
-def _extract_dossier(entity):
-    """Extract dossier into an array in the entity
-
-    :param entity: an imported entity
-    :return:
-    """
-    entity['dossier'] = entity['dossier'].split(";")
 
 
 def _extract_code_tables(entity, fields):

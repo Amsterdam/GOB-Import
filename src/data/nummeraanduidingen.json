@@ -217,7 +217,7 @@
         "bronwaarde": "adresseert_bag_standplaats"
       }
     },
-    "heeft_brondocumenten": {
+    "heeft_dossier": {
       "source_mapping": {
         "bronwaarde": "dossier"
       }

@@ -95,7 +95,7 @@
       "source_mapping": "eind_geldigheid",
       "format": "%Y-%m-%d %H:%M:%S"
     },
-    "heeft_brondocumenten": {
+    "heeft_dossier": {
       "source_mapping": {
         "bronwaarde": "dossier"
       }

@@ -126,7 +126,7 @@
     "beschrijving_naam": {
       "source_mapping": "beschrijving_naam"
     },
-    "heeft_brondocumenten": {
+    "heeft_dossier": {
       "source_mapping": {
         "bronwaarde": "dossier"
       }
