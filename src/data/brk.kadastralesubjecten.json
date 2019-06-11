@@ -69,7 +69,8 @@
       "   post_buitenland_regio,",
       "   post_buitenland_naam,",
       "   post_buitenland_code,",
-      "   post_buitenland_oms",
+      "   post_buitenland_oms,",
+      "   expiration_date",
       "FROM brk_prep.kadastraal_subject"
     ]
   },
@@ -218,6 +219,10 @@
         "postcode": "postbus_postcode",
         "woonplaatsnaam": "postbus_woonplaatsnaam"
       }
+    },
+    "_expiration_date": {
+      "source_mapping": "expiration_date",
+      "format": "%Y-%m-%d %H:%M:%S"
     }
   }
 }
