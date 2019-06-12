@@ -56,6 +56,9 @@
       }
     },
     "einddatum": {
+      "source_mapping": "atg_einddatum"
+    },
+    "_expiration_date": {
       "source_mapping": "expiration_date"
     }
   }
