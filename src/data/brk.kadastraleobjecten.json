@@ -131,6 +131,9 @@
         "y": "perceelnummer_verschuiving_y"
       }
     },
+    "bijpijling_geometrie": {
+      "source_mapping": "bijpijling_geometrie"
+    },
     "indicatie_voorlopige_geometrie": {
       "source_mapping": "ind_voorlopige_kadgrens"
     },
