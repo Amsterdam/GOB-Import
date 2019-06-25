@@ -25,6 +25,8 @@ class BAGEnricher(Enricher):
             "nummeraanduidingen": self.enrich_nummeraanduiding,
             "verblijfsobjecten": self.enrich_verblijfsobject,
             "dossiers": self.enrich_dossier,
+            "ligplaatsen": self.extract_nevenadressen,
+            "standplaatsen": self.extract_nevenadressen,
         })
 
     def enrich_nummeraanduiding(self, nummeraanduiding):
@@ -51,6 +53,8 @@ class BAGEnricher(Enricher):
 
     def enrich_verblijfsobject(self, verblijfsobject):
 
+        self.extract_nevenadressen(verblijfsobject)
+
         gebruiksdoelen = verblijfsobject['gebruiksdoel'].split(";")
         verblijfsobject['gebruiksdoel'] = []
         for gebruiksdoel in gebruiksdoelen:
@@ -68,6 +72,15 @@ class BAGEnricher(Enricher):
 
         if verblijfsobject['pandidentificatie']:
             verblijfsobject['pandidentificatie'] = verblijfsobject['pandidentificatie'].split(";")
+
+    def extract_nevenadressen(self, entity):
+        """Extract multiple nevenadressen
+
+        :param entity: an imported entity
+        :return:
+        """
+        if entity['nummeraanduidingid_neven']:
+            entity['nummeraanduidingid_neven'] = entity['nummeraanduidingid_neven'].split(";")
 
 
 def _extract_code_tables(entity, fields):
