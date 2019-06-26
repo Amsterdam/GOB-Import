@@ -32,7 +32,8 @@ class TestBAGEnrichment(unittest.TestCase):
                 'gebruiksdoel_woonfunctie': '01|doel1',
                 'gebruiksdoel_gezondheidszorg': '01|doel1',
                 'toegang': '01|doel1',
-                'pandidentificatie': "1234;5678"
+                'pandidentificatie': "1234;5678",
+                'nummeraanduidingid_neven': "1234;5678"
             }
         ]
         enricher = BAGEnricher("app", "bag", "verblijfsobjecten")
@@ -44,6 +45,7 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['gebruiksdoel_gezondheidszorg'],{'code': '01', 'omschrijving': 'doel1'})
         self.assertEqual(entities[0]['toegang'],[{'code': '01', 'omschrijving': 'doel1'}])
         self.assertEqual(entities[0]['pandidentificatie'],['1234', '5678'])
+        self.assertEqual(entities[0]['nummeraanduidingid_neven'],['1234', '5678'])
 
     def test_enrich_dossiers(self):
         entities = [

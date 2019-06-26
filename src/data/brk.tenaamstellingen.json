@@ -88,6 +88,9 @@
       "source_mapping": {
         "bronwaarde": "gebaseerdop_stukdeel_id"
       }
+    },
+    "_expiration_date": {
+      "source_mapping": "einddatum"
     }
   }
 }
