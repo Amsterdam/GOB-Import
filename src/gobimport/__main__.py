@@ -3,7 +3,7 @@
 This component imports data sources
 """
 from gobcore.exceptions import GOBException
-from gobcore.message_broker.config import WORKFLOW_EXCHANGE, IMPORT_QUEUE, RESULT_QUEUE
+from gobcore.message_broker.config import WORKFLOW_EXCHANGE, IMPORT_QUEUE, IMPORT_RESULT_KEY
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 
 from gobimport.import_client import ImportClient
@@ -80,14 +80,11 @@ def handle_import_msg(msg):
 
 SERVICEDEFINITION = {
     'import_request': {
-        'exchange': WORKFLOW_EXCHANGE,
         'queue': IMPORT_QUEUE,
-        'key': "import.start",
         'handler': handle_import_msg,
         'report': {
             'exchange': WORKFLOW_EXCHANGE,
-            'queue': RESULT_QUEUE,
-            'key': 'import.result'
+            'key': IMPORT_RESULT_KEY,
         }
     }
 }
