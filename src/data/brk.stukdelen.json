@@ -31,6 +31,7 @@
       "   art_ids,",
       "   akt_ids,",
       "   zrt_ids,",
+      "   expiration_date,",
       "   toestandsdatum",
       "FROM brk_prep.stukdeel"
     ]
@@ -41,6 +42,9 @@
     },
     "identificatie": {
       "source_mapping": "brk_sdl_id"
+    },
+    "_expiration_date": {
+      "source_mapping": "expiration_date"
     },
     "aard": {
       "source_mapping": {
