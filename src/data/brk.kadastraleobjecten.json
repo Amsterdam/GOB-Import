@@ -41,6 +41,7 @@
       "   creation AS begin_geldigheid,",
       "   modification,",
       "   einddatum AS eind_geldigheid,",
+      "   expiration_date AS expiration_date,",
       "   ST_AsText(geometrie) AS geometrie,                        -- geometrie",
       "   perceelnummer_rotatie,            -- perceelnummer_rotatie",
       "   perceelnummer_verschuiving_x,     -- perceelnummer_verschuiving",
@@ -59,6 +60,9 @@
     },
     "identificatie": {
       "source_mapping": "brk_kot_id"
+    },
+    "_expiration_date": {
+      "source_mapping": "expiration_date"
     },
     "aangeduid_door_gemeente": {
       "source_mapping": {
