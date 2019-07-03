@@ -19,7 +19,7 @@ def _build_dataset_locations_mapping():
     :return:
     """
     # Init 3-dimensional dict
-    result = defaultdict(lambda: defaultdict(lambda: defaultdict(str)))
+    result = defaultdict(lambda: defaultdict(dict))
 
     for file in os.listdir(DATASET_DIR):
         filepath = DATASET_DIR + file
@@ -35,10 +35,27 @@ def _build_dataset_locations_mapping():
     return result
 
 
-def get_dataset_file_location(catalogue: str, collection: str, application: str):
+def get_dataset_file_location(catalogue: str, collection: str, application: str = None):
+    """Returns the dataset file location for the given catalogue, collection, application combination. Application may
+    be omitted when there is only one application available for given catalogue and collection.
+
+    :param catalogue:
+    :param collection:
+    :param application:
+    :return:
+    """
     try:
-        return dataset_locations_mapping[catalogue][collection][application]
-    except KeyError:
+        if not application:
+            applications = dataset_locations_mapping[catalogue][collection]
+
+            if len(applications.keys()) > 1:
+                raise GOBException(f"Multiple applications found for catalogue, collection combination: "
+                                   f"{catalogue}, {collection}. Please specify the application.")
+
+            return next(iter(applications.values()))
+        else:
+            return dataset_locations_mapping[catalogue][collection][application]
+    except (KeyError, IndexError, StopIteration):
         raise GOBException(f"No dataset found for catalogue, collection, application combination: "
                            f"{catalogue}, {collection}, {application}")
 

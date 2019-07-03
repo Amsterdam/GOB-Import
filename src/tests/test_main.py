@@ -2,8 +2,7 @@ from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
 from gobcore.exceptions import GOBException
-from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION, extract_dataset_from_msg,\
-    _extract_dataset_variable
+from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION, extract_dataset_from_msg
 
 
 class TestMain(TestCase):
@@ -32,66 +31,41 @@ class TestMain(TestCase):
         mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg)
         mock_import_client_instance.import_dataset.assert_called_once()
 
-    def test_extract_dataset_variable_str(self):
-        dataset = "somedataset.json"
-        self.assertEqual(dataset, _extract_dataset_variable(dataset))
-
     @patch("gobimport.__main__.get_dataset_file_location")
-    def test_extract_dataset_variable_dict(self, mock_get_dataset_file_location):
-        dataset = {
-            'catalogue': 'somecatalogue',
-            'collection': 'somecollection',
-            'application': 'someapplication',
-        }
-        mock_get_dataset_file_location.return_value = 'returned_dataset_location.json'
-        result = _extract_dataset_variable(dataset)
-        self.assertEqual(mock_get_dataset_file_location.return_value, result)
-        mock_get_dataset_file_location.assert_called_with("somecatalogue", "somecollection", "someapplication")
-
-    def test_extract_dataset_variable_dict_invalid(self):
-        valid_dataset = {
-            'catalogue': 'somecatalogue',
-            'collection': 'somecollection',
-            'application': 'someapplication',
+    def test_extract_dataset_from_msg(self, mock_dataset_file_location):
+        msg = {
+            'header': {
+                'catalogue': 'cat',
+                'collection': 'coll',
+                'application': 'app'
+            }
         }
 
-        for k in valid_dataset.keys():
-            invalid_dataset = { key: valid_dataset[key] for key in valid_dataset.keys() if key is not k }
+        result = extract_dataset_from_msg(msg)
+        self.assertEqual(mock_dataset_file_location.return_value, result)
 
-            with self.assertRaisesRegexp(GOBException, 'Missing dataset keys'):
-                _extract_dataset_variable(invalid_dataset)
+        mock_dataset_file_location.assert_called_with('cat', 'coll', 'app')
 
-    def test_extract_dataset_variable_invalid_type(self):
-        with self.assertRaisesRegexp(GOBException, 'Dataset of invalid type'):
-            _extract_dataset_variable([])
+        msg = {
+            'header': {
+                'catalogue': 'cat',
+                'collection': 'coll'
+            }
+        }
 
-    @patch("gobimport.__main__._extract_dataset_variable")
-    def test_extract_dataset_from_msg(self, mock_extract_dataset_variable):
-        testcases = [
-            (
-                {
-                    "dataset": "dataset1.json",
-                    "contents": {
-                        "dataset": "dataset2.json"
-                    },
-                },
-                "dataset1.json",
-                "Data set file in message root should have priority",
-            ),
-            (
-                {
-                    "contents": {
-                        "dataset": "dataset2.json"
-                    },
-                },
-                "dataset2.json",
-                "Data set in contents should have second priority",
-            )
+        extract_dataset_from_msg(msg)
+        mock_dataset_file_location.assert_called_with('cat', 'coll', None)
+
+    def test_extract_dataset_missing_keys(self):
+        cases = [
+            {'catalogue': 'cat'},
+            {'collection': 'col'},
+            {},
         ]
 
-        for message, result, error_message in testcases:
-            extract_dataset_from_msg(message)
-            mock_extract_dataset_variable.assert_called_with(result)
+        for case in cases:
+            with self.assertRaises(GOBException):
+                extract_dataset_from_msg({'header': case})
 
     @patch("gobimport.__main__.messagedriven_service")
     def test_main_entry(self, mock_messagedriven_service):

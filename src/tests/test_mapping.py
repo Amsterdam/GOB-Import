@@ -19,20 +19,36 @@ class TestMapping(TestCase):
                 "application_a": "cat_a_col_b_app_a.json",
             },
         },
-        "catalogue_b":{
+        "catalogue_b": {
             "collection_b": {
                 "application_a": "cat_b_col_b_app_a.json",
             },
         },
+        "catalogue_c": {
+            "collection_a": {
+                "application_a": "cat_c_col_a_app_a.json",
+                "application_b": "cat_c_col_a_app_b.json",
+            }
+        }
     }
 
     @patch("gobimport.mapping.dataset_locations_mapping", mock_locations_mapping)
-    def test_get_dataset_file_location(self):
+    def test_get_dataset_file_location_explicit_application(self):
         self.assertEqual(self.mock_locations_mapping["catalogue_b"]["collection_b"]["application_a"],
                          get_dataset_file_location("catalogue_b", "collection_b", "application_a"))
 
         with self.assertRaisesRegexp(GOBException, "No dataset found"):
             get_dataset_file_location("catalogue_b", "collection_c_non_existent", "application_a")
+
+    @patch("gobimport.mapping.dataset_locations_mapping", mock_locations_mapping)
+    def test_get_dataset_file_location_implicit_application(self):
+        self.assertEqual(self.mock_locations_mapping["catalogue_b"]["collection_b"]["application_a"],
+                         get_dataset_file_location("catalogue_b", "collection_b"))
+
+    @patch("gobimport.mapping.dataset_locations_mapping", mock_locations_mapping)
+    def test_get_dataset_file_location_implicit_ambiguous_applications(self):
+        with self.assertRaisesRegexp(GOBException, "Multiple applications"):
+            get_dataset_file_location("catalogue_c", "collection_a")
 
     def defaultdict_to_dict(self, o):
         if isinstance(o, defaultdict):
@@ -63,6 +79,7 @@ class TestMapping(TestCase):
 
         result = _build_dataset_locations_mapping()
         self.assertEqual(expected_result, self.defaultdict_to_dict(result))
+
 
     @patch("gobimport.mapping.get_mapping")
     @patch("gobimport.mapping.os")
