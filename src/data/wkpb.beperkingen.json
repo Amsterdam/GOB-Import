@@ -1,0 +1,145 @@
+{
+  "version": "0.1",
+  "catalogue": "wkpb",
+  "entity": "beperkingen",
+  "source": {
+    "name": "AMSBI",
+    "application": "Neuron",
+    "entity_id": "identificatie",
+    "type": "oracle",
+    "schema": "Neuron",
+    "query": [
+      "SELECT b.registernummer                                       AS identificatie --inschrijfnummer",
+      ",      b.volgnummer                                           AS volgnummer",
+      ",      t.code                                                 AS beperking_code",
+      ",      t.naam                                                 AS beperking_omschrijving",
+      ",      to_char(b.datum_bekendmaking, 'YYYY-MM-DD')            AS datum_bekendmaking",
+      ",      nvl(to_char(b.datum_inwerking, 'YYYY-MM-DD HH24:MI:SS'), to_char(b.creation, 'YYYY-MM-DD HH24:MI:SS')) AS begingeldigheid",
+      ",      nvl(to_char(b.modification, 'YYYY-MM-DD HH24:MI:SS'), to_char(b.datum_einde, 'YYYY-MM-DD HH24:MI:SS')) AS eindgeldigheid",
+      ",      s.id                                                   AS status_code",
+      ",      s.naam                                                 AS status_omschrijving",
+      ",      a.id                                                   AS aard_code",
+      ",      a.naam                                                 AS aard_omschrijving",
+      ",      x.registernummer                                       AS heeft_voorgaande_beperking",
+      ",      b.kenmerk                                              AS documentnummer",
+      ",      TRIM(NVL(regexp_substr(substr(b.kenmerk, 1, 21), '^(.*?)_', 1, 1, NULL, 1), substr(b.kenmerk, 1, 21))) AS heeft_dossier",
+      ",      o.id                                                   AS orgaan_code",
+      ",      o.naam                                                 AS orgaan_omschrijving",
+      ",      b.afschermenpersoonsgegevens                           AS persoonsgegevens_afschermen",
+      ",      q.belast_kadastraal_object                             AS belast_brk_kadastraal_object",
+      ",      to_char(b.creation, 'YYYY-MM-DD HH24:MI:SS')           AS registratiedatum",
+      ",      nvl2(b.datum_einde, to_char(b.datum_einde, 'YYYY-MM-DD HH24:MI:SS')",
+      "           , CASE",
+      "             WHEN b.id_status IN (4, 5) OR b.id_aard IN (3) THEN to_char(b.datum_inwerking, 'YYYY-MM-DD HH24:MI:SS')",
+      "             ELSE to_char(b.modification, 'YYYY-MM-DD HH24:MI:SS')",
+      "             END",
+      "       )                                                      AS expirationdate",
+      ",      b.id                                                   AS source_id",
+      ",      sdo_util.to_wktgeometry(b.geometrie)                   AS geometrie",
+      "FROM   prb.beperking              b",
+      "-- type beperking selecteren",
+      "LEFT OUTER JOIN prb.beperkingtype t ON b.id_beperkingtype = t.id",
+      "-- status selecteren",
+      "LEFT OUTER JOIN prb.status        s ON b.id_status = s.id",
+      "-- aard selecteren",
+      "LEFT OUTER JOIN prb.aard          a ON b.id_aard = a.id",
+      "-- orgaan selecteren",
+      "LEFT OUTER JOIN prb.orgaan        o ON b.id_orgaan = o.id",
+      "-- registernummer van voorgaande beperking selecteren",
+      "LEFT OUTER JOIN prb.beperking     x ON b.id_voorgaande_beperking = x.id AND b.volgnummer = x.volgnummer",
+      "-- beperkte kadastrale objecten selecteren",
+      "LEFT OUTER JOIN (SELECT b1.id",
+      "                   ,      b1.volgnummer",
+      "                   ,      rtrim( xmlcast( xmlagg( xmlelement(e, CASE WHEN p.gemcod IS NOT NULL THEN p.gemcod || '|' || p.sectie || '|' || p.pnum || '|' || p.objindl || '|' || p.objindn || ';' ELSE NULL END) ORDER BY b1.id, b1.volgnummer) as clob), ';') AS belast_kadastraal_object",
+      "                   FROM   prb.beperking                  b1",
+      "                   LEFT OUTER JOIN prb.beperking_perceel p ON  b1.id = p.id_beperking",
+      "                                                   AND b1.volgnummer BETWEEN p.begin_volgnummer AND CASE p.einde_volgnummer WHEN 0 THEN 9999 ELSE p.einde_volgnummer END",
+      "                   WHERE b1.registernummer IS NOT NULL",
+      "                   AND b1.id != 3488",
+      "                   GROUP BY b1.id, b1.volgnummer) q ON q.id = b.id",
+      "                                                  AND q.volgnummer = b.volgnummer",
+      "WHERE b.registernummer IS NOT NULL",
+      "--AND   s.id IN (3,5)",
+      "AND   b.registernummer NOT IN (7210)"
+    ]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "begin_geldigheid": {
+      "source_mapping": "begingeldigheid",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "eind_geldigheid": {
+      "source_mapping": "eindgeldigheid",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "beperking": {
+      "source_mapping": {
+        "code": "beperking_code",
+        "omschrijving": "beperking_omschrijving"
+      }
+    },
+    "datum_bekendmaking": {
+      "source_mapping": "datum_bekendmaking"
+    },
+    "status": {
+      "source_mapping": {
+        "code": "status_code",
+        "omschrijving": "status_omschrijving"
+      }
+    },
+    "aard": {
+      "source_mapping": {
+        "code": "aard_code",
+        "omschrijving": "aard_omschrijving"
+      }
+    },
+    "orgaan": {
+      "source_mapping": {
+        "code": "orgaan_code",
+        "omschrijving": "orgaan_omschrijving"
+      }
+    },
+    "heeft_dossier": {
+      "source_mapping": {
+        "bronwaarde": "heeft_dossier"
+      }
+    },
+    "heeft_voorgaande_beperking": {
+      "source_mapping": {
+        "bronwaarde": "heeft_voorgaande_beperking"
+      }
+    },
+    "documentnummer": {
+      "source_mapping": "documentnummer"
+    },
+    "persoonsgegevens_afschermen": {
+      "source_mapping": "persoonsgegevens_afschermen",
+      "format": "JN"
+    },
+    "registratiedatum": {
+      "source_mapping": "registratiedatum",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "belast_kadastrale_objecten": {
+      "source_mapping": {
+        "bronwaarde": "belast_brk_kadastraal_object"
+      }
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "_source_id": {
+      "source_mapping": "source_id"
+    }
+  }
+}
