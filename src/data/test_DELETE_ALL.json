@@ -1,0 +1,61 @@
+{
+  "version": "0.1",
+  "catalogue": "test_catalogue",
+  "entity": "test_entity",
+  "min_rows": 0,
+  "source": {
+    "name": "test",
+    "application": "DELETE_ALL",
+    "entity_id": "string",
+    "type": "file",
+    "config": {
+      "filename": "test/test_DELETE_ALL.csv",
+      "filetype": "CSV",
+      "separator": ",",
+      "encoding": "UTF-8"
+    }
+  },
+  "gob_mapping": {
+    "string": {
+      "source_mapping": "string"
+    },
+    "character": {
+      "source_mapping": "character"
+    },
+    "decimal": {
+      "source_mapping": "decimal"
+    },
+    "integer": {
+      "source_mapping": "integer"
+    },
+    "point": {
+      "source_mapping": "point"
+    },
+    "date": {
+      "source_mapping": "date",
+      "format": "%m-%d-%Y"
+    },
+    "boolean": {
+      "source_mapping": "boolean",
+      "format": "JN"
+    },
+    "json": {
+      "source_mapping": "json"
+    },
+    "datetime": {
+      "source_mapping": "datetime"
+    },
+    "polygon": {
+      "source_mapping": "polygon"
+    },
+    "geometry": {
+      "source_mapping": "geometry"
+    },
+    "reference": {
+      "source_mapping": {
+        "_id": "reference",
+        "bronwaarde": "reference"
+      }
+    }
+  }
+}
