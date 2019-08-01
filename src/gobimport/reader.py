@@ -13,9 +13,17 @@ from gobcore.database.connector import (
     connect_to_objectstore,
     connect_to_file,
     connect_to_oracle,
-    connect_to_postgresql
+    connect_to_postgresql,
+    connect_to_wfs
 )
-from gobcore.database.reader import query_database, query_objectstore, query_file, query_oracle, query_postgresql
+from gobcore.database.reader import (
+    query_database,
+    query_objectstore,
+    query_file,
+    query_oracle,
+    query_postgresql,
+    query_wfs
+)
 from gobimport.config import get_database_config, get_objectstore_config
 
 
@@ -50,7 +58,7 @@ class Reader:
 
         self._connection = None
 
-    def connect(self):
+    def connect(self):  # noqa: C901
         """The first step of every import is a technical step. A connection need to be setup to
         connect to a database, filesystem, API, ...
 
@@ -66,6 +74,8 @@ class Reader:
             self._connection, user = connect_to_objectstore(get_objectstore_config(self.source['application']))
         elif self.source['type'] == "postgres":
             self._connection, user = connect_to_postgresql(get_database_config(self.source['application']))
+        elif self.source['type'] == "wfs":
+            self._connection, user = connect_to_wfs(self.source['url'])
         else:
             raise NotImplementedError
 
@@ -84,7 +94,7 @@ class Reader:
         else:
             yield from query
 
-    def read(self):
+    def read(self):  # noqa: C901
         """Read the data from the data source
 
         :return: iterable dataset
@@ -101,6 +111,8 @@ class Reader:
             query = query_objectstore(self._connection, self.source)
         elif self.source['type'] == "postgres":
             query = query_postgresql(self._connection, self.source["query"])
+        elif self.source['type'] == "wfs":
+            query = query_wfs(self._connection)
         else:
             raise NotImplementedError
 

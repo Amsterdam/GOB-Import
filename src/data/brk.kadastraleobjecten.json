@@ -14,7 +14,7 @@
       "   nrn_kot_id,",
       "   source_id,                        -- alias for nrn_kot_id",
       "   nrn_kot_volgnr AS volgnummer,",
-      "   brg_gemeente_id,                  -- burgerlijke gemeente code",
+      "   LPAD(brg_gemeente_id::text, 4, '0') AS brg_gemeente_id, -- burgerlijke gemeente code",
       "   brg_gemeente_oms,                 -- gemeente/burgerlijke gemeente omschrijving",
       "   kad_gemeentecode,                 -- kadastrale gemeente id",
       "   kad_gemeente_oms,                 -- kadastrale gemeente omschrijving",
