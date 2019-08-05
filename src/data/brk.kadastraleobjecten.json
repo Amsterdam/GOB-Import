@@ -14,7 +14,7 @@
       "   nrn_kot_id,",
       "   source_id,                        -- alias for nrn_kot_id",
       "   nrn_kot_volgnr AS volgnummer,",
-      "   brg_gemeente_id,                  -- burgerlijke gemeente code",
+      "   LPAD(brg_gemeente_id::text, 4, '0') AS brg_gemeente_id, -- burgerlijke gemeente code",
       "   brg_gemeente_oms,                 -- gemeente/burgerlijke gemeente omschrijving",
       "   kad_gemeentecode,                 -- kadastrale gemeente id",
       "   kad_gemeente_oms,                 -- kadastrale gemeente omschrijving",
@@ -24,6 +24,7 @@
       "   perceelnummer,                    -- perceelnummer",
       "   index_letter,                     -- indexletter",
       "   index_nummer,                     -- indexnummer",
+      "   kadastralegemeente_code || sectie || LPAD(perceelnummer::text, 5, '0') || index_letter || LPAD(index_nummer::text, 4, '0') AS kadastrale_aanduiding,",
       "   soortgrootte_code,                -- soort_grootte",
       "   soortgrootte_oms,                 -- soort_grootte",
       "   kadgrootte,                       -- grootte",
@@ -98,6 +99,9 @@
     },
     "gemeente": {
       "source_mapping": "brg_gemeente_oms"
+    },
+    "kadastrale_aanduiding": {
+      "source_mapping": "kadastrale_aanduiding"
     },
     "soort_grootte": {
       "source_mapping": {

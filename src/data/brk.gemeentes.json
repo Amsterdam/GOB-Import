@@ -1,0 +1,23 @@
+{
+  "version": "0.1",
+  "catalogue": "brk",
+  "entity": "gemeentes",
+  "source": {
+    "name": "Kadaster",
+    "application": "PDOK",
+    "entity_id": "id",
+    "type": "wfs",
+    "url": "https://geodata.nationaalgeoregister.nl/bestuurlijkegrenzen/wfs?service=WFS&request=getfeature&typename=gemeenten&outputFormat=application/json"
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "code"
+    },
+    "naam": {
+      "source_mapping": "gemeentenaam"
+    },
+    "geometrie": {
+      "source_mapping": "geometry"
+    }
+  }
+}
