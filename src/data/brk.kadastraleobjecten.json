@@ -77,7 +77,7 @@
     },
     "aangeduid_door_kadastralegemeentecode": {
       "source_mapping": {
-        "bronwaarde": "akrkadgemcode_code"
+        "bronwaarde": "kadastralegemeente_code"
       }
     },
     "aangeduid_door_kadastralesectie": {
