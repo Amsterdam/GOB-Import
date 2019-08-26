@@ -72,7 +72,7 @@
     },
     "aangeduid_door_kadastralegemeente": {
       "source_mapping": {
-        "bronwaarde": "kad_gemeentecode"
+        "bronwaarde": "kad_gemeente_oms"
       }
     },
     "aangeduid_door_kadastralegemeentecode": {
