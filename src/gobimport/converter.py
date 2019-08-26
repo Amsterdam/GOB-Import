@@ -11,6 +11,7 @@ import re
 from decimal import Decimal
 from gobcore.typesystem import get_gob_type, get_value
 from gobcore.model import GOBModel
+from gobcore.model.metadata import FIELD
 from gobcore.exceptions import GOBException
 
 
@@ -179,6 +180,43 @@ def _extract_references(row, field_source, field_type):   # noqa: C901
     return value
 
 
+def _clean_references(value):
+    """
+    Cleans the references to return a dict with bronwaarde and broninfo
+
+    :param value: The reference or manyreference
+    :return: the cleaned reference
+    """
+    if isinstance(value, list):
+        cleaned_value = []
+        for v in value:
+            cleaned_value.append(_extract_source_info(v))
+    else:
+        cleaned_value = _extract_source_info(value)
+    return cleaned_value
+
+
+def _extract_source_info(value):
+    """
+    Extracts broninfo from the references
+
+    :param value: The reference
+    :return: the cleaned reference
+    """
+    # Move all attributes to source info if it's not the source value
+    source_value = {FIELD.SOURCE_VALUE: value[FIELD.SOURCE_VALUE]} if FIELD.SOURCE_VALUE in value else {}
+    source_info = {k: v for k, v in value.items() if k != FIELD.SOURCE_VALUE}
+
+    # Only add broninfo if there are additional fields
+    if len(source_info.keys()) == 0:
+        return {**source_value}
+    else:
+        return {
+            **source_value,
+            FIELD.SOURCE_INFO: source_info
+        }
+
+
 def _extract_field(row, metadata, typeinfo):
     """
     Extract a field from a row given the corresponding metadata
@@ -199,6 +237,10 @@ def _extract_field(row, metadata, typeinfo):
         value = _extract_references(row, field_source, field_type)
     else:
         value = _get_value(row, field_source)
+
+    # Clean all references
+    if field_type in ('GOB.Reference', 'GOB.ManyReference'):
+        value = _clean_references(value)
 
     if "filters" in metadata:
         # If we are dealing with a dict, apply filters to the correct attribute
