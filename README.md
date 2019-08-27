@@ -16,19 +16,6 @@ Importing data consists of the following steps:
 A running [GOB infrastructure](https://github.com/Amsterdam/GOB-Infra)
 is required to run this component.
 
-# Examples
-
-For the meetbouten catalog, example files have been added to be able to run
-the import process without a connection to external database or other source.
-
-These files have been added in the example folder and can be used to import
-the following collections:
-
-- meetbouten
-- metingen
-- rerentiepunten
-- rollagen
-
 # Docker
 
 ## Requirements
@@ -41,9 +28,6 @@ the following collections:
 ```bash
 docker-compose build
 docker-compose up &
-
-# Start a single import (requires VPN connection)
-docker exec gobworkflow python -m gobworkflow.start import data/metingen.json
 ```
 
 ## Tests
@@ -77,22 +61,18 @@ source venv/bin/activate
 
 # Run
 
-Start the service:
+Optional: Set environment if GOB-Import should connect to secure data sources:
 
 ```bash
 export $(cat .env | xargs)  # Copy from .env.example if missing
+```
+
+Start the service:
+
+```bash
 cd src
 python -m gobimport
 ```
-
-Start a single import in another window:
-
-```bash
-cd ../GOB/GOB-Workflow/src
-# Start a single import (requires VPN connection)
-python -m gobworkflow.start import data/metingen.json
-```
-
 
 ## Tests
 
@@ -102,3 +82,9 @@ Run the tests:
 cd src
 sh test.sh
 ```
+
+# Remarks
+
+## Trigger imports
+
+Imports are triggered by the GOB-Workflow module. See the GOB-Workflow README for more details
