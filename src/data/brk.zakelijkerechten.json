@@ -54,6 +54,9 @@
     "eind_geldigheid": {
       "source_mapping": "zrt_einddatum"
     },
+    "_expiration_date": {
+      "source_mapping": "zrt_einddatum"
+    },
     "belast_zakelijkerechten": {
       "source_mapping": {
         "bronwaarde": "belast.zrt_identificatie"
@@ -69,16 +72,20 @@
         "bronwaarde": "ontstaan_uit.zrt_identificatie"
       }
     },
-    "ontstaan_uit_appartementsrechtsplitsing": {
-      "source_mapping": "ontstaan_uit_ref"
+    "ontstaan_uit_appartementsrechtsplitsing_vve": {
+      "source_mapping": {
+        "bronwaarde": "ontstaan_uit_ref"
+      }
     },
     "betrokken_bij_zakelijkerechten": {
       "source_mapping": {
         "bronwaarde": "betrokken_bij.zrt_identificatie"
       }
     },
-    "betrokken_bij_appartementsrechtsplitsing": {
-      "source_mapping": "betrokken_bij_ref"
+    "betrokken_bij_appartementsrechtsplitsing_vve": {
+      "source_mapping": {
+        "bronwaarde": "betrokken_bij_ref"
+      }
     },
     "is_beperkt_tot": {
       "source_mapping": "isbeperkt_tot"
