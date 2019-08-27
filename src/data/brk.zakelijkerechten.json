@@ -54,6 +54,9 @@
     "eind_geldigheid": {
       "source_mapping": "zrt_einddatum"
     },
+    "_expiration_date": {
+      "source_mapping": "zrt_einddatum"
+    },
     "belast_zakelijkerechten": {
       "source_mapping": {
         "bronwaarde": "belast.zrt_identificatie"
