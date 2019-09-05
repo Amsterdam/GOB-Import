@@ -14,17 +14,15 @@
       "   nrn_kot_id,",
       "   source_id,                        -- alias for nrn_kot_id",
       "   nrn_kot_volgnr AS volgnummer,",
-      "   LPAD(brg_gemeente_id::text, 4, '0') AS brg_gemeente_id, -- burgerlijke gemeente code",
-      "   brg_gemeente_oms,                 -- gemeente/burgerlijke gemeente omschrijving",
-      "   kad_gemeentecode,                 -- kadastrale gemeente id",
-      "   kad_gemeente_oms,                 -- kadastrale gemeente omschrijving",
-      "   akrkadgemcode_code,               -- kadastrale gemeentecode identificatie",
-      "   kadastralegemeente_code,          -- kadastrale gemeentecode code",
+      "   kad_gemeente,",
+      "   brg_gemeente,",
+      "   kad_gemeentecode,",
+      "   brg_gemeente_oms,",
       "   sectie,                           -- kadastrale sectie",
       "   perceelnummer,                    -- perceelnummer",
       "   index_letter,                     -- indexletter",
       "   index_nummer,                     -- indexnummer",
-      "   kadastralegemeente_code || sectie || LPAD(perceelnummer::text, 5, '0') || index_letter || LPAD(index_nummer::text, 4, '0') AS kadastrale_aanduiding,",
+      "   kadastrale_aanduiding,",
       "   soortgrootte_code,                -- soort_grootte",
       "   soortgrootte_oms,                 -- soort_grootte",
       "   kadgrootte,                       -- grootte",
@@ -67,17 +65,17 @@
     },
     "aangeduid_door_gemeente": {
       "source_mapping": {
-        "bronwaarde": "brg_gemeente_id"
+        "bronwaarde": "brg_gemeente.code"
       }
     },
     "aangeduid_door_kadastralegemeente": {
       "source_mapping": {
-        "bronwaarde": "kad_gemeente_oms"
+        "bronwaarde": "kad_gemeente.code"
       }
     },
     "aangeduid_door_kadastralegemeentecode": {
       "source_mapping": {
-        "bronwaarde": "kadastralegemeente_code"
+        "bronwaarde": "kad_gemeentecode.code"
       }
     },
     "aangeduid_door_kadastralesectie": {
