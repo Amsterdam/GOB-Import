@@ -146,6 +146,30 @@ class TestConverter(unittest.TestCase):
         }]
         self.assertEqual(expected_result, result)
 
+    def test_extract_references_singleref_objectref(self):
+        row = {
+            "id": random_string(),
+            "name": random_string(),
+            "ref_col": {
+                "a": random_string(),
+                "b": random_string(),
+                "c": random_string(),
+            }
+        }
+        field_source = {
+            "bronwaarde": "ref_col.b"
+        }
+        field_type = "GOB.Reference"
+
+        result = _extract_references(row, field_source, field_type)
+        expected_value = {
+            "a": row["ref_col"]["a"],
+            "b": row["ref_col"]["b"],
+            "c": row["ref_col"]["c"],
+            "bronwaarde": row["ref_col"]["b"]
+        }
+        self.assertEqual(expected_value, result)
+
     def test_clean_reference(self):
         reference = {
             'bronwaarde': random_string(),
