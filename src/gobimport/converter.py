@@ -174,8 +174,23 @@ def _extract_references(row, field_source, field_type):   # noqa: C901
                     except IndexError:
                         value.append({attribute: v})
     else:
-        value = {attribute: _json_safe_value(_get_value(row, source_mapping))
-                 for attribute, source_mapping in field_source.items()}
+        value = {}
+
+        for attribute, source_mapping in field_source.items():
+            source_value = _json_safe_value(_get_value(row, source_mapping))
+
+            if _is_object_reference(source_mapping) and source_value:
+                if not value:
+                    value = {**source_value}
+
+                column, attr = _split_object_reference(source_mapping)
+
+                if not isinstance(source_value, dict):
+                    raise GOBException("References should be dicts when referencing by attribute")
+
+                value[attribute] = source_value[attr]
+            else:
+                value[attribute] = source_value
 
     return value
 
