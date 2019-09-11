@@ -34,7 +34,8 @@
       "   zrt_einddatum,",
       "   zrt_begindatum,",
       "   kot_status_code,",
-      "   toestandsdatum",
+      "   toestandsdatum,",
+      "   expiration_date",
       "FROM brk_prep.zakelijk_recht"
     ]
   },
@@ -55,7 +56,7 @@
       "source_mapping": "zrt_einddatum"
     },
     "_expiration_date": {
-      "source_mapping": "zrt_einddatum"
+      "source_mapping": "expiration_date"
     },
     "belast_zakelijkerechten": {
       "source_mapping": {
@@ -121,9 +122,6 @@
     },
     "toestandsdatum": {
       "source_mapping": "toestandsdatum"
-    },
-    "einddatum": {
-      "source_mapping": "zrt_einddatum"
     }
   }
 }
