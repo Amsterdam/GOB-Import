@@ -24,7 +24,7 @@ node {
 
     stage('Test') {
         tryStep "test", {
-            sh "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml build && " +
+            sh "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml build --no-cache && " +
                "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml run -u root --rm test"
 
         }, {
@@ -36,6 +36,7 @@ node {
         tryStep "build", {
             docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
                 def image = docker.build("datapunt/gob_import_client:${env.BUILD_NUMBER}",
+                    "--no-cache " +
                     "--build-arg http_proxy=${JENKINS_HTTP_PROXY_STRING} " +
                     "--build-arg https_proxy=${JENKINS_HTTP_PROXY_STRING} " +
                     "--shm-size 1G " +
