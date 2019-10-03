@@ -9,7 +9,7 @@
     "type": "oracle",
     "schema": "dgdialog",
     "query": [
-"    SELECT t.guid                                          AS identificatie",
+"    SELECT SUBSTR(t.guid, 2, LENGTH(t.guid) - 2)           AS identificatie",
 "    ,      q.volgnummer                                    AS volgnummer",
 "    ,      to_char(t.inwin, 'YYYY-MM-DD')                  AS begin_geldigheid",
 "    ,      to_char(t.verval, 'YYYY-MM-DD')                 AS eind_geldigheid",
