@@ -17,7 +17,7 @@
 "    ,      t.id                                            AS source_id",
 "    ,      to_char(t.verval, 'YYYY-MM-DD HH24:MI:SS')      AS expirationdate",
 "    ,      t.nivo                                          AS relatieve_hoogteligging",
-"    ,      to_char(sdo_util.to_wktgeometry(t.geometrie))   AS geometrie",
+"    ,      to_char(sdo_util.to_wktgeometry(SDO_UTIL.SIMPLIFY(t.geometrie, 0.05)))   AS geometrie",
 "    FROM   bgt.dgdtw_topografie t",
 "    JOIN  (SELECT t1.id",
 "           ,      t1.guid",
