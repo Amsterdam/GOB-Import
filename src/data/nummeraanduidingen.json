@@ -144,8 +144,7 @@
 "      GROUP BY sa.standplaats_id",
 "    ,        sa.adres_id",
 "    ,        sp.standplaatsnummer) q5 ON a.adres_id = q5.adres_id",
-"      WHERE  a.indauthentiek = 'J'",
-"and rownum < 100"
+"      WHERE  a.indauthentiek = 'J'"
     ]
   },
   "gob_mapping": {
