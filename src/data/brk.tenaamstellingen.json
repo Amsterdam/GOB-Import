@@ -91,6 +91,9 @@
     },
     "_expiration_date": {
       "source_mapping": "einddatum"
+    },
+    "toestandsdatum": {
+      "source_mapping": "toestandsdatum"
     }
   }
 }
