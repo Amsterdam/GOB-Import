@@ -1,0 +1,61 @@
+{
+  "version": "0.1",
+  "catalogue": "bgt",
+  "entity": "overbouw",
+  "source": {
+    "name": "AMSBI",
+    "application": "DGDialog",
+    "entity_id": "source_id",
+    "type": "oracle",
+    "schema": "dgdialog",
+    "query": [
+"    SELECT SUBSTR(t.guid, 2, LENGTH(t.guid) - 2)                                    AS identificatie",
+"    ,      q.volgnummer                                                             AS volgnummer",
+"    ,      to_char(t.inwin, 'YYYY-MM-DD')                                           AS begin_geldigheid",
+"    ,      to_char(t.verval, 'YYYY-MM-DD')                                          AS eind_geldigheid",
+"    ,      to_char(t.inwin, 'YYYY-MM-DD HH24:MI:SS')                                AS registratiedatum",
+"    ,      t.id                                                                     AS source_id",
+"    ,      to_char(t.verval, 'YYYY-MM-DD HH24:MI:SS')                               AS expirationdate",
+"    ,      t.nivo                                                                   AS relatieve_hoogteligging",
+"    ,      sdo_util.to_wktgeometry(SDO_UTIL.SIMPLIFY(t.geometrie, 0.05))            AS geometrie",
+"    FROM   bgt.dgdtw_topografie t",
+"    JOIN  (SELECT t1.id",
+"           ,      t1.guid",
+"           ,      dense_rank() OVER (partition BY t1.guid ORDER BY t1.inwin, t1.verval) AS volgnummer",
+"           FROM   bgt.dgdtw_topografie t1) q ON  t.id = q.id",
+"    WHERE t.objectcode = 612",
+"    AND   t.nivo       > 0 -- groter dan 0 overbouw"
+    ]
+  },
+  "gob_mapping": {
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "volgnummer": {
+      "source_mapping": "volgnummer"
+    },
+    "begin_geldigheid": {
+      "source_mapping": "begin_geldigheid"
+    },
+    "eind_geldigheid": {
+      "source_mapping": "eind_geldigheid"
+    },
+    "registratiedatum": {
+      "source_mapping": "registratiedatum",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "_source_id": {
+      "source_mapping": "source_id"
+    },
+    "_expiration_date": {
+      "source_mapping": "expirationdate",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "relatieve_hoogteligging": {
+      "source_mapping": "relatieve_hoogteligging"
+    },
+    "geometrie": {
+      "source_mapping": "geometrie"
+    }
+  }
+}
