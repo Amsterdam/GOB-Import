@@ -36,7 +36,7 @@
 "      JOIN   gebieden.dgdtw_table_6023 s ON t.id = s.dgdtw_primary_key",
 "      JOIN  (SELECT t1.id",
 "    ,      t1.guid",
-"    ,      dense_rank() OVER (partition BY s1.code ORDER BY t1.inwin) AS volgnummer",
+"    ,      dense_rank() OVER (partition BY t1.guid ORDER BY t1.inwin) AS volgnummer",
 "      FROM   gebieden.dgdtw_topografie t1",
 "      JOIN   gebieden.dgdtw_table_6023 s1 ON t1.id = s1.dgdtw_primary_key) q1 ON t.id = q1.id",
 "      WHERE  t.objectcode = 6023 --bouwblok",
