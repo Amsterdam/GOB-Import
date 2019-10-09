@@ -10,7 +10,7 @@
     "file_filter": "gebieden/Buurten/DIVA_gebieden_buurten.csv",
     "file_type": "CSV",
     "delimiter": ";",
-    "encoding": "Latin-1",
+    "encoding": "UTF-8",
     "operators": ["lowercase_keys"]
   },
   "gob_mapping": {

@@ -10,7 +10,7 @@
     "file_filter": "gebieden/Wijken/DIVA_gebieden_wijken.csv",
     "file_type": "CSV",
     "delimiter": ";",
-    "encoding": "Latin-1",
+    "encoding": "UTF-8",
     "operators": ["lowercase_keys"]
   },
   "gob_mapping": {
