@@ -194,7 +194,7 @@
     },
     "postadres": {
       "source_mapping": {
-        "addresseerbaar_object": "nrn_sps_aot_id",
+        "adresseerbaar_object": "nrn_sps_aot_id",
         "openbare_ruimte": "post_openbareruimtenaam",
         "huisnummer": "post_huisnummer",
         "huisletter": "post_huisletter",
