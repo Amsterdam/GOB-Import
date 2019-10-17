@@ -30,7 +30,7 @@
 "    ,      t.inwin                              AS registratiedatum",
 "    ,      t.guid                               AS source_id",
 "    ,      to_char(t.verval, 'YYYY-MM-DD HH24:MI:SS') AS expirationdate",
-"    ,      sdo_util.to_wktgeometry(t.geometrie) AS geometrie",
+"    ,      sdo_util.to_wktgeometry(SDO_UTIL.SIMPLIFY(t.geometrie, 0.05)) AS geometrie",
 "    ,      NULL                                 AS ligt_in_buurt",
 "      FROM   gebieden.dgdtw_topografie t",
 "      JOIN   gebieden.dgdtw_table_6023 s ON t.id = s.dgdtw_primary_key",
