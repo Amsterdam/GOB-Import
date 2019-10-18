@@ -18,6 +18,7 @@
       "   brg_gemeente,",
       "   kad_gemeentecode,",
       "   brg_gemeente_oms,",
+      "   kad_gemeentecode->>'omschrijving' || sectie AS kad_gemeentesectie,",
       "   sectie,                           -- kadastrale sectie",
       "   perceelnummer,                    -- perceelnummer",
       "   index_letter,                     -- indexletter",
@@ -70,17 +71,17 @@
     },
     "aangeduid_door_kadastralegemeente": {
       "source_mapping": {
-        "bronwaarde": "kad_gemeente.code"
+        "bronwaarde": "kad_gemeente.omschrijving"
       }
     },
     "aangeduid_door_kadastralegemeentecode": {
       "source_mapping": {
-        "bronwaarde": "kad_gemeentecode.code"
+        "bronwaarde": "kad_gemeentecode.omschrijving"
       }
     },
     "aangeduid_door_kadastralesectie": {
       "source_mapping": {
-        "bronwaarde": "sectie"
+        "bronwaarde": "kad_gemeentesectie"
       }
     },
     "volgnummer": {
