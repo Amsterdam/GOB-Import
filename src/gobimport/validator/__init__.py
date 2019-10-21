@@ -10,6 +10,8 @@ from enum import Enum
 import re
 
 from gobcore.exceptions import GOBException
+from gobcore.model import GOBModel
+from gobcore.model.metadata import FIELD
 from gobcore.logging.logger import logger
 
 
@@ -237,10 +239,11 @@ ENTITY_CHECKS = {
 
 class Validator:
 
-    def __init__(self, source_app, entity_name, source_id):
+    def __init__(self, source_app, entity_name, source_id, input_spec):
         self.source_app = source_app
         self.entity_name = entity_name
         self.source_id = source_id
+        self.input_spec = input_spec
 
         checks = ENTITY_CHECKS.get(entity_name, {})
         self.collection_qa = {f"num_invalid_{attr}": 0 for attr in checks.keys()}
@@ -289,8 +292,23 @@ class Validator:
             logger.info(msg, extra_info)
 
     def _validate_primary_key(self, entity):
-        id = f"{entity[self.source_id]}.{entity['volgnummer']}" if "volgnummer" in entity \
-            else entity[self.source_id]
+        """
+        Validate a primary key, this should be unique for source_id + seqnr if the collection has states
+
+        :param entity:
+        :return:
+        """
+
+        entity_has_states = GOBModel().has_states(self.input_spec['catalogue'], self.input_spec['entity'])
+
+        if entity_has_states:
+            # Volgnummer could be a different field in the source entity than FIELD.SEQNR
+            try:
+                seqnr_field = self.input_spec['gob_mapping'][FIELD.SEQNR]['source_mapping']
+            except KeyError:
+                seqnr_field = FIELD.SEQNR
+
+        id = f"{entity[self.source_id]}.{entity[seqnr_field]}" if entity_has_states else entity[self.source_id]
         if id is not None:
             # Only add ids that are not None, None id's can occur for imports of collections without ids
             if id not in self.primary_keys:

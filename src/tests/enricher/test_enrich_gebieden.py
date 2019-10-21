@@ -3,7 +3,7 @@ import unittest
 from unittest import mock
 
 from gobimport.enricher.gebieden import GebiedenEnricher, CBS_BUURTEN_API, CBS_WIJKEN_API
-from gobimport.enricher.gebieden import _volgnummer_from_date
+
 
 class MockResponse:
 
@@ -146,9 +146,6 @@ class TestGGWPEnricher(unittest.TestCase):
             }
         ]
 
-    def volgnummer(self, date_str):
-        return _volgnummer_from_date(date_str, "%Y-%m-%dT%H:%M:%S.%f")
-
     def test_enrich_ggwgebieden(self):
         ggwgebieden = [
             {
@@ -168,7 +165,6 @@ class TestGGWPEnricher(unittest.TestCase):
             {
                 "_IDENTIFICATIE": None,
                 "registratiedatum": "2020-01-20T12:30:30.12345",
-                "volgnummer": self.volgnummer("2020-01-20T12:30:30.12345"),
                 "GGW_BEGINDATUM": "YYYY-MM-DD",
                 "GGW_EINDDATUM": "YYYY-MM-DD",
                 "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
@@ -196,7 +192,6 @@ class TestGGWPEnricher(unittest.TestCase):
             {
                 "_IDENTIFICATIE": None,
                 "registratiedatum": "2020-01-20T12:30:30.12345",
-                "volgnummer": self.volgnummer("2020-01-20T12:30:30.12345"),
                 "GGP_BEGINDATUM": "YYYY-MM-DD",
                 "GGP_EINDDATUM": "YYYY-MM-DD",
                 "GGP_DOCUMENTDATUM": None,

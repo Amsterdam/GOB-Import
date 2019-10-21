@@ -78,7 +78,7 @@ class ImportClient:
 
         self.injector = Injector(self.source.get("inject"))
         self.enricher = Enricher(self.source_app, self.catalogue, self.entity)
-        self.validator = Validator(self.source_app, self.entity, self.source_id)
+        self.validator = Validator(self.source_app, self.entity, self.source_id, self.dataset)
         self.converter = Converter(self.catalogue, self.entity, self.dataset)
 
     def get_result_msg(self):
