@@ -38,7 +38,9 @@ class ImportClient:
 
     n_rows = 0
 
-    def __init__(self, dataset, msg):
+    def __init__(self, dataset, msg, mode):
+        self.mode = mode
+
         self.init_dataset(dataset)
 
         self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
@@ -60,7 +62,7 @@ class ImportClient:
 
         # Log start of import process
         logger.configure(msg, "IMPORT")
-        logger.info(f"Import dataset {self.entity} from {self.source_app} started")
+        logger.info(f"Import dataset {self.entity} from {self.source_app} (mode = {self.mode}) started")
 
     def init_dataset(self, dataset):
         self.dataset = dataset
@@ -128,7 +130,7 @@ class ImportClient:
 
         logger.info(f"Start import from {self.source_app}")
         self.n_rows = 0
-        for row in reader.read():
+        for row in reader.read(self.mode):
             progress.tick()
 
             self.row = row

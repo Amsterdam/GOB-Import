@@ -43,7 +43,9 @@ def handle_import_msg(msg):
     dataset = get_mapping(dataset_file)
 
     # Create a new import client and start the process
-    import_client = ImportClient(dataset=dataset, msg=msg)
+    header = msg.get('header', {})
+    mode = header.get('mode', 'full')
+    import_client = ImportClient(dataset=dataset, msg=msg, mode=mode)
     return import_client.import_dataset()
 
 
