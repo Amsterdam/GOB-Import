@@ -5,6 +5,8 @@ from sqlalchemy.engine.url import URL
 
 from gobcore.exceptions import GOBException
 
+FULL_IMPORT = "full"
+
 ORACLE_DRIVER = 'oracle+cx_oracle'
 POSTGRES_DRIVER = 'postgresql'
 

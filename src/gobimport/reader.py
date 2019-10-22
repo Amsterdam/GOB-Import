@@ -24,7 +24,7 @@ from gobcore.database.reader import (
     query_postgresql,
     query_wfs
 )
-from gobimport.config import get_database_config, get_objectstore_config
+from gobimport.config import get_database_config, get_objectstore_config, FULL_IMPORT
 
 
 class Reader:
@@ -101,8 +101,11 @@ class Reader:
         """
         assert self._connection is not None, "No connection, connect should succeed before read"
 
-        # The source query is the query, optionally populated with the mode (partial or full)
-        source_query = self.source["query"] + self.source.get(mode, [])
+        # The source query is the query
+        source_query = self.source["query"]
+        if mode != FULL_IMPORT:
+            # Optionally populated with the mode, eg partial, random, ...
+            source_query += self.source[mode]
 
         if self.source['type'] == "file":
             query = query_file(self._connection)
