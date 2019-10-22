@@ -27,6 +27,7 @@ from gobimport.merger import Merger
 from gobimport.validator import Validator
 from gobimport.enricher import Enricher
 from gobimport.entity_validator import EntityValidator
+from gobimport.config import FULL_IMPORT
 
 
 class ImportClient:
@@ -38,7 +39,7 @@ class ImportClient:
 
     n_rows = 0
 
-    def __init__(self, dataset, msg, mode):
+    def __init__(self, dataset, msg, mode=FULL_IMPORT):
         self.mode = mode
 
         self.init_dataset(dataset)

@@ -3,6 +3,7 @@ from unittest.mock import patch, MagicMock
 
 from gobcore.exceptions import GOBException
 from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION, extract_dataset_from_msg
+from gobimport.config import FULL_IMPORT
 
 
 class TestMain(TestCase):
@@ -28,7 +29,7 @@ class TestMain(TestCase):
         mock_extract_dataset.assert_called_with(self.mock_msg)
         mock_get_mapping.assert_called_with("dataset_file")
 
-        mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg)
+        mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg, mode=FULL_IMPORT)
         mock_import_client_instance.import_dataset.assert_called_once()
 
     @patch("gobimport.__main__.get_dataset_file_location")
