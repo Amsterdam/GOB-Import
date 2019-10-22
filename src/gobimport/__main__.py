@@ -8,6 +8,7 @@ from gobcore.message_broker.messagedriven_service import messagedriven_service
 
 from gobimport.import_client import ImportClient
 from gobimport.mapping import get_dataset_file_location, get_mapping
+from gobimport.config import FULL_IMPORT
 
 
 def extract_dataset_from_msg(msg):
@@ -44,7 +45,7 @@ def handle_import_msg(msg):
 
     # Create a new import client and start the process
     header = msg.get('header', {})
-    mode = header.get('mode', 'full')
+    mode = header.get('mode', FULL_IMPORT)
     import_client = ImportClient(dataset=dataset, msg=msg, mode=mode)
     return import_client.import_dataset()
 
