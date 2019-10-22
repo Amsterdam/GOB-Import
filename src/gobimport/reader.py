@@ -94,7 +94,7 @@ class Reader:
         else:
             yield from query
 
-    def read(self, mode):  # noqa: C901
+    def read(self, mode=FULL_IMPORT):  # noqa: C901
         """Read the data from the data source
 
         :return: iterable dataset
