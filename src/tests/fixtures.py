@@ -17,6 +17,11 @@ def get_valid_meetbouten():
         'publiceerbaar': random.choice(['1', '0']),
     }]
 
+def get_valid_entity_with_state():
+    return [{
+        'identificatie': random_string(8, ['0','1','2','3','4','5','6','7','8','9']),
+        'volgnummer': random_string(1, ['0','1','2','3','4','5','6','7','8','9'])
+    }]
 
 def get_fatal_meetbouten():
     return [{

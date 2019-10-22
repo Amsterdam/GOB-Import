@@ -2,7 +2,6 @@
 Gebieden enrichment
 
 """
-from datetime import datetime
 import requests
 
 from gobcore.logging.logger import logger
@@ -111,20 +110,9 @@ class GebiedenEnricher(Enricher):
         entity["BUURTEN"] = entity["BUURTEN"].split(", ")
         entity["_IDENTIFICATIE"] = None
         entity["registratiedatum"] = entity["_file_info"]["last_modified"]
-        entity["volgnummer"] = _volgnummer_from_date(entity["registratiedatum"], "%Y-%m-%dT%H:%M:%S.%f")
         for date in [f"{prefix}_{date}" for date in ["BEGINDATUM", "EINDDATUM", "DOCUMENTDATUM"]]:
             if entity[date] is not None:
                 entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
-
-
-def _volgnummer_from_date(date_str, date_format):
-    """Generate a volgnummer from a date
-
-    :param date_str: date string to derive volgnummer from
-    :param date_format: format of date string
-    :return: a volgnummer that is higher for recent dates and lower for oldest dates
-    """
-    return int(datetime.strptime(date_str, date_format).timestamp())
 
 
 def _match_cbs_features(entity, features):

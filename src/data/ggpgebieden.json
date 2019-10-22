@@ -32,7 +32,7 @@
       "source_mapping": "_IDENTIFICATIE"
     },
     "volgnummer": {
-      "source_mapping": "volgnummer"
+      "source_mapping": "VOLGNUMMER"
     },
     "registratiedatum": {
       "source_mapping": "registratiedatum"
