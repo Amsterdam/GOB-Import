@@ -94,23 +94,26 @@ class Reader:
         else:
             yield from query
 
-    def read(self):  # noqa: C901
+    def read(self, mode):  # noqa: C901
         """Read the data from the data source
 
         :return: iterable dataset
         """
         assert self._connection is not None, "No connection, connect should succeed before read"
 
+        # The source query is the query, optionally populated with the mode (partial or full)
+        source_query = self.source["query"] + self.source.get(mode, [])
+
         if self.source['type'] == "file":
             query = query_file(self._connection)
         elif self.source['type'] == "database":
-            query = query_database(self._connection, self.source["query"])
+            query = query_database(self._connection, source_query)
         elif self.source['type'] == "oracle":
-            query = query_oracle(self._connection, self.source["query"])
+            query = query_oracle(self._connection, source_query)
         elif self.source['type'] == "objectstore":
             query = query_objectstore(self._connection, self.source)
         elif self.source['type'] == "postgres":
-            query = query_postgresql(self._connection, self.source["query"])
+            query = query_postgresql(self._connection, source_query)
         elif self.source['type'] == "wfs":
             query = query_wfs(self._connection)
         else:
