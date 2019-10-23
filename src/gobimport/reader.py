@@ -104,8 +104,12 @@ class Reader:
         # The source query is the query (only db-like connections have one)
         source_query = self.source.get("query", [])
         if mode != FULL_IMPORT:
-            # Optionally populated with the mode, eg partial, random, ...
-            source_query += self.source[mode]
+            try:
+                # Optionally populated with the mode, eg partial, random, ...
+                source_query += self.source[mode]
+            except KeyError as e:
+                logger.error(f"Unknown import mode for the collection: '{mode}'")
+                raise e
 
         if self.source['type'] == "file":
             query = query_file(self._connection)
