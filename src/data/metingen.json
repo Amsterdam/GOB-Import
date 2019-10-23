@@ -9,17 +9,19 @@
     "type": "oracle",
     "schema": "grondslag",
     "query": [
-"    SELECT m.id                                AS identificatie",
-"    ,      h1.nummer                           AS hoort_bij_meetbout",
-"    ,      to_char(m.inwindatum, 'YYYY-MM-DD') AS datum",
-"    ,      m.wijze_inwinning                   AS wijze_van_inwinnen_id",
-"    ,      i.omschrijving                      AS wijze_van_inwinnen",
-"    ,      m.hoogte                            AS hoogte_tov_nap",
-"    ,      q.nummer                            AS refereert_aan_refpunt",
-"    ,      b.omschrijving                      AS is_gemeten_door_onderneming",
-"    ,      h1.orde                             AS publiceerbaar -- publiceren ja (1) of nee (0)",
-"    ,      m.id                                AS source_id",
+"    SELECT * FROM (",
+"    SELECT m.id                                            AS identificatie",
+"    ,      h1.nummer                                       AS hoort_bij_meetbout",
+"    ,      to_char(m.inwindatum, 'YYYY-MM-DD')             AS datum",
+"    ,      m.wijze_inwinning                               AS wijze_van_inwinnen_id",
+"    ,      i.omschrijving                                  AS wijze_van_inwinnen",
+"    ,      m.hoogte                                        AS hoogte_tov_nap",
+"    ,      q.nummer                                        AS refereert_aan_refpunt",
+"    ,      b.omschrijving                                  AS is_gemeten_door_onderneming",
+"    ,      h1.orde                                         AS publiceerbaar -- publiceren ja (1) of nee (0)",
+"    ,      m.id                                            AS source_id",
 "    ,      to_char(h1.vervaldatum,'YYYY-MM-DD HH24:MI:SS') AS expirationdate",
+"    ,      m.inwindatum                                    AS modification_date",
 "    FROM              grondslag.grs_hoogtepunten         h1",
 "    JOIN              grondslag.grs_metingen_herz        m  ON h1.id = m.hoo_id",
 "    LEFT OUTER JOIN  (SELECT r.met_id",
@@ -32,7 +34,11 @@
 "    LEFT OUTER JOIN   grondslag.grs_bronnen              b  ON m.bro_id = b.id",
 "    WHERE (h1.typ_nummer = 7                   --deformatiebout",
 "    OR    (h1.typ_nummer = 8 AND h1.orde = 1)) --referentiebout",
-"    ORDER BY datum"
+"    ORDER BY datum",
+"    )"
+    ],
+    "random": [
+"    WHERE mod(hoort_bij_meetbout, 10) = mod(extract(DAY FROM sysdate), 10)"
     ]
   },
   "gob_mapping": {
