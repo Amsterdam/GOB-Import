@@ -9,6 +9,7 @@
     "type": "oracle",
     "schema": "grondslag",
     "query": [
+"    SELECT * FROM (",
 "    SELECT m.id                                AS identificatie",
 "    ,      h1.nummer                           AS hoort_bij_meetbout",
 "    ,      to_char(m.inwindatum, 'YYYY-MM-DD') AS datum",
@@ -32,7 +33,11 @@
 "    LEFT OUTER JOIN   grondslag.grs_bronnen              b  ON m.bro_id = b.id",
 "    WHERE (h1.typ_nummer = 7                   --deformatiebout",
 "    OR    (h1.typ_nummer = 8 AND h1.orde = 1)) --referentiebout",
-"    ORDER BY datum"
+"    ORDER BY datum",
+"    )"
+    ],
+    "some_day": [
+"    WHERE mod(hoort_bij_meetbout, 10) = mod(extract(DAY FROM sysdate), 10)"
     ]
   },
   "gob_mapping": {

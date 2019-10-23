@@ -81,6 +81,15 @@ class TestReader(unittest.TestCase):
 
                  mock_read.assert_called()
 
+        # If a mode is specified the mode query extension should be read from the config
+        with self.assertRaises(KeyError):
+            # Non-existent mode
+            reader.read(mode="some mode")
+
+        # Existent mode
+        self.source["my mode"] = "my mode"
+        reader.read(mode="my mode")
+
         # Assert not implemented is raised with undefined read type
         with self.assertRaises(NotImplementedError):
             reader.source['type'] = "any type"

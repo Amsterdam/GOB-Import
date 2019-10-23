@@ -24,7 +24,7 @@ from gobcore.database.reader import (
     query_postgresql,
     query_wfs
 )
-from gobimport.config import get_database_config, get_objectstore_config
+from gobimport.config import get_database_config, get_objectstore_config, FULL_IMPORT
 
 
 class Reader:
@@ -94,23 +94,33 @@ class Reader:
         else:
             yield from query
 
-    def read(self):  # noqa: C901
+    def read(self, mode=FULL_IMPORT):  # noqa: C901
         """Read the data from the data source
 
         :return: iterable dataset
         """
         assert self._connection is not None, "No connection, connect should succeed before read"
 
+        # The source query is the query (only db-like connections have one)
+        source_query = self.source.get("query", [])
+        if mode != FULL_IMPORT:
+            try:
+                # Optionally populated with the mode, eg partial, random, ...
+                source_query += self.source[mode]
+            except KeyError as e:
+                logger.error(f"Unknown import mode for the collection: '{mode}'")
+                raise e
+
         if self.source['type'] == "file":
             query = query_file(self._connection)
         elif self.source['type'] == "database":
-            query = query_database(self._connection, self.source["query"])
+            query = query_database(self._connection, source_query)
         elif self.source['type'] == "oracle":
-            query = query_oracle(self._connection, self.source["query"])
+            query = query_oracle(self._connection, source_query)
         elif self.source['type'] == "objectstore":
             query = query_objectstore(self._connection, self.source)
         elif self.source['type'] == "postgres":
-            query = query_postgresql(self._connection, self.source["query"])
+            query = query_postgresql(self._connection, source_query)
         elif self.source['type'] == "wfs":
             query = query_wfs(self._connection)
         else:
