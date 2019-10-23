@@ -187,11 +187,8 @@
 "                                                         AND v.verblijfseenheidvolgnummer = q7.verblijfsobjectvolgnummer",
 "    WHERE    v.indauthentiek = 'J'"
     ],
-    "last5days": [
+    "recent": [
 "        AND (v.creation >= sysdate - 5 OR  v.modification >= sysdate - 5)"
-    ],
-    "random": [
-"    ORDER BY DBMS_RANDOM.VALUE FETCH NEXT 10 PERCENT ROWS ONLY"
     ]
   },
   "gob_mapping": {
