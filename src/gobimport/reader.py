@@ -101,8 +101,8 @@ class Reader:
         """
         assert self._connection is not None, "No connection, connect should succeed before read"
 
-        # The source query is the query
-        source_query = self.source["query"]
+        # The source query is the query (only db-like connections have one)
+        source_query = self.source.get("query", [])
         if mode != FULL_IMPORT:
             # Optionally populated with the mode, eg partial, random, ...
             source_query += self.source[mode]
