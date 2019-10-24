@@ -198,6 +198,9 @@
     "volgnummer": {
       "source_mapping": "volgnummer"
     },
+    "amsterdamse_sleutel": {
+      "source_mapping": "amsterdamse_sleutel"
+    },
     "geconstateerd": {
       "source_mapping": "geconstateerd",
       "format": "JN"
