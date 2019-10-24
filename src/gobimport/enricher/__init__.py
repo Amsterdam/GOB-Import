@@ -31,3 +31,7 @@ class Enricher:
         """
         for enricher in self.enrichers:
             enricher.enrich(entity)
+
+    def cleanup(self):
+        for enricher in self.enrichers:
+            enricher.cleanup()

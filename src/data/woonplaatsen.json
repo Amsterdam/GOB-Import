@@ -62,6 +62,9 @@
     "volgnummer": {
       "source_mapping": "volgnummer"
     },
+    "amsterdamse_sleutel": {
+      "source_mapping": "amsterdamse_sleutel"
+    },
     "naam": {
       "source_mapping": "naam"
     },
