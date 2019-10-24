@@ -10,6 +10,8 @@ FULL_IMPORT = "full"
 ORACLE_DRIVER = 'oracle+cx_oracle'
 POSTGRES_DRIVER = 'postgresql'
 
+CONTAINER_BASE = os.getenv("CONTAINER_BASE", "acceptatie")
+
 DATABASE_CONFIGS = {
     'Grondslag': {
         'drivername': ORACLE_DRIVER,
