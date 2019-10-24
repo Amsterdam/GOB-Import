@@ -1,18 +1,33 @@
+import io
 import unittest
 from unittest import mock
 
 from gobimport.enricher.bag import BAGEnricher
 
-
 @mock.patch("gobimport.enricher.bag.logger", mock.MagicMock())
+@mock.patch("gobimport.enricher.bag.connect_to_objectstore", lambda _: ('connection','user'))
+@mock.patch("gobimport.enricher.bag.get_objectstore_config", mock.MagicMock())
 class TestBAGEnrichment(unittest.TestCase):
 
-    def test_enrich_nummeraanduidingen(self):
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._get_amsterdamse_sleutel_lookup")
+    def test_enrich_nummeraanduidingen(self, mock_lookup):
+        mock_lookup.return_value = {
+            '1234': {
+                'amsterdamse_sleutel': 'sleutel'
+            },
+            '4321': {
+                'amsterdamse_sleutel': 'sleutel2'
+            }
+        }
+
         entities = [
             {
+                'identificatie': '1234',
                 'ligt_in_bag_woonplaats': '1024;3594',
             },
             {
+                'identificatie': '4321',
                 'ligt_in_bag_woonplaats': '1024',
             }
         ]
@@ -25,9 +40,39 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['ligt_in_bag_woonplaats'],'3594')
         self.assertEqual(entities[1]['ligt_in_bag_woonplaats'],'1024')
 
+        self.assertEqual(entities[0]['amsterdamse_sleutel'],'sleutel')
+        self.assertEqual(entities[1]['amsterdamse_sleutel'],'sleutel2')
+
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._get_amsterdamse_sleutel_lookup")
+    def test_enrich_openbareruimtes(self, mock_lookup):
+        mock_lookup.return_value = {
+            '1234': {
+                'amsterdamse_sleutel': 'sleutel',
+                'straatcode': 'code'
+            }
+        }
+
+        entities = [
+            {
+                'identificatie': '1234',
+                'ligt_in_bag_woonplaats': '1024;3594',
+            }
+        ]
+
+        enricher = BAGEnricher("app", "bag", "openbareruimtes")
+        for entity in entities:
+            enricher.enrich(entity)
+
+        # Check if the both sleutel and straatcode have been added
+        self.assertEqual(entities[0]['amsterdamse_sleutel'],'sleutel')
+        self.assertEqual(entities[0]['straatcode'],'code')
+
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     def test_enrich_verblijfsobjecten(self):
         entities = [
             {
+                'identificatie': '1234',
                 'gebruiksdoel': '01|doel1;02|doel2',
                 'gebruiksdoel_woonfunctie': '01|doel1',
                 'gebruiksdoel_gezondheidszorg': '01|doel1',
@@ -47,9 +92,14 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['pandidentificatie'],['1234', '5678'])
         self.assertEqual(entities[0]['nummeraanduidingid_neven'],['1234', '5678'])
 
+        # Expect an empty amsterdamse_sleutel
+        self.assertEqual(entities[0]['amsterdamse_sleutel'], '')
+
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     def test_enrich_dossiers(self):
         entities = [
             {
+                'identificatie': '1234',
                 'heeft_bag_brondocument': 'brondocument1;brondocument2',
             }
         ]
@@ -58,3 +108,71 @@ class TestBAGEnrichment(unittest.TestCase):
             enricher.enrich(entity)
 
         self.assertEqual(entities[0]['heeft_bag_brondocument'],['brondocument1', 'brondocument2'])
+
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
+    def test_enriches(self):
+        # Expect a valid BAG collection to be enriched
+        self.assertEqual(BAGEnricher.enriches("test", "bag", "woonplaatsen"), True)
+
+        # Expect a invalid BAG collection to not be enriched
+        self.assertEqual(BAGEnricher.enriches("test", "bag", "testcollection"), False)
+
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
+    @mock.patch("gobimport.enricher.bag.os.makedirs", mock.MagicMock())
+    @mock.patch("gobimport.enricher.bag.tempfile.gettempdir")
+    def test_get_filename(self, mock_tempfile):
+        mock_tempfile.return_value = "/temp/"
+        enricher = BAGEnricher("app", "bag", "enricher")
+        file_name = enricher._get_filename("test")
+
+        self.assertEqual(file_name, "/temp/test")
+
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
+    @mock.patch("gobimport.enricher.bag.os.remove")
+    def test_cleanup(self, mock_remove):
+        enricher = BAGEnricher("app", "bag", "enricher", download_files=False)
+        enricher.amsterdamse_sleutel_file = "test"
+        enricher.cleanup()
+
+        mock_remove.assert_called_with("test")
+
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._get_filename")
+    @mock.patch("gobimport.enricher.bag.get_full_container_list")
+    @mock.patch("gobimport.enricher.bag.get_object")
+    def test_download_amsterdamse_sleutel_file(self, mock_get_object, mock_container_list, mock_filename):
+        mock_get_object.return_value = "data"
+        mock_container_list.return_value = [
+            {'name': 'bag/diva_amsterdamse_sleutel/WPL_20190101.dat'}
+        ]
+
+        mock_filename.return_value = "testfile"
+
+        enricher = BAGEnricher("app", "bag", "woonplaatsen", download_files=False)
+
+        mock_open = mock.mock_open()
+        with mock.patch('gobimport.enricher.bag.open', mock_open):
+            file_name = enricher._download_amsterdam_sleutel_file("bag", "woonplaatsen")
+
+        mock_get_object.assert_called()
+        mock_open.assert_called_with("testfile", "wb")
+
+        file_handle = mock_open.return_value.__enter__.return_value
+        file_handle.write.assert_called_with("data")
+
+    def test_get_amsterdamse_sleutel_lookup(self):
+        enricher = BAGEnricher("app", "bag", "openbareruimtes", download_files=False)
+        enricher.amsterdamse_sleutel_file = 'test'
+
+        mock_read_data = 'amsterdamse_sleutel;identificatie;2;3;straatcode\namsterdamse_sleutel;identificatie;2;3;straatcode'
+
+        with mock.patch('builtins.open') as mock_open:
+            mock_open.return_value.__enter__.return_value = io.StringIO(mock_read_data)
+            result = enricher._get_amsterdamse_sleutel_lookup("bag", "openbareruimtes")
+
+        mock_open.assert_called_with("test")
+
+        expected = {
+            'identificatie': {'amsterdamse_sleutel': 'amsterdamse_sleutel', 'straatcode': 'straatcode'}
+        }
+
+        self.assertEqual(expected, result)

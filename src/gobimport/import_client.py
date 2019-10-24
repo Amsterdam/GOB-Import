@@ -151,6 +151,8 @@ class ImportClient:
 
             write(entity)
 
+        self.enricher.cleanup()
+
         self.validator.result()
 
         logger.info(f"{self.n_rows} records have been imported from {self.source_app}")

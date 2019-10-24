@@ -154,6 +154,9 @@
     "volgnummer": {
       "source_mapping": "volgnummer"
     },
+    "amsterdamse_sleutel": {
+      "source_mapping": "amsterdamse_sleutel"
+    },
     "huisnummer": {
       "source_mapping": "huisnummer"
     },

@@ -78,6 +78,12 @@
     "volgnummer": {
       "source_mapping": "volgnummer"
     },
+    "amsterdamse_sleutel": {
+      "source_mapping": "amsterdamse_sleutel"
+    },
+    "straatcode": {
+      "source_mapping": "straatcode"
+    },
     "status": {
       "source_mapping": {
         "code": "status_code",
