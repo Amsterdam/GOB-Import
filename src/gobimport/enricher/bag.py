@@ -12,7 +12,7 @@ from objectstore.objectstore import get_full_container_list, get_object
 from gobcore.database.connector import connect_to_objectstore
 from gobcore.logging.logger import logger
 
-from gobimport.config import get_objectstore_config
+from gobimport.config import get_objectstore_config, CONTAINER_BASE
 from gobimport.enricher.enricher import Enricher
 
 
@@ -75,12 +75,11 @@ class BAGEnricher(Enricher):
         :return:
         """
         connection, user = connect_to_objectstore(get_objectstore_config('Basisinformatie'))
-        container_name = os.getenv("CONTAINER_BASE", "acceptatie")
 
         file_name = self._get_filename(entity_name)
 
         # Use the container base env variable
-        files = get_full_container_list(connection, container_name)
+        files = get_full_container_list(connection, CONTAINER_BASE)
 
         # Filter for the .dat files, and get the abbreviation and file date
         pattern = re.compile(f"{DIVA_FILE_PATH}(.+)_([0-9]+)\.dat$")
@@ -91,7 +90,7 @@ class BAGEnricher(Enricher):
                 # Find the matching DIVA abbreviation for the entity name
                 if DIVA_ABBREVIATIONS[entity_name] == match_result.group(1):
                     # Store the file in temporary storage
-                    obj = get_object(connection, file, container_name)
+                    obj = get_object(connection, file, CONTAINER_BASE)
                     with open(file_name, 'wb') as output:
                         output.write(obj)
         return file_name

@@ -15,9 +15,6 @@ class TestBAGEnrichment(unittest.TestCase):
         mock_lookup.return_value = {
             '1234': {
                 'amsterdamse_sleutel': 'sleutel'
-            },
-            '4321': {
-                'amsterdamse_sleutel': 'sleutel2'
             }
         }
 
@@ -40,8 +37,11 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['ligt_in_bag_woonplaats'],'3594')
         self.assertEqual(entities[1]['ligt_in_bag_woonplaats'],'1024')
 
+        # Success path for amsterdamse_sleutel
         self.assertEqual(entities[0]['amsterdamse_sleutel'],'sleutel')
-        self.assertEqual(entities[1]['amsterdamse_sleutel'],'sleutel2')
+
+        # Error path for amsterdamse_sleutel, expect an empty attribute
+        self.assertEqual(entities[1]['amsterdamse_sleutel'],'')
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     @mock.patch("gobimport.enricher.bag.BAGEnricher._get_amsterdamse_sleutel_lookup")
@@ -57,7 +57,11 @@ class TestBAGEnrichment(unittest.TestCase):
             {
                 'identificatie': '1234',
                 'ligt_in_bag_woonplaats': '1024;3594',
-            }
+            },
+            {
+                'identificatie': '4321',
+                'ligt_in_bag_woonplaats': '1024;3594',
+            },
         ]
 
         enricher = BAGEnricher("app", "bag", "openbareruimtes")
@@ -67,6 +71,10 @@ class TestBAGEnrichment(unittest.TestCase):
         # Check if the both sleutel and straatcode have been added
         self.assertEqual(entities[0]['amsterdamse_sleutel'],'sleutel')
         self.assertEqual(entities[0]['straatcode'],'code')
+
+        # Expect values to be empty if no sleutel or straatcode was found
+        self.assertEqual(entities[1]['amsterdamse_sleutel'],'')
+        self.assertEqual(entities[1]['straatcode'],'')
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     def test_enrich_verblijfsobjecten(self):
