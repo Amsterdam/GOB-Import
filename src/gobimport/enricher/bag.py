@@ -42,7 +42,7 @@ class BAGEnricher(Enricher):
         self.multiple_values_logged = False
         self.entity_name = entity_name
 
-        if download_files:
+        if download_files and self.entity_name in DIVA_ABBREVIATIONS:
             # Download the latest file with the Amsterdamse sleutel and create a lookup dict
             self.amsterdamse_sleutel_file = self._download_amsterdam_sleutel_file(catalogue_name, entity_name)
             self.amsterdamse_sleutel_lookup = self._get_amsterdamse_sleutel_lookup(catalogue_name, entity_name)
@@ -126,8 +126,9 @@ class BAGEnricher(Enricher):
 
         :return:
         """
-        # Remove the temporary file
-        os.remove(self.amsterdamse_sleutel_file)
+        # Remove the temporary file for amsterdamseSleutel
+        if self.entity_name in DIVA_ABBREVIATIONS:
+            os.remove(self.amsterdamse_sleutel_file)
 
     def enrich(self, entity):
         """
@@ -136,16 +137,18 @@ class BAGEnricher(Enricher):
         :param entity:
         :return:
         """
-        # Create an empty dict to make sure attributes exist on the entity
-        empty_dict = {
-            'amsterdamse_sleutel': ''
-        }
-        if self.entity_name == 'openbareruimtes':
-            empty_dict['straatcode'] = ''
+        # Add DIVA amsterdamseSleutel enrichment for all entities in DIVA_ABBREVIATIONS
+        if self.entity_name in DIVA_ABBREVIATIONS:
+            # Create an empty dict to make sure attributes exist on the entity
+            empty_dict = {
+                'amsterdamse_sleutel': ''
+            }
+            if self.entity_name == 'openbareruimtes':
+                empty_dict['straatcode'] = ''
 
-        # Add Amsterdam Sleutel for all entities
-        amsterdamse_sleutel = self.amsterdamse_sleutel_lookup.get(entity['identificatie'], empty_dict)
-        entity.update(amsterdamse_sleutel)
+            # Add Amsterdam Sleutel for all entities
+            amsterdamse_sleutel = self.amsterdamse_sleutel_lookup.get(entity['identificatie'], empty_dict)
+            entity.update(amsterdamse_sleutel)
 
         if self._enrich_entity:
             self._enrich_entity(entity)
