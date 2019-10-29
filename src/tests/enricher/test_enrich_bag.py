@@ -138,11 +138,20 @@ class TestBAGEnrichment(unittest.TestCase):
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     @mock.patch("gobimport.enricher.bag.os.remove")
     def test_cleanup(self, mock_remove):
-        enricher = BAGEnricher("app", "bag", "enricher", download_files=False)
+        enricher = BAGEnricher("app", "bag", "woonplaatsen", download_files=False)
         enricher.amsterdamse_sleutel_file = "test"
         enricher.cleanup()
 
         mock_remove.assert_called_with("test")
+
+    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
+    @mock.patch("gobimport.enricher.bag.os.remove")
+    def test_cleanup_not_called(self, mock_remove):
+        # Remove should not be called for enities without Amsterdamse Sleutel
+        enricher = BAGEnricher("app", "bag", "invalid", download_files=False)
+        enricher.cleanup()
+
+        mock_remove.assert_not_called()
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._get_filename")
     @mock.patch("gobimport.enricher.bag.get_full_container_list")
