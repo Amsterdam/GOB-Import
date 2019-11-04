@@ -158,8 +158,8 @@ class ImportClient:
         logger.info(f"{self.n_rows} records have been imported from {self.source_app}")
 
         min_rows = self.dataset.get("min_rows", 1)
-        if self.n_rows < min_rows:
-            # Default requirement is a non-empty dataset
+        if self.mode == FULL_IMPORT and self.n_rows < min_rows:
+            # Default requirement for full imports is a non-empty dataset
             logger.error(f"Too few records imported: {self.n_rows} < {min_rows}")
 
     def import_dataset(self):
