@@ -90,6 +90,9 @@
 "      GROUP BY x1.gebouw_id, x1.gebouwvolgnummer) y ON  y.gebouw_id = g.gebouw_id",
 "      AND y.gebouwvolgnummer = g.gebouwvolgnummer",
 "      WHERE g.indauthentiek = 'J'"
+    ],
+    "recent": [
+"      AND (g.creation >= sysdate - 10 OR  g.modification >= sysdate - 10)"
     ]
   },
   "gob_mapping": {
