@@ -145,6 +145,9 @@
 "    ,        sa.adres_id",
 "    ,        sp.standplaatsnummer) q5 ON a.adres_id = q5.adres_id",
 "      WHERE  a.indauthentiek = 'J'"
+    ],
+    "recent": [
+"      AND (a.creation >= sysdate - 10 OR  a.modification >= sysdate - 10)"
     ]
   },
   "gob_mapping": {
