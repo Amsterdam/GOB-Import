@@ -259,7 +259,8 @@ class Validator:
             )
 
         if self.duplicates:
-            raise GOBException(f"Duplicate primary key(s) found in source: [{', '.join(self.duplicates)}]")
+            raise GOBException(f"Duplicate primary key(s) found in source: "
+                               f"[{', '.join([str(dup) for dup in self.duplicates])}]")
 
         self._log(type=QA.INFO,
                   id=None,
