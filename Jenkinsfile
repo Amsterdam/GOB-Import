@@ -37,8 +37,6 @@ node {
             docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
                 def image = docker.build("datapunt/gob_import_client:${env.BUILD_NUMBER}",
                     "--no-cache " +
-                    "--build-arg http_proxy=${JENKINS_HTTP_PROXY_STRING} " +
-                    "--build-arg https_proxy=${JENKINS_HTTP_PROXY_STRING} " +
                     "--shm-size 1G " +
                     "--build-arg BUILD_ENV=acc " +
                     "src")

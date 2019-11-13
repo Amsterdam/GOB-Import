@@ -25,7 +25,7 @@
 "    SELECT s.code                               AS code",
 "    ,      NULL                                 AS identificatie",
 "    ,      q1.volgnummer                        AS volgnummer",
-"    ,      to_char(s.datum, 'YYYY-MM-DD')       AS begin_geldigheid",
+"    ,      to_char(t.inwin, 'YYYY-MM-DD')       AS begin_geldigheid",
 "    ,      to_char(t.verval, 'YYYY-MM-DD')      AS eind_geldigheid",
 "    ,      t.inwin                              AS registratiedatum",
 "    ,      t.guid                               AS source_id",
