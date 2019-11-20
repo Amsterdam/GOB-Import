@@ -22,6 +22,8 @@
 "    ,      TRIM(nvl(regexp_substr(o.documentnummer, '^(.*?)_', 1, 1, NULL, 1), o.documentnummer)) AS dossier",
 "    ,      o.naam                                                                                 AS naam",
 "    ,      o.straat_nen                                                                           AS naam_nen",
+"    ,      o.straat_ptt                                                                           AS naam_ptt",
+"    ,      o.straatcode                                                                           AS straatcode",
 "    ,      q.woonplaatsnummer                                                                     AS ligt_in_bag_woonplaats",
 "    ,      o.openbareruimtetype                                                                   AS type_code",
 "    ,      t.omschrijving                                                                         AS type_omschrijving",
@@ -86,6 +88,9 @@
     },
     "straatcode": {
       "source_mapping": "straatcode"
+    },
+    "straatnaam_ptt": {
+      "source_mapping": "naam_ptt"
     },
     "status": {
       "source_mapping": {

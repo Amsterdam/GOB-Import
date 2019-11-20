@@ -21,6 +21,7 @@
 "    ,      w.documentnummer                                                                       AS documentnummer",
 "    ,      TRIM(NVL(regexp_substr(w.documentnummer, '^(.*?)_', 1, 1, NULL, 1), w.documentnummer)) AS dossier",
 "    ,      w.naam                                                                                 AS naam",
+"    ,      w.woonplaats_ptt                                                                       AS naam_ptt",
 "    ,      '0363'                                                                                 AS ligt_in_gemeente",
 "    ,      to_char(w.creation, 'YYYY-MM-DD HH24:MI:SS')                                           AS registratiedatum",
 "    ,      w.woonplaats_id                                                                        AS source_id",
@@ -67,6 +68,9 @@
     },
     "naam": {
       "source_mapping": "naam"
+    },
+    "woonplaats_ptt": {
+      "source_mapping": "naam_ptt"
     },
     "status": {
       "source_mapping": {
