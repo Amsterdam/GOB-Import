@@ -29,6 +29,28 @@ DIVA_ABBREVIATIONS = {
 }
 DIVA_FILE_PATH = "bag/diva_amsterdamse_sleutel/"
 
+FINANCIERINGSCODE_MAPPING = {
+    '501': 'Eigen bouw (501)',
+    '110': 'Sociale huursector woningwet (110)',
+    '200': 'Premiehuur Profit (200)',
+    '201': 'Premiehuur Profit voor 1985 (201)',
+    '220': 'Wet Materiële Oorlogsschade (220)',
+    '250': 'Huurwoningen Beleggers (250)',
+    '271': 'Premiehuur Profit met gemeentegarantie (271)',
+    '274': 'Sociale koop (voorheen Premiekoop A) (274)',
+    '301': 'Premiekoop voor 1985 (301)',
+    '373': 'Subsidie Premiekoop A (373)',
+    '374': 'Subsidie Premiekoop B (374)',
+    '375': 'Premiewoningen (375)',
+    '466': 'V.S.E.B. (466)',
+    '475': 'V.S.E.B. Premiekoop C (475)',
+    '476': 'V.S.E.B. Premiehuur C (476)',
+    '500': 'Ongesubsidieerde bouw (500)',
+    '999': 'DEFAULT VOOR CONVERSIE',
+    '477': 'Middeldure huur (477)',
+    '478': 'Middeldure koop (478)',
+}
+
 
 class BAGEnricher(Enricher):
 
@@ -114,10 +136,6 @@ class BAGEnricher(Enricher):
                     'amsterdamse_sleutel': row[0]
                 }
 
-                # For openbare ruimtes get the straatcode as well
-                if entity_name == 'openbareruimtes':
-                    results[row[1]]['straatcode'] = row[4]
-
         return results
 
     def cleanup(self):
@@ -143,8 +161,6 @@ class BAGEnricher(Enricher):
             empty_dict = {
                 'amsterdamse_sleutel': ''
             }
-            if self.entity_name == 'openbareruimtes':
-                empty_dict['straatcode'] = ''
 
             # Add Amsterdam Sleutel for all entities
             amsterdamse_sleutel = self.amsterdamse_sleutel_lookup.get(entity['identificatie'], empty_dict)
@@ -176,6 +192,9 @@ class BAGEnricher(Enricher):
         dossier['heeft_bag_brondocument'] = dossier['heeft_bag_brondocument'].split(";")
 
     def enrich_verblijfsobject(self, verblijfsobject):
+
+        # Get the omschrijving for the finiancieringscode
+        verblijfsobject['fng_omschrijving'] = FINANCIERINGSCODE_MAPPING.get(str(verblijfsobject['fng_code']))
 
         self.extract_nevenadressen(verblijfsobject)
 
