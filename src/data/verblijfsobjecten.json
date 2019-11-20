@@ -48,6 +48,9 @@
 "    ,      e.omschrijving                                                                         AS eigendomsverhouding_omschrijv",
 "    ,      v.woonverblijfsoort                                                                    AS feitelijk_gebruik_code",
 "    ,      f.omschrijving                                                                         AS feitelijk_gebruik_omschrijving",
+"    ,      v.financieringsvorm                                                                    AS fng_code",
+"    ,      v.cbsnummer                                                                            AS cbs_nummer",
+"    ,      v.woningvoorraad                                                                       AS woningvoorraad",
 "    ,      q3.gebruiksdoel                                                                        AS gebruiksdoel",
 "    ,      q6.gebruiksdoel_woonfunctie                                                            AS gebruiksdoel_woonfunctie",
 "    ,      q7.gebruiksdoel_gezondheidszorg                                                        AS gebruiksdoel_gezondheidszorg",
@@ -185,7 +188,8 @@
 "                     AND    vg.gebruiksdoel_id = 4",
 "                     AND    q1.min_gebruiksdoel != 1) q7  ON v.verblijfseenheid_id = q7.verblijfsobject_id",
 "                                                         AND v.verblijfseenheidvolgnummer = q7.verblijfsobjectvolgnummer",
-"    WHERE    v.indauthentiek = 'J'"
+"    WHERE    v.indauthentiek = 'J'",
+" AND ROWNUM < 100"
     ],
     "recent": [
 "        AND (v.creation >= sysdate - 10 OR  v.modification >= sysdate - 10)"
@@ -276,6 +280,18 @@
     },
     "aantal_kamers": {
       "source_mapping": "aantal_kamers"
+    },
+    "financieringscode": {
+      "source_mapping": {
+        "code": "fng_code",
+        "omschrijving": "fng_omschrijving"
+      }
+    },
+    "cbs_nummer": {
+      "source_mapping": "cbs_nummer"
+    },
+    "indicatie_woningvoorraad": {
+      "source_mapping": "woningvoorraad"
     },
     "eigendomsverhouding": {
       "source_mapping": {

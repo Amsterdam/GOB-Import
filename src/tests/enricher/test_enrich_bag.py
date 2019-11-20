@@ -48,8 +48,7 @@ class TestBAGEnrichment(unittest.TestCase):
     def test_enrich_openbareruimtes(self, mock_lookup):
         mock_lookup.return_value = {
             '1234': {
-                'amsterdamse_sleutel': 'sleutel',
-                'straatcode': 'code'
+                'amsterdamse_sleutel': 'sleutel'
             }
         }
 
@@ -70,11 +69,9 @@ class TestBAGEnrichment(unittest.TestCase):
 
         # Check if the both sleutel and straatcode have been added
         self.assertEqual(entities[0]['amsterdamse_sleutel'],'sleutel')
-        self.assertEqual(entities[0]['straatcode'],'code')
 
         # Expect values to be empty if no sleutel or straatcode was found
         self.assertEqual(entities[1]['amsterdamse_sleutel'],'')
-        self.assertEqual(entities[1]['straatcode'],'')
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     def test_enrich_verblijfsobjecten(self):
@@ -86,7 +83,18 @@ class TestBAGEnrichment(unittest.TestCase):
                 'gebruiksdoel_gezondheidszorg': '01|doel1',
                 'toegang': '01|doel1',
                 'pandidentificatie': "1234;5678",
-                'nummeraanduidingid_neven': "1234;5678"
+                'nummeraanduidingid_neven': "1234;5678",
+                'fng_code': 500
+            },
+            {
+                'identificatie': '1234',
+                'gebruiksdoel': '01|doel1;02|doel2',
+                'gebruiksdoel_woonfunctie': '01|doel1',
+                'gebruiksdoel_gezondheidszorg': '01|doel1',
+                'toegang': '01|doel1',
+                'pandidentificatie': "1234;5678",
+                'nummeraanduidingid_neven': "1234;5678",
+                'fng_code': 1000
             }
         ]
         enricher = BAGEnricher("app", "bag", "verblijfsobjecten")
@@ -99,6 +107,10 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['toegang'],[{'code': '01', 'omschrijving': 'doel1'}])
         self.assertEqual(entities[0]['pandidentificatie'],['1234', '5678'])
         self.assertEqual(entities[0]['nummeraanduidingid_neven'],['1234', '5678'])
+        self.assertEqual(entities[0]['fng_omschrijving'],'Ongesubsidieerde bouw (500)')
+
+        # Expect no fng_omschrijving with an invalid code
+        self.assertEqual(entities[1]['fng_omschrijving'], None)
 
         # Expect an empty amsterdamse_sleutel
         self.assertEqual(entities[0]['amsterdamse_sleutel'], '')
@@ -180,7 +192,7 @@ class TestBAGEnrichment(unittest.TestCase):
         enricher = BAGEnricher("app", "bag", "openbareruimtes", download_files=False)
         enricher.amsterdamse_sleutel_file = 'test'
 
-        mock_read_data = 'amsterdamse_sleutel;identificatie;2;3;straatcode\namsterdamse_sleutel;identificatie;2;3;straatcode'
+        mock_read_data = 'amsterdamse_sleutel;identificatie;2;3\namsterdamse_sleutel;identificatie;2;3'
 
         with mock.patch('builtins.open') as mock_open:
             mock_open.return_value.__enter__.return_value = io.StringIO(mock_read_data)
@@ -189,7 +201,7 @@ class TestBAGEnrichment(unittest.TestCase):
         mock_open.assert_called_with("test")
 
         expected = {
-            'identificatie': {'amsterdamse_sleutel': 'amsterdamse_sleutel', 'straatcode': 'straatcode'}
+            'identificatie': {'amsterdamse_sleutel': 'amsterdamse_sleutel'}
         }
 
         self.assertEqual(expected, result)
