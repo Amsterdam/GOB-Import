@@ -13,7 +13,7 @@
       "   identificatie,",
       "   ligt_in_gemeente,",
       "   ST_AsText(geometrie) AS geometrie",
-      "FROM brk_prep.kadastrale_gemeente"
+      "FROM brk_prepared.kadastrale_gemeente"
     ]
   },
   "gob_mapping": {

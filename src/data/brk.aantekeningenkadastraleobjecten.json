@@ -24,7 +24,7 @@
       "   toestandsdatum,",
       "   expiration_date,",
       "   begindatum",
-      "FROM brk_prep.aantekening_kadastraal_object"
+      "FROM brk_prepared.aantekening_kadastraal_object"
     ]
   },
   "gob_mapping": {

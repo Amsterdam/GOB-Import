@@ -71,7 +71,7 @@
       "   post_buitenland_code,",
       "   post_buitenland_oms,",
       "   expiration_date",
-      "FROM brk_prep.kadastraal_subject"
+      "FROM brk_prepared.kadastraal_subject"
     ]
   },
   "gob_mapping": {
