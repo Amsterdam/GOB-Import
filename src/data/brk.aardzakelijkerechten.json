@@ -16,7 +16,7 @@
       "   datumtot,",
       "   toelichting,",
       "   akrcode",
-      "FROM brk_prep.aardzakelijkrecht_waardelijst"
+      "FROM brk_prepared.aardzakelijkrecht_waardelijst"
     ]
   },
   "gob_mapping": {

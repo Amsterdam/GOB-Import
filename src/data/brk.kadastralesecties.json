@@ -14,7 +14,7 @@
       "   code,",
       "   is_onderdeel_van_kadastralegemeentecode,",
       "   ST_AsText(geometrie) AS geometrie",
-      "FROM brk_prep.kadastrale_sectie"
+      "FROM brk_prepared.kadastrale_sectie"
     ]
   },
   "gob_mapping": {

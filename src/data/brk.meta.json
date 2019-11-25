@@ -9,7 +9,7 @@
     "type": "postgres",
     "schema": "GOBPrepare",
     "query": [
-      "SELECT id, toestandsdatum FROM brk_prep.meta"
+      "SELECT id, toestandsdatum FROM brk_prepared.meta"
     ]
   },
   "gob_mapping": {

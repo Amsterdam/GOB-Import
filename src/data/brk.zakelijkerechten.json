@@ -36,7 +36,7 @@
       "   kot_status_code,",
       "   toestandsdatum,",
       "   expiration_date",
-      "FROM brk_prep.zakelijk_recht"
+      "FROM brk_prepared.zakelijk_recht"
     ]
   },
   "gob_mapping": {

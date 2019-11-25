@@ -21,7 +21,7 @@
       "   nrn_sdl_ids,",
       "   toestandsdatum,",
       "   expiration_date",
-      "FROM brk_prep.aantekening_recht"
+      "FROM brk_prepared.aantekening_recht"
     ]
   },
   "gob_mapping": {

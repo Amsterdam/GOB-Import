@@ -13,7 +13,7 @@
       "   identificatie,",
       "   is_onderdeel_van_kadastralegemeente,",
       "   ST_AsText(geometrie) AS geometrie",
-      "FROM brk_prep.kadastrale_gemeentecode"
+      "FROM brk_prepared.kadastrale_gemeentecode"
     ]
   },
   "gob_mapping": {

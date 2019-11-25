@@ -33,7 +33,7 @@
       "   zrt_ids,",
       "   expiration_date,",
       "   toestandsdatum",
-      "FROM brk_prep.stukdeel"
+      "FROM brk_prepared.stukdeel"
     ]
   },
   "gob_mapping": {
