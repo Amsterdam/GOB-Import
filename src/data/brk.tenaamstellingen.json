@@ -28,7 +28,7 @@
       "   volgnummer,",
       "   begindatum,",
       "   einddatum",
-      "FROM brk_prep.tenaamstelling"
+      "FROM brk_prepared.tenaamstelling"
     ]
   },
   "gob_mapping": {

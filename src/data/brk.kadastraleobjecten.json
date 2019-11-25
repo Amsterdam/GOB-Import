@@ -51,7 +51,7 @@
       "   relatie_g_perceel,",
       "   adressen,",
       "   ontstaan_uit_kadastraalobject",
-      "FROM brk_prep.kadastraal_object"
+      "FROM brk_prepared.kadastraal_object"
     ]
   },
   "gob_mapping": {
