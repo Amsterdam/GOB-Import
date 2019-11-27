@@ -36,6 +36,11 @@
     "datetime": {
       "source_mapping": "datetime",
       "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "secure_reference": {
+      "source_mapping": {
+        "bronwaarde": "sec_ref"
+      }
     }
   }
 }
