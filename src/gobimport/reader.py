@@ -64,14 +64,13 @@ class Reader:
         :return:
         """
         for maps_on, map_spec in mapping.items():
-            gob_attr = gob_attributes[maps_on]
-            if gob_attr["type"] in self.secure_types:
+            gob_attr = gob_attributes.get(maps_on)
+            if gob_attr and gob_attr["type"] in self.secure_types:
                 self.secure_attributes.append(map_spec["source_mapping"])
             if isinstance(map_spec['source_mapping'], dict) and gob_attr.get('secure'):
                 # dictionary of source mappings (normally a reference with secure attributes
                 source_mapping = {k: {'source_mapping': v} for k, v in map_spec['source_mapping'].items()}
                 self.set_secure_attributes(source_mapping, gob_attr['secure'])
-
 
     def connect(self):  # noqa: C901
         """The first step of every import is a technical step. A connection need to be setup to

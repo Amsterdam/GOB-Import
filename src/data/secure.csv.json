@@ -39,7 +39,8 @@
     },
     "secure_reference": {
       "source_mapping": {
-        "bronwaarde": "sec_ref"
+        "bronwaarde": "sec_ref",
+        "extra": "string"
       }
     }
   }
