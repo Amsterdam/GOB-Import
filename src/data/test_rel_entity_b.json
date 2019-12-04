@@ -1,0 +1,45 @@
+{
+  "version": "0.1",
+  "catalogue": "test_catalogue",
+  "entity": "rel_test_entity_b",
+  "source": {
+    "name": "test",
+    "application": "REL",
+    "entity_id": "id",
+    "type": "file",
+    "config": {
+      "filename": "test/test_catalogue_rel_test_entity_b.csv",
+      "filetype": "CSV",
+      "separator": ",",
+      "encoding": "UTF-8"
+    }
+  },
+  "gob_mapping": {
+    "id": {
+      "source_mapping": "id"
+    },
+    "identificatie": {
+      "source_mapping": "identificatie"
+    },
+    "ref_to_c": {
+      "source_mapping": {
+        "bronwaarde": "ref_to_c"
+      }
+    },
+    "manyref_to_c": {
+      "source_mapping": {
+        "bronwaarde": "manyref_to_c"
+      }
+    },
+    "ref_to_d": {
+      "source_mapping": {
+        "bronwaarde": "ref_to_d"
+      }
+    },
+    "manyref_to_d": {
+      "source_mapping": {
+        "bronwaarde": "manyref_to_d"
+      }
+    }
+  }
+}

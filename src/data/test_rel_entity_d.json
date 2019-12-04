@@ -1,0 +1,25 @@
+{
+  "version": "0.1",
+  "catalogue": "test_catalogue",
+  "entity": "rel_test_entity_d",
+  "source": {
+    "name": "test",
+    "application": "REL",
+    "entity_id": "id",
+    "type": "file",
+    "config": {
+      "filename": "test/test_catalogue_rel_test_entity_d.csv",
+      "filetype": "CSV",
+      "separator": ",",
+      "encoding": "UTF-8"
+    }
+  },
+  "gob_mapping": {
+    "id": {
+      "source_mapping": "id"
+    },
+    "identificatie": {
+      "source_mapping": "identificatie"
+    }
+  }
+}
