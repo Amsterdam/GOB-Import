@@ -15,5 +15,8 @@ class TestEnricher(unittest.TestCase):
         enricher = TstCatalogueEnricher('app name', 'test_catalogue', 'rel_test_entity_a')
 
         enricher.enrich_rel_entity(entity)
-        self.assertEqual(['C1', 'C2'], entity['manyref_to_c'])
-        self.assertEqual(['D1'], entity['manyref_to_d'])
+        self.assertEqual({
+            'somekey': 'somevalue',
+            'manyref_to_c': ['C1', 'C2'],
+            'manyref_to_d': ['D1']
+        }, entity)
