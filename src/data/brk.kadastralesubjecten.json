@@ -23,7 +23,7 @@
       "   omschrijving_geslacht,",
       "   code_naam_gebruik,",
       "   omschrijving_naam_gebruik,",
-      "   geboortedatum,",
+      "   NULL as geboortedatum,",
       "   geboorteplaats,",
       "   code_geboorteland,",
       "   omschrijving_geboorteland,",
