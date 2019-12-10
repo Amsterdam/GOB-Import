@@ -9,7 +9,7 @@ Todo:
 import re
 
 from decimal import Decimal
-from gobcore.typesystem import get_gob_type, get_value
+from gobcore.typesystem import get_value, get_gob_type_from_info
 from gobcore.model import GOBModel
 from gobcore.model.metadata import FIELD
 from gobcore.exceptions import GOBException
@@ -244,7 +244,7 @@ def _extract_field(row, metadata, typeinfo):
     field_type = typeinfo['type']
     field_source = metadata['source_mapping']
 
-    gob_type = get_gob_type(field_type)
+    gob_type = get_gob_type_from_info(typeinfo)
 
     kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping', 'filters']}
 

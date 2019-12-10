@@ -94,3 +94,52 @@ class TestReader(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             reader.source['type'] = "any type"
             reader.read()
+
+    def test_set_secure_attributes(self):
+        reader = Reader(self.source, self.app, self.dataset())
+        mapping = {
+            'a': {
+                'source_mapping': 'any secure string'
+            },
+            'b': {
+                'source_mapping': {
+                    'bronwaarde': 'any secure bronwaarde'
+                }
+            },
+            'c': {
+                'source_mapping': 'any string'
+            },
+            'd': {
+                'source_mapping': {
+                    'bronwaarde': 'any bronwaarde'
+                }
+            },
+        }
+        attributes = {
+            'a': {
+                'type': 'GOB.SecureString'
+            },
+            'b': {
+                'type': 'GOB.JSON',
+                'secure': {
+                    'bronwaarde': {
+                        'type': 'GOB.SecureString',
+                        'level': 5
+                    }
+                }
+            },
+            'c': {
+                'type': 'GOB.String'
+            },
+            'd': {
+                'type': 'GOB.JSON',
+                'secure': {
+                    'bronwaarde': {
+                        'type': 'GOB.String',
+                        'level': 5
+                    }
+                }
+            }
+        }
+        reader.set_secure_attributes(mapping, attributes)
+        self.assertEqual(reader.secure_attributes, ['any secure string', 'any secure bronwaarde'])

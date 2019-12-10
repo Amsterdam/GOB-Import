@@ -7,6 +7,7 @@ from gobimport.enricher.gebieden import GebiedenEnricher
 from gobimport.enricher.bag import BAGEnricher
 from gobimport.enricher.brk import BRKEnricher
 from gobimport.enricher.wkpb import WKPBEnricher
+from gobimport.enricher.test_catalogue import TstCatalogueEnricher
 
 
 class Enricher:
@@ -19,7 +20,8 @@ class Enricher:
         :param entity_name:
         """
         self.enrichers = []
-        for CatalogueEnricher in [GebiedenEnricher, MeetboutenEnricher, BAGEnricher, BRKEnricher, WKPBEnricher]:
+        for CatalogueEnricher in [GebiedenEnricher, MeetboutenEnricher, BAGEnricher, BRKEnricher, WKPBEnricher,
+                                  TstCatalogueEnricher]:
             if CatalogueEnricher.enriches(app_name, catalog_name, entity_name):
                 self.enrichers.append(CatalogueEnricher(app_name, catalog_name, entity_name))
 

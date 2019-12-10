@@ -43,7 +43,7 @@ class Reader:
         self.source = source
         self.app = app
 
-        secure_types = [f"GOB.{type.name}" for type in GOB_SECURE_TYPES]
+        self.secure_types = [f"GOB.{type.name}" for type in GOB_SECURE_TYPES]
         mapping = dataset["gob_mapping"]
 
         catalogue = dataset['catalogue']
@@ -51,12 +51,26 @@ class Reader:
         gob_attributes = GOBModel().get_collection(catalogue, entity)["all_fields"]
 
         self.secure_attributes = []
-        for maps_on, map_spec in mapping.items():
-            gob_attr = gob_attributes[maps_on]
-            if gob_attr["type"] in secure_types:
-                self.secure_attributes.append(map_spec["source_mapping"])
+        self.set_secure_attributes(mapping, gob_attributes)
 
         self._connection = None
+
+    def set_secure_attributes(self, mapping, gob_attributes):
+        """
+        Get the secure attributes so that they are read protected as soon as they are read
+
+        :param mapping:
+        :param gob_attributes:
+        :return:
+        """
+        for maps_on, map_spec in mapping.items():
+            gob_attr = gob_attributes.get(maps_on)
+            if gob_attr and gob_attr["type"] in self.secure_types:
+                self.secure_attributes.append(map_spec["source_mapping"])
+            if isinstance(map_spec['source_mapping'], dict) and gob_attr.get('secure'):
+                # dictionary of source mappings (normally a reference with secure attributes
+                source_mapping = {k: {'source_mapping': v} for k, v in map_spec['source_mapping'].items()}
+                self.set_secure_attributes(source_mapping, gob_attr['secure'])
 
     def connect(self):  # noqa: C901
         """The first step of every import is a technical step. A connection need to be setup to
