@@ -16,6 +16,13 @@ Importing data consists of the following steps:
 A running [GOB infrastructure](https://github.com/Amsterdam/GOB-Infra)
 is required to run this component.
 
+## Secure data
+
+In order to encrypt secure data you need to define environment variables:
+- SECURE_SALT and SECURE_PASSWORD
+  - shared with GOB API (symmetrical encryption).
+    GOB Import is responsable for the encryption and GOB API uses the secrets for decryption
+
 # Docker
 
 ## Requirements
