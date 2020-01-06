@@ -29,6 +29,14 @@ class TestConverter(unittest.TestCase):
         result = _apply_filters("a", filters)
         self.assertEqual(result, "A")
 
+        filters = [
+            ["some name"],
+            ["re.sub", "a", "b"],
+        ]
+        with self.assertRaises(GOBException):
+            result = _apply_filters("a", filters)
+
+
     def test_is_object_reference(self):
         testcases = (
             ("this.andthat", True),
@@ -105,6 +113,16 @@ class TestConverter(unittest.TestCase):
             "another_col": row["ref_col"][1]["another_col"],
         }]
         self.assertEqual(expected_result, result)
+
+        field_source = {
+            "bronwaarde": "=somevalue",
+        }
+        result = _extract_references(row, field_source, field_type)
+        expected_result = [{
+            "bronwaarde": 'somevalue'
+        }]
+        self.assertEqual(expected_result, result)
+
 
     def test_extract_references_bronwaarde_object_two_refs(self):
         row = {
