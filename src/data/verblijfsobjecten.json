@@ -191,7 +191,7 @@
 "    WHERE    v.indauthentiek = 'J'"
     ],
     "recent": [
-"        AND (v.creation >= sysdate - 10 OR  v.modification >= sysdate - 10)"
+"    AND (v.creation >= sysdate - 10 OR  v.modification >= sysdate - 10)"
     ]
   },
   "gob_mapping": {
