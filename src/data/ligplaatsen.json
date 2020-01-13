@@ -79,6 +79,9 @@
 "      GROUP BY la.ligplaats_id,la.ligplaatsvolgnummer) q2  ON l.ligplaats_id = q2.ligplaats_id",
 "      AND l.ligplaatsvolgnummer = q2.ligplaatsvolgnummer",
 "      WHERE l.indauthentiek = 'J'"
+    ],
+    "recent": [
+"      AND (l.creation >= sysdate - 10 OR  l.modification >= sysdate - 10)"
     ]
   },
   "gob_mapping": {

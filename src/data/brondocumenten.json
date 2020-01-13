@@ -89,6 +89,9 @@
 "    AND    b.item_deleted IS NULL",
 "    AND    b.subject2 IS NOT NULL",
 "    AND    UPPER(substr(b.subject1, 8, 2)) IN ('GV', 'MB', 'PC', 'RO', 'SA', 'SB', 'SC', 'SD', 'SE', 'SF', 'SG', 'SH', 'SJ', 'SK', 'SM', 'SN', 'SP', 'SQ', 'SR', 'ST', 'SU', 'SV', 'SW', 'TM')"
+    ],
+    "recent": [
+"    AND b.item_created >= sysdate - 10"
     ]
   },
   "gob_mapping": {
