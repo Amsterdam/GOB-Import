@@ -57,6 +57,9 @@
 "      -- selecteren bagproces / mutatiereden",
 "      LEFT OUTER JOIN basis.mutatiereden m ON w.bagproces = m.id",
 "      WHERE  w.indauthentiek = 'J'"
+    ],
+    "recent": [
+"      AND (w.creation >= sysdate - 10 OR  w.modification >= sysdate - 10)"
     ]
   },
   "gob_mapping": {
