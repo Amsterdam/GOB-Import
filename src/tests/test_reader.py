@@ -95,6 +95,22 @@ class TestReader(unittest.TestCase):
             reader.source['type'] = "any type"
             reader.read()
 
+    @mock.patch("gobimport.reader.query_database")
+    def test_read_with_insert_at_query(self, mock_query_file):
+        reader = Reader(self.source, self.app, self.dataset())
+        reader._connection = "any connection"
+        reader.source["type"] = "database"
+        reader.source["query"] = [1, 2, 3]
+
+        reader.source["partial"] = {
+            "insert_at": -1,
+            "query": [4],
+        }
+
+        reader.read(mode="partial")
+
+        mock_query_file.assert_called_with("any connection", [1, 2, 4, 3])
+
     def test_set_secure_attributes(self):
         reader = Reader(self.source, self.app, self.dataset())
         mapping = {

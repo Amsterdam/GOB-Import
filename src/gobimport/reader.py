@@ -120,7 +120,12 @@ class Reader:
         if mode != FULL_IMPORT:
             try:
                 # Optionally populated with the mode, eg partial, random, ...
-                source_query += self.source[mode]
+                if isinstance(self.source[mode], dict):
+                    # If we have a dict, insert the query at a specific point of the source query
+                    source_query.insert(self.source[mode]["insert_at"], *self.source[mode]["query"])
+                else:
+                    # If it's a list, just append to the query
+                    source_query += self.source[mode]
             except KeyError as e:
                 logger.error(f"Unknown import mode for the collection: '{mode}'")
                 raise e
