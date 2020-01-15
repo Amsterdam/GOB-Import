@@ -9,7 +9,7 @@
     "type": "oracle",
     "schema": "Decos",
     "query": [
-"    SELECT * (",
+"    SELECT * FROM (",
 "      SELECT regexp_substr(b.subject2, '^(.*?)[_ ]', 1, 1, NULL, 1)         AS dossier",
 "      ,      b.item_created AS created",
 "      ,      rtrim( xmlcast( xmlagg( xmlelement(e, b.subject2 || ';') order by b.subject2) as clob), ';') AS heeft_bag_brondocument",
