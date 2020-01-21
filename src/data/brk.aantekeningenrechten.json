@@ -26,7 +26,7 @@
       ") art"
     ],
     "recent": [
-      ", LATERAL (",
+      ", (",
       "    SELECT",
       "      MIN(last_id) AS last_id",
       "    FROM brk_metadata.last_source_id",
