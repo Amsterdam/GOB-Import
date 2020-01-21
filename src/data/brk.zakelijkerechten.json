@@ -37,6 +37,9 @@
       "   toestandsdatum,",
       "   expiration_date",
       "FROM brk_prepared.zakelijk_recht"
+    ],
+    "recent": [
+      "WHERE (creation >= NOW() - INTERVAL '10 days' OR  modification >= NOW() - INTERVAL '10 days')"
     ]
   },
   "gob_mapping": {
