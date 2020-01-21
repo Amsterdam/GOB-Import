@@ -52,6 +52,9 @@
       "   adressen,",
       "   ontstaan_uit_kadastraalobject",
       "FROM brk_prepared.kadastraal_object"
+    ],
+    "recent": [
+      "WHERE (creation >= NOW() - INTERVAL '10 days' OR  modification >= NOW() - INTERVAL '10 days')"
     ]
   },
   "gob_mapping": {

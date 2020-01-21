@@ -29,6 +29,9 @@
       "   begindatum,",
       "   einddatum",
       "FROM brk_prepared.tenaamstelling"
+    ],
+    "recent": [
+      "WHERE (creation >= NOW() - INTERVAL '10 days' OR  modification >= NOW() - INTERVAL '10 days')"
     ]
   },
   "gob_mapping": {
