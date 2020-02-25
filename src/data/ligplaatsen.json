@@ -8,6 +8,14 @@
     "entity_id": "identificatie",
     "type": "oracle",
     "schema": "Neuron",
+    "enrich": {
+      "amsterdamse_sleutel": {
+        "type": "autoid",
+        "on": "identificatie",
+        "template": "0363085XXXXXXX",
+        "dry_run": true
+      }
+    },
     "query": [
 "    SELECT l.ligplaatsnummer                                                                      AS identificatie",
 "    ,      l.ligplaatsvolgnummer                                                                  AS volgnummer",

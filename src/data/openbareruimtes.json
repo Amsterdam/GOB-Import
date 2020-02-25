@@ -8,6 +8,14 @@
     "entity_id": "identificatie",
     "type": "oracle",
     "schema": "Neuron",
+    "enrich": {
+      "amsterdamse_sleutel": {
+        "type": "autoid",
+        "on": "identificatie",
+        "template": "0363088XXXXXXX",
+        "dry_run": true
+      }
+    },
     "query": [
 "    SELECT o.openbareruimtenummer                                                                 AS identificatie",
 "    ,      o.openbareruimtevolgnummer                                                             AS volgnummer",
