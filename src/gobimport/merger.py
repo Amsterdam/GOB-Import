@@ -52,7 +52,7 @@ class Merger:
         :return:
         """
         copy = self.merge_def["copy"]
-        entities.sort(key=lambda e: int(e["volgnummer"]))  NOT NEEDED, APPLY OLD EVENTS?
+        entities.sort(key=lambda e: e["volgnummer"])
 
         # The attributes to copy are derived from the most recent entity
         merge_entity = entities[-1]
@@ -67,7 +67,7 @@ class Merger:
             entity[key] = merge_entity[key]
 
         # Update the volgnummer
-        entity["volgnummer"] = str(int(merge_entity["volgnummer"]) + int(entity["volgnummer"]) - 1)  NOT NEEDED
+        entity["volgnummer"] = merge_entity["volgnummer"] + entity["volgnummer"] - 1
 
     def prepare(self, progress):
         """
