@@ -42,9 +42,9 @@ class StateValidator:
         self._validate_begin_geldigheid(entity)
 
         # volgnummer should a positive number and unique in the collection
-        volgnummer = str(entity['volgnummer'])  NOT NEEDED
+        volgnummer = entity['volgnummer']
         identificatie = str(entity[self.source_id])
-        if int(volgnummer) < 1 or volgnummer in self.volgnummers[identificatie]:  NOT NEEDED
+        if volgnummer < 1 or volgnummer in self.volgnummers[identificatie]:
             msg = "volgnummer should be a positive number and unique in the collection"
             extra_data = {
                 'id': msg,
