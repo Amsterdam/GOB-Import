@@ -159,7 +159,7 @@ class BAGEnricher(Enricher):
         if self.entity_name in DIVA_ABBREVIATIONS:
             # Create an empty dict to make sure attributes exist on the entity
             empty_dict = {
-                'amsterdamse_sleutel': ''
+                'amsterdamse_sleutel': None,
             }
 
             # Add Amsterdam Sleutel for all entities
