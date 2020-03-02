@@ -41,7 +41,7 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['amsterdamse_sleutel'],'sleutel')
 
         # Error path for amsterdamse_sleutel, expect an empty attribute
-        self.assertEqual(entities[1]['amsterdamse_sleutel'],'')
+        self.assertEqual(entities[1]['amsterdamse_sleutel'],None)
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     @mock.patch("gobimport.enricher.bag.BAGEnricher._get_amsterdamse_sleutel_lookup")
@@ -71,7 +71,7 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['amsterdamse_sleutel'],'sleutel')
 
         # Expect values to be empty if no sleutel or straatcode was found
-        self.assertEqual(entities[1]['amsterdamse_sleutel'],'')
+        self.assertEqual(entities[1]['amsterdamse_sleutel'],None)
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     def test_enrich_verblijfsobjecten(self):
@@ -113,7 +113,7 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[1]['fng_omschrijving'], None)
 
         # Expect an empty amsterdamse_sleutel
-        self.assertEqual(entities[0]['amsterdamse_sleutel'], '')
+        self.assertEqual(entities[0]['amsterdamse_sleutel'], None)
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     def test_enrich_dossiers(self):
