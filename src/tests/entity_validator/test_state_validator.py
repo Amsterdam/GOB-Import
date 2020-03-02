@@ -33,7 +33,7 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'volgnummer': '1',
+                'volgnummer': 1,
                 'begin_geldigheid': datetime.datetime(2018, 1, 1),
                 'eind_geldigheid': datetime.datetime(2019, 1, 1),
             }
@@ -47,7 +47,7 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'volgnummer': '1',
+                'volgnummer': 1,
                 'begin_geldigheid': datetime.datetime(2019, 2, 1),
                 'eind_geldigheid': datetime.datetime(2019, 1, 1),
             }
@@ -62,7 +62,7 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'volgnummer': '-1',
+                'volgnummer': -1,
                 'begin_geldigheid': datetime.datetime(2018, 1, 1),
                 'eind_geldigheid': datetime.datetime(2019, 1, 1),
             }
@@ -77,13 +77,13 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'volgnummer': '1',
+                'volgnummer': 1,
                 'begin_geldigheid': datetime.datetime(2018, 1, 1),
                 'eind_geldigheid': datetime.datetime(2019, 1, 1),
             },
             {
                 'identificatie': '1234567890',
-                'volgnummer': '1',
+                'volgnummer': 1,
                 'begin_geldigheid': datetime.datetime(2018, 1, 1),
                 'eind_geldigheid': datetime.datetime(2019, 1, 1),
             }
