@@ -56,7 +56,7 @@ class TestMerger(unittest.TestCase):
             "a": 31,
             "b": 32,
             "c": None,
-            "volgnummer": '3'
+            "volgnummer": 3
         })
 
         entity = {
@@ -70,7 +70,7 @@ class TestMerger(unittest.TestCase):
             "a": 31,
             "b": 32,
             "c": None,
-            "volgnummer": '4'
+            "volgnummer": 4
         })
 
         # Remember that entities get sorted inside the merge method!
@@ -141,7 +141,7 @@ class TestMerger(unittest.TestCase):
         }
 
         merger.merge(entity, lambda e: None)
-        self.assertEqual(entity, {"any on": 1, "a": 2, "volgnummer": '1'})
+        self.assertEqual(entity, {"any on": 1, "a": 2, "volgnummer": 1})
         self.assertIsNotNone(merger.merge_items[2])
         self.assertIsNotNone(merger.merge_items[1])
         self.assertEqual(len(merger.merge_items.keys()), 2)
