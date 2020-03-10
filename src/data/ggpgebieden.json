@@ -64,6 +64,10 @@
       "source_mapping": {
         "bronwaarde": "BUURTEN"
       }
+    },
+    "_expiration_date": {
+      "source_mapping": "GGP_EINDDATUM",
+      "format": "%Y-%m-%d"
     }
   }
 }
