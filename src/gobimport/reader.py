@@ -11,7 +11,6 @@ from gobcore.logging.logger import logger
 from gobcore.database.connector import (
     connect_to_database,
     connect_to_objectstore,
-    connect_to_file,
     connect_to_oracle,
     connect_to_postgresql,
     connect_to_wfs
@@ -19,12 +18,13 @@ from gobcore.database.connector import (
 from gobcore.database.reader import (
     query_database,
     query_objectstore,
-    query_file,
     query_oracle,
     query_postgresql,
     query_wfs
 )
+from gobconfig.import_.import_config import get_absolute_filepath
 from gobimport.config import get_database_config, get_objectstore_config, FULL_IMPORT
+from gobimport.file import connect_to_file, query_file
 
 
 class Reader:
@@ -79,7 +79,9 @@ class Reader:
         :return:
         """
         if self.source['type'] == "file":
-            self._connection, user = connect_to_file(config=self.source['config'])
+            self._connection, user = connect_to_file(config=self.source['config'],
+                                                     file_path=get_absolute_filepath(self.source['config']['filename'])
+                                                     )
         elif self.source['type'] == "database":
             self._connection, user = connect_to_database(get_database_config(self.source['application']))
         elif self.source['type'] == "oracle":

@@ -12,7 +12,9 @@ class TestReader(unittest.TestCase):
             "type": "any type",
             "application": "any application",
             "query": "any query",
-            "config": "any config",
+            "config": {
+                "filename": "any filename",  # only used for file
+            },
             "any other item": "something"
         }
         self.app = "Any app"
