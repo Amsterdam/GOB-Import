@@ -17,23 +17,20 @@ class TestMain(TestCase):
         }
 
     @patch("gobimport.__main__.ImportClient")
-    @patch("gobimport.__main__.get_mapping")
     @patch("gobimport.__main__.extract_dataset_from_msg")
-    def test_handle_import_msg(self, mock_extract_dataset, mock_get_mapping, mock_import_client):
+    def test_handle_import_msg(self, mock_extract_dataset, mock_import_client):
         mock_import_client_instance = MagicMock()
         mock_import_client.return_value = mock_import_client_instance
-        mock_extract_dataset.return_value = "dataset_file"
-        mock_get_mapping.return_value = "mapped_file"
+        mock_extract_dataset.return_value = "the dataset"
         handle_import_msg(self.mock_msg)
 
         mock_extract_dataset.assert_called_with(self.mock_msg)
-        mock_get_mapping.assert_called_with("dataset_file")
 
-        mock_import_client.assert_called_with(dataset="mapped_file", msg=self.mock_msg, mode=FULL_IMPORT)
+        mock_import_client.assert_called_with(dataset="the dataset", msg=self.mock_msg, mode=FULL_IMPORT)
         mock_import_client_instance.import_dataset.assert_called_once()
 
-    @patch("gobimport.__main__.get_dataset_file_location")
-    def test_extract_dataset_from_msg(self, mock_dataset_file_location):
+    @patch("gobimport.__main__.get_import_definition")
+    def test_extract_dataset_from_msg(self, mock_import_definition):
         msg = {
             'header': {
                 'catalogue': 'cat',
@@ -43,9 +40,9 @@ class TestMain(TestCase):
         }
 
         result = extract_dataset_from_msg(msg)
-        self.assertEqual(mock_dataset_file_location.return_value, result)
+        self.assertEqual(mock_import_definition.return_value, result)
 
-        mock_dataset_file_location.assert_called_with('cat', 'coll', 'app')
+        mock_import_definition.assert_called_with('cat', 'coll', 'app')
 
         msg = {
             'header': {
@@ -55,7 +52,7 @@ class TestMain(TestCase):
         }
 
         extract_dataset_from_msg(msg)
-        mock_dataset_file_location.assert_called_with('cat', 'coll', None)
+        mock_import_definition.assert_called_with('cat', 'coll', None)
 
     def test_extract_dataset_missing_keys(self):
         cases = [
