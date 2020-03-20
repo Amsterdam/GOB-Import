@@ -23,7 +23,4 @@ RUN rm requirements.txt
 # Copy gobimport module
 COPY gobimport gobimport
 
-# For the current test period, add the datafiles
-COPY data data
-
 CMD ["python", "-m", "gobimport"]

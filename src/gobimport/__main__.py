@@ -6,8 +6,9 @@ from gobcore.exceptions import GOBException
 from gobcore.message_broker.config import WORKFLOW_EXCHANGE, IMPORT_QUEUE, IMPORT_RESULT_KEY
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 
+from gobconfig.import_.import_config import get_import_definition
+
 from gobimport.import_client import ImportClient
-from gobimport.mapping import get_dataset_file_location, get_mapping
 from gobimport.config import FULL_IMPORT
 
 
@@ -36,12 +37,11 @@ def extract_dataset_from_msg(msg):
     if not all([key in header for key in required_keys]):
         raise GOBException(f"Missing dataset keys. Expected keys: {','.join(required_keys)}")
 
-    return get_dataset_file_location(header['catalogue'], header['collection'], header.get('application'))
+    return get_import_definition(header['catalogue'], header['collection'], header.get('application'))
 
 
 def handle_import_msg(msg):
-    dataset_file = extract_dataset_from_msg(msg)
-    dataset = get_mapping(dataset_file)
+    dataset = extract_dataset_from_msg(msg)
 
     # Create a new import client and start the process
     header = msg.get('header', {})

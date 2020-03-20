@@ -11,10 +11,10 @@ RUN rm requirements.txt
 
 # Copy gobimport module
 COPY gobimport gobimport
-COPY data data
 
-# Remove gobcore tests
+# Remove gobcore/gobconfig tests
 RUN rm -rf /app/src/gobcore/tests
+RUN rm -rf /app/src/gobconfig/tests
 
 # Copy tests
 COPY tests tests

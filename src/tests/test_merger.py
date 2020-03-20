@@ -5,6 +5,7 @@ from unittest import mock
 from gobimport.import_client import ImportClient
 from gobimport.merger import Merger
 
+
 class TestMerger(unittest.TestCase):
 
     def setUp(self):
@@ -83,7 +84,7 @@ class TestMerger(unittest.TestCase):
         merger.prepare(progress=None)
         self.assertEqual(merger.merge_def, None)
 
-    @mock.patch('gobimport.merger.get_mapping', mock.MagicMock())
+    @mock.patch('gobimport.merger.get_import_definition_by_filename', mock.MagicMock())
     def test_prepare_with_merge_def(self):
         mock_client = mock.MagicMock(spec=ImportClient)
         mock_client.source = {
@@ -115,7 +116,7 @@ class TestMerger(unittest.TestCase):
         }, merge_def)
         self.assertEqual(len(merger.merge_items["b"]["entities"]), 2)
 
-    @mock.patch('gobimport.merger.get_mapping', mock.MagicMock())
+    @mock.patch('gobimport.merger.get_import_definition_by_filename', mock.MagicMock())
     def test_merge(self):
         mock_client = mock.MagicMock(spec=ImportClient)
         mock_client.source = {
