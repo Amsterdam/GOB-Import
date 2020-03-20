@@ -15,7 +15,7 @@ Note: The data to be merged is kept in memory during the import.
 When large data collections need to be merged then GOB-Prepare is considered a better place
 Data can then be merged using a database
 """
-from gobimport.mapping import get_mapping
+from gobconfig.import_.import_config import get_import_definition_by_filename
 
 
 class Merger:
@@ -85,7 +85,7 @@ class Merger:
             primary_dataset = self.import_client.dataset.copy()
 
             # Import merge data
-            mapping = get_mapping(merge_def["dataset"])
+            mapping = get_import_definition_by_filename(merge_def["dataset"])
             self.import_client.init_dataset(mapping)
             self.import_client.import_rows(lambda e: self._collect_entity(e, merge_def), progress)
 

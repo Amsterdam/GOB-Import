@@ -143,3 +143,29 @@ class TestReader(unittest.TestCase):
         }
         reader.set_secure_attributes(mapping, attributes)
         self.assertEqual(reader.secure_attributes, ['any secure string', 'any secure bronwaarde'])
+
+    @mock.patch("gobimport.reader.read_protect", lambda x: 'read_protected(' + x + ')')
+    def test_protect_row(self):
+        reader = Reader(self.source, self.app, self.dataset())
+        reader.secure_attributes = ['attrB']
+        row = {'attrA': 'valA', 'attrB': 'valB'}
+
+        self.assertEquals({
+            'attrA': 'valA',
+            'attrB': 'read_protected(valB)',
+        }, reader._protect_row(row))
+
+    def test_query(self):
+        reader = Reader(self.source, self.app, self.dataset())
+        reader._protect_row = lambda x: 'protected(' + x + ')'
+        reader.secure_attributes = []
+        query = iter(['a', 'b'])
+
+        self.assertEqual(['a', 'b'], list(reader._query(query)))
+
+        query = iter(['a', 'b'])
+        reader.secure_attributes = ['not', 'empty']
+        self.assertEqual([
+            'protected(a)',
+            'protected(b)',
+        ], list(reader._query(query)))
