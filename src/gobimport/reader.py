@@ -8,23 +8,9 @@ from gobcore.model import GOBModel
 from gobcore.secure.crypto import read_protect
 
 from gobcore.logging.logger import logger
-from gobcore.database.connector import (
-    connect_to_database,
-    connect_to_objectstore,
-    connect_to_oracle,
-    connect_to_postgresql,
-    connect_to_wfs
-)
-from gobcore.database.reader import (
-    query_database,
-    query_objectstore,
-    query_oracle,
-    query_postgresql,
-    query_wfs
-)
-from gobconfig.import_.import_config import get_absolute_filepath
-from gobimport.config import get_database_config, get_objectstore_config, FULL_IMPORT
-from gobimport.file import connect_to_file, query_file
+from gobimport.config import FULL_IMPORT
+from gobconfig.datastore.config import get_datastore_config
+from gobcore.datastore.factory import DatastoreFactory
 
 
 class Reader:
@@ -53,7 +39,7 @@ class Reader:
         self.secure_attributes = []
         self.set_secure_attributes(mapping, gob_attributes)
 
-        self._connection = None
+        self.datastore = None
 
     def set_secure_attributes(self, mapping, gob_attributes):
         """
@@ -78,24 +64,14 @@ class Reader:
 
         :return:
         """
-        if self.source['type'] == "file":
-            self._connection, user = connect_to_file(config=self.source['config'],
-                                                     file_path=get_absolute_filepath(self.source['config']['filename'])
-                                                     )
-        elif self.source['type'] == "database":
-            self._connection, user = connect_to_database(get_database_config(self.source['application']))
-        elif self.source['type'] == "oracle":
-            self._connection, user = connect_to_oracle(get_database_config(self.source['application']))
-        elif self.source['type'] == "objectstore":
-            self._connection, user = connect_to_objectstore(get_objectstore_config(self.source['application']))
-        elif self.source['type'] == "postgres":
-            self._connection, user = connect_to_postgresql(get_database_config(self.source['application']))
-        elif self.source['type'] == "wfs":
-            self._connection, user = connect_to_wfs(self.source['url'])
-        else:
-            raise NotImplementedError
 
-        logger.info(f"Connection to {self.app} {user} has been made.")
+        # Get manually added config, or config based on application name
+        datastore_config = self.source.get('application_config') or get_datastore_config(self.source['application'])
+
+        self.datastore = DatastoreFactory.get_datastore(datastore_config, self.source.get('read_config', {}))
+        self.datastore.connect()
+
+        logger.info(f"Connection to {self.app} {self.datastore.user} has been made.")
 
     def _protect_row(self, row):
         for attr in row.keys():
@@ -115,7 +91,8 @@ class Reader:
 
         :return: iterable dataset
         """
-        assert self._connection is not None, "No connection, connect should succeed before read"
+        assert self.datastore is not None, "No datastore, datastore should be initialised first. " \
+                                           "Have you called connect?"
 
         # The source query is the query (only db-like connections have one)
         source_query = self.source.get("query", [])
@@ -127,19 +104,4 @@ class Reader:
                 logger.error(f"Unknown import mode for the collection: '{mode}'")
                 raise e
 
-        if self.source['type'] == "file":
-            query = query_file(self._connection)
-        elif self.source['type'] == "database":
-            query = query_database(self._connection, source_query)
-        elif self.source['type'] == "oracle":
-            query = query_oracle(self._connection, source_query)
-        elif self.source['type'] == "objectstore":
-            query = query_objectstore(self._connection, self.source)
-        elif self.source['type'] == "postgres":
-            query = query_postgresql(self._connection, source_query)
-        elif self.source['type'] == "wfs":
-            query = query_wfs(self._connection)
-        else:
-            raise NotImplementedError
-
-        return self._query(query)
+        return self._query(self.datastore.query("\n".join(source_query)))

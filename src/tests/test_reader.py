@@ -4,6 +4,7 @@ from unittest import mock
 
 from gobimport.reader import Reader
 
+
 @mock.patch('gobimport.reader.logger', mock.MagicMock())
 class TestReader(unittest.TestCase):
 
@@ -30,72 +31,59 @@ class TestReader(unittest.TestCase):
         reader = Reader(self.source, self.app, self.dataset())
         self.assertEqual(reader.app, self.app)
         self.assertEqual(reader.source, self.source)
-        self.assertEqual(reader._connection, None)
+        self.assertEqual(reader.datastore, None)
 
-    @mock.patch("gobimport.reader.get_database_config")
-    @mock.patch("gobimport.reader.get_objectstore_config")
-    def test_connect(self, mock_objectstore_config, mock_database_config):
-        test_connect_types = [
-            ('gobimport.reader.connect_to_file', 'file'),
-            ('gobimport.reader.connect_to_database', 'database'),
-            ('gobimport.reader.connect_to_oracle', 'oracle'),
-            ('gobimport.reader.connect_to_objectstore', 'objectstore'),
-            ('gobimport.reader.connect_to_postgresql', 'postgres'),
-        ]
-
+    @mock.patch("gobimport.reader.get_datastore_config")
+    @mock.patch("gobimport.reader.DatastoreFactory")
+    def test_connect(self, mock_datastore_factory, mock_datastore_config):
         reader = Reader(self.source, self.app, self.dataset())
-        for connect_type in test_connect_types:
-             with mock.patch(connect_type[0]) as mock_connect:
-                 mock_connect.return_value = (mock.MagicMock, 'user')
 
-                 reader.source['type'] = connect_type[1]
-                 reader.connect()
+        # 1. Should use application config to connect
+        reader.source = {
+            'application_config': 'the application config',
+            'application': 'the application',
+            'read_config': 'the read config',
+        }
 
-                 self.assertIsNotNone(reader._connection)
+        reader.connect()
 
-                 mock_connect.assert_called()
+        self.assertEqual(mock_datastore_factory.get_datastore.return_value, reader.datastore)
+        reader.datastore.connect.assert_called_once()
 
-        # Assert not implemented is raised with undefined connection type
-        with self.assertRaises(NotImplementedError):
-            reader.source['type'] = "any type"
-            reader.connect()
+        mock_datastore_factory.get_datastore.assert_called_with('the application config', 'the read config')
+        mock_datastore_config.assert_not_called()
+
+        # 2. Application defined, no application_config defined. Should get application config
+        mock_datastore_factory.reset_mock()
+        reader.source = {
+            'application': 'the application'
+        }
+        reader.datastore = None
+
+        reader.connect()
+        self.assertEqual(mock_datastore_factory.get_datastore.return_value, reader.datastore)
+        reader.datastore.connect.assert_called_once()
+
+        mock_datastore_factory.get_datastore.assert_called_with(mock_datastore_config.return_value, {})
+        mock_datastore_config.assert_called_with('the application')
 
     def test_read(self):
-        test_read_types = [
-            ('gobimport.reader.query_file', 'file'),
-            ('gobimport.reader.query_database', 'database'),
-            ('gobimport.reader.query_oracle', 'oracle'),
-            ('gobimport.reader.query_objectstore', 'objectstore'),
-            ('gobimport.reader.query_postgresql', 'postgres'),
-        ]
+        reader = Reader({'query': ['a', 'b', 'c']}, self.app, self.dataset())
+        reader.datastore = mock.MagicMock()
+        reader._query = mock.MagicMock()
 
-        reader = Reader(self.source, self.app, self.dataset())
-        reader._connection = "any connection"
+        result = reader.read()
 
-        for read_type in test_read_types:
-             with mock.patch(read_type[0]) as mock_read:
+        self.assertEqual(reader._query.return_value, result)
+        reader._query.assert_called_with(reader.datastore.query.return_value)
+        reader.datastore.query.assert_called_with('a\nb\nc')
 
-                 reader.source['type'] = read_type[1]
+        reader.source = {'query': ['a', 'b', 'c'], 'the_mode': ['d', 'e']}
+        reader.read('the_mode')
+        reader.datastore.query.assert_called_with('a\nb\nc\nd\ne')
 
-                 mock_read.return_value = []
-
-                 reader.read()
-
-                 mock_read.assert_called()
-
-        # If a mode is specified the mode query extension should be read from the config
         with self.assertRaises(KeyError):
-            # Non-existent mode
-            reader.read(mode="some mode")
-
-        # Existent mode
-        self.source["my mode"] = "my mode"
-        reader.read(mode="my mode")
-
-        # Assert not implemented is raised with undefined read type
-        with self.assertRaises(NotImplementedError):
-            reader.source['type'] = "any type"
-            reader.read()
+            reader.read('unknown mode')
 
     def test_set_secure_attributes(self):
         reader = Reader(self.source, self.app, self.dataset())
