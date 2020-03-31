@@ -9,10 +9,11 @@ import tempfile
 
 from objectstore.objectstore import get_full_container_list, get_object
 
-from gobcore.database.connector import connect_to_objectstore
+from gobcore.datastore.factory import DatastoreFactory
+from gobconfig.datastore.config import get_datastore_config
 from gobcore.logging.logger import logger
 
-from gobimport.config import get_objectstore_config, CONTAINER_BASE
+from gobimport.config import CONTAINER_BASE
 from gobimport.enricher.enricher import Enricher
 
 
@@ -96,7 +97,9 @@ class BAGEnricher(Enricher):
         :param entity_name:
         :return:
         """
-        connection, user = connect_to_objectstore(get_objectstore_config('Basisinformatie'))
+        datastore = DatastoreFactory.get_datastore(get_datastore_config('Basisinformatie'))
+        datastore.connect()
+        connection = datastore.connection
 
         file_name = self._get_filename(entity_name)
 

@@ -4,9 +4,10 @@ from unittest import mock
 
 from gobimport.enricher.bag import BAGEnricher
 
+
 @mock.patch("gobimport.enricher.bag.logger", mock.MagicMock())
-@mock.patch("gobimport.enricher.bag.connect_to_objectstore", lambda _: ('connection','user'))
-@mock.patch("gobimport.enricher.bag.get_objectstore_config", mock.MagicMock())
+@mock.patch("gobimport.enricher.bag.get_datastore_config", mock.MagicMock())
+@mock.patch("gobimport.enricher.bag.DatastoreFactory", mock.MagicMock())
 class TestBAGEnrichment(unittest.TestCase):
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
