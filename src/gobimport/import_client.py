@@ -25,7 +25,7 @@ from gobimport.converter import Converter
 from gobimport.injections import Injector
 from gobimport.merger import Merger
 from gobimport.validator import Validator
-from gobimport.enricher import Enricher
+from gobimport.enricher import BaseEnricher
 from gobimport.entity_validator import EntityValidator
 from gobimport.config import FULL_IMPORT
 
@@ -80,7 +80,7 @@ class ImportClient:
         self.func_source_id = ids[0] if ids else "_source_id"
 
         self.injector = Injector(self.source.get("inject"))
-        self.enricher = Enricher(self.source_app, self.catalogue, self.entity)
+        self.enricher = BaseEnricher(self.source_app, self.catalogue, self.entity)
         self.validator = Validator(self.source_app, self.entity, self.source_id, self.dataset)
         self.converter = Converter(self.catalogue, self.entity, self.dataset)
 
@@ -124,6 +124,24 @@ class ImportClient:
 
         return import_message
 
+    def _enriched_issues(self, entity, issues):
+        enrichments = {
+            'source': self.source['name'],
+            'application': self.source.get('application'),
+            'catalogue': self.catalogue
+        }
+        result = []
+        for issue in [issue.contents() for issue in issues]:
+            for key, value in enrichments.items():
+                issue[key] = issue.get(key) or value
+            result.append(issue)
+        return result
+
+    def _handle_issues(self, issues):
+        print("Issues found", len(issues))
+        for issue in issues:
+            print("ISSUE", issue.msg(), issue.log_args()['data'])
+
     def import_rows(self, write, progress):
         logger.info(f"Connect to {self.source_app}")
         reader = Reader(self.source, self.source_app, self.dataset)
@@ -131,6 +149,7 @@ class ImportClient:
 
         logger.info(f"Start import from {self.source_app}")
         self.n_rows = 0
+        issues = []
         for row in reader.read(self.mode):
             progress.tick()
 
@@ -139,17 +158,19 @@ class ImportClient:
 
             self.injector.inject(row)
 
-            self.enricher.enrich(row)
+            issues += self.enricher.enrich(row)
 
-            self.validator.validate(row)
+            issues += self.validator.validate(row)
 
             self.merger.merge(row, write)
 
             entity = self.converter.convert(row)
 
-            self.entity_validator.validate(entity)
+            issues += self.entity_validator.validate(entity)
 
             write(entity)
+
+        self._handle_issues(issues)
 
         self.enricher.cleanup()
 

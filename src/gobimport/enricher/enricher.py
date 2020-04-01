@@ -38,7 +38,7 @@ class Enricher(ABC):
         :return:
         """
         if self._enrich_entity:
-            self._enrich_entity(entity)
+            return self._enrich_entity(entity)
 
     def cleanup(self):
         """
