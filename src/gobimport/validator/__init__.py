@@ -6,7 +6,6 @@ The first version implements only the most basic validation logic
 In order to prepare a more generic validation approach the validation has been set up by means of regular expressions.
 
 """
-from enum import Enum
 import re
 
 from gobcore.exceptions import GOBException
@@ -14,22 +13,13 @@ from gobcore.model import GOBModel
 from gobcore.model.metadata import FIELD
 from gobcore.logging.logger import logger
 
+from gobcore.quality.config import QA_LEVEL, QA_CHECK
+from gobcore.quality.issue import Issue
+
 
 # Log message formats
 MISSING_ATTR_FMT = "{attr} missing in entity: {entity}"
 QA_CHECK_FAILURE_FMT = "{msg}. Value was: {value}"
-
-
-NL_X_MIN = 110000
-NL_X_MAX = 136000
-NL_Y_MIN = 474000
-NL_Y_MAX = 502000
-
-
-class QA(Enum):
-    FATAL = "fatal"
-    WARNING = "warning"
-    INFO = "info"
 
 
 ENTITY_CHECKS = {
@@ -37,115 +27,93 @@ ENTITY_CHECKS = {
     "meetbouten": {
         "identificatie": [
             {
-                "pattern": "^\d{8}$",
-                "msg": "identificatie should consist of 8 numeric characters",
-                "type": QA.FATAL,
+                **QA_CHECK.Format_N8,
+                "level": QA_LEVEL.FATAL,
             },
         ],
         "status_id": [
             {
-                "pattern": "^[1,2,3]$",
-                "msg": "Statusid should be one of [1,2,3].",
-                "type": QA.WARNING,
+                **QA_CHECK.Value_1_2_3,
+                "level": QA_LEVEL.WARNING,
             },
         ],
         "windrichting": [
             {
-                "pattern": "^(N|NO|O|ZO|Z|ZW|W|NW)$",
-                "msg": "Windrichting should be one of [N,NO,O,ZO,Z,ZW,W,NW]",
+                **QA_CHECK.Value_wind_direction_NOZW,
                 "allow_null": True,
-                "type": QA.WARNING,
+                "level": QA_LEVEL.WARNING,
             }
         ],
         "publiceerbaar": [
             {
-                "pattern": "^[1,0]$",
-                "msg": "Publiceerbaar should be one of [1,0]",
+                **QA_CHECK.Value_1_0,
                 "allow_null": True,
-                "type": QA.WARNING,
+                "level": QA_LEVEL.WARNING,
             },
         ],
     },
     "metingen": {
         "identificatie": [
             {
-                "pattern": "^\d+$",
-                "msg": "identificatie should be a valid positive integer",
-                "type": QA.FATAL,
+                **QA_CHECK.Format_numeric,
+                "level": QA_LEVEL.FATAL,
             },
         ],
         "hoort_bij_meetbout": [
             {
-                "pattern": "^\d{8}$",
-                "msg": "identificatie should consist of 8 numeric characters",
-                "type": QA.FATAL,
+                **QA_CHECK.Format_N8,
+                "level": QA_LEVEL.FATAL,
             },
         ],
         "publiceerbaar": [
             {
-                "pattern": "^[1,0]$",
-                "msg": "Publiceerbaar should be one of [1,0]",
+                **QA_CHECK.Value_1_0,
                 "allow_null": True,
-                "type": QA.WARNING,
+                "level": QA_LEVEL.WARNING,
             },
         ],
     },
     "referentiepunten": {
         "publiceerbaar": [
             {
-                "pattern": "^[J,N]$",
-                "msg": "Publiceerbaar should be one of [J,N]",
+                **QA_CHECK.Value_J_N,
                 "allow_null": True,
-                "type": QA.FATAL,
+                "level": QA_LEVEL.FATAL,
             },
         ],
     },
     "rollagen": {
         "name": [
             {
-                "pattern": "(.*)/([a-zA-Z]{2}\d{1,2}).(.*)",
-                "msg": "File name should be in the format AAn(n)",
-                "type": QA.FATAL,
+                **QA_CHECK.Format_AAN_AANN,
+                "level": QA_LEVEL.FATAL,
             },
         ],
     },
     "peilmerken": {
         "identificatie": [
             {
-                "pattern": "^\d{8}$",
-                "msg": "identificatie should of 8 numeric characters",
-                "type": QA.FATAL,
+                **QA_CHECK.Format_N8,
+                "level": QA_LEVEL.FATAL,
             },
         ],
         "hoogte_tov_nap": [
             {
-                "between": [-6, 15],
-                "msg": "hoogte_tov_nap should be a numeric value between -6 and 15",
-                "type": QA.WARNING,
+                **QA_CHECK.Value_height_6_15,
+                "level": QA_LEVEL.WARNING,
             },
         ],
         "geometrie": [
             {
-                "geometry": {
-                    'x': {
-                        'min': NL_X_MIN,
-                        'max': NL_X_MAX,
-                    },
-                    'y': {
-                        'min': NL_Y_MIN,
-                        'max': NL_Y_MAX,
-                    }
-                },
-                "msg": f"geometrie coordinates should be between {NL_X_MIN}-{NL_X_MAX} and {NL_Y_MIN}-{NL_Y_MAX}",
-                "type": QA.FATAL,
+                **QA_CHECK.Value_geometry_in_NL,
+                "level": QA_LEVEL.FATAL,
             },
         ],
         "publiceerbaar": [
             {
-                "pattern": "^[JN]{1}$",
-                "msg": "publiceerbaar should be J or N",
+                **QA_CHECK.Value_J_N,
                 "allow_null": True,
-                "type": QA.FATAL,
+                "level": QA_LEVEL.FATAL,
             },
         ]
     },
@@ -153,84 +121,66 @@ ENTITY_CHECKS = {
         "source_id": [
             {
                 "source_app": "DGDialog",
-                "pattern": "^{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}}$",
-                "msg": "source_id should be a 4-2-2-2-6 bytes hexidecimal value",
-                "type": QA.WARNING
+                **QA_CHECK.Format_4_2_2_2_6_HEX,
+                "level": QA_LEVEL.WARNING
             }
         ],
         "code": [
             {
-                "pattern": "^[a-zA-Z]{2}\d{2}$",
-                "msg": "code should be 2 letters and 2 numbers",
-                "type": QA.FATAL
+                **QA_CHECK.Format_AANN,
+                "level": QA_LEVEL.FATAL
             }
         ],
     },
     "buurten": {
         "geometrie": [
             {
-                "geometry": {
-                    'x': {
-                        'min': NL_X_MIN,
-                        'max': NL_X_MAX,
-                    },
-                    'y': {
-                        'min': NL_Y_MIN,
-                        'max': NL_Y_MAX,
-                    }
-                },
-                "msg": f"geometrie coordinates should be between {NL_X_MIN}-{NL_X_MAX} and {NL_Y_MIN}-{NL_Y_MAX}",
-                "type": QA.FATAL,
+                **QA_CHECK.Value_geometry_in_NL,
+                "level": QA_LEVEL.FATAL,
             },
         ],
         "naam": [
             {
-                "pattern": "^.+$",
-                "msg": "naam should be filled",
-                "type": QA.WARNING
+                **QA_CHECK.Value_not_empty,
+                "level": QA_LEVEL.WARNING
             }
         ],
     },
     "wijken": {
         "code": [
             {
-                "pattern": "^[a-zA-Z]{1}\d{2}$",
-                "msg": "code should be 1 letter and 2 numbers",
-                "type": QA.FATAL
+                **QA_CHECK.Format_ANN,
+                "level": QA_LEVEL.FATAL
             }
         ],
         "documentnummer": [
             {
-                "pattern": "^.+$",
-                "msg": "documentnummer should be filled",
-                "type": QA.WARNING,
+                **QA_CHECK.Value_not_empty,
+                "level": QA_LEVEL.WARNING,
             },
         ],
     },
     "ggpgebieden": {
         "GGP_NAAM": [
             {
-                "pattern": "^[^0-9]+$",
-                "msg": "naam should be filled and not contain numbers",
-                "type": QA.WARNING,
+                **QA_CHECK.Format_alfabetic,
+                "level": QA_LEVEL.WARNING,
             },
         ],
     },
     "ggwgebieden": {
         "GGW_NAAM": [
             {
-                "pattern": "^[^0-9]+$",
-                "msg": "naam should be filled and not contain numbers",
-                "type": QA.WARNING,
+                **QA_CHECK.Format_alfabetic,
+                "level": QA_LEVEL.WARNING,
             },
         ],
     },
     "stadsdelen": {
         "naam": [
             {
-                "pattern": "^[^0-9]+$",
-                "msg": "naam should be filled and not contain numbers",
-                "type": QA.WARNING,
+                **QA_CHECK.Format_alfabetic,
+                "level": QA_LEVEL.WARNING,
             },
         ],
     }
@@ -262,10 +212,7 @@ class Validator:
             raise GOBException(f"Duplicate primary key(s) found in source: "
                                f"[{', '.join([str(dup) for dup in self.duplicates])}]")
 
-        self._log(type=QA.INFO,
-                  id=None,
-                  msg=f"Quality assurance passed",
-                  data=self.collection_qa)
+        logger.info("Quality assurance passed")
 
     def validate(self, entity):
         """
@@ -278,19 +225,14 @@ class Validator:
         self._validate_primary_key(entity)
 
         # Run quality checks on the collection and individual entities
-        self._validate_quality(entity)
+        return self._validate_quality(entity)
 
-    def _log(self, type, id, msg, data):
-        extra_info = {
-            "id": id,
-            "data": data
-        }
-        if type == QA.FATAL:
-            logger.error(msg, extra_info)
-        if type == QA.WARNING:
-            logger.warning(msg, extra_info)
-        if type == QA.INFO:
-            logger.info(msg, extra_info)
+    def _log_issue(self, level, issue):
+        {
+            QA_LEVEL.FATAL: logger.error,
+            QA_LEVEL.WARNING: logger.warning,
+            QA_LEVEL.INFO: logger.info
+        }[level](issue.msg(), issue.log_args())
 
     def _validate_primary_key(self, entity):
         """
@@ -332,6 +274,7 @@ class Validator:
         qa_checks = ENTITY_CHECKS.get(self.entity_name, {})
 
         invalid_attrs = set()
+        issues = []
 
         for attr, entity_checks in qa_checks.items():
             for check in entity_checks:
@@ -339,39 +282,39 @@ class Validator:
                     # Checks can be made app specific by setting the source_app attribute
                     continue
                 # Check if the attribute is available
-                if not self._attr_check(check, attr, entity):
+                issue = self._attr_check(check, attr, entity)
+                if issue:
                     # Add the attribute to the set of non-valid attributes for count
                     invalid_attrs.add(attr)
+                    issues.append(issue)
                     continue
 
-                if not self._qa_check(check, attr, entity):
+                issue = self._qa_check(check, attr, entity)
+                if issue:
                     # Add the attribute to the set of non-valid attributes for count
                     invalid_attrs.add(attr)
+                    issues.append(issue)
 
-        return invalid_attrs
+        return invalid_attrs, issues
 
     def _attr_check(self, check, attr, entity):
-        type = check["type"]
+        level = check["level"]
         # Check if attr is available in entity
         if attr not in entity:
             # If a fatal check has failed, mark the validation as fatal
-            if type == QA.FATAL:
+            if level == QA_LEVEL.FATAL:
                 self.fatal = True
 
-            # Log the missing attribute, with the correct level
-            self._log(type=type,
-                      id="Missing attribute",
-                      msg=MISSING_ATTR_FMT.format(attr=attr, entity=entity[self.source_id]),
-                      data={self.source_id: entity[self.source_id], "missing_attr": attr})
+            issue = Issue(QA_CHECK.Attribute_exists, entity, self.source_id, attr)
+            self._log_issue(level, issue)
 
-            return False
+            return issue
 
-        return True
+        return None
 
     # TODO: fix too complex
     def _qa_check(self, check, attr, entity):   # noqa: C901
-        msg = check["msg"]
-        type = check["type"]
+        level = check["level"]
         value = entity[attr]
         if 'pattern' in check:
             is_correct = self._regex_check(check, value)
@@ -383,18 +326,15 @@ class Validator:
         # If the value doesn't pass the qa check, handle the correct way
         if not is_correct:
             # If a fatal check has failed, mark the validation as fatal
-            if type == QA.FATAL:
+            if level == QA_LEVEL.FATAL:
                 self.fatal = True
 
-            # Log the missing attribute, with the correct level
-            self._log(type=type,
-                      id=msg,
-                      msg=QA_CHECK_FAILURE_FMT.format(msg=msg, value=value),
-                      data={self.source_id: entity[self.source_id], "value": value})
+            issue = Issue(check, entity, self.source_id, attr)
+            self._log_issue(level, issue)
 
-            return False
+            return issue
 
-        return True
+        return None
 
     def _regex_check(self, check, value):
         # Check if Null values are allowed
@@ -435,6 +375,7 @@ class Validator:
         :return: Result of the qa checks, and a boolean if fatal errors have been found
         """
         # Validate on individual entities
-        invalid_attrs = self._validate_entity(entity)
+        invalid_attrs, issues = self._validate_entity(entity)
         for attr in invalid_attrs:
             self.collection_qa[f"num_invalid_{attr}"] += 1
+        return issues

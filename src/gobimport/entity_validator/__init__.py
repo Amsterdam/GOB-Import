@@ -35,8 +35,10 @@ class EntityValidator:
         :param entity:
         :return: None
         """
+        issues = []
         for validator in self.validators:
-            validator.validate(entity)
+            issues += validator.validate(entity)
+        return issues
 
     def result(self):
         """

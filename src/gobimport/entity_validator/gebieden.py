@@ -6,6 +6,9 @@ Validations which need to happen after converting the data to GOBModel.
 import datetime
 
 from gobcore.logging.logger import logger
+from gobcore.model import FIELD
+from gobcore.quality.config import QA_CHECK
+from gobcore.quality.issue import Issue
 
 
 class GebiedenValidator:
@@ -35,7 +38,7 @@ class GebiedenValidator:
         return self.validated
 
     def validate(self, entity):
-        self.validate_entity(entity)
+        return self.validate_entity(entity)
 
     def validate_bouwblok(self, entity):
         """
@@ -49,17 +52,11 @@ class GebiedenValidator:
         :return:
         """
         # begin_geldigheid can not be in the future
-        identificatie = str(entity[self.source_id])
-        if entity['begin_geldigheid'] > datetime.datetime.utcnow().date():
-            msg = "begin_geldigheid can not be in the future"
-            extra_data = {
-                'id': msg,
-                'data': {
-                    'identificatie': identificatie,
-                    'begin_geldigheid': entity['begin_geldigheid'].isoformat(),
-                }
-            }
-            logger.warning(msg, extra_data)
+        if entity[FIELD.START_VALIDITY] > datetime.datetime.utcnow().date():
+            issue = Issue(QA_CHECK.Value_not_in_future, entity, self.source_id, FIELD.START_VALIDITY)
+            logger.warning(issue.msg(), issue.log_args())
+            return [issue]
+        return []
 
     def validate_buurt(self, entity):
         """
@@ -72,21 +69,25 @@ class GebiedenValidator:
         :param entities: the list of entities
         :return:
         """
+        issues = []
+
         # get eind_geldigheid or use current date
         eind_geldigheid = entity['eind_geldigheid'] if entity['eind_geldigheid'] \
             else datetime.datetime.utcnow().date()
 
-        documentdatum = entity['documentdatum']
+        datum = 'documentdatum'
         # documentdatum should not be after eind_geldigheid
-        if documentdatum and documentdatum > eind_geldigheid:
-            self.log_date_comparison(entity, 'documentdatum', 'eind_geldigheid')
+        if entity[datum] and entity[datum] > eind_geldigheid:
+            issues.append(self.date_comparison_issue(entity, datum, 'eind_geldigheid'))
 
-        registratiedatum = entity['registratiedatum']
+        datum = 'registratiedatum'
         # registratiedatum should not be after eind_geldigheid
-        if registratiedatum and registratiedatum.date() > eind_geldigheid:
-            self.log_date_comparison(entity, 'registratiedatum', 'eind_geldigheid')
+        if entity[datum] and entity[datum].date() > eind_geldigheid:
+            issues.append(self.date_comparison_issue(entity, datum, 'eind_geldigheid'))
 
-    def log_date_comparison(self, entity, date_field, compare_date_field):
+        return issues
+
+    def date_comparison_issue(self, entity, date_field, compare_date_field):
         """
         Log date comparison
 
@@ -97,14 +98,6 @@ class GebiedenValidator:
         :param compare_date_field: field name of the compared date
         :return:
         """
-        identificatie = str(entity[self.source_id])
-        msg = f"{date_field} can not be after {compare_date_field}"
-        extra_data = {
-            'id': msg,
-            'data': {
-                'identificatie': identificatie,
-                '{date_field}': entity[date_field].isoformat(),
-                '{compare_date_field}': entity[compare_date_field].isoformat(),
-            }
-        }
-        logger.warning(msg, extra_data)
+        issue = Issue(QA_CHECK.Value_not_after, entity, self.source_id, date_field, compared_to=compare_date_field)
+        logger.warning(issue.msg(), issue.log_args())
+        return issue
