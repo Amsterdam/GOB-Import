@@ -8,6 +8,7 @@ from gobimport.enricher.bag import BAGEnricher
 @mock.patch("gobimport.enricher.bag.logger", mock.MagicMock())
 @mock.patch("gobimport.enricher.bag.get_datastore_config", mock.MagicMock())
 @mock.patch("gobimport.enricher.bag.DatastoreFactory", mock.MagicMock())
+@mock.patch("gobimport.enricher.bag.log_issue", mock.MagicMock())
 class TestBAGEnrichment(unittest.TestCase):
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())

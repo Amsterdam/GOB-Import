@@ -13,8 +13,7 @@ from gobcore.model import GOBModel
 from gobcore.model.metadata import FIELD
 from gobcore.logging.logger import logger
 
-from gobcore.quality.config import QA_LEVEL, QA_CHECK
-from gobcore.quality.issue import Issue
+from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 
 # Log message formats
@@ -225,14 +224,7 @@ class Validator:
         self._validate_primary_key(entity)
 
         # Run quality checks on the collection and individual entities
-        return self._validate_quality(entity)
-
-    def _log_issue(self, level, issue):
-        {
-            QA_LEVEL.FATAL: logger.error,
-            QA_LEVEL.WARNING: logger.warning,
-            QA_LEVEL.INFO: logger.info
-        }[level](issue.msg(), issue.log_args())
+        self._validate_quality(entity)
 
     def _validate_primary_key(self, entity):
         """
@@ -274,7 +266,6 @@ class Validator:
         qa_checks = ENTITY_CHECKS.get(self.entity_name, {})
 
         invalid_attrs = set()
-        issues = []
 
         for attr, entity_checks in qa_checks.items():
             for check in entity_checks:
@@ -282,20 +273,16 @@ class Validator:
                     # Checks can be made app specific by setting the source_app attribute
                     continue
                 # Check if the attribute is available
-                issue = self._attr_check(check, attr, entity)
-                if issue:
+                if not self._attr_check(check, attr, entity):
                     # Add the attribute to the set of non-valid attributes for count
                     invalid_attrs.add(attr)
-                    issues.append(issue)
                     continue
 
-                issue = self._qa_check(check, attr, entity)
-                if issue:
+                if not self._qa_check(check, attr, entity):
                     # Add the attribute to the set of non-valid attributes for count
                     invalid_attrs.add(attr)
-                    issues.append(issue)
 
-        return invalid_attrs, issues
+        return invalid_attrs
 
     def _attr_check(self, check, attr, entity):
         level = check["level"]
@@ -305,12 +292,10 @@ class Validator:
             if level == QA_LEVEL.FATAL:
                 self.fatal = True
 
-            issue = Issue(QA_CHECK.Attribute_exists, entity, self.source_id, attr)
-            self._log_issue(level, issue)
+            log_issue(logger, level, Issue(QA_CHECK.Attribute_exists, entity, self.source_id, attr))
+            return False
 
-            return issue
-
-        return None
+        return True
 
     # TODO: fix too complex
     def _qa_check(self, check, attr, entity):   # noqa: C901
@@ -329,12 +314,10 @@ class Validator:
             if level == QA_LEVEL.FATAL:
                 self.fatal = True
 
-            issue = Issue(check, entity, self.source_id, attr)
-            self._log_issue(level, issue)
+            log_issue(logger, level, Issue(check, entity, self.source_id, attr))
+            return False
 
-            return issue
-
-        return None
+        return True
 
     def _regex_check(self, check, value):
         # Check if Null values are allowed
@@ -375,7 +358,6 @@ class Validator:
         :return: Result of the qa checks, and a boolean if fatal errors have been found
         """
         # Validate on individual entities
-        invalid_attrs, issues = self._validate_entity(entity)
+        invalid_attrs = self._validate_entity(entity)
         for attr in invalid_attrs:
             self.collection_qa[f"num_invalid_{attr}"] += 1
-        return issues

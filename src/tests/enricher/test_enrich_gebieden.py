@@ -84,6 +84,7 @@ class MockResponse:
         ]}
 
 @mock.patch("gobimport.enricher.gebieden.logger", mock.MagicMock())
+@mock.patch("gobimport.enricher.gebieden.log_issue", mock.MagicMock())
 class TestEnricher(unittest.TestCase):
 
     def setUp(self):

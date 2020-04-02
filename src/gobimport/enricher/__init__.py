@@ -32,8 +32,7 @@ class BaseEnricher:
         :return:
         """
         for enricher in self.enrichers:
-            return enricher.enrich(entity) or []
-        return []
+            enricher.enrich(entity)
 
     def cleanup(self):
         for enricher in self.enrichers:
