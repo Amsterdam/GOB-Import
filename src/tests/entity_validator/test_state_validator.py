@@ -9,7 +9,9 @@ from gobimport.entity_validator import StateValidator
 
 
 @patch("gobimport.entity_validator.state.logger", MagicMock())
+@patch("gobimport.entity_validator.state.log_issue", MagicMock())
 @patch("gobimport.entity_validator.gebieden.logger", MagicMock())
+@patch("gobimport.entity_validator.gebieden.log_issue", MagicMock())
 class TestEntityValidator(unittest.TestCase):
 
     def setUp(self):

@@ -15,8 +15,7 @@ from gobcore.logging.logger import logger
 
 from gobimport.config import CONTAINER_BASE
 from gobimport.enricher.enricher import Enricher
-from gobcore.quality.config import QA_CHECK
-from gobcore.quality.issue import Issue
+from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 
 CODE_TABLE_FIELDS = ['code', 'omschrijving']
@@ -182,10 +181,9 @@ class BAGEnricher(Enricher):
             nummeraanduiding['ligt_in_bag_woonplaats'] = bronwaarde.split(';')[-1]
 
             if not self.multiple_values_logged:
-                issue = Issue(QA_CHECK.Value_1_1_reference, nummeraanduiding, None, 'ligt_in_bag_woonplaats')
-                logger.warning(issue.msg(), issue.log_args())
+                log_issue(logger, QA_LEVEL.WARNING,
+                          Issue(QA_CHECK.Value_1_1_reference, nummeraanduiding, None, 'ligt_in_bag_woonplaats'))
                 self.multiple_values_logged = True
-                return issue
 
     def enrich_dossier(self, dossier):
         dossier['heeft_bag_brondocument'] = dossier['heeft_bag_brondocument'].split(";")

@@ -6,8 +6,7 @@ import requests
 
 from gobcore.logging.logger import logger
 from gobimport.enricher.enricher import Enricher
-from gobcore.quality.config import QA_CHECK
-from gobcore.quality.issue import Issue
+from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 from shapely.geometry import shape
 from shapely.wkt import loads
@@ -48,10 +47,10 @@ class GebiedenEnricher(Enricher):
         self.features = {}
 
     def enrich_buurt(self, buurt):
-        return self._add_cbs_code(buurt, CBS_BUURTEN_API, 'buurt')
+        self._add_cbs_code(buurt, CBS_BUURTEN_API, 'buurt')
 
     def enrich_wijk(self, wijk):
-        return self._add_cbs_code(wijk, CBS_WIJKEN_API, 'wijk')
+        self._add_cbs_code(wijk, CBS_WIJKEN_API, 'wijk')
 
     def enrich_ggwgebied(self, ggwgebied):
         self._enrich_ggw_ggp_gebied(ggwgebied, "GGW")
@@ -69,28 +68,23 @@ class GebiedenEnricher(Enricher):
         :param type: the type of entity, needed to get the correct values from the API
         :return: the entities enriched with CBS Code
         """
-        issues = []
-
         if not self.features.get(type):
             self.features[type] = _get_cbs_features(url, type)
 
         # Leave entities without datum_einde_geldigheid empty
         if entity['eind_geldigheid']:
             entity['cbs_code'] = ''
-            return issues
+            return
 
         # Check which CBS feature lays within the geometry
-        match, issues = _match_cbs_features(entity, self.features[type])
+        match = _match_cbs_features(entity, self.features[type])
 
         entity['cbs_code'] = match['code'] if match else ''
 
         # Show a warning if the names do not match with CBS
         if match and entity['naam'] != match['naam']:
-            issue = Issue(QA_CHECK.Value_should_match, entity, None, 'naam', 'CBS naam', match['naam'])
-            issues.append(issue)
-            logger.warning(issue.msg(), issue.log_args())
-
-        return issues
+            log_issue(logger, QA_LEVEL.WARNING,
+                      Issue(QA_CHECK.Value_should_match, entity, None, 'naam', 'CBS naam', match['naam']))
 
     def _enrich_ggw_ggp_gebied(self, entity, prefix):
         """Enrich GGW or GGP Gebieden
@@ -124,17 +118,15 @@ def _match_cbs_features(entity, features):
     """
     geom = loads(entity['geometrie'])
     match = None
-    issues = []
 
     for feature in features:
         if geom.contains(feature['geometrie']) and not match:
             match = feature
         elif geom.contains(feature['geometrie']) and match:
-            issue = Issue(QA_CHECK.Value_unique, entity, None, 'naam', 'CBS feature', feature['naam'])
-            issues.append(issue)
-            logger.warning(issue.msg(), issue.log_args(match=match['naam']))
+            log_issue(logger, QA_LEVEL.WARNING,
+                      Issue(QA_CHECK.Value_unique, entity, None, 'naam', 'CBS feature', feature['naam']))
 
-    return match, issues
+    return match
 
 
 def _get_cbs_features(url, type):

@@ -124,24 +124,6 @@ class ImportClient:
 
         return import_message
 
-    def _enriched_issues(self, entity, issues):
-        enrichments = {
-            'source': self.source['name'],
-            'application': self.source.get('application'),
-            'catalogue': self.catalogue
-        }
-        result = []
-        for issue in [issue.contents() for issue in issues]:
-            for key, value in enrichments.items():
-                issue[key] = issue.get(key) or value
-            result.append(issue)
-        return result
-
-    def _handle_issues(self, issues):
-        print("Issues found", len(issues))
-        for issue in issues:
-            print("ISSUE", issue.msg(), issue.log_args()['data'])
-
     def import_rows(self, write, progress):
         logger.info(f"Connect to {self.source_app}")
         reader = Reader(self.source, self.source_app, self.dataset)
@@ -149,7 +131,6 @@ class ImportClient:
 
         logger.info(f"Start import from {self.source_app}")
         self.n_rows = 0
-        issues = []
         for row in reader.read(self.mode):
             progress.tick()
 
@@ -158,19 +139,17 @@ class ImportClient:
 
             self.injector.inject(row)
 
-            issues += self.enricher.enrich(row)
+            self.enricher.enrich(row)
 
-            issues += self.validator.validate(row)
+            self.validator.validate(row)
 
             self.merger.merge(row, write)
 
             entity = self.converter.convert(row)
 
-            issues += self.entity_validator.validate(entity)
+            self.entity_validator.validate(entity)
 
             write(entity)
-
-        self._handle_issues(issues)
 
         self.enricher.cleanup()
 
