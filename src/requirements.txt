@@ -3,8 +3,8 @@ coverage==4.5.1
 flake8==3.5.0
 GeoAlchemy2==0.5.0
 geomet==0.2.0.post2
--e git+https://github.com/Amsterdam/GOB-Core.git@v0.14.2#egg=gobcore
--e git+https://github.com/Amsterdam/GOB-Config.git@v0.3.a#egg=gobconfig
+-e git+https://github.com/Amsterdam/GOB-Core.git@v0.14.2.datastore#egg=gobcore
+-e git+https://github.com/Amsterdam/GOB-Config.git@v0.3.datastore#egg=gobconfig
 jsonschema==2.6.0
 mccabe==0.6.1
 numpy==1.14.5
