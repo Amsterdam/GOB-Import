@@ -162,7 +162,7 @@ ENTITY_CHECKS = {
     "ggpgebieden": {
         "GGP_NAAM": [
             {
-                **QA_CHECK.Format_alfabetic,
+                **QA_CHECK.Format_alphabetic,
                 "level": QA_LEVEL.WARNING,
             },
         ],
@@ -170,7 +170,7 @@ ENTITY_CHECKS = {
     "ggwgebieden": {
         "GGW_NAAM": [
             {
-                **QA_CHECK.Format_alfabetic,
+                **QA_CHECK.Format_alphabetic,
                 "level": QA_LEVEL.WARNING,
             },
         ],
@@ -178,7 +178,7 @@ ENTITY_CHECKS = {
     "stadsdelen": {
         "naam": [
             {
-                **QA_CHECK.Format_alfabetic,
+                **QA_CHECK.Format_alphabetic,
                 "level": QA_LEVEL.WARNING,
             },
         ],
