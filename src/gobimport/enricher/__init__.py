@@ -10,7 +10,7 @@ from gobimport.enricher.wkpb import WKPBEnricher
 from gobimport.enricher.test_catalogue import TstCatalogueEnricher
 
 
-class Enricher:
+class BaseEnricher:
 
     def __init__(self, app_name, catalog_name, entity_name):
         """

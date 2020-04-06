@@ -6,6 +6,7 @@ import requests
 
 from gobcore.logging.logger import logger
 from gobimport.enricher.enricher import Enricher
+from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 from shapely.geometry import shape
 from shapely.wkt import loads
@@ -82,16 +83,8 @@ class GebiedenEnricher(Enricher):
 
         # Show a warning if the names do not match with CBS
         if match and entity['naam'] != match['naam']:
-            msg = f"Naam and CBS naam don't match in {self.app_name}"
-            extra_data = {
-                'id': msg,
-                'data': {
-                    'identificatie': entity['identificatie'],
-                    'naam': entity['naam'],
-                    'cbs_naam': match['naam'],
-                }
-            }
-            logger.warning(msg, extra_data)
+            log_issue(logger, QA_LEVEL.WARNING,
+                      Issue(QA_CHECK.Value_should_match, entity, None, 'naam', 'CBS naam', match['naam']))
 
     def _enrich_ggw_ggp_gebied(self, entity, prefix):
         """Enrich GGW or GGP Gebieden
@@ -130,16 +123,8 @@ def _match_cbs_features(entity, features):
         if geom.contains(feature['geometrie']) and not match:
             match = feature
         elif geom.contains(feature['geometrie']) and match:
-            msg = "Entity already had a match"
-            extra_data = {
-                'data': {
-                    'id': msg,
-                    'naam': entity['naam'],
-                    'match': match['naam'],
-                    'cbs_naam': feature['naam'],
-                }
-            }
-            logger.warning(msg, extra_data)
+            log_issue(logger, QA_LEVEL.WARNING,
+                      Issue(QA_CHECK.Value_unique, entity, None, 'naam', 'CBS feature', feature['naam']))
 
     return match
 

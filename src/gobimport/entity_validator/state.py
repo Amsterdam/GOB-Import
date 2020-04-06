@@ -1,7 +1,8 @@
 from collections import defaultdict
 
-from gobcore.model import GOBModel
+from gobcore.model import GOBModel, FIELD
 from gobcore.logging.logger import logger
+from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 
 class StateValidator:
@@ -42,61 +43,35 @@ class StateValidator:
         self._validate_begin_geldigheid(entity)
 
         # volgnummer should a positive number and unique in the collection
-        volgnummer = entity['volgnummer']
+        if entity[FIELD.SEQNR] < 1:
+            log_issue(logger, QA_LEVEL.ERROR,
+                      Issue(QA_CHECK.Format_numeric, entity, self.source_id, FIELD.SEQNR))
+            self.validated = False
+
         identificatie = str(entity[self.source_id])
-        if volgnummer < 1 or volgnummer in self.volgnummers[identificatie]:
-            msg = "volgnummer should be a positive number and unique in the collection"
-            extra_data = {
-                'id': msg,
-                'data': {
-                    'identificatie': entity[self.source_id],
-                    'volgnummer': entity['volgnummer'],
-                }
-            }
-            logger.error(msg, extra_data)
+        if entity[FIELD.SEQNR] in self.volgnummers[identificatie]:
+            log_issue(logger, QA_LEVEL.ERROR,
+                      Issue(QA_CHECK.Value_unique, entity, self.source_id, FIELD.SEQNR))
             self.validated = False
 
         # Only one eind_geldigheid may be empty per entity
-        eind_geldigheid = entity['eind_geldigheid']
-        if eind_geldigheid is None:
+        if entity[FIELD.END_VALIDITY] is None:
             if self.end_date.get(identificatie):
-                msg = "Only one eind_geldigheid for every entity may be empty"
-                extra_data = {
-                    'id': msg,
-                    'data': {
-                        'identificatie': entity[self.source_id],
-                    }
-                }
-                logger.warning(msg, extra_data)
+                log_issue(logger, QA_LEVEL.WARNING,
+                          Issue(QA_CHECK.Value_empty_once, entity, self.source_id, FIELD.END_VALIDITY))
             self.end_date[identificatie] = True
 
         # Add the volgnummer to the set for this entity identificatie
-        self.volgnummers[identificatie].add(volgnummer)
+        self.volgnummers[identificatie].add(entity[FIELD.SEQNR])
 
     def _validate_begin_geldigheid(self, entity):
-        # begin_geldigheid should be filled
-        if not entity['begin_geldigheid']:
-            msg = "begin_geldigheid should be filled"
-            extra_data = {
-                'id': msg,
-                'data': {
-                    'identificatie': entity[self.source_id],
-                    'begin_geldigheid': entity['begin_geldigheid'],
-                }
-            }
-            logger.error(msg, extra_data)
+        if entity[FIELD.START_VALIDITY]:
+            if entity[FIELD.END_VALIDITY] and entity[FIELD.START_VALIDITY] > entity[FIELD.END_VALIDITY]:
+                # Start-Validity cannot be after End-Validity
+                log_issue(logger, QA_LEVEL.WARNING,
+                          Issue(QA_CHECK.Value_not_after, entity, self.source_id,
+                                FIELD.START_VALIDITY, compared_to=FIELD.END_VALIDITY))
+        else:
+            log_issue(logger, QA_LEVEL.ERROR,
+                      Issue(QA_CHECK.Value_not_empty, entity, self.source_id, FIELD.START_VALIDITY))
             self.validated = False
-
-        # begin_geldigheid can not be after eind_geldigheid when filled
-        if entity['eind_geldigheid'] and \
-                entity['eind_geldigheid'] < entity['begin_geldigheid']:
-            msg = "begin_geldigheid can not be after eind_geldigheid"
-            extra_data = {
-                'id': msg,
-                'data': {
-                    'identificatie': entity[self.source_id],
-                    'begin_geldigheid': entity['begin_geldigheid'].isoformat(),
-                    'eind_geldigheid': entity['eind_geldigheid'].isoformat(),
-                }
-            }
-            logger.warning(msg, extra_data)

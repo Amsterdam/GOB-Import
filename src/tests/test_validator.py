@@ -14,6 +14,7 @@ from tests import fixtures
 @mock.patch("gobcore.logging.logger.logger.info", mock.MagicMock())
 @mock.patch("gobcore.logging.logger.logger.warning", mock.MagicMock())
 @mock.patch("gobcore.logging.logger.logger.error", mock.MagicMock())
+@mock.patch("gobimport.validator.log_issue", mock.MagicMock())
 class TestValidator(unittest.TestCase):
 
     def setUp(self):

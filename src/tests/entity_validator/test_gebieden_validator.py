@@ -25,6 +25,7 @@ class TestEntityValidator(unittest.TestCase):
         self.assertTrue(validator.result())
 
     @patch("gobimport.entity_validator.gebieden.logger", MagicMock())
+    @patch("gobimport.entity_validator.gebieden.log_issue", MagicMock())
     def test_validate_bouwblokken_invalid(self):
         self.entities = [
             {
@@ -38,7 +39,7 @@ class TestEntityValidator(unittest.TestCase):
             validator.validate(entity)
         self.assertTrue(validator.result())
 
-    @patch("gobimport.entity_validator.gebieden.logger")
+    @patch("gobimport.entity_validator.gebieden.log_issue")
     def test_validate_buurten_valid(self, mock_logger):
         mock_logger.warning = MagicMock()
         self.entities = [
@@ -54,9 +55,9 @@ class TestEntityValidator(unittest.TestCase):
         for entity in self.entities:
             validator.validate(entity)
         self.assertTrue(validator.result())
-        mock_logger.warning.assert_called()
+        mock_logger.assert_called()
 
-    @patch("gobimport.entity_validator.gebieden.logger")
+    @patch("gobimport.entity_validator.gebieden.log_issue")
     def test_validate_buurten_invalid(self, mock_logger):
         mock_logger.warning = MagicMock()
         self.entities = [
@@ -73,4 +74,4 @@ class TestEntityValidator(unittest.TestCase):
         for entity in self.entities:
             validator.validate(entity)
         self.assertTrue(validator.result())
-        mock_logger.warning.assert_called()
+        mock_logger.assert_called()

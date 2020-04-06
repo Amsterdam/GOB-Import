@@ -25,7 +25,7 @@ from gobimport.converter import Converter
 from gobimport.injections import Injector
 from gobimport.merger import Merger
 from gobimport.validator import Validator
-from gobimport.enricher import Enricher
+from gobimport.enricher import BaseEnricher
 from gobimport.entity_validator import EntityValidator
 from gobimport.config import FULL_IMPORT
 
@@ -80,7 +80,7 @@ class ImportClient:
         self.func_source_id = ids[0] if ids else "_source_id"
 
         self.injector = Injector(self.source.get("inject"))
-        self.enricher = Enricher(self.source_app, self.catalogue, self.entity)
+        self.enricher = BaseEnricher(self.source_app, self.catalogue, self.entity)
         self.validator = Validator(self.source_app, self.entity, self.source_id, self.dataset)
         self.converter = Converter(self.catalogue, self.entity, self.dataset)
 
