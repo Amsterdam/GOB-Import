@@ -125,6 +125,7 @@ class TestEnricher(unittest.TestCase):
 
         mock_add_cbs.assert_called_with(self.entities[2], CBS_WIJKEN_API, 'wijk')
 
+    @mock.patch('gobimport.enricher.gebieden.Issue', mock.MagicMock())
     @mock.patch('gobimport.enricher.gebieden.requests.get')
     def test_add_cbs_code(self, mock_request):
         mock_request.return_value = MockResponse()
