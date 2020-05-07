@@ -297,3 +297,39 @@ class TestConverter(unittest.TestCase):
         })
         result = converter.convert(row)
         self.assertEqual(result, {"_source_id": mock.ANY})
+
+    def test_string_split_many_reference(self):
+        row = {
+            's1': "abc",
+            's2': "a;b;c",
+        }
+        field_type = 'GOB.ManyReference'
+        source = {}
+
+        source['bronwaarde'] = 's1'
+        result = _extract_references(row, source, field_type)
+        self.assertEqual(result, [{'bronwaarde': 'abc'}])
+
+        source['bronwaarde'] = 's2'
+        result = _extract_references(row, source, field_type)
+        self.assertEqual(result, [{'bronwaarde': 'a;b;c'}])
+
+        source['format'] = {}
+
+        source['bronwaarde'] = 's1'
+        result = _extract_references(row, source, field_type)
+        self.assertEqual(result, [{'bronwaarde': 'abc'}])
+
+        source['bronwaarde'] = 's2'
+        result = _extract_references(row, source, field_type)
+        self.assertEqual(result, [{'bronwaarde': 'a;b;c'}])
+
+        source['format'] = {'split': ";"}
+
+        source['bronwaarde'] = 's1'
+        result = _extract_references(row, source, field_type)
+        self.assertEqual(result, [{'bronwaarde': 'abc'}])
+
+        source['bronwaarde'] = 's2'
+        result = _extract_references(row, source, field_type)
+        self.assertEqual(result, [{'bronwaarde': 'a'}, {'bronwaarde': 'b'}, {'bronwaarde': 'c'}])
