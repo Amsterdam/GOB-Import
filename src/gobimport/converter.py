@@ -148,10 +148,14 @@ def _json_safe_value(value):
 
 def _extract_references(row, field_source, field_type):   # noqa: C901
     # If we can expect multiple references create an array of dicts
+    FORMAT = "format"  # Optional parameter for ManyReference single string values
     if field_type == 'GOB.ManyReference':
         value = []
         # For each attribute in the source mapping, loop through all values and add them to the correct dict
         for attribute, source_mapping in field_source.items():
+            if attribute in [FORMAT]:
+                # Do not process format specifications
+                continue
             source_value = _get_value(row, source_mapping)
             if _is_literal(source_mapping):
                 value.append({attribute: source_value})
@@ -166,6 +170,14 @@ def _extract_references(row, field_source, field_type):   # noqa: C901
                         value[idx].update({attribute: v[attr]})
                     except IndexError:
                         value.append({attribute: v[attr], **v})
+            elif isinstance(source_value, str):
+                # Accept a single string as Many Reference
+                # If a format has been specified then apply the format
+                # Currently only the split format is recognized
+                format = field_source.get(FORMAT, {}).get('split')
+                source_values = source_value.split(format)  # [source_value] if format is None
+                for v in sorted(source_values):
+                    value.append({attribute: v})
             elif source_value:
                 for idx, v in enumerate(source_value):
                     # Try to update the dictionary with the attribute and value or create a new dict
