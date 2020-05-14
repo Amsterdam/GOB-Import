@@ -176,7 +176,8 @@ def _extract_references(row, field_source, field_type):   # noqa: C901
                 # Currently only the split format is recognized
                 format = field_source.get(FORMAT, {}).get('split')
                 source_values = source_value.split(format)  # [source_value] if format is None
-                for v in sorted(source_values):
+                for v in sorted(list(set(source_values))):
+                    # unique values
                     value.append({attribute: v})
             elif source_value:
                 for idx, v in enumerate(source_value):
