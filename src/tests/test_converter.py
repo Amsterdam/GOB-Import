@@ -333,3 +333,8 @@ class TestConverter(unittest.TestCase):
         source['bronwaarde'] = 's2'
         result = _extract_references(row, source, field_type)
         self.assertEqual(result, [{'bronwaarde': 'a'}, {'bronwaarde': 'b'}, {'bronwaarde': 'c'}])
+
+        source['bronwaarde'] = 's2'
+        row['s2'] = 'aap;noot;mies;mies;noot;aap'
+        result = _extract_references(row, source, field_type)
+        self.assertEqual(result, [{'bronwaarde': 'aap'}, {'bronwaarde': 'mies'}, {'bronwaarde': 'noot'}])
