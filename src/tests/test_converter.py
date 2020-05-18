@@ -4,8 +4,8 @@ from unittest import mock
 from decimal import Decimal
 from gobcore.model import GOBModel
 from gobimport.converter import _apply_filters, _extract_references, _is_object_reference, _split_object_reference, \
-                                Converter, _json_safe_value, _get_value, _clean_references
-from gobcore.exceptions import GOBException
+                                Converter, _json_safe_value, _get_value, _clean_references, _extract_field
+from gobcore.exceptions import GOBException, GOBTypeException
 from tests.fixtures import random_string
 
 
@@ -338,3 +338,30 @@ class TestConverter(unittest.TestCase):
         row['s2'] = 'aap;noot;mies;mies;noot;aap'
         result = _extract_references(row, source, field_type)
         self.assertEqual(result, [{'bronwaarde': 'aap'}, {'bronwaarde': 'mies'}, {'bronwaarde': 'noot'}])
+
+    @mock.patch('gobimport.converter.logger', mock.MagicMock())
+    @mock.patch('gobimport.converter.Issue', mock.MagicMock())
+    @mock.patch('gobimport.converter.get_gob_type_from_info')
+    @mock.patch('gobimport.converter._get_value')
+    def test_extract_field(self, mock_get_value, mock_get_gob_type_from_info):
+        row = {}
+        field = 'f'
+        metadata = {
+            'source_mapping': 'any mapping'
+        }
+        typeinfo = {
+            'type': 'any type'
+        }
+        # Implementation test of extract field
+        mock_gob_type = mock.MagicMock()
+        mock_get_gob_type_from_info.return_value = mock_gob_type
+        result = _extract_field(row, field, metadata, typeinfo)
+        self.assertEqual(result, mock_gob_type.from_value_secure.return_value)
+        mock_get_value.assert_called_with(row, metadata['source_mapping'])
+        mock_gob_type.from_value_secure.assert_called_with(mock_get_value.return_value, typeinfo)
+
+        # Behaviour test, if GOB Type conversion fails a data error should be reported
+        # And a GOB Type None value should be returned
+        mock_gob_type.from_value_secure.side_effect = [GOBTypeException(), None]
+        result = _extract_field(row, field, metadata, typeinfo)
+        self.assertEqual(result, None)
