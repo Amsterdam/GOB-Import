@@ -12,7 +12,9 @@ from decimal import Decimal
 from gobcore.typesystem import get_value, get_gob_type_from_info
 from gobcore.model import GOBModel
 from gobcore.model.metadata import FIELD
-from gobcore.exceptions import GOBException
+from gobcore.exceptions import GOBException, GOBTypeException
+from gobcore.logging.logger import logger
+from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 
 class Converter:
@@ -37,7 +39,10 @@ class Converter:
         """
 
         # extract source fields into entity
-        entity = {field: _extract_field(row, self.mapping[field], self.fields[field]) for field in self.extract_fields}
+        entity = {field: _extract_field(row,
+                                        field,
+                                        self.mapping[field],
+                                        self.fields[field]) for field in self.extract_fields}
 
         # Convert GOBTypes to python objects
         entity = get_value(entity)
@@ -245,7 +250,7 @@ def _extract_source_info(value):
         }
 
 
-def _extract_field(row, metadata, typeinfo):
+def _extract_field(row, field, metadata, typeinfo):
     """
     Extract a field from a row given the corresponding metadata
 
@@ -270,6 +275,21 @@ def _extract_field(row, metadata, typeinfo):
     if field_type in ('GOB.Reference', 'GOB.ManyReference'):
         value = _clean_references(value)
 
+    value = _apply_field_filters(metadata, value)
+
+    try:
+        return gob_type.from_value_secure(value, typeinfo, **kwargs)
+    except GOBTypeException:
+        log_issue(logger, QA_LEVEL.ERROR,
+                  Issue(QA_CHECK.Value_should_match,
+                        row,
+                        id_attribute=None,
+                        attribute=field,
+                        compared_to=f'type {field_type}'))
+        return gob_type.from_value_secure(None, typeinfo, **kwargs)
+
+
+def _apply_field_filters(metadata, value):
     if "filters" in metadata:
         # If we are dealing with a dict, apply filters to the correct attribute
         if isinstance(metadata['filters'], dict):
@@ -278,5 +298,4 @@ def _extract_field(row, metadata, typeinfo):
         else:
             # Apply any filters to the raw value
             value = _apply_filters(value, metadata["filters"])
-
-    return gob_type.from_value_secure(value, typeinfo, **kwargs)
+    return value
