@@ -85,7 +85,6 @@ class TestBAGEnrichment(unittest.TestCase):
                 'gebruiksdoel_gezondheidszorg': '01|doel1',
                 'toegang': '01|doel1',
                 'pandidentificatie': "1234;5678",
-                'nummeraanduidingid_neven': "1234;5678",
                 'fng_code': 500
             },
             {
@@ -95,7 +94,6 @@ class TestBAGEnrichment(unittest.TestCase):
                 'gebruiksdoel_gezondheidszorg': '01|doel1',
                 'toegang': '01|doel1',
                 'pandidentificatie': "1234;5678",
-                'nummeraanduidingid_neven': "1234;5678",
                 'fng_code': 1000
             }
         ]
@@ -108,7 +106,6 @@ class TestBAGEnrichment(unittest.TestCase):
         self.assertEqual(entities[0]['gebruiksdoel_gezondheidszorg'],{'code': '01', 'omschrijving': 'doel1'})
         self.assertEqual(entities[0]['toegang'],[{'code': '01', 'omschrijving': 'doel1'}])
         self.assertEqual(entities[0]['pandidentificatie'],['1234', '5678'])
-        self.assertEqual(entities[0]['nummeraanduidingid_neven'],['1234', '5678'])
         self.assertEqual(entities[0]['fng_omschrijving'],'Ongesubsidieerde bouw (500)')
 
         # Expect no fng_omschrijving with an invalid code
@@ -116,20 +113,6 @@ class TestBAGEnrichment(unittest.TestCase):
 
         # Expect an empty amsterdamse_sleutel
         self.assertEqual(entities[0]['amsterdamse_sleutel'], None)
-
-    @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
-    def test_enrich_dossiers(self):
-        entities = [
-            {
-                'identificatie': '1234',
-                'heeft_bag_brondocument': 'brondocument1;brondocument2',
-            }
-        ]
-        enricher = BAGEnricher("app", "bag", "dossiers")
-        for entity in entities:
-            enricher.enrich(entity)
-
-        self.assertEqual(entities[0]['heeft_bag_brondocument'],['brondocument1', 'brondocument2'])
 
     @mock.patch("gobimport.enricher.bag.BAGEnricher._download_amsterdam_sleutel_file", mock.MagicMock())
     def test_enriches(self):
