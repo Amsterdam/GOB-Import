@@ -74,9 +74,6 @@ class BAGEnricher(Enricher):
         super().__init__(app_name, catalogue_name, entity_name, methods={
             "nummeraanduidingen": self.enrich_nummeraanduiding,
             "verblijfsobjecten": self.enrich_verblijfsobject,
-            "dossiers": self.enrich_dossier,
-            "ligplaatsen": self.extract_nevenadressen,
-            "standplaatsen": self.extract_nevenadressen,
         })
 
     def _get_filename(self, name):
@@ -185,15 +182,10 @@ class BAGEnricher(Enricher):
                           Issue(QA_CHECK.Value_1_1_reference, nummeraanduiding, None, 'ligt_in_bag_woonplaats'))
                 self.multiple_values_logged = True
 
-    def enrich_dossier(self, dossier):
-        dossier['heeft_bag_brondocument'] = dossier['heeft_bag_brondocument'].split(";")
-
     def enrich_verblijfsobject(self, verblijfsobject):
 
         # Get the omschrijving for the finiancieringscode
         verblijfsobject['fng_omschrijving'] = FINANCIERINGSCODE_MAPPING.get(str(verblijfsobject['fng_code']))
-
-        self.extract_nevenadressen(verblijfsobject)
 
         gebruiksdoelen = verblijfsobject['gebruiksdoel'].split(";")
         verblijfsobject['gebruiksdoel'] = []
@@ -212,15 +204,6 @@ class BAGEnricher(Enricher):
 
         if verblijfsobject['pandidentificatie']:
             verblijfsobject['pandidentificatie'] = verblijfsobject['pandidentificatie'].split(";")
-
-    def extract_nevenadressen(self, entity):
-        """Extract multiple nevenadressen
-
-        :param entity: an imported entity
-        :return:
-        """
-        if entity['nummeraanduidingid_neven']:
-            entity['nummeraanduidingid_neven'] = entity['nummeraanduidingid_neven'].split(";")
 
 
 def _extract_code_tables(entity, fields):

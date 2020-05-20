@@ -83,12 +83,6 @@ class MeetboutenEnricher(Enricher):
         for attr in update_attributes:
             meting[attr] = meetbout[attr]
 
-        # Convert refereert_aan_refpunt to JSON
-        try:
-            meting['refereert_aan_refpunt'] = meting['refereert_aan_refpunt'].split(';')
-        except (KeyError, AttributeError) as e:
-            pass
-
 
 def _calculate_days_since(previous_date, current_date):
     """
