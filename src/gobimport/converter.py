@@ -27,6 +27,10 @@ class Converter:
         self.mapping = input_spec['gob_mapping']
         self.fields = collection['all_fields']
 
+        # Get the fieldnames for the id and seqnr fields
+        self.entity_id = input_spec['source']['entity_id']
+        self.seqnr = self.mapping.get(FIELD.SEQNR, {}).get('source_mapping')
+
         # Extract the fields that have a source mapping defined
         self.extract_fields = [field for field, meta in self.mapping.items() if 'source_mapping' in meta]
 
@@ -42,7 +46,9 @@ class Converter:
         entity = {field: _extract_field(row,
                                         field,
                                         self.mapping[field],
-                                        self.fields[field]) for field in self.extract_fields}
+                                        self.fields[field],
+                                        self.entity_id,
+                                        self.seqnr) for field in self.extract_fields}
 
         # Convert GOBTypes to python objects
         entity = get_value(entity)
@@ -250,7 +256,7 @@ def _extract_source_info(value):
         }
 
 
-def _extract_field(row, field, metadata, typeinfo):
+def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_field=None):
     """
     Extract a field from a row given the corresponding metadata
 
@@ -280,13 +286,35 @@ def _extract_field(row, field, metadata, typeinfo):
     try:
         return gob_type.from_value_secure(value, typeinfo, **kwargs)
     except GOBTypeException:
-        log_issue(logger, QA_LEVEL.ERROR,
+        # Convert the raw source row into a GOB-like row
+        report_row = _goblike_row(row, entity_id_field, seqnr_field)
+        report_row[field] = value
+        log_issue(logger,
+                  QA_LEVEL.ERROR,
                   Issue(QA_CHECK.Value_should_match,
-                        row,
-                        id_attribute=None,
+                        report_row,
+                        id_attribute=FIELD.ID,
                         attribute=field,
                         compared_to=f'type {field_type}'))
         return gob_type.from_value_secure(None, typeinfo, **kwargs)
+
+
+def _goblike_row(row, entity_id_field, seqnr_field=None):
+    """
+    The row is still in the source format
+    Construct a "GOB-row" to report the issue
+
+    :param entity_id_field:
+    :param row:
+    :param seqnr_field:
+    :return:
+    """
+    gobrow = dict(row)
+    if entity_id_field:
+        gobrow[FIELD.ID] = row[entity_id_field]
+    if seqnr_field:
+        gobrow[FIELD.SEQNR] = row[seqnr_field]
+    return gobrow
 
 
 def _apply_field_filters(metadata, value):
