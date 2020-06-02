@@ -3,8 +3,9 @@ from unittest import mock
 
 from decimal import Decimal
 from gobcore.model import GOBModel
+from gobcore.model.metadata import FIELD
 from gobimport.converter import _apply_filters, _extract_references, _is_object_reference, _split_object_reference, \
-                                Converter, _json_safe_value, _get_value, _clean_references, _extract_field
+                                Converter, _json_safe_value, _get_value, _clean_references, _extract_field, _goblike_row
 from gobcore.exceptions import GOBException, GOBTypeException
 from tests.fixtures import random_string
 
@@ -293,10 +294,34 @@ class TestConverter(unittest.TestCase):
             }],
         }
         converter = Converter("catalog", "entity", {
-            "gob_mapping": {}
+            "gob_mapping": {},
+            "source": {
+                "entity_id": "any entity id"
+            }
         })
         result = converter.convert(row)
         self.assertEqual(result, {"_source_id": mock.ANY})
+
+    def test_goblike_row(self):
+        entity_id_field = 'entity_id field'
+        seqnr_field = 'seqnr field'
+        row = {
+            entity_id_field: 'any entity_id',
+            seqnr_field: 'any seqnr'
+        }
+        self.assertEqual(_goblike_row(row, entity_id_field), {
+            **row,
+            FIELD.ID: row[entity_id_field]
+        })
+        self.assertEqual(_goblike_row(row, entity_id_field, seqnr_field), {
+            **row,
+            FIELD.ID: row[entity_id_field],
+            FIELD.SEQNR: row[seqnr_field]
+        })
+        self.assertEqual(row, {
+            entity_id_field: 'any entity_id',
+            seqnr_field: 'any seqnr'
+        })
 
     def test_string_split_many_reference(self):
         row = {
