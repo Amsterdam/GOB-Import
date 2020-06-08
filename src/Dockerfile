@@ -1,4 +1,4 @@
-FROM amsterdam/python:3.7-buster
+FROM amsterdam/python:latest
 MAINTAINER datapunt@amsterdam.nl
 
 # Install gobimport in /app folder
@@ -13,7 +13,7 @@ ENV ORACLE_DIR=/app/opt/oracle
 RUN mkdir -p ${ORACLE_DIR}
 RUN unzip drivers/instantclient-basic-linux.x64-18.3.0.0.0dbru.zip -d ${ORACLE_DIR}
 ENV LD_LIBRARY_PATH=${ORACLE_DIR}/instantclient_18_3:$LD_LIBRARY_PATH
-RUN apt-get install libaio1
+RUN apt-get -y --no-install-recommends install libaio1
 
 # Install required Python packages
 COPY requirements.txt /app/
