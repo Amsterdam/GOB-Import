@@ -81,8 +81,6 @@ class TestBAGEnrichment(unittest.TestCase):
             {
                 'identificatie': '1234',
                 'gebruiksdoel': '01|doel1;02|doel2',
-                'gebruiksdoel_woonfunctie': '01|doel1',
-                'gebruiksdoel_gezondheidszorg': '01|doel1',
                 'toegang': '01|doel1',
                 'pandidentificatie': "1234;5678",
                 'fng_code': 500
@@ -90,8 +88,6 @@ class TestBAGEnrichment(unittest.TestCase):
             {
                 'identificatie': '1234',
                 'gebruiksdoel': '01|doel1;02|doel2',
-                'gebruiksdoel_woonfunctie': '01|doel1',
-                'gebruiksdoel_gezondheidszorg': '01|doel1',
                 'toegang': '01|doel1',
                 'pandidentificatie': "1234;5678",
                 'fng_code': 1000
@@ -102,8 +98,6 @@ class TestBAGEnrichment(unittest.TestCase):
             enricher.enrich(entity)
 
         self.assertEqual(entities[0]['gebruiksdoel'],[{'code': '01', 'omschrijving': 'doel1'}, {'code': '02', 'omschrijving': 'doel2'}])
-        self.assertEqual(entities[0]['gebruiksdoel_woonfunctie'],{'code': '01', 'omschrijving': 'doel1'})
-        self.assertEqual(entities[0]['gebruiksdoel_gezondheidszorg'],{'code': '01', 'omschrijving': 'doel1'})
         self.assertEqual(entities[0]['toegang'],[{'code': '01', 'omschrijving': 'doel1'}])
         self.assertEqual(entities[0]['pandidentificatie'],['1234', '5678'])
         self.assertEqual(entities[0]['fng_omschrijving'],'Ongesubsidieerde bouw (500)')
