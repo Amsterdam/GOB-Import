@@ -192,9 +192,6 @@ class BAGEnricher(Enricher):
         for gebruiksdoel in gebruiksdoelen:
             verblijfsobject['gebruiksdoel'].append(_extract_code_table(gebruiksdoel, CODE_TABLE_FIELDS))
 
-        # Extract code tables for fields
-        _extract_code_tables(verblijfsobject, ['gebruiksdoel_woonfunctie', 'gebruiksdoel_gezondheidszorg'])
-
         # Toegang can be a multivalue code table
         if verblijfsobject['toegang']:
             toegangen = verblijfsobject['toegang'].split(";")
@@ -204,19 +201,6 @@ class BAGEnricher(Enricher):
 
         if verblijfsobject['pandidentificatie']:
             verblijfsobject['pandidentificatie'] = verblijfsobject['pandidentificatie'].split(";")
-
-
-def _extract_code_tables(entity, fields):
-    """Extract code tables for a list of field
-
-    Code tables are build using CODE_TABLE_FIELDS and updated on the entity
-
-    :param entity: an imported entity
-    :return:
-    """
-    for field in fields:
-        if entity[field]:
-            entity[field] = _extract_code_table(entity[field], CODE_TABLE_FIELDS)
 
 
 def _extract_code_table(value, fields, separator="|"):
