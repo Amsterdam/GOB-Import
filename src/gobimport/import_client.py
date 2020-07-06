@@ -49,7 +49,7 @@ class ImportClient:
 
         # Extra variables for logging
         start_timestamp = int(datetime.datetime.utcnow().replace(microsecond=0).timestamp())
-        self.process_id = f"{start_timestamp}.{self.source_app}.{self.entity}"
+        self.process_id = msg.get('header', {}).get('process_id', f"{start_timestamp}.{self.source_app}.{self.entity}")
 
         self.header = {
             **msg.get("header", {}),
