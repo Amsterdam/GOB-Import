@@ -36,17 +36,10 @@ class TestImportClient(TestCase):
 
     def test_init(self, mock_logger):
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
-        # Expect a process_id is created
-        self.assertTrue(self.import_client.process_id)
 
         # Assert the logger is configured and called
         mock_logger.configure.assert_called()
         mock_logger.info.assert_called()
-
-        # Should use existing process id if exists
-        self.mock_msg['header']['process_id'] = 'some process id'
-        self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
-        self.assertEqual('some process id', self.import_client.process_id)
 
     def test_publish(self, mock_logger):
         self.import_client = ImportClient(self.mock_dataset, self.mock_msg)

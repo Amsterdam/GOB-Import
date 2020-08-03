@@ -47,13 +47,8 @@ class ImportClient:
         self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
         self.merger = Merger(self)
 
-        # Extra variables for logging
-        start_timestamp = int(datetime.datetime.utcnow().replace(microsecond=0).timestamp())
-        self.process_id = msg.get('header', {}).get('process_id', f"{start_timestamp}.{self.source_app}.{self.entity}")
-
         self.header = {
             **msg.get("header", {}),
-            'process_id': self.process_id,
             'source': self.source['name'],
             'application': self.source.get('application'),
             'catalogue': self.catalogue,
