@@ -106,10 +106,7 @@ class ImportClient:
                     f"{summary['num_records']} records were read from the source.",
                     kwargs={"data": summary})
 
-        summary.update({
-            'warnings': logger.get_warnings(),
-            'errors': logger.get_errors()
-        })
+        summary.update(logger.get_summary())
 
         import_message = {
             "header": header,
