@@ -182,6 +182,14 @@ ENTITY_CHECKS = {
                 "level": QA_LEVEL.WARNING,
             },
         ],
+    },
+    "brondocumenten": {
+        "documentnummer": [
+            {
+                **QA_CHECK.Value_brondocument_coding,
+                "level": QA_LEVEL.FATAL,
+            }
+        ]
     }
 }
 
