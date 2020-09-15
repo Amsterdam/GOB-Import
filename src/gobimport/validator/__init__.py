@@ -187,7 +187,7 @@ ENTITY_CHECKS = {
         "documentnummer": [
             {
                 **QA_CHECK.Value_brondocument_coding,
-                "level": QA_LEVEL.FATAL,
+                "level": QA_LEVEL.WARNING,
             }
         ]
     }
