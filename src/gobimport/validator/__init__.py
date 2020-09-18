@@ -82,7 +82,7 @@ ENTITY_CHECKS = {
         ],
     },
     "rollagen": {
-        "name": [
+        "identificatie": [
             {
                 **QA_CHECK.Format_AAN_AANN,
                 "level": QA_LEVEL.FATAL,
