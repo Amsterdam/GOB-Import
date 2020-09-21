@@ -85,7 +85,7 @@ ENTITY_CHECKS = {
         "identificatie": [
             {
                 **QA_CHECK.Format_AAN_AANN,
-                "level": QA_LEVEL.FATAL,
+                "level": QA_LEVEL.WARNING,
             },
         ],
     },
