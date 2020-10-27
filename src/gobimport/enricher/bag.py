@@ -187,18 +187,6 @@ class BAGEnricher(Enricher):
         # Get the omschrijving for the finiancieringscode
         verblijfsobject['fng_omschrijving'] = FINANCIERINGSCODE_MAPPING.get(str(verblijfsobject['fng_code']))
 
-        gebruiksdoelen = verblijfsobject['gebruiksdoel'].split(";")
-        verblijfsobject['gebruiksdoel'] = []
-        for gebruiksdoel in gebruiksdoelen:
-            verblijfsobject['gebruiksdoel'].append(_extract_code_table(gebruiksdoel, CODE_TABLE_FIELDS))
-
-        # Toegang can be a multivalue code table
-        if verblijfsobject['toegang']:
-            toegangen = verblijfsobject['toegang'].split(";")
-            verblijfsobject['toegang'] = []
-            for toegang in toegangen:
-                verblijfsobject['toegang'].append(_extract_code_table(toegang, CODE_TABLE_FIELDS))
-
         if verblijfsobject['pandidentificatie']:
             verblijfsobject['pandidentificatie'] = verblijfsobject['pandidentificatie'].split(";")
 
