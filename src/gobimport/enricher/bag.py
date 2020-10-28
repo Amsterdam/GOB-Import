@@ -187,34 +187,5 @@ class BAGEnricher(Enricher):
         # Get the omschrijving for the finiancieringscode
         verblijfsobject['fng_omschrijving'] = FINANCIERINGSCODE_MAPPING.get(str(verblijfsobject['fng_code']))
 
-        gebruiksdoelen = verblijfsobject['gebruiksdoel'].split(";")
-        verblijfsobject['gebruiksdoel'] = []
-        for gebruiksdoel in gebruiksdoelen:
-            verblijfsobject['gebruiksdoel'].append(_extract_code_table(gebruiksdoel, CODE_TABLE_FIELDS))
-
-        # Toegang can be a multivalue code table
-        if verblijfsobject['toegang']:
-            toegangen = verblijfsobject['toegang'].split(";")
-            verblijfsobject['toegang'] = []
-            for toegang in toegangen:
-                verblijfsobject['toegang'].append(_extract_code_table(toegang, CODE_TABLE_FIELDS))
-
         if verblijfsobject['pandidentificatie']:
             verblijfsobject['pandidentificatie'] = verblijfsobject['pandidentificatie'].split(";")
-
-
-def _extract_code_table(value, fields, separator="|"):
-    """Extract code table for a list of fields
-
-    Splits a value on the separator and returns the values mapped on a list of fields
-
-    :param value: a value to extract into a code table
-    :param fields: a list of field to map onto
-    :param separator: the value to separate the string on
-    :return:
-    """
-    code_table = {}
-    values = value.split(separator)
-    for count, value in enumerate(values):
-        code_table[fields[count]] = value
-    return code_table

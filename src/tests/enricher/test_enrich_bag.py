@@ -80,15 +80,11 @@ class TestBAGEnrichment(unittest.TestCase):
         entities = [
             {
                 'identificatie': '1234',
-                'gebruiksdoel': '01|doel1;02|doel2',
-                'toegang': '01|doel1',
                 'pandidentificatie': "1234;5678",
                 'fng_code': 500
             },
             {
                 'identificatie': '1234',
-                'gebruiksdoel': '01|doel1;02|doel2',
-                'toegang': '01|doel1',
                 'pandidentificatie': "1234;5678",
                 'fng_code': 1000
             }
@@ -97,8 +93,6 @@ class TestBAGEnrichment(unittest.TestCase):
         for entity in entities:
             enricher.enrich(entity)
 
-        self.assertEqual(entities[0]['gebruiksdoel'],[{'code': '01', 'omschrijving': 'doel1'}, {'code': '02', 'omschrijving': 'doel2'}])
-        self.assertEqual(entities[0]['toegang'],[{'code': '01', 'omschrijving': 'doel1'}])
         self.assertEqual(entities[0]['pandidentificatie'],['1234', '5678'])
         self.assertEqual(entities[0]['fng_omschrijving'],'Ongesubsidieerde bouw (500)')
 
