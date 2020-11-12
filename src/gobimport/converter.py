@@ -14,7 +14,6 @@ from gobcore.model import GOBModel
 from gobcore.model.metadata import FIELD
 from gobcore.exceptions import GOBException, GOBTypeException
 from gobcore.logging.logger import logger
-from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 
 class Converter:
@@ -289,13 +288,9 @@ def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_f
         # Convert the raw source row into a GOB-like row
         report_row = _goblike_row(row, entity_id_field, seqnr_field)
         report_row[field] = value
-        log_issue(logger,
-                  QA_LEVEL.ERROR,
-                  Issue(QA_CHECK.Value_should_match,
-                        report_row,
-                        id_attribute=FIELD.ID,
-                        attribute=field,
-                        compared_to=f'type {field_type}'))
+
+        id = report_row[FIELD.ID] + (f".{report_row[FIELD.SEQNR]}" if seqnr_field else "")
+        logger.error(f"Error importing object with id {id}. Can't extract value for field {field}")
         return gob_type.from_value_secure(None, typeinfo, **kwargs)
 
 

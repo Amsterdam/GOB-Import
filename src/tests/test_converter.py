@@ -364,12 +364,13 @@ class TestConverter(unittest.TestCase):
         result = _extract_references(row, source, field_type)
         self.assertEqual(result, [{'bronwaarde': 'aap'}, {'bronwaarde': 'mies'}, {'bronwaarde': 'noot'}])
 
-    @mock.patch('gobimport.converter.logger', mock.MagicMock())
-    @mock.patch('gobimport.converter.Issue', mock.MagicMock())
+    @mock.patch('gobimport.converter.logger')
     @mock.patch('gobimport.converter.get_gob_type_from_info')
     @mock.patch('gobimport.converter._get_value')
-    def test_extract_field(self, mock_get_value, mock_get_gob_type_from_info):
-        row = {}
+    def test_extract_field(self, mock_get_value, mock_get_gob_type_from_info, mock_logger):
+        row = {
+            '_id': '12345',
+        }
         field = 'f'
         metadata = {
             'source_mapping': 'any mapping'
@@ -390,3 +391,6 @@ class TestConverter(unittest.TestCase):
         mock_gob_type.from_value_secure.side_effect = [GOBTypeException(), None]
         result = _extract_field(row, field, metadata, typeinfo)
         self.assertEqual(result, None)
+
+        # Assert error is generated
+        mock_logger.error.assert_called_once()
