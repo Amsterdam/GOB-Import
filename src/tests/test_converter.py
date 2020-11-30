@@ -124,6 +124,25 @@ class TestConverter(unittest.TestCase):
         }]
         self.assertEqual(expected_result, result)
 
+    def test_extract_references_json_force_list(self):
+        row = {
+            "id": random_string(),
+            "name": random_string(),
+            "col": random_string(),
+        }
+        field_source = {
+            "someattr": "col",
+        }
+        field_type = "GOB.JSON"
+        result = _extract_references(row, field_source, field_type, True)
+
+        expected_result = [{'someattr': row['col']}]
+        self.assertEqual(expected_result, result)
+
+        # And now without force_list set to True
+        result = _extract_references(row, field_source, field_type, False)
+        expected_result = {'someattr': row['col']}
+        self.assertEqual(expected_result, result)
 
     def test_extract_references_bronwaarde_object_two_refs(self):
         row = {
