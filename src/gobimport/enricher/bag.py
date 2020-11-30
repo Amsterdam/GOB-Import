@@ -183,6 +183,8 @@ class BAGEnricher(Enricher):
                 self.multiple_values_logged = True
 
     def enrich_verblijfsobject(self, verblijfsobject):
+        if verblijfsobject.get('fng_code') is None:
+            return
 
         # Get the omschrijving for the finiancieringscode
         verblijfsobject['fng_omschrijving'] = FINANCIERINGSCODE_MAPPING.get(str(verblijfsobject['fng_code']))

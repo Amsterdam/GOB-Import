@@ -1,10 +1,14 @@
-FROM amsterdam/python:3.7.2-stretch
+FROM amsterdam/python:3.7-buster
 MAINTAINER datapunt@amsterdam.nl
 
 # Install gobimport in /app folder
 WORKDIR /app
 
-RUN apt-get -y --no-install-recommends install unixodbc-dev
+RUN apt-get update && apt-get -y --no-install-recommends install unixodbc-dev libgdal-dev
+
+# Update C env vars so compiler can find gdal
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
 
 # Install required Python packages
 COPY requirements.txt /app/
