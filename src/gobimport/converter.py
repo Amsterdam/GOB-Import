@@ -138,10 +138,10 @@ def _get_value(row, field):
         return _literal_value(field)
     elif _is_object_reference(field):
         column, _ = _split_object_reference(field)
-        return row[column]
+        return row.get(column)
     else:
         # Source value
-        return row[field]
+        return row.get(field)
 
 
 def _json_safe_value(value):
@@ -156,10 +156,19 @@ def _json_safe_value(value):
     return value
 
 
-def _extract_references(row, field_source, field_type):   # noqa: C901
-    # If we can expect multiple references create an array of dicts
+def _extract_references(row, field_source, field_type, force_list=False):   # noqa: C901
+    """
+    Creates the dictionary as defined in field_source.
+    Returns a list of dictionaries if field_type is GOB.ManyReference or force_list is True
+
+    :param row:
+    :param field_source: The source_mapping
+    :param field_type: The field_type as string (GOB.xxxx)
+    :param force_list: Force return of list of dicts, even if not a GOB.ManyReference
+    :return:
+    """
     FORMAT = "format"  # Optional parameter for ManyReference single string values
-    if field_type == 'GOB.ManyReference':
+    if field_type == 'GOB.ManyReference' or force_list:
         value = []
         # For each attribute in the source mapping, loop through all values and add them to the correct dict
         for attribute, source_mapping in field_source.items():
@@ -272,7 +281,7 @@ def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_f
     kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping', 'filters']}
 
     if isinstance(field_source, dict):
-        value = _extract_references(row, field_source, field_type)
+        value = _extract_references(row, field_source, field_type, metadata.get('force_list', False))
     else:
         value = _get_value(row, field_source)
 
