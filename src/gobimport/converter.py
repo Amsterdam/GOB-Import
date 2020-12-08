@@ -250,9 +250,11 @@ def _extract_source_info(value):
     :param value: The reference
     :return: the cleaned reference
     """
-    # Move all attributes to source info if it's not the source value
-    source_value = {FIELD.SOURCE_VALUE: value[FIELD.SOURCE_VALUE]} if FIELD.SOURCE_VALUE in value else {}
-    source_info = {k: v for k, v in value.items() if k != FIELD.SOURCE_VALUE}
+    root_values = [FIELD.SOURCE_VALUE, FIELD.START_VALIDITY]
+
+    # Move all attributes to source info if it's not one of the root_values
+    source_value = {field: value[field] for field in root_values if field in value}
+    source_info = {k: v for k, v in value.items() if k not in root_values}
 
     # Only add broninfo if there are additional fields
     if len(source_info.keys()) == 0:
