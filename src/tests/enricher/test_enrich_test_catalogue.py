@@ -10,6 +10,8 @@ class TestEnricher(unittest.TestCase):
             'somekey': 'somevalue',
             'manyref_to_c': 'C1;C2',
             'manyref_to_d': 'D1;',
+            'manyref_to_c_begin_geldigheid': 'some date;',
+            'manyref_to_d_begin_geldigheid': 'some date;another date',
         }
 
         enricher = TstCatalogueEnricher('app name', 'test_catalogue', 'rel_test_entity_a')
@@ -18,5 +20,7 @@ class TestEnricher(unittest.TestCase):
         self.assertEqual({
             'somekey': 'somevalue',
             'manyref_to_c': ['C1', 'C2'],
-            'manyref_to_d': ['D1']
+            'manyref_to_d': ['D1'],
+            'manyref_to_c_begin_geldigheid': ['some date'],
+            'manyref_to_d_begin_geldigheid': ['some date', 'another date'],
         }, entity)

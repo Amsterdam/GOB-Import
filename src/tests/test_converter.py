@@ -212,10 +212,12 @@ class TestConverter(unittest.TestCase):
         reference = {
             'bronwaarde': random_string(),
             'other_col': random_string(),
+            'begin_geldigheid': random_string(),
         }
 
         expected_result = {
             'bronwaarde': reference['bronwaarde'],
+            'begin_geldigheid': reference['begin_geldigheid'],
             'broninfo': {
                 'other_col': reference['other_col'],
             }
