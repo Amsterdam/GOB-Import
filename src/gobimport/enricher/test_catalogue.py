@@ -21,7 +21,7 @@ class TstCatalogueEnricher(Enricher):
         })
 
     def enrich_rel_entity(self, entity):
-        keys = ['manyref_to_c', 'manyref_to_d']
+        keys = ['manyref_to_c', 'manyref_to_d', 'manyref_to_c_begin_geldigheid', 'manyref_to_d_begin_geldigheid']
 
         for key in keys:
             try:
