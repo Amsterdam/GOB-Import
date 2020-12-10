@@ -1,0 +1,191 @@
+import datetime
+import unittest
+from unittest.mock import MagicMock, patch, call
+
+from gobcore.typesystem import GOB
+from gobimport.entity_validator.bag import BAGValidator
+from gobcore.quality.issue import QA_CHECK
+
+
+class TestEntityValidator(unittest.TestCase):
+
+    def setUp(self):
+        self.entities = []
+
+    @patch("gobimport.entity_validator.bag.log_issue")
+    def test_validate_panden_valid(self, mock_log_issue):
+        self.entities = [
+            {
+                'aantal_bouwlagen': 11,
+                'hoogste_bouwlaag': 10,
+                'laagste_bouwlaag': 0
+            },
+            {
+                'aantal_bouwlagen': 5,
+                'hoogste_bouwlaag': 10,
+                'laagste_bouwlaag': 5
+            },
+            {
+                'aantal_bouwlagen': 12,
+                'hoogste_bouwlaag': 10,
+                'laagste_bouwlaag': -1
+            }
+        ]
+        validator = BAGValidator("bag", "panden")
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertTrue(validator.result())
+
+        self.assertEqual(mock_log_issue.call_count, 0)
+
+    @patch("gobimport.entity_validator.bag.logger")
+    @patch("gobimport.entity_validator.bag.log_issue")
+    @patch("gobimport.entity_validator.bag.Issue")
+    def test_validate_panden_invalid_aantal_bouwlagen(self, mock_issue, mock_log_issue, mock_logger):
+        self.entities = [
+            {
+                'identificatie': 1,
+                'aantal_bouwlagen': 10,
+                'hoogste_bouwlaag': 10,
+                'laagste_bouwlaag': 0
+            },
+            {
+                'identificatie': 2,
+                'aantal_bouwlagen': 11,
+                'hoogste_bouwlaag': 10,
+                'laagste_bouwlaag': -1
+            }
+        ]
+        validator = BAGValidator("bag", "panden", "identificatie")
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertTrue(validator.result())
+
+        mocked_issue = mock_issue.return_value
+
+        mock_issue.assert_has_calls([
+            call(QA_CHECK.Value_aantal_bouwlagen_should_match, self.entities[0], 'identificatie', 'aantal_bouwlagen', compared_to='hoogste_bouwlaag and laagste_bouwlaag', compared_to_value=11),
+            call(QA_CHECK.Value_aantal_bouwlagen_should_match, self.entities[1], 'identificatie', 'aantal_bouwlagen', compared_to='hoogste_bouwlaag and laagste_bouwlaag', compared_to_value=12),
+        ])
+
+        mock_log_issue.assert_called_with(mock_logger, 'warning', mocked_issue)
+
+        @patch("gobimport.entity_validator.bag.logger")
+        @patch("gobimport.entity_validator.bag.log_issue")
+        @patch("gobimport.entity_validator.bag.Issue")
+        def test_validate_panden_missing_aantal_bouwlagen(self, mock_issue, mock_log_issue, mock_logger):
+            self.entities = [
+                {
+                    'identificatie': 1,
+                    'aantal_bouwlagen': None,
+                    'hoogste_bouwlaag': 10,
+                    'laagste_bouwlaag': 0
+                }
+            ]
+            validator = BAGValidator("bag", "panden", "identificatie")
+            for entity in self.entities:
+                validator.validate(entity)
+            self.assertTrue(validator.result())
+
+            mocked_issue = mock_issue.return_value
+
+            mock_issue.assert_has_calls([
+                call(QA_CHECK.Value_aantal_bouwlagen_not_filled, self.entities[0], 'identificatie', 'aantal_bouwlagen'),
+            ])
+
+            mock_log_issue.assert_called_with(mock_logger, 'warning', mocked_issue)
+
+    @patch("gobimport.entity_validator.bag.log_issue")
+    def test_validate_verblijfsobjecten_valid(self, mock_log_issue):
+        self.entities = [
+            {
+                'gebruiksdoel': 'bijeenkomstfunctie',
+            },
+            {
+                'gebruiksdoel': 'woonfunctie',
+                'gebruiksdoel_woonfunctie': 'any gebruiksdoel woonfunctie',
+            },
+            {
+                'gebruiksdoel': 'gezondheidszorgfunctie',
+                'gebruiksdoel_gezondheidszorgfunctie': 'any gebruiksdoel gezondheidszorgfunctie',
+            },
+            {
+                'gebruiksdoel': 'gezondheidszorgfunctie',
+                'gebruiksdoel_gezondheidszorgfunctie': 'any with complex',
+                'aantal_eenheden_complex': 'any value'
+            }
+        ]
+        validator = BAGValidator("bag", "verblijfsobjecten")
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertTrue(validator.result())
+
+        self.assertEqual(mock_log_issue.call_count, 0)
+
+    @patch("gobimport.entity_validator.bag.logger")
+    @patch("gobimport.entity_validator.bag.log_issue")
+    @patch("gobimport.entity_validator.bag.Issue")
+    def test_validate_verblijfsobjecten_invalid_gebruiksdoel(self, mock_issue, mock_log_issue, mock_logger):
+        self.entities = [
+            {
+                'identificatie': 1,
+                'gebruiksdoel': 'any invalid gebruiksdoel',
+            },
+            {
+                'identificatie': 2,
+                'gebruiksdoel': 'bijeenkomstfunctie',
+                'gebruiksdoel_woonfunctie': 'any woonfunctie'
+            },
+            {
+                'identificatie': 3,
+                'gebruiksdoel': 'bijeenkomstfunctie',
+                'gebruiksdoel_gezondheidszorgfunctie': 'any gezondheidszorgfunctie'
+            },
+            {
+                'identificatie': 4,
+                'gebruiksdoel': 'gezondheidszorgfunctie',
+                'gebruiksdoel_woonfunctie': '',
+                'gebruiksdoel_gezondheidszorgfunctie': 'any gezondheidszorgfunctie',
+                'aantal_eenheden_complex': 'any value'
+            }
+        ]
+        validator = BAGValidator("bag", "verblijfsobjecten", "identificatie")
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertTrue(validator.result())
+
+        mocked_issue = mock_issue.return_value
+
+        mock_issue.assert_has_calls([
+            call(QA_CHECK.Value_gebruiksdoel_in_domain, self.entities[0], 'identificatie', 'gebruiksdoel'),
+            call(QA_CHECK.Value_gebruiksdoel_woonfunctie_should_match, self.entities[1], 'identificatie', 'gebruiksdoel_woonfunctie', compared_to='gebruiksdoel'),
+            call(QA_CHECK.Value_gebruiksdoel_gezondheidszorgfunctie_should_match, self.entities[2], 'identificatie', 'gebruiksdoel_gezondheidszorgfunctie', compared_to='gebruiksdoel'),
+            call(QA_CHECK.Value_aantal_eenheden_complex_filled, self.entities[3], 'identificatie', 'aantal_eenheden_complex', compared_to='gebruiksdoel_gezondheidszorgfunctie'),
+        ])
+
+        mock_log_issue.assert_called_with(mock_logger, 'warning', mocked_issue)
+
+        @patch("gobimport.entity_validator.bag.logger")
+        @patch("gobimport.entity_validator.bag.log_issue")
+        @patch("gobimport.entity_validator.bag.Issue")
+        def test_validate_panden_missing_aantal_bouwlagen(self, mock_issue, mock_log_issue, mock_logger):
+            self.entities = [
+                {
+                    'identificatie': 1,
+                    'aantal_bouwlagen': None,
+                    'hoogste_bouwlaag': 10,
+                    'laagste_bouwlaag': 0
+                }
+            ]
+            validator = BAGValidator("bag", "panden", "identificatie")
+            for entity in self.entities:
+                validator.validate(entity)
+            self.assertTrue(validator.result())
+
+            mocked_issue = mock_issue.return_value
+
+            mock_issue.assert_has_calls([
+                call(QA_CHECK.Value_aantal_bouwlagen_not_filled, self.entities[0], 'identificatie', 'aantal_bouwlagen'),
+            ])
+
+            mock_log_issue.assert_called_with(mock_logger, 'warning', mocked_issue)
