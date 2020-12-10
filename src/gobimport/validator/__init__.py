@@ -190,6 +190,50 @@ ENTITY_CHECKS = {
                 "level": QA_LEVEL.WARNING,
             }
         ]
+    },
+    "verblijfsobjecten": {
+        "toegang": [
+            {
+                **QA_CHECK.Value_not_empty,
+                "level": QA_LEVEL.WARNING
+            },
+        ],
+        "aantal_bouwlagen": [
+            {
+                **QA_CHECK.Value_not_empty,
+                "level": QA_LEVEL.WARNING
+            },
+        ],
+        "verdieping_toegang": [
+            {
+                **QA_CHECK.Value_not_empty,
+                "level": QA_LEVEL.WARNING
+            },
+        ],
+        "redenopvoer": [
+            {
+                **QA_CHECK.Value_not_empty,
+                "level": QA_LEVEL.WARNING
+            },
+        ],
+        "redenafvoer": [
+            {
+                **QA_CHECK.Value_not_empty,
+                "level": QA_LEVEL.WARNING
+            },
+        ],
+    },
+    "openbareruimtes": {
+        "geometrie": [
+            {
+                **QA_CHECK.Value_not_empty,
+                "level": QA_LEVEL.WARNING
+            },
+            {
+                **QA_CHECK.Value_geometry_in_NL,
+                "level": QA_LEVEL.WARNING
+            },
+        ],
     }
 }
 

@@ -8,6 +8,7 @@ from gobcore.exceptions import GOBException
 
 from gobimport.entity_validator.state import StateValidator
 from gobimport.entity_validator.gebieden import GebiedenValidator
+from gobimport.entity_validator.bag import BAGValidator
 
 
 class EntityValidator:
@@ -24,7 +25,7 @@ class EntityValidator:
         self.entity_name = entity_name
 
         self.validators = []
-        for Validator in [StateValidator, GebiedenValidator]:
+        for Validator in [StateValidator, GebiedenValidator, BAGValidator]:
             if Validator.validates(catalog_name, entity_name):
                 self.validators.append(Validator(catalog_name, entity_name, source_id))
 
