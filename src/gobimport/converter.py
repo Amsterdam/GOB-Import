@@ -194,7 +194,7 @@ def _extract_references(row, field_source, field_type, force_list=False):   # no
                 # If a format has been specified then apply the format
                 # Currently only the split format is recognized
                 format = field_source.get(FORMAT, {}).get('split')
-                source_values = source_value.split(format)  # [source_value] if format is None
+                source_values = source_value.split(format) if format else [source_value]
                 for v in sorted(list(set(source_values))):
                     # unique values
                     value.append({attribute: v})
