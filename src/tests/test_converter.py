@@ -128,7 +128,8 @@ class TestConverter(unittest.TestCase):
         row = {
             "id": random_string(),
             "name": random_string(),
-            "col": random_string(),
+            # Added space is important. Should result in one object with the added space in the attribute (as opposed to two separate objects)
+            "col": random_string() + ' ' + random_string(),
         }
         field_source = {
             "someattr": "col",
