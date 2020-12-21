@@ -229,10 +229,6 @@ ENTITY_CHECKS = {
                 **QA_CHECK.Value_not_empty,
                 "level": QA_LEVEL.WARNING
             },
-            {
-                **QA_CHECK.Value_geometry_in_NL,
-                "level": QA_LEVEL.WARNING
-            },
         ],
     }
 }
