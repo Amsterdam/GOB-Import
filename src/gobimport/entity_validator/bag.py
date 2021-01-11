@@ -121,8 +121,7 @@ class BAGValidator:
         check_attr = 'gebruiksdoel_woonfunctie' if gebruiksdoel_woonfunctie \
                      else 'gebruiksdoel_gezondheidszorgfunctie'
 
-        check_value = entity.get(check_attr, {}).get('omschrijving', '')
-        check_value = '' if check_value is None else check_value
+        check_value = entity.get(check_attr, {}).get('omschrijving', '') or ''
 
         if aantal_eenheden_complex is not None and 'complex' not in check_value.lower():
             log_issue(logger, QA_LEVEL.WARNING,
