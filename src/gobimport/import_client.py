@@ -76,7 +76,7 @@ class ImportClient:
 
         self.injector = Injector(self.source.get("inject"))
         self.enricher = BaseEnricher(self.source_app, self.catalogue, self.entity)
-        self.validator = Validator(self.source_app, self.entity, self.source_id, self.dataset)
+        self.validator = Validator(self.source_app, self.catalogue, self.entity, self.dataset)
         self.converter = Converter(self.catalogue, self.entity, self.dataset)
 
     def get_result_msg(self):
@@ -133,11 +133,11 @@ class ImportClient:
 
             self.enricher.enrich(row)
 
-            self.validator.validate(row)
-
             self.merger.merge(row, write)
 
             entity = self.converter.convert(row)
+
+            self.validator.validate(entity)
 
             self.entity_validator.validate(entity)
 
