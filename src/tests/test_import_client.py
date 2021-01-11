@@ -8,6 +8,7 @@ from tests import fixtures
 
 @patch('gobimport.converter.GOBModel', MagicMock(spec=GOBModel))
 @patch.object(GOBModel, 'has_states', MagicMock())
+@patch.object(GOBModel, 'get_collection', MagicMock())
 @patch('gobimport.import_client.logger')
 class TestImportClient(TestCase):
 
