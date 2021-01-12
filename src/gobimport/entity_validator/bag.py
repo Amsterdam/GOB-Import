@@ -48,7 +48,9 @@ class BAGValidator:
         return self.validated
 
     def validate(self, entity):
-        self.validate_entity(entity)
+        # Only validate objects from Amsterdam (0363) since Weesp does not have the plus-gegevens
+        if entity.get('identificatie', '').startswith('0363'):
+            self.validate_entity(entity)
 
     def validate_pand(self, entity):
         """
@@ -62,6 +64,7 @@ class BAGValidator:
         :param entities: the list of entities
         :return:
         """
+
         laagste_bouwlaag = entity.get('laagste_bouwlaag')
         hoogste_bouwlaag = entity.get('hoogste_bouwlaag')
         aantal_bouwlagen = entity.get('aantal_bouwlagen')

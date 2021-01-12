@@ -203,30 +203,35 @@ ENTITY_CHECKS = {
         "verblijfsobjecten": {
             "toegang": [
                 {
+                    "source_app": "Neuron",
                     **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.WARNING
                 },
             ],
             "aantal_bouwlagen": [
                 {
+                    "source_app": "Neuron",
                     **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.WARNING
                 },
             ],
             "verdieping_toegang": [
                 {
+                    "source_app": "Neuron",
                     **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.WARNING
                 },
             ],
             "redenopvoer": [
                 {
+                    "source_app": "Neuron",
                     **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.WARNING
                 },
             ],
             "redenafvoer": [
                 {
+                    "source_app": "Neuron",
                     **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.WARNING
                 },
