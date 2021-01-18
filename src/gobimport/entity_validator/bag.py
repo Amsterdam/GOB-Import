@@ -97,9 +97,10 @@ class BAGValidator:
         :param entities: the list of entities
         :return:
         """
-        gebruiksdoel = entity.get('gebruiksdoel')
-        gebruiksdoel_woonfunctie = entity.get('gebruiksdoel_woonfunctie')
-        gebruiksdoel_gezondheidszorgfunctie = entity.get('gebruiksdoel_gezondheidszorgfunctie')
+        # Get the first gebruiksdoel
+        gebruiksdoel = entity.get('gebruiksdoel', [{}])[0].get('omschrijving')
+        gebruiksdoel_woonfunctie = entity.get('gebruiksdoel_woonfunctie', {}).get('omschrijving')
+        gebruiksdoel_gezondheidszorgfunctie = entity.get('gebruiksdoel_gezondheidszorgfunctie', {}).get('omschrijving')
         aantal_eenheden_complex = entity.get('aantal_eenheden_complex')
 
         if gebruiksdoel not in VALID_GEBRUIKSDOEL_DOMAIN:
@@ -119,7 +120,10 @@ class BAGValidator:
         # Check with either woonfunctie of gezondheidszorgfunctie when aantal_eenheden_complex is filled
         check_attr = 'gebruiksdoel_woonfunctie' if gebruiksdoel_woonfunctie \
                      else 'gebruiksdoel_gezondheidszorgfunctie'
-        if aantal_eenheden_complex is not None and 'complex' not in entity.get(check_attr):
+
+        check_value = entity.get(check_attr, {}).get('omschrijving', '') or ''
+
+        if aantal_eenheden_complex is not None and 'complex' not in check_value.lower():
             log_issue(logger, QA_LEVEL.WARNING,
                       Issue(QA_CHECK.Value_aantal_eenheden_complex_filled, entity, self.source_id,
                             'aantal_eenheden_complex', compared_to=check_attr))

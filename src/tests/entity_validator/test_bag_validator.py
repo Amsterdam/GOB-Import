@@ -99,20 +99,20 @@ class TestEntityValidator(unittest.TestCase):
     def test_validate_verblijfsobjecten_valid(self, mock_log_issue):
         self.entities = [
             {
-                'gebruiksdoel': 'bijeenkomstfunctie',
+                'gebruiksdoel': [{'omschrijving': 'bijeenkomstfunctie'}],
             },
             {
-                'gebruiksdoel': 'woonfunctie',
-                'gebruiksdoel_woonfunctie': 'any gebruiksdoel woonfunctie',
+                'gebruiksdoel': [{'omschrijving': 'woonfunctie'}],
+                'gebruiksdoel_woonfunctie': {'omschrijving': 'any gebruiksdoel woonfunctie'},
             },
             {
-                'gebruiksdoel': 'gezondheidszorgfunctie',
-                'gebruiksdoel_gezondheidszorgfunctie': 'any gebruiksdoel gezondheidszorgfunctie',
+                'gebruiksdoel': [{'omschrijving': 'gezondheidszorgfunctie'}],
+                'gebruiksdoel_gezondheidszorgfunctie': {'omschrijving': 'any gebruiksdoel gezondheidszorgfunctie'},
             },
             {
-                'gebruiksdoel': 'gezondheidszorgfunctie',
-                'gebruiksdoel_gezondheidszorgfunctie': 'any with complex',
-                'aantal_eenheden_complex': 'any value'
+                'gebruiksdoel': [{'omschrijving': 'gezondheidszorgfunctie'}],
+                'gebruiksdoel_gezondheidszorgfunctie': {'omschrijving': 'any with complex'},
+                'aantal_eenheden_complex': {'omschrijving': 'any value'}
             }
         ]
         validator = BAGValidator("bag", "verblijfsobjecten")
@@ -129,23 +129,23 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': 1,
-                'gebruiksdoel': 'any invalid gebruiksdoel',
+                'gebruiksdoel': [{'omschrijving': 'any invalid gebruiksdoel'}],
             },
             {
                 'identificatie': 2,
-                'gebruiksdoel': 'bijeenkomstfunctie',
-                'gebruiksdoel_woonfunctie': 'any woonfunctie'
+                'gebruiksdoel': [{'omschrijving': 'bijeenkomstfunctie'}],
+                'gebruiksdoel_woonfunctie': {'omschrijving': 'any woonfunctie'}
             },
             {
                 'identificatie': 3,
-                'gebruiksdoel': 'bijeenkomstfunctie',
-                'gebruiksdoel_gezondheidszorgfunctie': 'any gezondheidszorgfunctie'
+                'gebruiksdoel': [{'omschrijving': 'bijeenkomstfunctie'}],
+                'gebruiksdoel_gezondheidszorgfunctie': {'omschrijving': 'any gezondheidszorgfunctie'}
             },
             {
                 'identificatie': 4,
-                'gebruiksdoel': 'gezondheidszorgfunctie',
-                'gebruiksdoel_woonfunctie': '',
-                'gebruiksdoel_gezondheidszorgfunctie': 'any gezondheidszorgfunctie',
+                'gebruiksdoel': [{'omschrijving': 'gezondheidszorgfunctie'}],
+                'gebruiksdoel_woonfunctie': {'omschrijving': ''},
+                'gebruiksdoel_gezondheidszorgfunctie': {'omschrijving': 'any gezondheidszorgfunctie'},
                 'aantal_eenheden_complex': 'any value'
             }
         ]

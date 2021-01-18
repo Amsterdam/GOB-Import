@@ -15,6 +15,7 @@ from tests import fixtures
 @mock.patch("gobcore.logging.logger.logger.warning", mock.MagicMock())
 @mock.patch("gobcore.logging.logger.logger.error", mock.MagicMock())
 @mock.patch("gobimport.validator.log_issue", mock.MagicMock())
+@mock.patch("gobimport.validator.GOBModel", mock.MagicMock())
 class TestValidator(unittest.TestCase):
 
     def setUp(self):
@@ -38,13 +39,13 @@ class TestValidator(unittest.TestCase):
         }
 
     def test_validat_data(self):
-        validator = Validator('source_app', 'meetbouten', 'identificatie', self.mock_input_spec)
+        validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
         for entity in self.valid_meetbouten:
             validator.validate(entity)
 
     def test_duplicate_primary_key(self):
         self.valid_meetbouten.append(self.valid_meetbouten[0])
-        validator = Validator('source_app', 'meetbouten', 'identificatie', self.mock_input_spec)
+        validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
 
         with self.assertRaises(GOBException):
             for entity in self.valid_meetbouten:
@@ -61,7 +62,7 @@ class TestValidator(unittest.TestCase):
         }
 
         valid_entity = fixtures.get_valid_entity_with_state()
-        validator = Validator('source_app', 'woonplaatsen', 'identificatie', mock_input_spec)
+        validator = Validator('source_app', 'bag', 'woonplaatsen', mock_input_spec)
 
         for entity in valid_entity:
             validator.validate(entity)
@@ -81,8 +82,8 @@ class TestValidator(unittest.TestCase):
             }
         }
 
-        valid_entity = [{'identificatie': '1234', 'nummervolg': '1'}]
-        validator = Validator('source_app', 'woonplaatsen', 'identificatie', mock_input_spec)
+        valid_entity = [{'_source_id': '1234.1','identificatie': '1234', 'nummervolg': '1'}]
+        validator = Validator('source_app', 'bag', 'woonplaatsen', mock_input_spec)
 
         for entity in valid_entity:
             validator.validate(entity)
@@ -102,9 +103,9 @@ class TestValidator(unittest.TestCase):
             }
         }
 
-        valid_entity = [{'identificatie': '1234', 'nummervolg': '1'}]
+        valid_entity = [{'_source_id': '1234.1', 'identificatie': '1234', 'nummervolg': '1'}]
         valid_entity.append(valid_entity[0])
-        validator = Validator('source_app', 'woonplaatsen', 'identificatie', mock_input_spec)
+        validator = Validator('source_app', 'bag', 'woonplaatsen', mock_input_spec)
 
         with self.assertRaises(GOBException):
             for entity in valid_entity:
@@ -112,18 +113,19 @@ class TestValidator(unittest.TestCase):
             validator.result()
 
     def test_invalid_data(self):
-        validator = Validator('source_app', 'meetbouten', 'identificatie', self.mock_input_spec)
+        validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
         for entity in self.invalid_meetbouten:
             validator.validate(entity)
 
         # Make sure the statusid has been listed as invalid
-        self.assertEqual(validator.collection_qa['num_invalid_status_id'], 1)
+        self.assertEqual(validator.collection_qa['num_invalid_status.code'], 1)
 
     def test_fatal_value(self):
-        validator = Validator('source_app', 'meetbouten', 'identificatie', self.mock_input_spec)
+        validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
 
         with self.assertRaises(GOBException):
             for entity in self.fatal_meetbouten:
+                print(entity)
                 validator.validate(entity)
             validator.result()
 
@@ -131,18 +133,18 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(validator.collection_qa['num_invalid_identificatie'], 1)
 
     def test_missing_warning_data(self):
-        missing_attr_meetbouten = self.valid_meetbouten[0].pop('status_id')
-        validator = Validator('source_app', 'meetbouten', 'identificatie', self.mock_input_spec)
+        missing_attr_meetbouten = self.valid_meetbouten[0].pop('status')
+        validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
 
         for entity in self.valid_meetbouten:
             validator.validate(entity)
 
         # Make sure the publiceerbaar has been listed as invalid
-        self.assertEqual(validator.collection_qa['num_invalid_status_id'], 1)
+        self.assertEqual(validator.collection_qa['num_invalid_status.code'], 1)
 
     def test_missing_fatal_data(self):
         missing_attr_meetbouten = self.valid_meetbouten[0].pop('publiceerbaar')
-        validator = Validator('source_app', 'meetbouten', 'identificatie', self.mock_input_spec)
+        validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
 
         for entity in self.valid_meetbouten:
             validator.validate(entity)
@@ -151,7 +153,7 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)   # Warning
 
     def test_nopubliceerbaar(self):
-        validator = Validator('source_app', 'meetbouten', 'identificatie', self.mock_input_spec)
+        validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
 
         for entity in self.nopubliceerbaar_meetbouten:
             validator.validate(entity)
@@ -160,7 +162,7 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(validator.collection_qa['num_invalid_publiceerbaar'], 1)   # Warning
 
     def test_nullpubliceerbaar(self):
-        validator = Validator('source_app', 'meetbouten', 'identificatie', self.mock_input_spec)
+        validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
 
         for entity in self.nullpubliceerbaar_meetbouten:
             validator.validate(entity)
