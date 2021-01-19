@@ -16,19 +16,34 @@ class TestEntityValidator(unittest.TestCase):
     def test_validate_panden_valid(self, mock_log_issue):
         self.entities = [
             {
+                'identificatie': '03631',
                 'aantal_bouwlagen': 11,
                 'hoogste_bouwlaag': 10,
                 'laagste_bouwlaag': 0
             },
             {
+                'identificatie': '03632',
                 'aantal_bouwlagen': 5,
                 'hoogste_bouwlaag': 10,
                 'laagste_bouwlaag': 5
             },
             {
+                'identificatie': '03633',
                 'aantal_bouwlagen': 12,
                 'hoogste_bouwlaag': 10,
                 'laagste_bouwlaag': -1
+            },
+            {
+                'identificatie': '0457', # Will be skipped
+                'aantal_bouwlagen': 0,
+                'hoogste_bouwlaag': 10,
+                'laagste_bouwlaag': 0
+            },
+            {
+                'identificatie': '0424', # Will be skipped
+                'aantal_bouwlagen': 0,
+                'hoogste_bouwlaag': 10,
+                'laagste_bouwlaag': 0
             }
         ]
         validator = BAGValidator("bag", "panden")
@@ -44,17 +59,24 @@ class TestEntityValidator(unittest.TestCase):
     def test_validate_panden_invalid_aantal_bouwlagen(self, mock_issue, mock_log_issue, mock_logger):
         self.entities = [
             {
-                'identificatie': 1,
+                'identificatie': '03631',
                 'aantal_bouwlagen': 10,
                 'hoogste_bouwlaag': 10,
                 'laagste_bouwlaag': 0
             },
             {
-                'identificatie': 2,
+                'identificatie': '03632',
                 'aantal_bouwlagen': 11,
                 'hoogste_bouwlaag': 10,
                 'laagste_bouwlaag': -1
+            },
+            {
+                'identificatie': '03633',
+                'aantal_bouwlagen': 12,
+                'hoogste_bouwlaag': 13,
+                'laagste_bouwlaag': 0
             }
+            
         ]
         validator = BAGValidator("bag", "panden", "identificatie")
         for entity in self.entities:
@@ -66,6 +88,7 @@ class TestEntityValidator(unittest.TestCase):
         mock_issue.assert_has_calls([
             call(QA_CHECK.Value_aantal_bouwlagen_should_match, self.entities[0], 'identificatie', 'aantal_bouwlagen', compared_to='hoogste_bouwlaag and laagste_bouwlaag', compared_to_value=11),
             call(QA_CHECK.Value_aantal_bouwlagen_should_match, self.entities[1], 'identificatie', 'aantal_bouwlagen', compared_to='hoogste_bouwlaag and laagste_bouwlaag', compared_to_value=12),
+            call(QA_CHECK.Value_aantal_bouwlagen_should_match, self.entities[2], 'identificatie', 'aantal_bouwlagen', compared_to='hoogste_bouwlaag and laagste_bouwlaag', compared_to_value=14),
         ])
 
         mock_log_issue.assert_called_with(mock_logger, 'warning', mocked_issue)
@@ -76,7 +99,13 @@ class TestEntityValidator(unittest.TestCase):
         def test_validate_panden_missing_aantal_bouwlagen(self, mock_issue, mock_log_issue, mock_logger):
             self.entities = [
                 {
-                    'identificatie': 1,
+                    'identificatie': '03631',
+                    'aantal_bouwlagen': None,
+                    'hoogste_bouwlaag': 10,
+                    'laagste_bouwlaag': 0
+                },
+                {
+                    'identificatie': '0427', # Non Amsterdam object will not be validated
                     'aantal_bouwlagen': None,
                     'hoogste_bouwlaag': 10,
                     'laagste_bouwlaag': 0
@@ -128,21 +157,21 @@ class TestEntityValidator(unittest.TestCase):
     def test_validate_verblijfsobjecten_invalid_gebruiksdoel(self, mock_issue, mock_log_issue, mock_logger):
         self.entities = [
             {
-                'identificatie': 1,
+                'identificatie': '03631',
                 'gebruiksdoel': [{'omschrijving': 'any invalid gebruiksdoel'}],
             },
             {
-                'identificatie': 2,
+                'identificatie': '03632',
                 'gebruiksdoel': [{'omschrijving': 'bijeenkomstfunctie'}],
                 'gebruiksdoel_woonfunctie': {'omschrijving': 'any woonfunctie'}
             },
             {
-                'identificatie': 3,
+                'identificatie': '03633',
                 'gebruiksdoel': [{'omschrijving': 'bijeenkomstfunctie'}],
                 'gebruiksdoel_gezondheidszorgfunctie': {'omschrijving': 'any gezondheidszorgfunctie'}
             },
             {
-                'identificatie': 4,
+                'identificatie': '03634',
                 'gebruiksdoel': [{'omschrijving': 'gezondheidszorgfunctie'}],
                 'gebruiksdoel_woonfunctie': {'omschrijving': ''},
                 'gebruiksdoel_gezondheidszorgfunctie': {'omschrijving': 'any gezondheidszorgfunctie'},
@@ -171,7 +200,7 @@ class TestEntityValidator(unittest.TestCase):
         def test_validate_panden_missing_aantal_bouwlagen(self, mock_issue, mock_log_issue, mock_logger):
             self.entities = [
                 {
-                    'identificatie': 1,
+                    'identificatie': '03631',
                     'aantal_bouwlagen': None,
                     'hoogste_bouwlaag': 10,
                     'laagste_bouwlaag': 0
