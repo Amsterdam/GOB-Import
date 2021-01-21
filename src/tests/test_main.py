@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
 from gobcore.exceptions import GOBException
-from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION, extract_dataset_from_msg
+from gobimport.__main__ import handle_import_msg, SERVICEDEFINITION, extract_dataset_from_msg, handle_import_object_msg
 from gobimport.config import FULL_IMPORT
 
 
@@ -28,6 +28,31 @@ class TestMain(TestCase):
 
         mock_import_client.assert_called_with(dataset="the dataset", msg=self.mock_msg, mode=FULL_IMPORT)
         mock_import_client_instance.import_dataset.assert_called_once()
+
+    @patch("gobimport.__main__.logger")
+    @patch("gobimport.__main__.MappinglessConverterAdapter")
+    def test_handle_import_object_msg(self, mock_converter, mock_logger):
+        msg = {
+            'header': {
+                'catalogue': 'CAT',
+                'entity': 'ENT',
+                'entity_id_attr': 'id_attr',
+            },
+            'contents': {'the': 'contents'},
+        }
+
+        self.assertEqual({
+            'header': {
+                **msg['header'],
+                'mode': 'single_object',
+            },
+            'summary': mock_logger.get_summary.return_value,
+            'contents': [mock_converter.return_value.convert.return_value]
+        }, handle_import_object_msg(msg))
+
+        mock_converter.assert_called_with('CAT', 'ENT', 'id_attr')
+        mock_converter.return_value.convert.assert_called_with({'the': 'contents'})
+
 
     @patch("gobimport.__main__.get_import_definition")
     def test_extract_dataset_from_msg(self, mock_import_definition):

@@ -58,6 +58,44 @@ class Converter:
         return entity
 
 
+class MappinglessConverterAdapter:
+    """Adapter for the Converter. Generates an input specification (mapping) where input row attributes are
+    expected to have the same names as the model attributes.
+
+    """
+
+    def __init__(self, catalogue_name: str, entity_name: str, entity_id_attr: str):
+        """
+
+        :param catalogue_name:
+        :param entity_name:
+        :param entity_id_attr: The name of the attribute that serves as the entity_id
+        """
+        self.collection = GOBModel().get_collection(catalogue_name, entity_name)
+        self.fields = self.collection['fields']
+
+        mapping = {
+            field: {
+                'source_mapping': field,
+            }
+            for field in self.fields.keys()
+        }
+
+        input_spec = {
+            'gob_mapping': mapping,
+            'catalogue': catalogue_name,
+            'entity': entity_name,
+            'source': {
+                'entity_id': entity_id_attr,
+            }
+        }
+
+        self.converter = Converter(catalogue_name, entity_name, input_spec)
+
+    def convert(self, row: dict):
+        return self.converter.convert(row)
+
+
 def _apply_filters(raw_value, filters):
     value = raw_value
     for filter in filters:
@@ -288,7 +326,7 @@ def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_f
         value = _get_value(row, field_source)
 
     # Clean all references
-    if field_type in ('GOB.Reference', 'GOB.ManyReference'):
+    if field_type in ('GOB.Reference', 'GOB.ManyReference') and value is not None:
         value = _clean_references(value)
 
     value = _apply_field_filters(metadata, value)

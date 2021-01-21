@@ -2,14 +2,16 @@
 
 This component imports data sources
 """
+from gobconfig.import_.import_config import get_import_definition
 from gobcore.exceptions import GOBException
-from gobcore.message_broker.config import WORKFLOW_EXCHANGE, IMPORT_QUEUE, IMPORT_RESULT_KEY
+from gobcore.logging.logger import logger
+from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, \
+    IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 
-from gobconfig.import_.import_config import get_import_definition
-
+from gobimport.config import FULL_IMPORT, SINGLE_OBJECT_IMPORT
+from gobimport.converter import MappinglessConverterAdapter
 from gobimport.import_client import ImportClient
-from gobimport.config import FULL_IMPORT
 
 
 def extract_dataset_from_msg(msg):
@@ -50,6 +52,22 @@ def handle_import_msg(msg):
     return import_client.import_dataset()
 
 
+def handle_import_object_msg(msg):
+    logger.configure(msg, "IMPORT OBJECT")
+    importer = MappinglessConverterAdapter(msg['header'].get('catalogue'), msg['header'].get('entity'),
+                                           msg['header'].get('entity_id_attr'))
+    entity = importer.convert(msg['contents'])
+
+    return {
+        'header': {
+            **msg['header'],
+            'mode': SINGLE_OBJECT_IMPORT,
+        },
+        'summary': logger.get_summary(),
+        'contents': [entity]
+    }
+
+
 SERVICEDEFINITION = {
     'import_request': {
         'queue': IMPORT_QUEUE,
@@ -57,8 +75,16 @@ SERVICEDEFINITION = {
         'report': {
             'exchange': WORKFLOW_EXCHANGE,
             'key': IMPORT_RESULT_KEY,
-        }
-    }
+        },
+    },
+    'import_single_object_request': {
+        'queue': IMPORT_OBJECT_QUEUE,
+        'handler': handle_import_object_msg,
+        'report': {
+            'exchange': WORKFLOW_EXCHANGE,
+            'key': IMPORT_OBJECT_RESULT_KEY,
+        },
+    },
 }
 
 

@@ -5,7 +5,7 @@ from decimal import Decimal
 from gobcore.model import GOBModel
 from gobcore.model.metadata import FIELD
 from gobimport.converter import _apply_filters, _extract_references, _is_object_reference, _split_object_reference, \
-                                Converter, _json_safe_value, _get_value, _clean_references, _extract_field, _goblike_row
+                                Converter, _json_safe_value, _get_value, _clean_references, _extract_field, _goblike_row, MappinglessConverterAdapter
 from gobcore.exceptions import GOBException, GOBTypeException
 from tests.fixtures import random_string
 
@@ -416,3 +416,41 @@ class TestConverter(unittest.TestCase):
 
         # Assert error is generated
         mock_logger.error.assert_called_once()
+
+
+class TestMappinglessConverterAdapter(unittest.TestCase):
+
+    @mock.patch("gobimport.converter.Converter")
+    @mock.patch("gobimport.converter.GOBModel")
+    def test_init_convert(self, mock_model, mock_converter):
+        mock_model.return_value.get_collection.return_value = {
+            'fields': {
+                'fieldA': '',
+                'fieldB': '',
+            }
+        }
+
+        # Init ...
+        c = MappinglessConverterAdapter('the cat', 'the col', 'attr')
+
+        self.assertEqual(mock_converter.return_value, c.converter)
+        mock_converter.assert_called_with('the cat', 'the col', {
+            'gob_mapping': {
+                'fieldA': {
+                    'source_mapping': 'fieldA',
+                },
+                'fieldB': {
+                    'source_mapping': 'fieldB',
+                },
+            },
+            'catalogue': 'the cat',
+            'entity': 'the col',
+            'source': {
+                'entity_id': 'attr'
+            }
+        })
+
+        # .. and convert
+        res = c.convert({'some': 'row'})
+        self.assertEqual(c.converter.convert.return_value, res)
+        c.converter.convert.assert_called_with({'some': 'row'})
