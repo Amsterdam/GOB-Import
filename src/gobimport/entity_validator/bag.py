@@ -79,9 +79,10 @@ class BAGValidator:
         if all([aantal_bouwlagen, counted_bouwlagen]) and aantal_bouwlagen != counted_bouwlagen:
             log_issue(logger, QA_LEVEL.WARNING,
                       Issue(QA_CHECK.Value_aantal_bouwlagen_should_match, entity, self.source_id, "aantal_bouwlagen",
-                            compared_to="hoogste_bouwlaag and laagste_bouwlaag", compared_to_value=counted_bouwlagen))
+                            compared_to="hoogste_bouwlaag and laagste_bouwlaag combined",
+                            compared_to_value=counted_bouwlagen))
 
-        if not aantal_bouwlagen and all([laagste_bouwlaag, hoogste_bouwlaag]):
+        if not aantal_bouwlagen and all([value is not None for value in [laagste_bouwlaag, hoogste_bouwlaag]]):
             log_issue(logger, QA_LEVEL.WARNING,
                       Issue(QA_CHECK.Value_aantal_bouwlagen_not_filled, entity, self.source_id, "aantal_bouwlagen"))
 
@@ -93,54 +94,65 @@ class BAGValidator:
 
         Value_gebruiksdoel_gezondheidszorgfunctie_should_match = {
         - gebruiksdoel should be in the domain of possible options
-        - gebruiksdoel_woonfunctie can only be filled if gebruiksdoel is woonfunctie
-        - gebruiksdoel_gezondheidszorgfunctie can only be filled if gebruiksdoel is gezondheidszorgfunctie
+        - gebruiksdoel_woonfunctie can only be filled if one of gebruiksdoel is woonfunctie
+        - gebruiksdoel_gezondheidszorgfunctie can only be filled if one of gebruiksdoel is gezondheidszorgfunctie
         - aantal_eenheden_complex can only be filled if 'complex' is in one of woonfunctie or gezondheidszorgfunctie
 
         :param entities: the list of entities
         :return:
         """
-        # Get the first gebruiksdoel
-        gebruiksdoel = entity.get('gebruiksdoel', [{}])[0].get('omschrijving')
-        gebruiksdoel_woonfunctie = entity.get('gebruiksdoel_woonfunctie', {}).get('omschrijving')
-        gebruiksdoel_gezondheidszorgfunctie = entity.get('gebruiksdoel_gezondheidszorgfunctie', {}).get('omschrijving')
+        # Get all the gebruiksdoelen
+        gebruiksdoelen = [gebruiksdoel.get('omschrijving') for gebruiksdoel in entity.get('gebruiksdoel', [{}])]
+
+        for gebruiksdoel in gebruiksdoelen:
+            if gebruiksdoel not in VALID_GEBRUIKSDOEL_DOMAIN:
+                log_issue(logger, QA_LEVEL.WARNING,
+                          Issue(QA_CHECK.Value_gebruiksdoel_in_domain, entity, self.source_id, 'gebruiksdoel'))
+                # Stop checking if the issue has occured, the whole list will be in the data warning
+                break
+
+        self._check_gebruiksdoel_plus(entity, gebruiksdoelen)
+
+        self._check_aantal_eenheden_complex(entity)
+
+    def _check_gebruiksdoel_plus(self, entity, gebruiksdoelen):
+        """
+        The value of the gebruiksdoel_plus (woonfunctie or gezondheidszorgfunctie) may only be filled if
+        gebruiksdoel is either woonfunctie or gezondheidszorgfunctie.
+        """
+        qa_checks = {
+            'woonfunctie': QA_CHECK.Value_gebruiksdoel_woonfunctie_should_match,
+            'gezondheidszorgfunctie': QA_CHECK.Value_gebruiksdoel_gezondheidszorgfunctie_should_match
+        }
+
+        # Check both woonfunctie and gezondheidszorgfunctie
+        for check_value in ['woonfunctie', 'gezondheidszorgfunctie']:
+            attribute_name = f'gebruiksdoel_{check_value}'
+            attribute_value = entity.get(attribute_name, {}).get('omschrijving')
+
+            if attribute_value and check_value not in gebruiksdoelen:
+                log_issue(logger, QA_LEVEL.WARNING,
+                          Issue(qa_checks[check_value], entity, self.source_id,
+                                attribute_name, compared_to='gebruiksdoel'))
+
+    def _check_aantal_eenheden_complex(self, entity):
         aantal_eenheden_complex = entity.get('aantal_eenheden_complex')
 
-        if gebruiksdoel not in VALID_GEBRUIKSDOEL_DOMAIN:
+        check_attributes = ['gebruiksdoel_woonfunctie', 'gebruiksdoel_gezondheidszorgfunctie']
+        check_values = [entity.get(attr, {}).get('omschrijving', '') or '' for attr in check_attributes]
+
+        # If aantal_eenheden_complex is filled and complex not in the check values log a data warning
+        if aantal_eenheden_complex is not None and all('complex' not in value.lower() for value in check_values):
             log_issue(logger, QA_LEVEL.WARNING,
-                      Issue(QA_CHECK.Value_gebruiksdoel_in_domain, entity, self.source_id, 'gebruiksdoel'))
+                      Issue(QA_CHECK.Value_aantal_eenheden_complex_should_be_empty, entity, self.source_id,
+                            'aantal_eenheden_complex',
+                            compared_to='gebruiksdoel_woonfunctie and gebruiksdoel_gezondheidszorgfunctie',
+                            compared_to_value=', '.join(check_values)))
 
-        if gebruiksdoel_woonfunctie and gebruiksdoel != 'woonfunctie':
+        # If complex in one of the check values, but aantal_eenheden_complex is not filled, log a data warning
+        if any('complex' in value.lower() for value in check_values) and not aantal_eenheden_complex:
             log_issue(logger, QA_LEVEL.WARNING,
-                      Issue(QA_CHECK.Value_gebruiksdoel_woonfunctie_should_match, entity, self.source_id,
-                            'gebruiksdoel_woonfunctie', compared_to='gebruiksdoel'))
-
-        if gebruiksdoel_gezondheidszorgfunctie and gebruiksdoel != 'gezondheidszorgfunctie':
-            log_issue(logger, QA_LEVEL.WARNING,
-                      Issue(QA_CHECK.Value_gebruiksdoel_gezondheidszorgfunctie_should_match, entity, self.source_id,
-                            'gebruiksdoel_gezondheidszorgfunctie', compared_to='gebruiksdoel'))
-
-        # Check with either woonfunctie of gezondheidszorgfunctie when aantal_eenheden_complex is filled
-        check_attr = 'gebruiksdoel_woonfunctie' if gebruiksdoel_woonfunctie \
-                     else 'gebruiksdoel_gezondheidszorgfunctie'
-
-        check_value = entity.get(check_attr, {}).get('omschrijving', '') or ''
-
-        if aantal_eenheden_complex is not None and 'complex' not in check_value.lower():
-            log_issue(logger, QA_LEVEL.WARNING,
-                      Issue(QA_CHECK.Value_aantal_eenheden_complex_filled, entity, self.source_id,
-                            'aantal_eenheden_complex', compared_to=check_attr))
-
-    def date_comparison_issue(self, entity, date_field, compare_date_field):
-        """
-        Log date comparison
-
-        Logs the a warning for a date comparison between 2 fields
-
-        :param entity: the entity which is compared
-        :param date_field: field name of the date
-        :param compare_date_field: field name of the compared date
-        :return:
-        """
-        log_issue(logger, QA_LEVEL.WARNING,
-                  Issue(QA_CHECK.Value_not_after, entity, self.source_id, date_field, compared_to=compare_date_field))
+                      Issue(QA_CHECK.Value_aantal_eenheden_complex_should_be_filled, entity, self.source_id,
+                            'aantal_eenheden_complex',
+                            compared_to='gebruiksdoel_woonfunctie and gebruiksdoel_gezondheidszorgfunctie',
+                            compared_to_value=', '.join(check_values)))
