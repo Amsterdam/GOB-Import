@@ -2,7 +2,7 @@ import unittest
 
 from unittest import mock
 
-from gobimport.reader import Reader
+from gobimport.reader import Reader, FULL_IMPORT
 
 
 @mock.patch('gobimport.reader.logger', mock.MagicMock())
@@ -32,6 +32,10 @@ class TestReader(unittest.TestCase):
         self.assertEqual(reader.app, self.app)
         self.assertEqual(reader.source, self.source)
         self.assertEqual(reader.datastore, None)
+        self.assertEqual(FULL_IMPORT, reader.mode)
+
+        reader = Reader(self.source, self.app, self.dataset(), 'other mode')
+        self.assertEqual('other mode', reader.mode)
 
     @mock.patch("gobimport.reader.get_datastore_config")
     @mock.patch("gobimport.reader.DatastoreFactory")
@@ -42,15 +46,19 @@ class TestReader(unittest.TestCase):
         reader.source = {
             'application_config': 'the application config',
             'application': 'the application',
-            'read_config': 'the read config',
+            'read_config': {'read': 'config'},
         }
+        reader.mode = 'the mode'
 
         reader.connect()
 
         self.assertEqual(mock_datastore_factory.get_datastore.return_value, reader.datastore)
         reader.datastore.connect.assert_called_once()
 
-        mock_datastore_factory.get_datastore.assert_called_with('the application config', 'the read config')
+        mock_datastore_factory.get_datastore.assert_called_with('the application config', {
+            'read': 'config',
+            'mode': 'the mode'
+        })
         mock_datastore_config.assert_not_called()
 
         # 2. Application defined, no application_config defined. Should get application config
@@ -64,7 +72,7 @@ class TestReader(unittest.TestCase):
         self.assertEqual(mock_datastore_factory.get_datastore.return_value, reader.datastore)
         reader.datastore.connect.assert_called_once()
 
-        mock_datastore_factory.get_datastore.assert_called_with(mock_datastore_config.return_value, {})
+        mock_datastore_factory.get_datastore.assert_called_with(mock_datastore_config.return_value, {'mode': 'the mode'})
         mock_datastore_config.assert_called_with('the application')
 
     def test_read(self):
@@ -79,11 +87,19 @@ class TestReader(unittest.TestCase):
         reader.datastore.query.assert_called_with('a\nb\nc')
 
         reader.source = {'query': ['a', 'b', 'c'], 'the_mode': ['d', 'e']}
-        reader.read('the_mode')
+        reader.mode = 'the_mode'
+        reader.read()
         reader.datastore.query.assert_called_with('a\nb\nc\nd\ne')
 
+        # Query is defined in the source, so we expect the mode to be defined in the source as well
         with self.assertRaises(KeyError):
-            reader.read('unknown mode')
+            reader.mode = 'unknown mode'
+            reader.read()
+
+        reader.source = {}
+        # Should not fail if no query is defined in the source
+        reader.mode = 'unknown mode'
+        reader.read()
 
     def test_set_secure_attributes(self):
         reader = Reader(self.source, self.app, self.dataset())

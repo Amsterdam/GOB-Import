@@ -240,6 +240,7 @@ ENTITY_CHECKS = {
         "openbareruimtes": {
             "geometrie": [
                 {
+                    "source_app": "Neuron",
                     **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.WARNING
                 },

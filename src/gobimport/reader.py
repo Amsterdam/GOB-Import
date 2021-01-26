@@ -15,7 +15,7 @@ from gobcore.datastore.factory import DatastoreFactory
 
 class Reader:
 
-    def __init__(self, source, app, dataset):
+    def __init__(self, source, app, dataset, mode=FULL_IMPORT):
         """
         source:
         type :       type of source, e.g. file, database, ...
@@ -28,6 +28,7 @@ class Reader:
         """
         self.source = source
         self.app = app
+        self.mode = mode
 
         self.secure_types = [f"GOB.{type.name}" for type in GOB_SECURE_TYPES]
         mapping = dataset["gob_mapping"]
@@ -68,7 +69,8 @@ class Reader:
         # Get manually added config, or config based on application name
         datastore_config = self.source.get('application_config') or get_datastore_config(self.source['application'])
 
-        self.datastore = DatastoreFactory.get_datastore(datastore_config, self.source.get('read_config', {}))
+        read_config = {**self.source.get('read_config', {}), 'mode': self.mode}
+        self.datastore = DatastoreFactory.get_datastore(datastore_config, read_config)
         self.datastore.connect()
 
         logger.info(f"Connection to {self.app} {self.datastore.user} has been made.")
@@ -86,7 +88,7 @@ class Reader:
         else:
             yield from query
 
-    def read(self, mode=FULL_IMPORT):  # noqa: C901
+    def read(self):  # noqa: C901
         """Read the data from the data source
 
         :return: iterable dataset
@@ -96,12 +98,14 @@ class Reader:
 
         # The source query is the query (only db-like connections have one)
         source_query = self.source.get("query", [])
-        if mode != FULL_IMPORT:
+
+        # Add partial query only if have source query, ignore for other datastores
+        if source_query and self.mode != FULL_IMPORT:
             try:
                 # Optionally populated with the mode, eg partial, random, ...
-                source_query += self.source[mode]
+                source_query += self.source[self.mode]
             except KeyError as e:
-                logger.error(f"Unknown import mode for the collection: '{mode}'")
+                logger.error(f"Unknown import mode for the collection: '{self.mode}'")
                 raise e
 
         return self._query(self.datastore.query("\n".join(source_query)))
