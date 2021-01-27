@@ -39,11 +39,3 @@ class Enricher(ABC):
         """
         if self._enrich_entity:
             self._enrich_entity(entity)
-
-    def cleanup(self):
-        """
-        Cleanup an enricher e.g. delete temporary files
-
-        :return:
-        """
-        pass
