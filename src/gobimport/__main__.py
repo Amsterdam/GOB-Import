@@ -54,6 +54,7 @@ def handle_import_msg(msg):
 
 def handle_import_object_msg(msg):
     logger.configure(msg, "IMPORT OBJECT")
+    logger.info("Start import object")
     importer = MappinglessConverterAdapter(msg['header'].get('catalogue'), msg['header'].get('entity'),
                                            msg['header'].get('entity_id_attr'))
     entity = importer.convert(msg['contents'])
@@ -62,6 +63,7 @@ def handle_import_object_msg(msg):
         'header': {
             **msg['header'],
             'mode': SINGLE_OBJECT_IMPORT,
+            'collection': msg['header'].get('entity'),
         },
         'summary': logger.get_summary(),
         'contents': [entity]
