@@ -45,6 +45,7 @@ class TestMain(TestCase):
             'header': {
                 **msg['header'],
                 'mode': 'single_object',
+                'collection': 'ENT',
             },
             'summary': mock_logger.get_summary.return_value,
             'contents': [mock_converter.return_value.convert.return_value]
