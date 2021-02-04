@@ -1,5 +1,7 @@
-flake8==3.5.0
--e git+https://github.com/Amsterdam/GOB-Core.git@v0.17.7#egg=gobcore
 -e git+https://github.com/Amsterdam/GOB-Config.git@v0.4.14#egg=gobconfig
-pytest==3.7.4
+-e git+https://github.com/Amsterdam/GOB-Core.git@v0.17.10a#egg=gobcore
+alembic==1.5.2
+flake8==3.5.0
 pytest-cov==2.6.0
+pytest==3.7.4
+htmllistparse==0.6.0

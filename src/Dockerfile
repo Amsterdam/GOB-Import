@@ -1,4 +1,4 @@
-FROM amsterdam/python:3.7-buster
+FROM amsterdam/python:3.9-buster
 MAINTAINER datapunt@amsterdam.nl
 
 # Install gobimport in /app folder
@@ -35,5 +35,9 @@ RUN rm requirements.txt
 
 # Copy gobimport module
 COPY gobimport gobimport
+
+# Copy alembic config
+COPY alembic alembic
+COPY alembic.ini alembic.ini
 
 CMD ["python", "-m", "gobimport"]
