@@ -64,7 +64,7 @@ class BAGEnricher(Enricher):
     def enrich_nummeraanduiding(self, nummeraanduiding):
 
         # ligt_in_woonplaats can have multiple values, use the last value and log a warning
-        bronwaarde = nummeraanduiding['ligt_in_bag_woonplaats']
+        bronwaarde = nummeraanduiding.get('ligt_in_bag_woonplaats')
         if bronwaarde and ';' in bronwaarde:
             nummeraanduiding['ligt_in_bag_woonplaats'] = bronwaarde.split(';')[-1]
 
