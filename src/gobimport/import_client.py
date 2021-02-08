@@ -15,19 +15,17 @@ Todo: improve type conversion
 import datetime
 import traceback
 
-from gobcore.logging.logger import logger
+from gobcore.enum import ImportMode
+from gobcore.message_broker.offline_contents import ContentsWriter
 from gobcore.utils import ProgressTicker
 
-from gobcore.message_broker.offline_contents import ContentsWriter
-
-from gobimport.reader import Reader
 from gobimport.converter import Converter
-from gobimport.injections import Injector
-from gobimport.merger import Merger
-from gobimport.validator import Validator
 from gobimport.enricher import BaseEnricher
 from gobimport.entity_validator import EntityValidator
-from gobimport.config import FULL_IMPORT
+from gobimport.injections import Injector
+from gobimport.merger import Merger
+from gobimport.reader import Reader
+from gobimport.validator import Validator
 
 
 class ImportClient:
@@ -39,26 +37,17 @@ class ImportClient:
 
     n_rows = 0
 
-    def __init__(self, dataset, msg, mode=FULL_IMPORT):
+    def __init__(self, dataset, msg, logger, mode: ImportMode = ImportMode.FULL):
         self.mode = mode
+        self.logger = logger
 
         self.init_dataset(dataset)
 
         self.entity_validator = EntityValidator(self.catalogue, self.entity, self.func_source_id)
         self.merger = Merger(self)
 
-        self.header = {
-            **msg.get("header", {}),
-            'source': self.source['name'],
-            'application': self.source.get('application'),
-            'catalogue': self.catalogue,
-            'entity': self.entity,
-        }
-        msg["header"] = self.header
-
-        # Log start of import process
-        logger.configure(msg, "IMPORT")
-        logger.info(f"Import dataset {self.entity} from {self.source_app} (mode = {self.mode}) started")
+        self.header = msg.get('header', {})
+        self.logger.info(f"Import dataset {self.entity} from {self.source_app} (mode = {self.mode.value}) started")
 
     def init_dataset(self, dataset):
         self.dataset = dataset
@@ -102,11 +91,11 @@ class ImportClient:
         }
 
         # Log end of import process
-        logger.info(f"Import dataset {self.entity} from {self.source_app} completed. "
-                    f"{summary['num_records']} records were read from the source.",
-                    kwargs={"data": summary})
+        self.logger.info(f"Import dataset {self.entity} from {self.source_app} completed. "
+                         f"{summary['num_records']} records were read from the source.",
+                         kwargs={"data": summary})
 
-        summary.update(logger.get_summary())
+        summary.update(self.logger.get_summary())
 
         import_message = {
             "header": header,
@@ -117,11 +106,11 @@ class ImportClient:
         return import_message
 
     def import_rows(self, write, progress):
-        logger.info(f"Connect to {self.source_app}")
+        self.logger.info(f"Connect to {self.source_app}")
         reader = Reader(self.source, self.source_app, self.dataset, self.mode)
         reader.connect()
 
-        logger.info(f"Start import from {self.source_app}")
+        self.logger.info(f"Start import from {self.source_app}")
         self.n_rows = 0
         for row in reader.read():
             progress.tick()
@@ -145,12 +134,12 @@ class ImportClient:
 
         self.validator.result()
 
-        logger.info(f"{self.n_rows} records have been imported from {self.source_app}")
+        self.logger.info(f"{self.n_rows} records have been imported from {self.source_app}")
 
         min_rows = self.dataset.get("min_rows", 1)
-        if self.mode == FULL_IMPORT and self.n_rows < min_rows:
+        if self.mode == ImportMode.FULL and self.n_rows < min_rows:
             # Default requirement for full imports is a non-empty dataset
-            logger.error(f"Too few records imported: {self.n_rows} < {min_rows}")
+            self.logger.error(f"Too few records imported: {self.n_rows} < {min_rows}")
 
     def import_dataset(self):
         try:
@@ -174,8 +163,8 @@ class ImportClient:
             stacktrace = traceback.format_exc(limit=-5)
             print("Import failed at row {self.n_rows}: {e}", stacktrace)
             # Log the error and a short error description
-            logger.error(f'Import failed at row {self.n_rows}: {e}')
-            logger.error(
+            self.logger.error(f'Import failed at row {self.n_rows}: {e}')
+            self.logger.error(
                 "Import has failed",
                 {
                     "data": {

@@ -4,18 +4,18 @@ Reader
 Contains logic to connect and read from a variety of datasources
 """
 from gobcore.typesystem import GOB_SECURE_TYPES
+from gobcore.enum import ImportMode
 from gobcore.model import GOBModel
 from gobcore.secure.crypto import read_protect
 
 from gobcore.logging.logger import logger
-from gobimport.config import FULL_IMPORT
 from gobconfig.datastore.config import get_datastore_config
 from gobcore.datastore.factory import DatastoreFactory
 
 
 class Reader:
 
-    def __init__(self, source, app, dataset, mode=FULL_IMPORT):
+    def __init__(self, source, app, dataset, mode: ImportMode = ImportMode.FULL):
         """
         source:
         type :       type of source, e.g. file, database, ...
@@ -100,12 +100,12 @@ class Reader:
         source_query = self.source.get("query", [])
 
         # Add partial query only if have source query, ignore for other datastores
-        if source_query and self.mode != FULL_IMPORT:
+        if source_query and self.mode != ImportMode.FULL:
             try:
                 # Optionally populated with the mode, eg partial, random, ...
-                source_query += self.source[self.mode]
+                source_query += self.source[self.mode.value]
             except KeyError as e:
-                logger.error(f"Unknown import mode for the collection: '{self.mode}'")
+                logger.error(f"Unknown import mode for the collection: '{self.mode.value}'")
                 raise e
 
         return self._query(self.datastore.query("\n".join(source_query)))
