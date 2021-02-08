@@ -26,5 +26,5 @@ class TstCatalogueEnricher(Enricher):
         for key in keys:
             try:
                 entity[key] = [i for i in entity[key].split(';') if i]
-            except (KeyError, AttributeError) as e:
+            except (KeyError, AttributeError):
                 pass

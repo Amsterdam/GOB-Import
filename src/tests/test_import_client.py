@@ -9,7 +9,6 @@ from tests import fixtures
 @patch('gobimport.converter.GOBModel', MagicMock(spec=GOBModel))
 @patch.object(GOBModel, 'has_states', MagicMock())
 @patch.object(GOBModel, 'get_collection', MagicMock())
-@patch('gobimport.import_client.logger')
 class TestImportClient(TestCase):
 
     import_client = None
@@ -35,15 +34,15 @@ class TestImportClient(TestCase):
         }
 
 
-    def test_init(self, mock_logger):
-        self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
+    def test_init(self):
+        logger = MagicMock()
+        self.import_client = ImportClient(self.mock_dataset, self.mock_msg, logger)
 
-        # Assert the logger is configured and called
-        mock_logger.configure.assert_called()
-        mock_logger.info.assert_called()
+        logger.info.assert_called()
 
-    def test_publish(self, mock_logger):
-        self.import_client = ImportClient(self.mock_dataset, self.mock_msg)
+    def test_publish(self):
+        logger = MagicMock()
+        self.import_client = ImportClient(self.mock_dataset, self.mock_msg, logger)
         self.import_client.n_rows = 10
         self.import_client.filename = "filename"
         msg = self.import_client.get_result_msg()
