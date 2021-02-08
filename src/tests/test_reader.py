@@ -2,7 +2,7 @@ import unittest
 
 from unittest import mock
 
-from gobimport.reader import Reader, FULL_IMPORT
+from gobimport.reader import Reader, ImportMode
 
 
 @mock.patch('gobimport.reader.logger', mock.MagicMock())
@@ -32,7 +32,7 @@ class TestReader(unittest.TestCase):
         self.assertEqual(reader.app, self.app)
         self.assertEqual(reader.source, self.source)
         self.assertEqual(reader.datastore, None)
-        self.assertEqual(FULL_IMPORT, reader.mode)
+        self.assertEqual(ImportMode.FULL, reader.mode)
 
         reader = Reader(self.source, self.app, self.dataset(), 'other mode')
         self.assertEqual('other mode', reader.mode)
@@ -86,19 +86,19 @@ class TestReader(unittest.TestCase):
         reader._query.assert_called_with(reader.datastore.query.return_value)
         reader.datastore.query.assert_called_with('a\nb\nc')
 
-        reader.source = {'query': ['a', 'b', 'c'], 'the_mode': ['d', 'e']}
-        reader.mode = 'the_mode'
+        reader.source = {'query': ['a', 'b', 'c'], 'recent': ['d', 'e']}
+        reader.mode = ImportMode.RECENT
         reader.read()
         reader.datastore.query.assert_called_with('a\nb\nc\nd\ne')
 
         # Query is defined in the source, so we expect the mode to be defined in the source as well
         with self.assertRaises(KeyError):
-            reader.mode = 'unknown mode'
+            reader.mode = ImportMode.MUTATIONS
             reader.read()
 
         reader.source = {}
         # Should not fail if no query is defined in the source
-        reader.mode = 'unknown mode'
+        reader.mode = ImportMode.MUTATIONS
         reader.read()
 
     def test_set_secure_attributes(self):

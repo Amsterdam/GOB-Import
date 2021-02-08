@@ -404,7 +404,7 @@ class Validator:
     def _geometry_check(self, check, value):
         values = check.get('values')
         assert values, 'Geometry values should be configured for this check'
-        coords = re.findall('([0-9]+\.[0-9]+)', value)
+        coords = re.findall(r'([0-9]+\.[0-9]+)', value)
         # Loop through all coords and check if they fill within the supplied range
         # Even coords are x values, uneven are y values
         coord_types = ['x', 'y']
