@@ -1,4 +1,4 @@
--e git+https://github.com/Amsterdam/GOB-Config.git@v0.4.14a#egg=gobconfig
+-e git+https://github.com/Amsterdam/GOB-Config.git@v0.4.14b#egg=gobconfig
 -e git+https://github.com/Amsterdam/GOB-Core.git@v0.17.10b#egg=gobcore
 alembic==1.5.2
 flake8==3.8.4
