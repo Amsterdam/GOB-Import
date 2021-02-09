@@ -3,8 +3,11 @@
 Validations which need to happen after converting the data to GOBModel.
 """
 
+from collections import defaultdict
+from functools import reduce
+
 from gobcore.logging.logger import logger
-from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
+from gobcore.quality.issue import Issue, QA_CHECK, QA_LEVEL, log_issue
 
 VALID_GEBRUIKSDOEL_DOMAIN = [
     'woonfunctie',
@@ -39,7 +42,9 @@ class BAGValidator:
     def __init__(self, catalog_name, entity_name, source_id=None):
         self.validate_entity = {
             "panden": self.validate_pand,
-            "verblijfsobjecten": self.validate_verblijfsobject
+            "verblijfsobjecten": self.validate_verblijfsobject,
+            "standplaatsen": self.validate_standplaats,
+            "ligplaatsen": self.validate_ligplaats,
         }.get(entity_name)
         self.source_id = source_id
         self.validated = True
@@ -104,6 +109,23 @@ class BAGValidator:
         # Get all the gebruiksdoelen
         gebruiksdoelen = [gebruiksdoel.get('omschrijving') for gebruiksdoel in entity.get('gebruiksdoel', [{}])]
 
+        self._check_gebruiksdoelen_exist(entity, gebruiksdoelen)
+        self._check_gebruiksdoel_plus(entity, gebruiksdoelen)
+        self._check_aantal_eenheden_complex(entity)
+
+    def validate_standplaats(self, entity):
+        gebruiksdoelen = [gebruiksdoel.get('omschrijving', '').lower() for gebruiksdoel in
+                          entity.get('gebruiksdoel', [])]
+        self._check_gebruiksdoelen_exist(entity, gebruiksdoelen)
+        self._check_gebruiksdoelen_duplicates(entity, gebruiksdoelen)
+
+    def validate_ligplaats(self, entity):
+        gebruiksdoelen = [gebruiksdoel.get('omschrijving', '').lower() for gebruiksdoel in
+                          entity.get('gebruiksdoel', [])]
+        self._check_gebruiksdoelen_exist(entity, gebruiksdoelen)
+        self._check_gebruiksdoelen_duplicates(entity, gebruiksdoelen)
+
+    def _check_gebruiksdoelen_exist(self, entity: dict, gebruiksdoelen: list[str]):
         for gebruiksdoel in gebruiksdoelen:
             if gebruiksdoel not in VALID_GEBRUIKSDOEL_DOMAIN:
                 log_issue(logger, QA_LEVEL.WARNING,
@@ -111,9 +133,14 @@ class BAGValidator:
                 # Stop checking if the issue has occured, the whole list will be in the data warning
                 break
 
-        self._check_gebruiksdoel_plus(entity, gebruiksdoelen)
-
-        self._check_aantal_eenheden_complex(entity)
+    def _check_gebruiksdoelen_duplicates(self, entity: dict, gebruiksdoelen: list[str]):
+        counts = reduce(lambda d, x: d | {x: d[x] + 1}, gebruiksdoelen, defaultdict(int))
+        if [v for v in counts.values() if v > 1]:
+            log_issue(
+                logger,
+                QA_LEVEL.WARNING,
+                Issue(QA_CHECK.Value_duplicates, entity, self.source_id, 'gebruiksdoel')
+            )
 
     def _check_gebruiksdoel_plus(self, entity, gebruiksdoelen):
         """
