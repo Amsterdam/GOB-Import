@@ -179,6 +179,78 @@ class TestEntityValidator(unittest.TestCase):
     @patch("gobimport.entity_validator.bag.logger")
     @patch("gobimport.entity_validator.bag.log_issue")
     @patch("gobimport.entity_validator.bag.Issue")
+    def test_validate_standplaats_ligplaats(self, mock_issue, mock_log_issue, mock_logger):
+        entity = {
+            'identificatie': '03631',
+            'gebruiksdoel': [{
+                'omschrijving': 'woonfunctie',
+            }, {
+                'omschrijving': 'sportfunctie',
+            }]
+        }
+
+        # No issues ligplaatsen
+        validator = BAGValidator("bag", "ligplaatsen", "identificatie")
+        validator.validate(entity)
+        self.assertTrue(validator.result())
+        mock_issue.assert_not_called()
+        mock_log_issue.assert_not_called()
+
+        # No issues standplaatsen
+        validator = BAGValidator("bag", "standplaatsen", "identificatie")
+        validator.validate(entity)
+        self.assertTrue(validator.result())
+        mock_issue.assert_not_called()
+        mock_log_issue.assert_not_called()
+
+        entity = {
+            'identificatie': '03631',
+            'gebruiksdoel': [{
+                'omschrijving': 'invalid'
+            }, {
+                'omschrijving': 'woonfunctie',
+            }, {
+                'omschrijving': 'woonfunctie',
+            }]
+        }
+
+        # With issues ligplaatsen
+        validator = BAGValidator("bag", "ligplaatsen", "identificatie")
+        validator.validate(entity)
+        self.assertTrue(validator.result())
+
+        mock_issue.assert_has_calls([
+            call(QA_CHECK.Value_gebruiksdoel_in_domain, entity, 'identificatie', 'gebruiksdoel'),
+            call(QA_CHECK.Value_duplicates, entity, 'identificatie', 'gebruiksdoel'),
+        ])
+
+        mock_log_issue.assert_has_calls([
+            call(mock_logger, 'warning', mock_issue.return_value),
+            call(mock_logger, 'warning', mock_issue.return_value),
+        ])
+
+        mock_issue.reset_mock()
+        mock_log_issue.reset_mock()
+
+        # With issues standplaatsen
+        validator = BAGValidator("bag", "standplaatsen", "identificatie")
+        validator.validate(entity)
+        self.assertTrue(validator.result())
+
+        mock_issue.assert_has_calls([
+            call(QA_CHECK.Value_gebruiksdoel_in_domain, entity, 'identificatie', 'gebruiksdoel'),
+            call(QA_CHECK.Value_duplicates, entity, 'identificatie', 'gebruiksdoel'),
+        ])
+
+        mock_log_issue.assert_has_calls([
+            call(mock_logger, 'warning', mock_issue.return_value),
+            call(mock_logger, 'warning', mock_issue.return_value),
+        ])
+
+
+    @patch("gobimport.entity_validator.bag.logger")
+    @patch("gobimport.entity_validator.bag.log_issue")
+    @patch("gobimport.entity_validator.bag.Issue")
     def test_check_gebruiksdoel_plus(self, mock_issue, mock_log_issue, mock_logger):
         self.valid_entities = [
             {
