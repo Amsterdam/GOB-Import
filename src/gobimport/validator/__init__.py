@@ -222,7 +222,7 @@ ENTITY_CHECKS = {
                     "level": QA_LEVEL.WARNING
                 },
             ],
-            "redenopvoer": [
+            "redenopvoer.omschrijving": [
                 {
                     "source_app": "Neuron",
                     **QA_CHECK.Value_not_empty,
