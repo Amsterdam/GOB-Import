@@ -1,3 +1,4 @@
+import copy
 import datetime
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
@@ -124,54 +125,60 @@ class TestBagExtractMutationsHandler(TestCase):
             (MutationImport(
                 mode=ImportMode.MUTATIONS.value,
                 filename='BAGNLDM-30012021-31012021.zip',
-            ), ImportMode.MUTATIONS, 'BAGNLDM-31012021-01022021.zip'),
+            ), ImportMode.MUTATIONS, 'BAGNLDM-31012021-01022021.zip', 'BAGGEM0123L-15012021.zip'),
             (MutationImport(
                 mode=ImportMode.FULL.value,
                 filename='BAGGEM0123L-15012021.zip',
-            ), ImportMode.MUTATIONS, 'BAGNLDM-15012021-16012021.zip'),
+            ), ImportMode.MUTATIONS, 'BAGNLDM-15012021-16012021.zip', 'BAGGEM0123L-15012021.zip'),
             (MutationImport(
                 mode=ImportMode.MUTATIONS.value,
                 filename='BAGNLDM-13012021-14012021.zip'
-            ), ImportMode.FULL, 'BAGGEM0123L-15012021.zip'),
-            (None, ImportMode.FULL, 'BAGGEM0123L-15012021.zip'),
+            ), ImportMode.FULL, 'BAGGEM0123L-15012021.zip', None),
+            (None, ImportMode.FULL, 'BAGGEM0123L-15012021.zip', None),
         ]
 
-        for last_import, expected_mode, expected_fname in testcases:
-            if last_import:
-                # Not ended. Check only for when last_import is not None
-                next_import, new_dataset = handler.handle_import(last_import, dataset)
-                self.assertEqual(last_import.mode, next_import.mode)
-                self.assertEqual(last_import.filename, next_import.filename)
+        with freeze_time("2021-02-10"):
+            for last_import, expected_mode, expected_fname, expected_full_location in testcases:
+                if last_import:
+                    # Not ended. Check only for when last_import is not None
+                    next_import, new_dataset = handler.handle_import(last_import, copy.deepcopy(dataset))
+                    self.assertEqual(last_import.mode, next_import.mode)
+                    self.assertEqual(last_import.filename, next_import.filename)
 
-                # Last is ended, expect next file to be triggered
-                last_import.ended_at = datetime.datetime.utcnow()
+                    # Last is ended, expect next file to be triggered
+                    last_import.ended_at = datetime.datetime.utcnow()
 
-            next_import, new_dataset = handler.handle_import(last_import, dataset)
-            self.assertEqual(expected_mode.value, next_import.mode)
-            self.assertEqual(expected_fname, next_import.filename)
+                next_import, new_dataset = handler.handle_import(last_import, copy.deepcopy(dataset))
+                self.assertEqual(expected_mode.value, next_import.mode)
+                self.assertEqual(expected_fname, next_import.filename)
 
-            expected_download_loc = f'http://example.com/full/0123/{expected_fname}' if expected_mode == ImportMode.FULL else f'http://example.com/mutations/{expected_fname}'
-            self.assertEqual({
-                'source': {
-                    'read_config': {
-                        'gemeentes': [
-                            '0123',
-                        ],
-                        'download_location': expected_download_loc,
+                expected_download_loc = f'http://example.com/full/0123/{expected_fname}' if expected_mode == ImportMode.FULL else f'http://example.com/mutations/{expected_fname}'
+                expected_new_dataset = {
+                    'source': {
+                        'read_config': {
+                            'gemeentes': [
+                                '0123',
+                            ],
+                            'download_location': expected_download_loc,
+                        },
+                        'application': 'THE APP',
                     },
-                    'application': 'THE APP',
-                },
-                'catalogue': 'THE CAT',
-                'entity': 'THE ENT',
-            }, new_dataset)
+                    'catalogue': 'THE CAT',
+                    'entity': 'THE ENT',
+                }
+                if expected_full_location:
+                    expected_new_dataset['source']['read_config'][
+                        'last_full_download_location'] = f'http://example.com/full/0123/{expected_full_location}'
 
-        # Test Exception for when not available
-        handler._get_available_mutation_downloads = lambda: []
-        handler._get_available_full_downloads = lambda x: []
+                self.assertEqual(expected_new_dataset, new_dataset)
 
-        for last_import, _, expected_fname in testcases:
-            with self.assertRaisesRegexp(NothingToDo, f"File {expected_fname} not yet available for download"):
-                handler.handle_import(last_import, dataset)
+            # Test Exception for when not available
+            handler._get_available_mutation_downloads = lambda: []
+            handler._get_available_full_downloads = lambda x: []
+
+            for last_import, _, expected_fname, _ in testcases:
+                with self.assertRaisesRegexp(NothingToDo, f"File {expected_fname} not yet available for download"):
+                    handler.handle_import(last_import, copy.deepcopy(dataset))
 
     def test_have_next(self):
         handler = BagExtractMutationsHandler()

@@ -72,8 +72,14 @@ class BagExtractMutationsHandler:
         else:
             return self.start_mutations(next_date)
 
+    def _full_filename(self, date: datetime.date, gemeente: str) -> str:
+        return f"BAGGEM{gemeente}L-{self._datestr(date)}.zip"
+
+    def _mutations_filename(self, date: datetime.date) -> str:
+        return f"BAGNLDM-{self._datestr(date - datetime.timedelta(days=1))}-{self._datestr(date)}.zip"
+
     def start_full(self, date: datetime.date, gemeente: str) -> tuple[ImportMode, str]:
-        fname = f"BAGGEM{gemeente}L-{self._datestr(date)}.zip"
+        fname = self._full_filename(date, gemeente)
 
         if fname not in self._get_available_full_downloads(gemeente):
             raise NothingToDo.file_not_available(fname)
@@ -81,7 +87,7 @@ class BagExtractMutationsHandler:
         return ImportMode.FULL, fname
 
     def start_mutations(self, date: datetime.date) -> tuple[ImportMode, str]:
-        fname = f"BAGNLDM-{self._datestr(date - datetime.timedelta(days=1))}-{self._datestr(date)}.zip"
+        fname = self._mutations_filename(date)
 
         if fname not in self._get_available_mutation_downloads():
             raise NothingToDo.file_not_available(fname)
@@ -91,6 +97,14 @@ class BagExtractMutationsHandler:
     def _get_gemeente(self, dataset: dict):
         read_config = dataset.get('source', {}).get('read_config', {})
         return read_config.get('gemeentes')[0]
+
+    def _get_last_full_import_location(self, gemeente: str):
+        last_full_date = self._last_full_import_date()
+        last_full_fname = self._full_filename(last_full_date, gemeente)
+
+        if last_full_fname not in self._get_available_full_downloads(gemeente):
+            raise GOBException(f"Last full file {last_full_fname} is not available")
+        return f"{self._get_full_download_path(gemeente)}{last_full_fname}"
 
     def handle_import(self, last_import: MutationImport, dataset: dict) -> tuple[MutationImport, dict]:
         gemeente = self._get_gemeente(dataset)
@@ -110,14 +124,19 @@ class BagExtractMutationsHandler:
         mutation_import.mode = mode.value
         mutation_import.filename = fname
 
-        download_base_path = self._get_full_download_path(gemeente) \
-            if mode == ImportMode.FULL \
-            else self._get_mutations_download_path()
+        if mode == ImportMode.MUTATIONS:
+            # The BAGExtract Datastore needs the last full download location as well to determine the ID's to import
+            update_config = {
+                'download_location': f"{self._get_mutations_download_path()}{fname}",
+                'last_full_download_location': self._get_last_full_import_location(gemeente),
+            }
+        else:
+            update_config = {
+                'download_location': f"{self._get_full_download_path(gemeente)}{fname}",
+            }
 
         # Update read_config for importer
-        dataset['source']['read_config'] |= {
-            'download_location': f"{download_base_path}{fname}",
-        }
+        dataset['source']['read_config'] |= update_config
 
         return mutation_import, dataset
 
