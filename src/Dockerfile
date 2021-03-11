@@ -36,8 +36,4 @@ RUN rm requirements.txt
 # Copy gobimport module
 COPY gobimport gobimport
 
-# Copy alembic config
-COPY alembic alembic
-COPY alembic.ini alembic.ini
-
 CMD ["python", "-m", "gobimport"]
