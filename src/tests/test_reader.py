@@ -72,7 +72,8 @@ class TestReader(unittest.TestCase):
         self.assertEqual(mock_datastore_factory.get_datastore.return_value, reader.datastore)
         reader.datastore.connect.assert_called_once()
 
-        mock_datastore_factory.get_datastore.assert_called_with(mock_datastore_config.return_value, {'mode': 'the mode'})
+        mock_datastore_factory.get_datastore.assert_called_with(
+            mock_datastore_config.return_value, {'mode': 'the mode'})
         mock_datastore_config.assert_called_with('the application')
 
     def test_read(self):
@@ -90,16 +91,6 @@ class TestReader(unittest.TestCase):
         reader.mode = ImportMode.RECENT
         reader.read()
         reader.datastore.query.assert_called_with('a\nb\nc\nd\ne')
-
-        # Query is defined in the source, so we expect the mode to be defined in the source as well
-        with self.assertRaises(KeyError):
-            reader.mode = ImportMode.MUTATIONS
-            reader.read()
-
-        reader.source = {}
-        # Should not fail if no query is defined in the source
-        reader.mode = ImportMode.MUTATIONS
-        reader.read()
 
     def test_set_secure_attributes(self):
         reader = Reader(self.source, self.app, self.dataset())
