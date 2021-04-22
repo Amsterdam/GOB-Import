@@ -155,7 +155,7 @@ ENTITY_CHECKS = {
         "wijken": {
             "code": [
                 {
-                    **QA_CHECK.Format_ANN,
+                    **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.FATAL
                 }
             ],
