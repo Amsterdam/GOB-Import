@@ -1,8 +1,7 @@
-import decimal
 import unittest
 from unittest import mock
 
-from gobimport.enricher.gebieden import GebiedenEnricher, CBS_BUURTEN_API, CBS_WIJKEN_API
+from gobimport.enricher.gebieden import GebiedenEnricher, CBS_WIJKEN_WEESP_API, CBS_BUURTEN_WEESP_API
 
 
 class MockResponse:
@@ -17,11 +16,11 @@ class MockResponse:
                 'geometry': {
                     'type': 'Polygon',
                     'coordinates': [[
-                        [0,0],
-                        [1,0],
-                        [1,1],
-                        [0,1],
-                        [0,0]
+                        [0, 0],
+                        [1, 0],
+                        [1, 1],
+                        [0, 1],
+                        [0, 0]
                     ]]
                 },
                 'properties': {
@@ -34,11 +33,11 @@ class MockResponse:
                 'geometry': {
                     'type': 'Polygon',
                     'coordinates': [[
-                        [0,0],
-                        [1,0],
-                        [1,1],
-                        [0,1],
-                        [0,0]
+                        [0, 0],
+                        [1, 0],
+                        [1, 1],
+                        [0, 1],
+                        [0, 0]
                     ]]
                 },
                 'properties': {
@@ -51,11 +50,11 @@ class MockResponse:
                 'geometry': {
                     'type': 'Polygon',
                     'coordinates': [[
-                        [1,1],
-                        [2,1],
-                        [2,2],
-                        [1,2],
-                        [1,1]
+                        [1, 1],
+                        [2, 1],
+                        [2, 2],
+                        [1, 2],
+                        [1, 1]
                     ]]
                 },
                 'properties': {
@@ -68,11 +67,11 @@ class MockResponse:
                 'geometry': {
                     'type': 'Polygon',
                     'coordinates': [[
-                        [1,1],
-                        [2,1],
-                        [2,2],
-                        [1,2],
-                        [1,1]
+                        [1, 1],
+                        [2, 1],
+                        [2, 2],
+                        [1, 2],
+                        [1, 1]
                     ]]
                 },
                 'properties': {
@@ -82,6 +81,7 @@ class MockResponse:
                 },
             }
         ]}
+
 
 @mock.patch("gobimport.enricher.gebieden.logger", mock.MagicMock())
 @mock.patch("gobimport.enricher.gebieden.log_issue", mock.MagicMock())
@@ -115,7 +115,7 @@ class TestEnricher(unittest.TestCase):
         for entity in self.entities:
             enricher.enrich(entity)
 
-        mock_add_cbs.assert_called_with(self.entities[2], CBS_BUURTEN_API, 'buurt')
+        mock_add_cbs.assert_called_with(self.entities[2], CBS_BUURTEN_WEESP_API, 'buurt')
 
     @mock.patch.object(GebiedenEnricher, '_add_cbs_code')
     def test_enrich_wijken(self, mock_add_cbs):
@@ -123,7 +123,7 @@ class TestEnricher(unittest.TestCase):
         for entity in self.entities:
             enricher.enrich(entity)
 
-        mock_add_cbs.assert_called_with(self.entities[2], CBS_WIJKEN_API, 'wijk')
+        mock_add_cbs.assert_called_with(self.entities[2], CBS_WIJKEN_WEESP_API, 'wijk')
 
     @mock.patch('gobimport.enricher.gebieden.Issue', mock.MagicMock())
     @mock.patch('gobimport.enricher.gebieden.requests.get')
@@ -131,13 +131,14 @@ class TestEnricher(unittest.TestCase):
         mock_request.return_value = MockResponse()
         enricher = GebiedenEnricher("app", "gebieden", "buurten")
         for entity in self.entities:
-            enricher._add_cbs_code(entity, CBS_BUURTEN_API, 'buurt')
+            enricher._add_cbs_code(entity, CBS_BUURTEN_WEESP_API, 'buurt')
 
         # Expect cbs codes buurt
         self.assertEqual('BU03630001', self.entities[0]['cbs_code'])
 
         # Expect an empty string when datum_einde_geldigheid is not empty
         self.assertEqual('', self.entities[2]['cbs_code'])
+
 
 class TestGGWPEnricher(unittest.TestCase):
 
