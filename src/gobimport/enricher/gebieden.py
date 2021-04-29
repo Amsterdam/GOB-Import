@@ -10,22 +10,37 @@ from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 from shapely.geometry import shape
 from shapely.wkt import loads
+from urllib.parse import urlencode
 
 
-CBS_BUURTEN_API = 'https://geodata.nationaalgeoregister.nl/wijkenbuurten2018/wfs' \
-                 '?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=wijkenbuurten2018:cbs_buurten_2018' \
-                 '&SRSNAME=EPSG:28992&outputFormat=application/json' \
-                 '&FILTER=<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">' \
-                 '<ogc:PropertyIsEqualTo><ogc:PropertyName>gemeentenaam</ogc:PropertyName>'\
-                 '<ogc:Literal>Amsterdam</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>'
+def get_query(typename):
+    return '?' + urlencode({
+        'service': 'wfs',
+        'version': '1.0.0',
+        'request': 'GetFeature',
+        'typeNames': f'wijkenbuurten2020:cbs_{typename}_2020',
+        'srsName': 'EPSG:28992',
+        'outputformat': 'json',
+        'filter': (
+            '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">'
+            '<ogc:Or>'
+            '<ogc:PropertyIsEqualTo>'
+            '<ogc:PropertyName>gemeentenaam</ogc:PropertyName>'
+            '<ogc:Literal>Amsterdam</ogc:Literal>'
+            '</ogc:PropertyIsEqualTo>'
+            '<ogc:PropertyIsEqualTo>'
+            '<ogc:PropertyName>gemeentenaam</ogc:PropertyName>'
+            '<ogc:Literal>Weesp</ogc:Literal>'
+            '</ogc:PropertyIsEqualTo>'
+            '</ogc:Or>'
+            '</ogc:Filter>'
+        )
+    })
 
 
-CBS_WIJKEN_API = 'https://geodata.nationaalgeoregister.nl/wijkenbuurten2018/wfs' \
-                 '?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=wijkenbuurten2018:cbs_wijken_2018' \
-                 '&SRSNAME=EPSG:28992&outputFormat=application/json' \
-                 '&FILTER=<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">' \
-                 '<ogc:PropertyIsEqualTo><ogc:PropertyName>gemeentenaam</ogc:PropertyName>'\
-                 '<ogc:Literal>Amsterdam</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>'
+BASE_URL = 'https://geodata.nationaalgeoregister.nl/wijkenbuurten2020/wfs'
+CBS_BUURTEN_WEESP_API = f'{BASE_URL}{get_query("buurten")}'
+CBS_WIJKEN_WEESP_API = f'{BASE_URL}{get_query("wijken")}'
 
 
 class GebiedenEnricher(Enricher):
@@ -47,10 +62,10 @@ class GebiedenEnricher(Enricher):
         self.features = {}
 
     def enrich_buurt(self, buurt):
-        self._add_cbs_code(buurt, CBS_BUURTEN_API, 'buurt')
+        self._add_cbs_code(buurt, CBS_BUURTEN_WEESP_API, 'buurt')
 
     def enrich_wijk(self, wijk):
-        self._add_cbs_code(wijk, CBS_WIJKEN_API, 'wijk')
+        self._add_cbs_code(wijk, CBS_WIJKEN_WEESP_API, 'wijk')
 
     def enrich_ggwgebied(self, ggwgebied):
         self._enrich_ggw_ggp_gebied(ggwgebied, "GGW")
