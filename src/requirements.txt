@@ -1,7 +1,4 @@
--e git+https://github.com/Amsterdam/GOB-Config.git@v0.4.14q#egg=gobconfig
--e git+https://github.com/Amsterdam/GOB-Core.git@v0.17.12k#egg=gobcore
-flake8==3.8.4
+-e git+https://github.com/Amsterdam/GOB-Config.git@v0.4.14r#egg=gobconfig
+-e git+https://github.com/Amsterdam/GOB-Core.git@v0.17.12q#egg=gobcore
 freezegun==1.1.0
 htmllistparse==0.6.0
-pytest-cov==2.6.0
-pytest==3.7.4
