@@ -81,7 +81,7 @@ class Reader:
                 row[attr] = read_protect(row[attr])
         return row
 
-    def _query(self, query):
+    def _maybe_protect_rows(self, query):
         if self.secure_attributes:
             for result in query:
                 yield self._protect_row(result)
@@ -105,7 +105,10 @@ class Reader:
                 # Optionally populated with the mode, eg partial, random, ...
                 source_query += self.source[self.mode.value]
             except KeyError as e:
-                logger.error(f"Unknown import mode for the collection: '{self.mode.value}'")
+                logger.error("Unknown import mode for the collection: '%s'", self.mode.value)
                 raise e
 
-        return self._query(self.datastore.query("\n".join(source_query)))
+        # Name the cursor to activate server-side-cursor (only postgresql datastore)
+        results = self.datastore.query("\n".join(source_query), arraysize=2000, name='import_cursor', withhold=True)
+
+        return self._maybe_protect_rows(results)
