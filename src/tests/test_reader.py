@@ -79,18 +79,19 @@ class TestReader(unittest.TestCase):
     def test_read(self):
         reader = Reader({'query': ['a', 'b', 'c']}, self.app, self.dataset())
         reader.datastore = mock.MagicMock()
-        reader._query = mock.MagicMock()
+        reader._maybe_protect_rows = mock.MagicMock()
+        query_kwargs = {'arraysize': 2000, 'name': 'import_cursor', 'withhold': True}
 
         result = reader.read()
 
-        self.assertEqual(reader._query.return_value, result)
-        reader._query.assert_called_with(reader.datastore.query.return_value)
-        reader.datastore.query.assert_called_with('a\nb\nc')
+        self.assertEqual(reader._maybe_protect_rows.return_value, result)
+        reader._maybe_protect_rows.assert_called_with(reader.datastore.query.return_value)
+        reader.datastore.query.assert_called_with('a\nb\nc', **query_kwargs)
 
         reader.source = {'query': ['a', 'b', 'c'], 'recent': ['d', 'e']}
         reader.mode = ImportMode.RECENT
         reader.read()
-        reader.datastore.query.assert_called_with('a\nb\nc\nd\ne')
+        reader.datastore.query.assert_called_with('a\nb\nc\nd\ne', **query_kwargs)
 
     def test_set_secure_attributes(self):
         reader = Reader(self.source, self.app, self.dataset())
@@ -158,11 +159,11 @@ class TestReader(unittest.TestCase):
         reader.secure_attributes = []
         query = iter(['a', 'b'])
 
-        self.assertEqual(['a', 'b'], list(reader._query(query)))
+        self.assertEqual(['a', 'b'], list(reader._maybe_protect_rows(query)))
 
         query = iter(['a', 'b'])
         reader.secure_attributes = ['not', 'empty']
         self.assertEqual([
             'protected(a)',
             'protected(b)',
-        ], list(reader._query(query)))
+        ], list(reader._maybe_protect_rows(query)))
