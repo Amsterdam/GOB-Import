@@ -201,6 +201,13 @@ ENTITY_CHECKS = {
             ]
         },
         "verblijfsobjecten": {
+            "identificatie": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Format_0363,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
             "toegang": [
                 {
                     "source_app": "Neuron",
@@ -231,12 +238,64 @@ ENTITY_CHECKS = {
             ],
         },
         "openbareruimtes": {
+            "identificatie": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Format_0363,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
             "geometrie": [
                 {
                     "source_app": "Neuron",
                     **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.WARNING
                 },
+            ],
+        },
+        "ligplaatsen": {
+            "identificatie": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Format_0363,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
+        },
+        "standplaatsen": {
+            "identificatie": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Format_0363,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
+        },
+        "woonplaatsen": {
+            "identificatie": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Format_0363,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
+        },
+        "nummeraanduidingen": {
+            "identificatie": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Format_0363,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
+        },
+        "panden": {
+            "identificatie": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Format_0363,
+                    "level": QA_LEVEL.FATAL
+                }
             ],
         }
     }
