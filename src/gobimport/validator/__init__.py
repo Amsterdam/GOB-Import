@@ -231,6 +231,13 @@ ENTITY_CHECKS = {
             ],
         },
         "openbareruimtes": {
+            "ligt_in_woonplaats": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Value_woonplaats_bronwaarde_1012_1024_1025_3594,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
             "geometrie": [
                 {
                     "source_app": "Neuron",
@@ -238,6 +245,30 @@ ENTITY_CHECKS = {
                     "level": QA_LEVEL.WARNING
                 },
             ],
+        },
+        "ligplaatsen": {
+        },
+        "standplaatsen": {
+        },
+        "woonplaatsen": {
+            "identificatie": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Value_woonplaats_1012_1024_1025_3594,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
+        },
+        "nummeraanduidingen": {
+            "ligt_in_woonplaats": [
+                {
+                    "source_app": "Neuron",
+                    **QA_CHECK.Value_woonplaats_bronwaarde_1012_1024_1025_3594,
+                    "level": QA_LEVEL.FATAL
+                }
+            ],
+        },
+        "panden": {
         }
     }
 }
@@ -392,7 +423,7 @@ class Validator:
     def _between_check(self, check, value):
         values = check.get('values')
         assert values, 'Between values should be configured for this check'
-        return float(value) >= values[0] and float(value) <= values[1] if value is not None else False
+        return values[0] <= float(value) <= values[1] if value is not None else False
 
     def _geometry_check(self, check, value):
         values = check.get('values')
