@@ -11,8 +11,8 @@ COPY drivers drivers
 # https://oracle.github.io/odpi/doc/installation.html#linux
 ENV ORACLE_DIR=/app/opt/oracle
 RUN mkdir -p ${ORACLE_DIR}
-RUN unzip drivers/instantclient-basic-linux.x64-18.3.0.0.0dbru.zip -d ${ORACLE_DIR}
-ENV LD_LIBRARY_PATH=${ORACLE_DIR}/instantclient_18_3:$LD_LIBRARY_PATH
+RUN unzip drivers/instantclient-basiclite-linux.x64-21.4.0.0.0dbru.zip -d ${ORACLE_DIR}
+ENV LD_LIBRARY_PATH=${ORACLE_DIR}/instantclient_21_4:$LD_LIBRARY_PATH
 RUN apt-get update && apt-get -y --no-install-recommends install libaio1 unixodbc-dev apt-transport-https
 
 # Install SQL Server driver
