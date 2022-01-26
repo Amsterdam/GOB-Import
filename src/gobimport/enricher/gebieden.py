@@ -6,8 +6,8 @@ from gobconfig.datastore.config import get_datastore_config
 from gobcore.datastore.objectstore import ObjectDatastore
 from gobimport.enricher.enricher import Enricher
 
-CBS_CODES_BUURT = f'gebieden/Buurten/CBScodes_buurt.xlsx'
-CBS_CODES_WIJK = f'gebieden/Wijken/CBScodes_wijk.xlsx'
+CBS_CODES_BUURT = 'gebieden/Buurten/CBScodes_buurt.xlsx'
+CBS_CODES_WIJK = 'gebieden/Wijken/CBScodes_wijk.xlsx'
 
 
 class GebiedenEnricher(Enricher):
@@ -91,8 +91,6 @@ def _get_cbs_features(path: str) -> dict[str, dict[str, str]]:
         read_config={"file_filter": path, "file_type": "XLS"}
     )
     datastore.connect()
-
     features = {row[0]: {"code": row[1], "naam": row[2]} for row in datastore.query('')}
-
     datastore.disconnect()
     return features
