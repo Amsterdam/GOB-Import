@@ -24,3 +24,10 @@ class TestEnricher(unittest.TestCase):
             'manyref_to_c_begin_geldigheid': ['some date'],
             'manyref_to_d_begin_geldigheid': ['some date', 'another date'],
         }, entity)
+
+        entity = {'key_false': 'value_false'}
+        self.assertIsNone(enricher.enrich_rel_entity(entity))
+
+    def test_enriches(self):
+        self.assertTrue(TstCatalogueEnricher.enriches("app", "test_catalogue", "rel_test_entity_a"))
+        self.assertFalse(TstCatalogueEnricher.enriches("app", "test_catalogue_false", "rel_test_entity_a_blakj"))
