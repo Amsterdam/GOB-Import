@@ -21,6 +21,7 @@ services:
       - gob-volume:/app/shared
     depends_on:
       - gobimport_database
+      - test_bagextract_database
 
   gobimport_database:
     image: amsterdam/postgres11
@@ -34,6 +35,16 @@ services:
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
     shm_size: '1gb'
+
+  # Used in tests. Use in jenkins-tests onlyu?
+  test_bagextract_database:
+    image: amsterdam/postgres11
+    environment:
+      POSTGRES_PASSWORD: insecure
+      POSTGRES_DB: gob_bagextract
+      POSTGRES_USER: gob_bagextract
+
+
 
 volumes:
   gob-volume:
