@@ -1,8 +1,8 @@
 import decimal
 import unittest
-from unittest import mock
 
 from gobimport.enricher.meetbouten import MeetboutenEnricher
+
 
 class TestEnricher(unittest.TestCase):
 
@@ -25,6 +25,10 @@ class TestEnricher(unittest.TestCase):
             'zakkingssnelheid'
         ]
 
+    def test_enriches(self):
+        self.assertTrue(MeetboutenEnricher.enriches("app", "meetbouten", "metingen"))
+        self.assertFalse(MeetboutenEnricher.enriches("app", "meetbouten_false", "metingen"))
+
     def test_single_meting(self):
         enricher = MeetboutenEnricher("app", "meetbouten", "metingen")
         for entity in self.entities:
@@ -43,6 +47,7 @@ class TestEnricher(unittest.TestCase):
             }
         )
         enricher = MeetboutenEnricher("app", "meetbouten", "metingen")
+
         for entity in self.entities:
             enricher.enrich(entity)
 

@@ -40,6 +40,10 @@ class TestBAGEnrichment(unittest.TestCase):
                 'identificatie': '1234',
                 'pandidentificatie': "1234;5678",
                 'fng_code': 1000
+            },
+            {
+                'identificatie': '1234',
+                'pandidentificatie': "1234;5678",
             }
         ]
         enricher = BAGEnricher("app", "bag", "verblijfsobjecten")
@@ -51,6 +55,9 @@ class TestBAGEnrichment(unittest.TestCase):
 
         # Expect no fng_omschrijving with an invalid code
         self.assertEqual(entities[1]['fng_omschrijving'], None)
+
+        # no fng_code and fng_omschrijving
+        self.assertDictEqual(entities[2], {'identificatie': '1234', 'pandidentificatie': '1234;5678'})
 
     def test_enriches(self):
         # Expect a valid BAG collection to be enriched

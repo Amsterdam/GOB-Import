@@ -1,11 +1,7 @@
-import datetime
 import unittest
 from unittest.mock import MagicMock, patch
 
 from gobcore.exceptions import GOBException
-from gobcore.model import GOBModel
-from gobcore.typesystem import GOB
-
 from gobimport.entity_validator import EntityValidator, StateValidator, GebiedenValidator
 
 
@@ -18,7 +14,7 @@ class TestEntityValidator(unittest.TestCase):
 
     def test_entity_validate_ok(self):
         with patch.object(StateValidator, 'validates', lambda *args: True),\
-            patch.object(GebiedenValidator, 'validate', lambda *args: True):
+             patch.object(GebiedenValidator, 'validate', lambda *args: True):
             validator = EntityValidator("catalog", "collection", "id")
             self.assertTrue(validator.result())
 
