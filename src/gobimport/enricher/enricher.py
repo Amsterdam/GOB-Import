@@ -16,7 +16,7 @@ class Enricher(ABC):
         :param entity_name:
         :return:
         """
-        pass
+        pass  # pragma: no cover
 
     def __init__(self, app_name, catalogue_name, entity_name, methods):
         """
