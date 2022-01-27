@@ -7,10 +7,22 @@ from sqlalchemy import engine_from_config, pool
 from sqlalchemy.engine.url import URL
 from logging.config import fileConfig
 
+from sqlalchemy.ext.declarative import declarative_base
+
+from gobconfig.datastore.config import DATASTORE_CONFIGS
 
 sys.path.append('.')
-from gobbagextract.database.model import Base  # noqa
-from gobbagextract.config import DATABASE_CONFIG  # noqa
+
+# TODO: share this with conftest
+db_config = DATASTORE_CONFIGS["BAGExtract"]
+DATABASE_CONFIG = {
+    "username": db_config["username"],
+    "password": db_config["password"],
+    "host": db_config["host"],
+    "port": db_config["port"],
+    "database": db_config["database"],
+    "drivername": "postgresql"
+}
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -24,6 +36,8 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+# only required if there is an app which uses sqlalchemy
+Base = declarative_base()
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
