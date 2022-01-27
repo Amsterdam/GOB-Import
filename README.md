@@ -13,8 +13,16 @@ Importing data consists of the following steps:
 
 # Infrastructure
 
+## Run application
 A running [GOB infrastructure](https://github.com/Amsterdam/GOB-Infra)
 is required to run this component.
+
+## Run tests
+A database is required for some tests.
+
+```shell
+docker-compose up -d gobimport_database
+```
 
 ## Secure data
 

@@ -50,6 +50,7 @@ class ImportClient:
         self.logger.info(f"Import dataset {self.entity} from {self.source_app} (mode = {self.mode.value}) started")
 
     def init_dataset(self, dataset):
+        print(dataset)
         self.dataset = dataset
         self.source = self.dataset['source']
         self.source_id = self.dataset['source']['entity_id']
@@ -106,9 +107,11 @@ class ImportClient:
         return import_message
 
     def import_rows(self, write, progress):
+        print(self.source)
         self.logger.info(f"Connect to {self.source_app}")
         reader = Reader(self.source, self.source_app, self.dataset, self.mode)
         reader.connect()
+        print(reader)
 
         self.logger.info(f"Start import from {self.source_app}")
         self.n_rows = 0

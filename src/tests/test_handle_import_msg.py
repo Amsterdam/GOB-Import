@@ -23,24 +23,20 @@ class TestServiceHandler:
                 "application": "BAGExtract"
             }
         }
+        # Dit crasht omdat er geen bag ligplaatsen table is.
+        # Die komt normaal uit bagextract.
+        #
+        # Prepare dbs komen dan uit prepare prepare.api_import.SqlAPIImporter?
+        #
+        # Hoe komt import aan dat schema?
+        #
+        # We hebben die migratiecode niet, die staat enkel in bag ligplaatsen.
+        # Hoe gaan we die db creeeren?
+        #  - niet
+        #  - bogus registratie, maar werkt dat met toevoegen attributen
+        #  - bagextract-alembic naar gob-core?
         handle_import_msg(msg)
 
-        # See: test_handle_import_msg
-        # service = 'import_request': {
-        #     'queue': IMPORT_QUEUE,
-        #     'handler': handle_import_msg,  #from: __main__.py
-        #     'report': {
-        #         'exchange': WORKFLOW_EXCHANGE,
-        #         'key': IMPORT_RESULT_KEY,
-        #     },
-        # },
-        # # message maken met {"queue": "bogus"}
-        # msg = {"queue": "bla"}
-        # # _on_message(connection=None, msg, service)
-        # handler = service["handler"]
-        # result_msg = handler(msg)
-        # result = _handle_result_msg(connection, service, result_msg)
-        # # see
 
 
     def test_fixtures(self):

@@ -37,12 +37,12 @@ services:
     shm_size: '1gb'
 
   # Used in tests. Use in jenkins-tests onlyu?
-  test_bagextract_database:
-    image: amsterdam/postgres11
-    environment:
-      POSTGRES_PASSWORD: insecure
-      POSTGRES_DB: gob_bagextract
-      POSTGRES_USER: gob_bagextract
+#  test_bagextract_database:
+#    image: amsterdam/postgres11
+#    environment:
+#      POSTGRES_PASSWORD: insecure
+#      POSTGRES_DB: gob_bagextract
+#      POSTGRES_USER: gob_bagextract
 
 
 

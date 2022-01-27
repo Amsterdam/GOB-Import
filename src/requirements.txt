@@ -1,3 +1,4 @@
--e git+https://github.com/Amsterdam/GOB-Config.git@v0.4.15c#egg=gobconfig
--e git+https://github.com/Amsterdam/GOB-Core.git@v0.17.13#egg=gobcore
+#-e git+https://github.com/Amsterdam/GOB-Config.git@v0.4.15c#egg=gobconfig
+#-e git+https://github.com/Amsterdam/GOB-Core.git@v0.17.13#egg=gobcore
+alembic~=1.7.5
 pytest-env~=0.6.2
