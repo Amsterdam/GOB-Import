@@ -2,45 +2,12 @@
 Gebieden enrichment
 
 """
-import requests
-
-from gobcore.logging.logger import logger
+from gobconfig.datastore.config import get_datastore_config
+from gobcore.datastore.objectstore import ObjectDatastore
 from gobimport.enricher.enricher import Enricher
-from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
-from shapely.geometry import shape
-from shapely.wkt import loads
-from urllib.parse import urlencode
-
-
-def get_query(typename):
-    return '?' + urlencode({
-        'service': 'wfs',
-        'version': '1.0.0',
-        'request': 'GetFeature',
-        'typeNames': f'wijkenbuurten2020:cbs_{typename}_2020',
-        'srsName': 'EPSG:28992',
-        'outputformat': 'json',
-        'filter': (
-            '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">'
-            '<ogc:Or>'
-            '<ogc:PropertyIsEqualTo>'
-            '<ogc:PropertyName>gemeentenaam</ogc:PropertyName>'
-            '<ogc:Literal>Amsterdam</ogc:Literal>'
-            '</ogc:PropertyIsEqualTo>'
-            '<ogc:PropertyIsEqualTo>'
-            '<ogc:PropertyName>gemeentenaam</ogc:PropertyName>'
-            '<ogc:Literal>Weesp</ogc:Literal>'
-            '</ogc:PropertyIsEqualTo>'
-            '</ogc:Or>'
-            '</ogc:Filter>'
-        )
-    })
-
-
-BASE_URL = 'https://geodata.nationaalgeoregister.nl/wijkenbuurten2020/wfs'
-CBS_BUURTEN_WEESP_API = f'{BASE_URL}{get_query("buurten")}'
-CBS_WIJKEN_WEESP_API = f'{BASE_URL}{get_query("wijken")}'
+CBS_CODES_BUURT = 'gebieden/Buurten/CBScodes_buurt.xlsx'
+CBS_CODES_WIJK = 'gebieden/Wijken/CBScodes_wijk.xlsx'
 
 
 class GebiedenEnricher(Enricher):
@@ -62,10 +29,10 @@ class GebiedenEnricher(Enricher):
         self.features = {}
 
     def enrich_buurt(self, buurt):
-        self._add_cbs_code(buurt, CBS_BUURTEN_WEESP_API, 'buurt')
+        self._add_cbs_code(buurt, CBS_CODES_BUURT, 'buurt')
 
     def enrich_wijk(self, wijk):
-        self._add_cbs_code(wijk, CBS_WIJKEN_WEESP_API, 'wijk')
+        self._add_cbs_code(wijk, CBS_CODES_WIJK, 'wijk')
 
     def enrich_ggwgebied(self, ggwgebied):
         self._enrich_ggw_ggp_gebied(ggwgebied, "GGW")
@@ -73,35 +40,23 @@ class GebiedenEnricher(Enricher):
     def enrich_ggpgebied(self, ggpgebied):
         self._enrich_ggw_ggp_gebied(ggpgebied, "GGP")
 
-    def _add_cbs_code(self, entity, url, type):
+    def _add_cbs_code(self, entity: dict, path: str, type_: str):
         """
-        Gets the CBS codes and tries to match them based on the inside
-        point of the geometry. Returns the entities enriched with CBS Code.
+        Gets the CBS codes and tries to match them based on `type_` code.
+        Returns the entities enriched with CBS Code.
 
-        :param entities: a list of entities ready for enrichment
-        :param url: the url to the cbs code API
-        :param type: the type of entity, needed to get the correct values from the API
-        :return: the entities enriched with CBS Code
+        :param entity: an entity ready for enrichment
+        :param path: the path to source file
+        :param type_: the type of entity (wijk or buurt)
+        :return: the entity enriched with CBS Code
         """
-        if not self.features.get(type):
-            self.features[type] = _get_cbs_features(url, type)
+        if not self.features.get(type_):
+            self.features[type_] = _get_cbs_features(path)
 
-        # Leave entities without datum_einde_geldigheid empty
-        if entity['eind_geldigheid']:
-            entity['cbs_code'] = ''
-            return
+        match = self.features[type_].get(entity["code"], {})
+        entity["cbs_code"] = match.get("code")
 
-        # Check which CBS feature lays within the geometry
-        match = _match_cbs_features(entity, self.features[type])
-
-        entity['cbs_code'] = match['code'] if match else ''
-
-        # Show a warning if the names do not match with CBS
-        if match and entity['naam'] != match['naam']:
-            log_issue(logger, QA_LEVEL.WARNING,
-                      Issue(QA_CHECK.Value_should_match, entity, None, 'naam', 'CBS naam', match['naam']))
-
-    def _enrich_ggw_ggp_gebied(self, entity, prefix):
+    def _enrich_ggw_ggp_gebied(self, entity: dict, prefix: str):
         """Enrich GGW or GGP Gebieden
 
         Add:
@@ -111,7 +66,7 @@ class GebiedenEnricher(Enricher):
         - Interpret BUURTEN as a comma separated list of codes
         - Convert Excel DateTime values to date strings in YYYY-MM-DD format
 
-        :param entities: a list of entities
+        :param entity: a ggw or ggp gebied
         :param prefix: GGW or GGP
         :return: None
         """
@@ -123,51 +78,19 @@ class GebiedenEnricher(Enricher):
                 entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
 
 
-def _match_cbs_features(entity, features):
+def _get_cbs_features(path: str) -> dict[str, dict[str, str]]:
     """
-    Match the geometry of an entity to the CBS inside point
+    Gets the CBS codes from the Objectstore and returns a list of dicts with the naam,
+    code (wijk or buurt).
 
-    :param entity: the entity to match to
-    :param features: the cbs features
-    :return: the matched cbs feature or none
+    :param path: the path to source file
+    :return: a list of dicts with CBS Code and CBS naam, mapped on the local code.
     """
-    geom = loads(entity['geometrie'])
-    match = None
-
-    for feature in features:
-        if geom.contains(feature['geometrie']) and not match:
-            match = feature
-        elif geom.contains(feature['geometrie']) and match:
-            log_issue(logger, QA_LEVEL.WARNING,
-                      Issue(QA_CHECK.Value_unique, entity, None, 'naam', 'CBS feature', feature['naam']))
-
-    return match
-
-
-def _get_cbs_features(url, type):
-    """
-    Gets the CBS codes from the API and returns a list of dicts with the naam,
-    code and geometrie of the feature (wijk or buurt)
-
-    :param url: the url to the cbs code API
-    :param type: the type of entity, needed to get the correct values from the API
-    :return: a list of dicts with CBS Code, CBS naam and geometry
-    """
-    response = requests.get(url)
-    assert response.ok
-    cbs_result = response.json()
-
-    features = []
-    for feature in cbs_result['features']:
-        # Skip features if they exist only of water
-        if feature['properties']['water'] == 'JA':
-            continue
-
-        # Include the naam, code and representative point of the feature
-        cleaned_feature = {
-            'geometrie': shape(feature['geometry']).representative_point(),
-            'code': feature['properties'][f'{type}code'],
-            'naam': feature['properties'][f'{type}naam'],
-        }
-        features.append(cleaned_feature)
+    datastore = ObjectDatastore(
+        connection_config=get_datastore_config("Basisinformatie"),
+        read_config={"file_filter": path, "file_type": "XLS"}
+    )
+    datastore.connect()
+    features = {row[0]: {"code": row[1], "naam": row[2]} for row in datastore.query('')}
+    datastore.disconnect()
     return features

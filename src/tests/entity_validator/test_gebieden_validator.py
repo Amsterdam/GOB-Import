@@ -2,7 +2,6 @@ import datetime
 import unittest
 from unittest.mock import MagicMock, patch
 
-from gobcore.typesystem import GOB
 from gobimport.entity_validator.gebieden import GebiedenValidator
 
 
@@ -10,6 +9,10 @@ class TestEntityValidator(unittest.TestCase):
 
     def setUp(self):
         self.entities = []
+
+    def test_validates(self):
+        self.assertTrue(GebiedenValidator.validates("gebieden", "bouwblokken"))
+        self.assertFalse(GebiedenValidator.validates("gebieden_false", "bla"))
 
     def test_validate_bouwblokken_valid(self):
         self.entities = [
@@ -30,7 +33,7 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'begin_geldigheid': datetime.date(2020, 1, 1),
+                'begin_geldigheid': datetime.date.max,
                 'eind_geldigheid': None,
             }
         ]
