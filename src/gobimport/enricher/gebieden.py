@@ -73,9 +73,10 @@ class GebiedenEnricher(Enricher):
         entity["BUURTEN"] = entity["BUURTEN"].split(", ")
         entity["_IDENTIFICATIE"] = None
         entity["registratiedatum"] = entity["_file_info"]["last_modified"]
-        for date in [f"{prefix}_{date}" for date in ["BEGINDATUM", "EINDDATUM", "DOCUMENTDATUM"]]:
-            if entity[date] is not None:
-                entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
+
+        date = f"{prefix}_DOCUMENTDATUM"
+        if entity[date] is not None:
+            entity[date] = str(entity[date])[:10]   # len "YYYY-MM-DD" = 10
 
 
 def _get_cbs_features(path: str) -> dict[str, dict[str, str]]:
