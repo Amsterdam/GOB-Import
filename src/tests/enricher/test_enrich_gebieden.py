@@ -78,8 +78,6 @@ class TestGGWPEnricher(unittest.TestCase):
     def test_enrich_ggwgebieden(self):
         ggwgebieden = [
             {
-                "GGW_BEGINDATUM": "YYYY-MM-DD HH:MM:SS",
-                "GGW_EINDDATUM": "YYYY-MM-DD HH:MM:SS.fff",
                 "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
                 "BUURTEN": "1, 2, 3",
                 "_file_info": {
@@ -94,8 +92,6 @@ class TestGGWPEnricher(unittest.TestCase):
             {
                 "_IDENTIFICATIE": None,
                 "registratiedatum": "2020-01-20T12:30:30.12345",
-                "GGW_BEGINDATUM": "YYYY-MM-DD",
-                "GGW_EINDDATUM": "YYYY-MM-DD",
                 "GGW_DOCUMENTDATUM": "YYYY-MM-DD",
                 "BUURTEN": ["1", "2", "3"],
                 "_file_info": {"last_modified": "2020-01-20T12:30:30.12345"}
@@ -105,8 +101,6 @@ class TestGGWPEnricher(unittest.TestCase):
     def test_enrich_ggpgebieden(self):
         ggpgebieden = [
             {
-                "GGP_BEGINDATUM": "YYYY-MM-DD HH:MM:SS",
-                "GGP_EINDDATUM": "YYYY-MM-DD HH:MM:SS.fff",
                 "GGP_DOCUMENTDATUM": None,
                 "BUURTEN": "1, 2, 3",
                 "_file_info": {
@@ -121,8 +115,6 @@ class TestGGWPEnricher(unittest.TestCase):
             {
                 "_IDENTIFICATIE": None,
                 "registratiedatum": "2020-01-20T12:30:30.12345",
-                "GGP_BEGINDATUM": "YYYY-MM-DD",
-                "GGP_EINDDATUM": "YYYY-MM-DD",
                 "GGP_DOCUMENTDATUM": None,
                 "BUURTEN": ["1", "2", "3"],
                 "_file_info": {"last_modified": "2020-01-20T12:30:30.12345"}
