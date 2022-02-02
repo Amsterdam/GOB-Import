@@ -18,7 +18,7 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'begin_geldigheid': datetime.date(2018, 1, 1),
+                'begin_geldigheid': datetime.datetime(2018, 1, 1),
                 'eind_geldigheid': None,
             }
         ]
@@ -33,7 +33,7 @@ class TestEntityValidator(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234567890',
-                'begin_geldigheid': datetime.date.max,
+                'begin_geldigheid': datetime.datetime.max,
                 'eind_geldigheid': None,
             }
         ]
@@ -49,8 +49,8 @@ class TestEntityValidator(unittest.TestCase):
             {
                 'identificatie': '1234567890',
                 'documentdatum': datetime.date(2018, 1, 1),
-                'eind_geldigheid': datetime.date(2019, 1, 1),
-                'registratiedatum': datetime.datetime(2020, 1, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1, 1, 0),
+                'registratiedatum': datetime.datetime(2020, 1, 1, 1, 0),
             }
         ]
         # This test should only call log with a warning statement and return True
@@ -67,7 +67,7 @@ class TestEntityValidator(unittest.TestCase):
             {
                 'identificatie': '1234567890',
                 'documentdatum': datetime.date(2020, 1, 1),
-                'eind_geldigheid': datetime.date(2019, 1, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1),
                 'registratiedatum': datetime.datetime(2019, 1, 1),
             }
         ]
