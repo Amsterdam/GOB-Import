@@ -51,7 +51,7 @@ class GebiedenValidator:
         :return:
         """
         # begin_geldigheid can not be in the future
-        if entity[FIELD.START_VALIDITY] > datetime.datetime.utcnow().date():
+        if entity[FIELD.START_VALIDITY] > datetime.datetime.utcnow():
             log_issue(logger, QA_LEVEL.WARNING,
                       Issue(QA_CHECK.Value_not_in_future, entity, self.source_id, FIELD.START_VALIDITY))
 
@@ -67,17 +67,16 @@ class GebiedenValidator:
         :return:
         """
         # get eind_geldigheid or use current date
-        eind_geldigheid = entity['eind_geldigheid'] if entity['eind_geldigheid'] \
-            else datetime.datetime.utcnow().date()
+        eind_geldigheid = entity['eind_geldigheid'] if entity['eind_geldigheid'] else datetime.datetime.utcnow()
 
-        datum = 'documentdatum'
-        # documentdatum should not be after eind_geldigheid
-        if entity[datum] and entity[datum] > eind_geldigheid:
+        datum = 'documentdatum'  # typ: date
+        if entity[datum] and entity[datum] > eind_geldigheid.date():
+            # documentdatum should not be after eind_geldigheid
             self.date_comparison_issue(entity, datum, 'eind_geldigheid')
 
-        datum = 'registratiedatum'
-        # registratiedatum should not be after eind_geldigheid
-        if entity[datum] and entity[datum].date() > eind_geldigheid:
+        datum = 'registratiedatum'  # typ: datetime
+        if entity[datum] and entity[datum] > eind_geldigheid:
+            # registratiedatum should not be after eind_geldigheid
             self.date_comparison_issue(entity, datum, 'eind_geldigheid')
 
     def date_comparison_issue(self, entity, date_field, compare_date_field):

@@ -158,13 +158,14 @@ ENTITY_CHECKS = {
                     **QA_CHECK.Value_not_empty,
                     "level": QA_LEVEL.FATAL
                 }
-            ],
-            "documentnummer": [
-                {
-                    **QA_CHECK.Value_not_empty,
-                    "level": QA_LEVEL.WARNING,
-                },
-            ],
+            ]
+            # Temporary fix, turn back on when values will be filled again.
+            # "documentnummer": [
+            #     {
+            #         **QA_CHECK.Value_not_empty,
+            #         "level": QA_LEVEL.WARNING,
+            #     },
+            # ],
         },
         "ggpgebieden": {
             "naam": [
