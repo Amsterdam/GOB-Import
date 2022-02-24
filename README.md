@@ -30,12 +30,35 @@ In order to encrypt secure data you need to define environment variables:
 * docker-compose >= 1.17
 * docker ce >= 18.03
 
+## Neuron database
+
+Connect to the neuron database with credentials retrieved with help of
+[this guide](https://dev.azure.com/CloudCompetenceCenter/Datateam%20Basis%20en%20Kernregistraties/_wiki/wikis/Datateam-Basis-en-Kernregistraties.wiki/1700/Verbinden-met-acceptatieomgeving-en-bronsystemen).
+
+When running the project in docker, edit the .env file and set NRBIN_* parameters to the params retrieved from the previous guide.
+
+Set the NRBIN host to host.docker.internal:
+
+```
+NRBIN_DATABASE_HOST=host.docker.internal
+```
+
+Forward the port using SSH:
+
+```shell
+ssh -L 0.0.0.0:1521:$DB:1521 $HOST
+```
+
+
 ## Run
 
-```bash
+Finally, start docker.
+
+```shell
 docker-compose build
-docker-compose up &
+docker-compose up
 ```
+
 
 ## Tests
 
