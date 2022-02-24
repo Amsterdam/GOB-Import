@@ -19,6 +19,7 @@ services:
     env_file: .env
     volumes:
       - gob-volume:/app/shared
+      - ./src/gobimport:/app/gobimport
     depends_on:
       - gobimport_database
 
