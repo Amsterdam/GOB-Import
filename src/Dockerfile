@@ -1,4 +1,4 @@
-FROM amsterdam/python:3.9-buster
+FROM amsterdam/python:3.9-buster as build
 MAINTAINER datapunt@amsterdam.nl
 
 # Install gobimport in /app folder
@@ -37,3 +37,11 @@ RUN rm requirements.txt
 COPY gobimport gobimport
 
 CMD ["python", "-m", "gobimport"]
+FROM build as development
+# Install GOB-Core and GOB-Config in development mode. Will be overridden with
+# mounts from the developer filesystem. Changes made to GOB-Core and GOB-Config
+# will be available immediately.
+RUN git clone --depth=1 https://github.com/Amsterdam/GOB-Core.git
+RUN LIBGDAL_VERSION=$(gdal-config --version) pip install -e /app/GOB-Core
+RUN git clone --depth=1 https://github.com/Amsterdam/GOB-Config.git
+RUN pip install -e /app/GOB-Config
