@@ -1,9 +1,11 @@
-version: '3.0'
+version: '3.4'
 
 services:
 
   gobimport:
-    build: src
+    build:
+      context: src
+      target: development
     container_name: gobimport
     environment:
       MESSAGE_BROKER_ADDRESS: rabbitmq
@@ -19,6 +21,10 @@ services:
     env_file: .env
     volumes:
       - gob-volume:/app/shared
+      - ./src/gobimport:/app/gobimport
+      - ./src/tests:/app/tests
+      - ${GOB_CORE_DIR-../GOB-Core}:/app/GOB-Core
+      - ${GOB_CONFIG_DIR-../GOB-Config}:/app/GOB-Config
     depends_on:
       - gobimport_database
 
