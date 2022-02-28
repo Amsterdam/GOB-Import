@@ -92,7 +92,7 @@ class ImportClient:
 
         log_msg = f"Import dataset {self.entity} from {self.source_app} completed. "
         if self.mode == ImportMode.DELETE:
-            log_msg += "0 records imported, all known entities are marked as deleted."
+            log_msg += "0 records imported, all known entities will be marked as deleted."
         else:
             log_msg += f"{summary['num_records']} records were read from the source."
 
@@ -155,14 +155,12 @@ class ImportClient:
 
                 self.filename = writer.filename
 
+                # DELETE: Skip import rows -> write empty file
+                # mark all entities as deleted
                 if self.mode != ImportMode.DELETE:
-
                     self.merger.prepare(progress)
-
                     self.import_rows(writer.write, progress)
-
                     self.merger.finish(writer.write)
-
                     self.entity_validator.result()
 
         except Exception as e:

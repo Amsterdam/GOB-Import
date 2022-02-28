@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import MagicMock, patch, call
+from unittest.mock import MagicMock, patch, call, mock_open
 
 from gobcore.model import GOBModel
 from gobimport.import_client import ImportClient
@@ -50,6 +50,23 @@ class TestImportClient(TestCase):
         self.assertEqual(msg['contents_ref'], 'filename')
         self.assertEqual(msg['summary']['num_records'], 10)
         self.assertEqual(msg['header']['version'], 0.1)
+
+    def test_publish_delete_mode(self):
+        logger = MagicMock()
+        self.import_client = ImportClient(self.mock_dataset, self.mock_msg, logger, ImportMode.DELETE)
+        self.import_client.n_rows = 0
+        self.import_client.filename = "filename"
+
+        app = self.mock_dataset['source']['application']
+        entity = self.mock_dataset['entity']
+
+        msg1 = f"Import dataset {entity} from {app} (mode = DELETE) started"
+        logger.info.assert_called_with(msg1)
+
+        self.import_client.get_result_msg()
+        msg2 = f"Import dataset {entity} from {app} completed. " \
+               "0 records imported, all known entities will be marked as deleted."
+        logger.info.assert_called_with(msg2, kwargs={'data': {'num_records': 0}})
 
     @patch('gobimport.import_client.Reader')
     def test_import_rows(self, mock_Reader):
@@ -121,6 +138,24 @@ class TestImportClient(TestCase):
         _self.import_rows.assert_called_once_with('write', progress)
         _self.merger.finish.assert_called_once_with('write')
         _self.entity_validator.result.assert_called_once()
+
+    @patch('gobimport.import_client.ProgressTicker')
+    def test_import_dataset_mode_delete(self, mock_progress_ticker):
+        _self = MagicMock()
+        _self.mode = ImportMode.DELETE
+
+        with patch('builtins.open', mock_open(read_data='')) as m:
+            ImportClient.import_dataset(_self)
+
+            m.assert_called_once()
+            m.mock_calls[1] = call().write("[")
+            m.mock_calls[2] = call().write("]")
+            m.mock_calls[3] = call().close()
+
+        _self.merger.assert_not_called()
+        _self.import_rows.assert_not_called()
+        _self.entity_validator.assert_not_called()
+        _self.get_result_msg.assert_called_once()
 
     @patch('gobimport.import_client.ContentsWriter')
     @patch('gobimport.import_client.ProgressTicker')
