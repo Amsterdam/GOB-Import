@@ -139,12 +139,12 @@ class TestImportClient(TestCase):
         _self.merger.finish.assert_called_once_with('write')
         _self.entity_validator.result.assert_called_once()
 
-    @patch('gobimport.import_client.ProgressTicker')
+    @patch("gobimport.import_client.ProgressTicker")
     def test_import_dataset_mode_delete(self, mock_progress_ticker):
         _self = MagicMock()
         _self.mode = ImportMode.DELETE
 
-        with patch('builtins.open', mock_open(read_data='')) as m:
+        with patch("builtins.open", mock_open(read_data="")) as m:
             ImportClient.import_dataset(_self)
 
             m.assert_called_once()
