@@ -232,13 +232,13 @@ ENTITY_CHECKS = {
             ],
         },
         "openbareruimtes": {
-            "ligt_in_woonplaats": [
-                {
-                    "source_app": "Neuron",
-                    **QA_CHECK.Value_woonplaats_bronwaarde_1012_1024_1025_3594,
-                    "level": QA_LEVEL.FATAL
-                }
-            ],
+            # "ligt_in_woonplaats": [
+            #     {
+            #         "source_app": "Neuron",
+            #         **QA_CHECK.Value_woonplaats_bronwaarde_1012_1024_1025_3594,
+            #         "level": QA_LEVEL.FATAL
+            #     }
+            # ],
             "geometrie": [
                 {
                     "source_app": "Neuron",
@@ -252,22 +252,22 @@ ENTITY_CHECKS = {
         "standplaatsen": {
         },
         "woonplaatsen": {
-            "identificatie": [
-                {
-                    "source_app": "Neuron",
-                    **QA_CHECK.Value_woonplaats_1012_1024_1025_3594,
-                    "level": QA_LEVEL.FATAL
-                }
-            ],
+            # "identificatie": [
+            #     {
+            #         "source_app": "Neuron",
+            #         **QA_CHECK.Value_woonplaats_1012_1024_1025_3594,
+            #         "level": QA_LEVEL.FATAL
+            #     }
+            # ],
         },
         "nummeraanduidingen": {
-            "ligt_in_woonplaats": [
-                {
-                    "source_app": "Neuron",
-                    **QA_CHECK.Value_woonplaats_bronwaarde_1012_1024_1025_3594,
-                    "level": QA_LEVEL.FATAL
-                }
-            ],
+            # "ligt_in_woonplaats": [
+            #     {
+            #         "source_app": "Neuron",
+            #         **QA_CHECK.Value_woonplaats_bronwaarde_1012_1024_1025_3594,
+            #         "level": QA_LEVEL.FATAL
+            #     }
+            # ],
         },
         "panden": {
         }
