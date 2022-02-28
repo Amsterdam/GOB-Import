@@ -71,14 +71,14 @@ class TestImportClient(TestCase):
         _self.validator = MagicMock()
         ImportClient.import_rows(_self, write, progress)
         _self.logger.info.assert_called()
-        self.assertEquals(_self.injector.inject.call_args_list, [call(c) for c in rows])
-        self.assertEquals(_self.merger.merge.call_args_list, [call(c, write) for c in rows])
-        self.assertEquals(_self.converter.convert.call_args_list, [call(c) for c in rows])
-        self.assertEquals(_self.validator.validate.call_args_list, [call(entity) for c in rows])
-        self.assertEquals(write.call_args_list, [call(entity) for c in rows])
+        self.assertEqual(_self.injector.inject.call_args_list, [call(c) for c in rows])
+        self.assertEqual(_self.merger.merge.call_args_list, [call(c, write) for c in rows])
+        self.assertEqual(_self.converter.convert.call_args_list, [call(c) for c in rows])
+        self.assertEqual(_self.validator.validate.call_args_list, [call(entity) for c in rows])
+        self.assertEqual(write.call_args_list, [call(entity) for c in rows])
 
         _self.validator.result.called_once_with()
-        self.assertEquals(len(_self.logger.info.call_args_list), 3)
+        self.assertEqual(len(_self.logger.info.call_args_list), 3)
 
     @patch('gobimport.import_client.Reader')
     def test_import_row_too_few_records(self, mock_Reader):
@@ -96,8 +96,8 @@ class TestImportClient(TestCase):
         ImportClient.import_rows(_self, write, progress)
 
         _self.validator.result.assert_called_once_with()
-        self.assertEquals(len(_self.logger.info.call_args_list), 3)
-        self.assertEquals(len(_self.logger.error.call_args_list), 1)
+        self.assertEqual(len(_self.logger.info.call_args_list), 3)
+        self.assertEqual(len(_self.logger.error.call_args_list), 1)
 
     @patch('gobimport.import_client.ContentsWriter')
     @patch('gobimport.import_client.ProgressTicker')
@@ -114,10 +114,10 @@ class TestImportClient(TestCase):
 
         res = ImportClient.import_dataset(_self)
 
-        self.assertEquals(res, 'res')
+        self.assertEqual(res, 'res')
         mock_ProgressTicker.called_once()
         _self.merger.prepare.assert_called_once_with(progress)
-        self.assertEquals(_self.filename, filename)
+        self.assertEqual(_self.filename, filename)
         _self.import_rows.assert_called_once_with('write', progress)
         _self.merger.finish.assert_called_once_with('write')
         _self.entity_validator.result.assert_called_once()
@@ -134,6 +134,6 @@ class TestImportClient(TestCase):
 
         res = ImportClient.import_dataset(_self)
 
-        self.assertEquals(res, 'res')
-        self.assertEquals(len(_self.logger.error.call_args_list), 2)
+        self.assertEqual(res, 'res')
+        self.assertEqual(len(_self.logger.error.call_args_list), 2)
         mock_traceback.format_exc.assert_called_once_with(limit=-5)
