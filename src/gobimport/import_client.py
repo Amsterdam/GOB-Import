@@ -47,7 +47,7 @@ class ImportClient:
         self.merger = Merger(self)
 
         self.header = msg.get('header', {})
-        self.logger.info(f"Import dataset {self.entity} from {self.source_app} (mode = {self.mode.value}) started")
+        self.logger.info(f"Import dataset {self.entity} from {self.source_app} (mode = {self.mode.name}) started")
 
     def init_dataset(self, dataset):
         self.dataset = dataset
@@ -90,10 +90,14 @@ class ImportClient:
             'num_records': self.n_rows
         }
 
+        log_msg = f"Import dataset {self.entity} from {self.source_app} completed. "
+        if self.mode == ImportMode.DELETE:
+            log_msg += "0 records imported, all known entities will be marked as deleted."
+        else:
+            log_msg += f"{summary['num_records']} records were read from the source."
+
         # Log end of import process
-        self.logger.info(f"Import dataset {self.entity} from {self.source_app} completed. "
-                         f"{summary['num_records']} records were read from the source.",
-                         kwargs={"data": summary})
+        self.logger.info(log_msg, kwargs={"data": summary})
 
         summary.update(self.logger.get_summary())
 
@@ -151,18 +155,18 @@ class ImportClient:
 
                 self.filename = writer.filename
 
-                self.merger.prepare(progress)
-
-                self.import_rows(writer.write, progress)
-
-                self.merger.finish(writer.write)
-
-                self.entity_validator.result()
+                # DELETE: Skip import rows -> write empty file
+                # mark all entities as deleted
+                if self.mode != ImportMode.DELETE:
+                    self.merger.prepare(progress)
+                    self.import_rows(writer.write, progress)
+                    self.merger.finish(writer.write)
+                    self.entity_validator.result()
 
         except Exception as e:
             # Print error message, the message that caused the error and a short stacktrace
             stacktrace = traceback.format_exc(limit=-5)
-            print("Import failed at row {self.n_rows}: {e}", stacktrace)
+            print(f"Import failed at row {self.n_rows}: {e}", stacktrace)
             # Log the error and a short error description
             self.logger.error(f'Import failed at row {self.n_rows}: {e}')
             self.logger.error(

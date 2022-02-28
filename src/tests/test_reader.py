@@ -148,7 +148,7 @@ class TestReader(unittest.TestCase):
         reader.secure_attributes = ['attrB']
         row = {'attrA': 'valA', 'attrB': 'valB'}
 
-        self.assertEquals({
+        self.assertEqual({
             'attrA': 'valA',
             'attrB': 'read_protected(valB)',
         }, reader._protect_row(row))
