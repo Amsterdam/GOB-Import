@@ -105,7 +105,7 @@ class Reader:
                 # Optionally populated with the mode, eg partial, random, ...
                 source_query += self.source[self.mode.value]
             except KeyError as e:
-                logger.error("Unknown import mode for the collection: '%s'", self.mode.value)
+                logger.error(f"Unknown import mode for the collection: {self.mode.value}")
                 raise e
 
         # Name the cursor to activate server-side-cursor (only postgresql datastore)
