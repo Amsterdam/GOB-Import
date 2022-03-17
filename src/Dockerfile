@@ -28,6 +28,9 @@ RUN apt-get install -y libgdal-dev
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
+# Install gdal separately from the rest of the python requirements.
+# This avoids that changes to requirements.txt incure a time consuming gdal build
+RUN LIBGDAL_VERSION=$(gdal-config --version) && pip3 install GDAL==${LIBGDAL_VERSION}
 # Install required Python packages
 COPY requirements.txt /app/
 RUN LIBGDAL_VERSION=$(gdal-config --version) pip3 install --no-cache-dir -r requirements.txt
@@ -45,3 +48,16 @@ RUN git clone --depth=1 https://github.com/Amsterdam/GOB-Core.git
 RUN LIBGDAL_VERSION=$(gdal-config --version) pip install -e /app/GOB-Core
 RUN git clone --depth=1 https://github.com/Amsterdam/GOB-Config.git
 RUN pip install -e /app/GOB-Config
+
+FROM application as test
+# Remove gobcore/gobconfig tests
+RUN rm -rf /app/src/gobcore/tests
+RUN rm -rf /app/src/gobconfig/tests
+
+# Copy tests
+COPY tests tests
+COPY .flake8 .flake8
+COPY test.sh test.sh
+
+# Copy jenkins files
+COPY .jenkins /.jenkins
