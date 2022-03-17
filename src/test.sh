@@ -6,11 +6,11 @@ set -e # stop on any error
 # Clear any cached results
 find . -name "*.pyc" -exec rm -f {} \;
 
+echo "Running tests"
+coverage run --source=./gobimport -m pytest tests/
+
+echo "Running coverage report"
+coverage report --show-missing --fail-under=95
+
 echo "Running style checks"
 flake8
-
-echo "Running unit tests"
-pytest tests/
-
-echo "Running coverage tests"
-pytest --cov=gobimport --cov-report term-missing --cov-fail-under=95

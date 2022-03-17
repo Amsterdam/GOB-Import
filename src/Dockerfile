@@ -61,3 +61,5 @@ COPY test.sh test.sh
 
 # Copy jenkins files
 COPY .jenkins /.jenkins
+
+RUN mkdir -p /app/shared/message_broker
