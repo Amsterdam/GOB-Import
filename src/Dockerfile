@@ -1,4 +1,4 @@
-FROM amsterdam/python:3.9-buster as build
+FROM amsterdam/python:3.9-buster as application
 MAINTAINER datapunt@amsterdam.nl
 
 # Install gobimport in /app folder
@@ -37,7 +37,7 @@ RUN rm requirements.txt
 COPY gobimport gobimport
 
 CMD ["python", "-m", "gobimport"]
-FROM build as development
+FROM application as development
 # Install GOB-Core and GOB-Config in development mode. Will be overridden with
 # mounts from the developer filesystem. Changes made to GOB-Core and GOB-Config
 # will be available immediately.
