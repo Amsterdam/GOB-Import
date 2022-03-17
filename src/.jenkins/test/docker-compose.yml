@@ -5,5 +5,7 @@ services:
     build:
       context: ../..
       target: test
+    environment:
+      GOB_SHARED_DIR: /app/shared
     command: >
       bash -c "./test.sh"
