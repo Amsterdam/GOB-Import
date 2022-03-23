@@ -4,6 +4,7 @@ from unittest.mock import call
 
 import pandas as pd
 
+from gobcore.exceptions import GOBException
 from gobimport.enricher.gebieden import GebiedenEnricher, CBS_CODES_WIJK, CBS_CODES_BUURT
 
 
@@ -64,6 +65,17 @@ class TestEnricher(unittest.TestCase):
         mock_datastore.has_calls([call.connect(), call.query(''), call.disconnect()])
         # Expect cbs codes buurt
         self.assertEqual('BU03630001', self.entities[0]['cbs_code'])
+
+    @mock.patch('gobimport.enricher.gebieden.ObjectDatastore')
+    def test_add_cbs_code_no_results_exception(self, mock_datastore):
+        mock_datastore.return_value.query.return_value = []
+        enricher = GebiedenEnricher("app", "gebieden", "buurten")
+
+        with self.assertRaises(
+                GOBException,
+                msg=f"No CBS features found for path 'gebieden/Buurten/CBScodes_buurt.xlsx'"
+        ):
+            enricher._add_cbs_code(self.entities[0], CBS_CODES_BUURT, 'buurt')
 
 
 class TestGGWPEnricher(unittest.TestCase):
