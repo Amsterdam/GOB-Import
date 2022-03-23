@@ -4,6 +4,7 @@ Gebieden enrichment
 """
 from gobconfig.datastore.config import get_datastore_config
 from gobcore.datastore.objectstore import ObjectDatastore
+from gobcore.exceptions import GOBException
 from gobimport.enricher.enricher import Enricher
 
 CBS_CODES_BUURT = 'gebieden/Buurten/CBScodes_buurt.xlsx'
@@ -91,7 +92,12 @@ def _get_cbs_features(path: str) -> dict[str, dict[str, str]]:
         connection_config=get_datastore_config("Basisinformatie"),
         read_config={"file_filter": path, "file_type": "XLS"}
     )
+
     datastore.connect()
-    features = {row[0]: {"code": row[1], "naam": row[2]} for row in datastore.query('')}
+    result = list(datastore.query(''))
     datastore.disconnect()
-    return features
+
+    if not result:
+        raise GOBException(f"No CBS features found for path '{path}'")
+
+    return {row[0]: {"code": row[1], "naam": row[2]} for row in result}
