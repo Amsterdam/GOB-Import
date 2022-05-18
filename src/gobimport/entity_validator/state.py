@@ -42,8 +42,14 @@ class StateValidator:
         """
         self._validate_begin_geldigheid(entity)
 
+        # Volgnummer can't be empty -> Fatal
+        if entity[FIELD.SEQNR] is None:
+            log_issue(logger, QA_LEVEL.FATAL,
+                      Issue(QA_CHECK.Value_not_empty, entity, self.source_id, FIELD.SEQNR))
+            self.validated = False
+
         # volgnummer should a positive number and unique in the collection
-        if entity[FIELD.SEQNR] < 1:
+        elif entity[FIELD.SEQNR] < 1:
             log_issue(logger, QA_LEVEL.ERROR,
                       Issue(QA_CHECK.Format_numeric, entity, self.source_id, FIELD.SEQNR))
             self.validated = False
