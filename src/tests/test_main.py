@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 from gobcore.exceptions import GOBException
 
 from gobimport.__main__ import ImportMode, \
-    SERVICEDEFINITION, extract_dataset_from_msg, handle_import_msg, handle_import_object_msg
+    extract_dataset_from_msg, handle_import_msg, handle_import_object_msg, SERVICEDEFINITION
 
 
 class TestMain(TestCase):
@@ -126,6 +126,6 @@ class TestMain(TestCase):
     @patch("gobimport.__main__.messagedriven_service")
     def test_main_entry(self, mock_messagedriven_service):
         from gobimport import __main__ as module
-        with patch.object(module, "__name__", "__main__"):
+        with patch.object(module, "__name__", "__main__"), patch.object(module.sys, "argv", ["gobimport"]):
             module.init()
             mock_messagedriven_service.assert_called_with(SERVICEDEFINITION, "Import")

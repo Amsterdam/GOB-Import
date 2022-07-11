@@ -2,6 +2,10 @@
 
 This component imports data sources
 """
+import json
+import logging
+import sys
+
 from gobconfig.import_.import_config import get_import_definition
 from gobcore.enum import ImportMode
 from gobcore.exceptions import GOBException
@@ -12,6 +16,7 @@ from gobcore.message_broker.messagedriven_service import messagedriven_service
 
 from gobimport.converter import MappinglessConverterAdapter
 from gobimport.import_client import ImportClient
+from argparse import ArgumentParser
 
 
 def extract_dataset_from_msg(msg):
@@ -62,6 +67,37 @@ def handle_import_msg(msg):
     return import_client.import_dataset()
 
 
+def handle_import_args(catalogue: str, collection: str, application: str, mode: str) -> dict:
+    msg = {
+        "header": {
+            "catalogue": catalogue,
+            "collection": collection,
+            "application": application,
+            "mode": mode
+        }
+    }
+    dataset = extract_dataset_from_msg(msg)
+
+    msg['header'] |= {
+        'source': dataset['source']['name'],
+        'application': dataset['source']['application'],
+        'catalogue': dataset['catalogue'],
+        'entity': dataset['entity']
+    }
+
+    logger.configure(msg, "IMPORT", logging.StreamHandler(stream=sys.stdout))
+
+    mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
+    import_client = ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger)
+
+    dest = f"{msg['header']['catalogue']}/{msg['header']['entity']}"
+    result_msg = import_client.import_dataset(destination=dest)
+
+    logger.info(json.dumps(result_msg, indent=2))
+
+    return result_msg
+
+
 def handle_import_object_msg(msg):
     logger.configure(msg, "IMPORT OBJECT")
     logger.info("Start import object")
@@ -100,9 +136,49 @@ SERVICEDEFINITION = {
 }
 
 
+def get_parser():
+    parser = ArgumentParser(
+        prog="gobimport",
+        description="Import a dataset from a registration.",
+        epilog='Datateam Basis- en Kernregistraties'
+    )
+    parser.add_argument(
+        "catalogue",
+        type=str,
+        help="The name of the data catalogue (example: \"meetbouten\")",
+    )
+    parser.add_argument(
+        "collection",
+        type=str,
+        help="The name of the data collection (example: \"metingen\")",
+    )
+    parser.add_argument(
+        "application",
+        type=str,
+        help="The name of the application to import from (default empty)"
+    )
+    parser.add_argument(
+        "--mode",
+        choices=["full", "recent", "delete"],
+        type=str,
+        help="The import mode: full (default), recent or delete",
+        required=False,
+        default="full"
+    )
+    return parser
+
+
 def init():
     if __name__ == "__main__":
-        messagedriven_service(SERVICEDEFINITION, "Import")
+        if len(sys.argv) == 1:
+            print("No arguments found, wait for messages on the message broker.")
+            messagedriven_service(SERVICEDEFINITION, "Import")
+
+        else:
+            print("Arguments found, start in stand-alone mode.")
+            parser = get_parser()
+            import_args = parser.parse_args()
+            handle_import_args(**vars(import_args))
 
 
 init()
