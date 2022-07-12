@@ -26,17 +26,6 @@ node('GOBBUILD') {
         }
 
         stage('Test') {
-           withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-              // available as an env variable, but will be masked if you try to print it out any which way
-              // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
-              sh 'echo $PASSWORD'
-              // also available as a Groovy variable
-              echo USERNAME
-              // or inside double quotes for string interpolation
-              echo "username is $USERNAME"
-              echo "username is ${USERNAME}"
-            }
-
             tryStep "test", {
 
                 sh "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml build --no-cache && " +
@@ -62,6 +51,22 @@ node('GOBBUILD') {
         }
 
         String BRANCH = "${env.BRANCH_NAME}"
+        if (BRANCH == "") {
+            stage("Push develop image to ACR") {
+                tryStep "image tagging", {
+                    withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_TOKEN')]) {
+                        echo "username is ${ACR_USERNAME}"
+                        docker.withRegistry("benkontacr.azurecr.io", 'BENK_ONTW_ACR') {
+                            def image = docker.image("${DOCKER_IMAGE_NAME}")
+                            image.pull()
+                            image.push("develop")
+                            image.push("test")
+                        }
+                    }
+                }
+
+            }
+        }
 
         if (BRANCH == "develop") {
 
