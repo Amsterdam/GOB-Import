@@ -2,8 +2,6 @@
 
 This component imports data sources
 """
-import json
-import logging
 import sys
 
 from gobconfig.import_.import_config import get_import_definition
@@ -13,10 +11,10 @@ from gobcore.logging.logger import logger
 from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, \
     IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
+from gobcore.workflow.start_commands import WorkflowCommands
 
 from gobimport.converter import MappinglessConverterAdapter
 from gobimport.import_client import ImportClient
-from argparse import ArgumentParser
 
 
 def extract_dataset_from_msg(msg):
@@ -47,7 +45,17 @@ def extract_dataset_from_msg(msg):
     return get_import_definition(header['catalogue'], header['collection'], header.get('application'))
 
 
-def handle_import_msg(msg):
+def handle_import_msg(msg: dict, use_message_broker: bool = True, destination: str = None) -> dict:
+    """
+    Handles the message based on either:
+     - Input from arguments given to main()
+     - Message on the message broker queue
+
+    :param msg: valid (import) message
+    :param use_message_broker: Log to the message broker if true
+    :param destination: optional destination on GOB_SHARED_DIR
+    :return: result msg
+    """
     dataset = extract_dataset_from_msg(msg)
 
     msg['header'] |= {
@@ -58,44 +66,17 @@ def handle_import_msg(msg):
     }
 
     logger.configure(msg, "IMPORT")
+
+    if use_message_broker:
+        logger.add_message_broker_handler()
+
     header = msg.get('header', {})
 
     # Create a new import client and start the process
     mode = ImportMode(header.get('mode', ImportMode.FULL.value))
 
     import_client = ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger)
-    return import_client.import_dataset()
-
-
-def handle_import_args(catalogue: str, collection: str, application: str, mode: str) -> dict:
-    msg = {
-        "header": {
-            "catalogue": catalogue,
-            "collection": collection,
-            "application": application,
-            "mode": mode
-        }
-    }
-    dataset = extract_dataset_from_msg(msg)
-
-    msg['header'] |= {
-        'source': dataset['source']['name'],
-        'application': dataset['source']['application'],
-        'catalogue': dataset['catalogue'],
-        'entity': dataset['entity']
-    }
-
-    logger.configure(msg, "IMPORT", logging.StreamHandler(stream=sys.stdout))
-
-    mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
-    import_client = ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger)
-
-    dest = f"{msg['header']['catalogue']}/{msg['header']['entity']}"
-    result_msg = import_client.import_dataset(destination=dest)
-
-    logger.info(json.dumps(result_msg, indent=2))
-
-    return result_msg
+    return import_client.import_dataset(destination)
 
 
 def handle_import_object_msg(msg):
@@ -136,49 +117,20 @@ SERVICEDEFINITION = {
 }
 
 
-def get_parser():
-    parser = ArgumentParser(
-        prog="gobimport",
-        description="Import a dataset from a registration.",
-        epilog='Datateam Basis- en Kernregistraties'
-    )
-    parser.add_argument(
-        "catalogue",
-        type=str,
-        help="The name of the data catalogue (example: \"meetbouten\")",
-    )
-    parser.add_argument(
-        "collection",
-        type=str,
-        help="The name of the data collection (example: \"metingen\")",
-    )
-    parser.add_argument(
-        "application",
-        type=str,
-        help="The name of the application to import from (default empty)"
-    )
-    parser.add_argument(
-        "--mode",
-        choices=["full", "recent", "delete"],
-        type=str,
-        help="The import mode: full (default), recent or delete",
-        required=False,
-        default="full"
-    )
-    return parser
+def main():
+    if len(sys.argv) == 1:
+        print("No arguments found, wait for messages on the message broker.")
+        messagedriven_service(SERVICEDEFINITION, "Import")
+
+    else:
+        print("Arguments found, start in stand-alone mode.")
+
+        args = WorkflowCommands(["import"]).parse_arguments()
+        dest = "/".join(dst for dst in [args.get("catalogue"), args.get("collection")] if dst)
+
+        # TODO handle the return message
+        print(handle_import_msg(msg={"header": args}, use_message_broker=False, destination=dest))
 
 
-def init():
-    if __name__ == "__main__":
-        if len(sys.argv) == 1:
-            print("No arguments found, wait for messages on the message broker.")
-            messagedriven_service(SERVICEDEFINITION, "Import")
-
-        else:
-            print("Arguments found, start in stand-alone mode.")
-            parser = get_parser()
-            import_args = parser.parse_args()
-            handle_import_args(**vars(import_args))
-
-
-init()
+if __name__ == "__main__":
+    main()  # pragma: no cover
