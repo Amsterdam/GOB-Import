@@ -21,6 +21,10 @@ node('GOBBUILD') {
     withEnv(["DOCKER_IMAGE_NAME=datapunt/gob_import:${env.BUILD_NUMBER}"
             ]) {
 
+        stage("Test Connetion") {
+            sh "nslookup benkontacr.azurecr.io; nc -w 2 -zv benkontacr.azurecr.io 443;nc -w 2 -zv 20.61.97.163 443;nc -w 2 -zv 10.235.54.197 443; nslookup benkontacr.privatelink.azurecr.io"
+        }
+
         stage("Checkout") {
             checkout scm
         }
