@@ -51,7 +51,7 @@ node('GOBBUILD') {
         }
 
         String BRANCH = "${env.BRANCH_NAME}"
-        if (BRANCH == "") {
+        if (BRANCH == "49006-push-to-acr") {
             stage("Push develop image to ACR") {
                 tryStep "image tagging", {
                     withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_TOKEN')]) {
