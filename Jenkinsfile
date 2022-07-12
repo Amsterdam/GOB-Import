@@ -56,7 +56,7 @@ node('GOBBUILD') {
                 tryStep "image tagging", {
                     withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_TOKEN')]) {
                         echo "username is ${ACR_USERNAME}"
-                        docker.withRegistry("benkontacr.azurecr.io", 'BENK_ONTW_ACR') {
+                        docker.withRegistry("https://benkontacr.azurecr.io", 'BENK_ONTW_ACR') {
                             def image = docker.image("${DOCKER_IMAGE_NAME}")
                             image.pull()
                             image.push("develop")
