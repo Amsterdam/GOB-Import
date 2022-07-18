@@ -22,7 +22,7 @@ node('GOBBUILD') {
             ]) {
 
         stage("Test Connetion") {
-            sh "nslookup benkontacrtmp.azurecr.io; nc -w 5 -zv benkontacrtmp.azurecr.io 443; nslookup benkontacr.azurecr.io; nc -w 2 -zv benkontacr.azurecr.io 443; nslookup benkontacr.privatelink.azurecr.io"
+            sh "nslookup benkontacr.azurecr.io; nc -w 5 -zv benkontacr.azurecr.io 443"
         }
 
         stage("Checkout") {
