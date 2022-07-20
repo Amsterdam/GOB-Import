@@ -27,6 +27,8 @@ from gobimport.merger import Merger
 from gobimport.reader import Reader
 from gobimport.validator import Validator
 
+from typing import Optional
+
 
 class ImportClient:
     """Main class for an import client
@@ -146,11 +148,11 @@ class ImportClient:
             # Default requirement for full imports is a non-empty dataset
             self.logger.error(f"Too few records imported: {self.n_rows} < {min_rows}")
 
-    def import_dataset(self):
+    def import_dataset(self, destination: Optional[str] = None):
         try:
             self.row = None
 
-            with ContentsWriter() as writer, \
+            with ContentsWriter(destination) as writer, \
                     ProgressTicker(f"Import {self.catalogue} {self.entity}", 10000) as progress:
 
                 self.filename = writer.filename
