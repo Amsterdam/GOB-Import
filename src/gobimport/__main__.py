@@ -2,6 +2,9 @@
 
 This component imports data sources
 """
+import sys
+from pathlib import Path
+
 from gobconfig.import_.import_config import get_import_definition
 from gobcore.enum import ImportMode
 from gobcore.exceptions import GOBException
@@ -9,6 +12,7 @@ from gobcore.logging.logger import logger
 from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, \
     IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
+from gobcore.workflow.start_commands import WorkflowCommands
 
 from gobimport.converter import MappinglessConverterAdapter
 from gobimport.import_client import ImportClient
@@ -42,9 +46,14 @@ def extract_dataset_from_msg(msg):
     return get_import_definition(header['catalogue'], header['collection'], header.get('application'))
 
 
-def handle_import_msg(msg):
-    dataset = extract_dataset_from_msg(msg)
+def handle_import_msg(msg: dict) -> dict:
+    """
+    Handles an import message from the message broker queue.
 
+    :param msg: valid (import) message
+    :return: result msg
+    """
+    dataset = extract_dataset_from_msg(msg)
     msg['header'] |= {
         'source': dataset['source']['name'],
         'application': dataset['source']['application'],
@@ -53,11 +62,11 @@ def handle_import_msg(msg):
     }
 
     logger.configure(msg, "IMPORT")
-    header = msg.get('header', {})
+    logger.add_message_broker_handler()
+
+    mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
 
     # Create a new import client and start the process
-    mode = ImportMode(header.get('mode', ImportMode.FULL.value))
-
     import_client = ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger)
     return import_client.import_dataset()
 
@@ -80,6 +89,42 @@ def handle_import_object_msg(msg):
     }
 
 
+def run_as_standalone(args: dict):
+    """
+    Run gob-import as stand-alone application. Parses and processes the cli arguments to a result message.
+    Logging is send to stdout.
+
+    example: python -m gobimport import gebieden wijken DGDialog
+
+    :return: result message
+    """
+    mode = ImportMode(args.pop("mode", ImportMode.FULL.value))
+
+    msg = {"header": args}
+    dataset = extract_dataset_from_msg(msg)
+
+    msg["header"] |= {
+        "source": dataset["source"]["name"],
+        "application": dataset["source"]["application"],
+        "catalogue": dataset["catalogue"],
+        "entity": dataset["entity"],
+    }
+    msg["header"].pop("collection")  # collection == entity
+
+    logger.configure(msg, "IMPORT")
+
+    dest = Path(msg["header"].get("catalogue"), msg["header"].get("entity", ""))
+
+    # Create a new import client and start the process
+    import_client = ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger)
+    result = import_client.import_dataset(str(dest))
+
+    if full_path := result.get("contents_ref"):
+        logger.info(f"Imported collection to: {full_path}")
+
+    return result
+
+
 SERVICEDEFINITION = {
     'import_request': {
         'queue': IMPORT_QUEUE,
@@ -100,9 +145,16 @@ SERVICEDEFINITION = {
 }
 
 
-def init():
-    if __name__ == "__main__":
+def main():
+    if len(sys.argv) == 1:
+        print("No arguments found, wait for messages on the message broker.")
         messagedriven_service(SERVICEDEFINITION, "Import")
 
+    else:
+        print("Arguments found, start in stand-alone mode.")
+        args = WorkflowCommands(["import"]).parse_arguments()
+        run_as_standalone(args)
 
-init()
+
+if __name__ == "__main__":
+    main()  # pragma: no cover
