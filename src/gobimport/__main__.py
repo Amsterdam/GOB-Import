@@ -2,6 +2,8 @@
 
 This component imports data sources
 """
+import json
+
 import sys
 from pathlib import Path
 
@@ -89,6 +91,18 @@ def handle_import_object_msg(msg):
     }
 
 
+def _write_xcom(contents_ref: str) -> str:
+    """Write xcom data to let follow-up tasks know where to find the results.
+
+    :param contents_ref: Path to results with import data.
+    """
+    xcom_path = Path("/airflow/xcom/return.json")
+    xcom_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with xcom_path.open("w") as fp:
+        json.dump({"contents_ref": contents_ref}, fp=fp)
+
+
 def run_as_standalone(args: dict):
     """
     Run gob-import as stand-alone application. Parses and processes the cli arguments to a result message.
@@ -121,7 +135,7 @@ def run_as_standalone(args: dict):
 
     if full_path := result.get("contents_ref"):
         logger.info(f"Imported collection to: {full_path}")
-
+        _write_xcom(contents_ref=full_path)
     return result
 
 

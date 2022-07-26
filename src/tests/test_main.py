@@ -1,3 +1,9 @@
+from uuid import uuid4
+
+from pathlib import Path
+
+import json
+
 from io import StringIO
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
@@ -214,3 +220,18 @@ class TestMain(TestCase):
             err = "gobimport: error: the following arguments are required: catalogue, collection"
             self.assertRaisesRegex(SystemExit, "2", main)
             self.assertEqual(err, mock_stderr.getvalue().splitlines()[-1])
+
+    @patch("gobimport.__main__.ImportClient.import_dataset")
+    def test_main_entry_standalone_writes_xcom(self, mock_import_dataset):
+        from gobimport.__main__ import sys
+        contents_ref = f"/path/to/nap/peilmerken/20220726.130856.{uuid4()}"
+        mock_import_dataset.return_value = {
+            "contents_ref": contents_ref
+        }
+
+        with patch.object(sys, "argv", ["gobimport", "import", "bag", "ligplaatsen", "Neuron"]):
+            main()
+
+        with Path("/airflow/xcom/return.json").open("r") as fp:
+            data = json.load(fp)
+            assert data["contents_ref"] == contents_ref
