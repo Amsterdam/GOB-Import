@@ -91,7 +91,7 @@ def handle_import_object_msg(msg):
     }
 
 
-def _write_xcom(contents_ref: str) -> str:
+def _write_xcom(contents_ref: str) -> None:
     """Write xcom data to let follow-up tasks know where to find the results.
 
     :param contents_ref: Path to results with import data.
