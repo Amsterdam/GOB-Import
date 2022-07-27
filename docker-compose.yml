@@ -7,6 +7,7 @@ services:
       context: src
       target: development
     container_name: gobimport
+    image: gob_import
     environment:
       MESSAGE_BROKER_ADDRESS: rabbitmq
       GOB_SHARED_DIR: /app/shared
