@@ -2,17 +2,16 @@
 
 This component imports data sources
 """
-import json
-
 import sys
 from pathlib import Path
 
 from gobconfig.import_.import_config import get_import_definition
+from gobcore.datastore.xcom_data_store import XComDataStore
 from gobcore.enum import ImportMode
 from gobcore.exceptions import GOBException
 from gobcore.logging.logger import logger
-from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, \
-    IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
+from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, \
+    IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 from gobcore.workflow.start_commands import WorkflowCommands
 
@@ -91,18 +90,6 @@ def handle_import_object_msg(msg):
     }
 
 
-def _write_xcom(contents_ref: str) -> None:
-    """Write xcom data to let follow-up tasks know where to find the results.
-
-    :param contents_ref: Path to results with import data.
-    """
-    xcom_path = Path("/airflow/xcom/return.json")
-    xcom_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with xcom_path.open("w") as fp:
-        json.dump({"contents_ref": contents_ref}, fp=fp)
-
-
 def run_as_standalone(args: dict):
     """
     Run gob-import as stand-alone application. Parses and processes the cli arguments to a result message.
@@ -135,7 +122,7 @@ def run_as_standalone(args: dict):
 
     if full_path := result.get("contents_ref"):
         logger.info(f"Imported collection to: {full_path}")
-        _write_xcom(contents_ref=full_path)
+        XComDataStore().write({"contents_ref": full_path})
     return result
 
 
