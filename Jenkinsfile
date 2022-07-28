@@ -62,9 +62,9 @@ node('GOBBUILD') {
                 tryStep "image tagging", {
                     // Create credentials for the ACR:
                     // az acr token create --registry=<registry_name> --name=jenkins-build-token --scope-map=_repositories_push
-                    withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR_JENKINS', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_TOKEN')]) {
+                    withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR_JENKINS_2', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_TOKEN')]) {
                         echo "Push image to ${ACR_USERNAME}@${BENK_ACR_ONTW}"
-                        docker.withRegistry("https://${BENK_ACR_ONTW}", 'BENK_ONTW_ACR') {
+                        docker.withRegistry("https://${BENK_ACR_ONTW}", 'BENK_ONTW_ACR_JENKINS_2') {
                             def image = docker.image("${DOCKER_IMAGE_NAME}")
                             image.push("develop")
                             image.push("test")
