@@ -21,6 +21,7 @@ node('GOBBUILD') {
     withEnv([
         "DOCKER_IMAGE_NAME=datapunt/gob_import:${env.BUILD_NUMBER}",
         "BENK_ACR_ONTW=benkweuacrofkl2hn5eivwy.azurecr.io",
+        "BENK_ACR_DOCKER_IMAGE_NAME=gob_import:${env.BUILD_NUMBER}",
         ]) {
 
         stage("Test Connection") {
@@ -65,13 +66,12 @@ node('GOBBUILD') {
                     withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR_JENKINS_2', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_TOKEN')]) {
                         echo "Push image to ${ACR_USERNAME}@${BENK_ACR_ONTW}"
                         docker.withRegistry("https://${BENK_ACR_ONTW}", 'BENK_ONTW_ACR_JENKINS_2') {
-                            def image = docker.image("${DOCKER_IMAGE_NAME}")
+                            def image = docker.image("${BENK_ACR_DOCKER_IMAGE_NAME}")
                             image.push("develop")
                             image.push("test")
                         }
                     }
                 }
-
             }
         }
 
