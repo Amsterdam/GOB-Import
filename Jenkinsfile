@@ -18,11 +18,13 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
 
 
 node('GOBBUILD') {
-    withEnv(["DOCKER_IMAGE_NAME=datapunt/gob_import:${env.BUILD_NUMBER}"
-            ]) {
+    withEnv([
+        "DOCKER_IMAGE_NAME=datapunt/gob_import:${env.BUILD_NUMBER}",
+        "BENK_ACR_ONTW=benkweuacrofkl2hn5eivwy.azurecr.io"
+        ]) {
 
-        stage("Test Connetion") {
-            sh "nslookup benkontacr.azurecr.io; nc -w 5 -zv benkontacr.azurecr.io 443"
+        stage("Test Connection") {
+            sh "nslookup ${BENK_ACR_ONTW}; nc -w 5 -zv ${BENK_ACR_ONTW} 443"
         }
 
         stage("Checkout") {
@@ -60,9 +62,8 @@ node('GOBBUILD') {
                 tryStep "image tagging", {
                     withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_TOKEN')]) {
                         echo "username is ${ACR_USERNAME}"
-                        docker.withRegistry("https://benkontacr.azurecr.io", 'BENK_ONTW_ACR') {
+                        docker.withRegistry("https://${BENK_ACR_ONTW}", 'BENK_ONTW_ACR') {
                             def image = docker.image("${DOCKER_IMAGE_NAME}")
-                            image.pull()
                             image.push("develop")
                             image.push("test")
                         }
