@@ -57,7 +57,7 @@ node('GOBBUILD') {
         }
 
         String BRANCH = "${env.BRANCH_NAME}"
-        if (BRANCH == "develop" || BRANCH == "49006-push-to-acr") {
+        if (BRANCH == "develop") {
             stage("Push develop image to ACR") {
                 tryStep "image tagging", {
                     // Create credentials for the ACR:
@@ -72,9 +72,6 @@ node('GOBBUILD') {
                     }
                 }
             }
-        }
-
-        if (BRANCH == "develop") {
 
             stage('Push develop image') {
                 tryStep "image tagging", {
