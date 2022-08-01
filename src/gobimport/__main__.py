@@ -67,9 +67,8 @@ def handle_import_msg(msg: dict) -> dict:
 
     mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
 
-    # Create a new import client and start the process
-    import_client = ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger)
-    return import_client.import_dataset()
+    with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
+        return import_client.import_dataset()
 
 
 def handle_import_object_msg(msg):
@@ -110,19 +109,21 @@ def run_as_standalone(args: dict):
         "catalogue": dataset["catalogue"],
         "entity": dataset["entity"],
     }
-    msg["header"].pop("collection")  # collection == entity
+    msg["header"].pop("collection", None)  # collection == entity
 
     logger.configure(msg, "IMPORT")
 
     dest = Path(msg["header"].get("catalogue"), msg["header"].get("entity", ""))
 
     # Create a new import client and start the process
-    import_client = ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger)
-    result = import_client.import_dataset(str(dest))
+    with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
+        import_client.raise_exception = True
+        result = import_client.import_dataset(str(dest))
 
     if full_path := result.get("contents_ref"):
         logger.info(f"Imported collection to: {full_path}")
         XComDataStore().write({"contents_ref": full_path})
+
     return result
 
 
@@ -155,6 +156,8 @@ def main():
         print("Arguments found, start in stand-alone mode.")
         args = WorkflowCommands(["import"]).parse_arguments()
         run_as_standalone(args)
+
+        # TODO: Handle result message, process_issues
 
 
 if __name__ == "__main__":

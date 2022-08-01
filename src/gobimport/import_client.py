@@ -42,6 +42,7 @@ class ImportClient:
     def __init__(self, dataset, msg, logger, mode: ImportMode = ImportMode.FULL):
         self.mode = mode
         self.logger = logger
+        self.raise_exception = False
 
         self.init_dataset(dataset)
 
@@ -69,6 +70,28 @@ class ImportClient:
         self.enricher = BaseEnricher(self.source_app, self.catalogue, self.entity)
         self.validator = Validator(self.source_app, self.catalogue, self.entity, self.dataset)
         self.converter = Converter(self.catalogue, self.entity, self.dataset)
+
+    def __enter__(self):
+        self.row = None
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # Print error message, the message that caused the error and a short stacktrace
+        stacktrace = traceback.format_exc(limit=-5)
+        print(f"Import failed at row {self.n_rows}: {exc_type}", stacktrace)
+        # Log the error and a short error description
+        self.logger.error(f'Import failed at row {self.n_rows}: {exc_type}')
+        self.logger.error(
+            "Import has failed",
+            {
+                "data": {
+                    "error": exc_val,  # Include a short error description,
+                    "row number": self.n_rows,
+                    self.source_id: "" if self.row is None else self.row[self.source_id],
+                }
+            })
+
+        return not self.raise_exception  # False reraises
 
     def get_result_msg(self):
         """The result of the import needs to be published.
@@ -149,36 +172,18 @@ class ImportClient:
             self.logger.error(f"Too few records imported: {self.n_rows} < {min_rows}")
 
     def import_dataset(self, destination: Optional[str] = None):
-        try:
-            self.row = None
+        with (
+            ContentsWriter(destination) as writer,
+            ProgressTicker(f"Import {self.catalogue} {self.entity}", 10000) as progress
+        ):
+            self.filename = writer.filename
 
-            with ContentsWriter(destination) as writer, \
-                    ProgressTicker(f"Import {self.catalogue} {self.entity}", 10000) as progress:
-
-                self.filename = writer.filename
-
-                # DELETE: Skip import rows -> write empty file
-                # mark all entities as deleted
-                if self.mode != ImportMode.DELETE:
-                    self.merger.prepare(progress)
-                    self.import_rows(writer.write, progress)
-                    self.merger.finish(writer.write)
-                    self.entity_validator.result()
-
-        except Exception as e:
-            # Print error message, the message that caused the error and a short stacktrace
-            stacktrace = traceback.format_exc(limit=-5)
-            print(f"Import failed at row {self.n_rows}: {e}", stacktrace)
-            # Log the error and a short error description
-            self.logger.error(f'Import failed at row {self.n_rows}: {e}')
-            self.logger.error(
-                "Import has failed",
-                {
-                    "data": {
-                        "error": str(e),  # Include a short error description,
-                        "row number": self.n_rows,
-                        self.source_id: "" if self.row is None else self.row[self.source_id],
-                    }
-                })
+            # DELETE: Skip import rows -> write empty file
+            # mark all entities as deleted
+            if self.mode != ImportMode.DELETE:
+                self.merger.prepare(progress)
+                self.import_rows(writer.write, progress)
+                self.merger.finish(writer.write)
+                self.entity_validator.result()
 
         return self.get_result_msg()
