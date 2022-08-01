@@ -18,8 +18,14 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
 
 
 node('GOBBUILD') {
-    withEnv(["DOCKER_IMAGE_NAME=datapunt/gob_import:${env.BUILD_NUMBER}"
-            ]) {
+    withEnv([
+        "DOCKER_IMAGE_NAME=datapunt/gob_import:${env.BUILD_NUMBER}",
+        "BENK_ACR_ONTW=benkweuacrofkl2hn5eivwy.azurecr.io"
+        ]) {
+
+        stage("Test Connection") {
+            sh "nslookup ${BENK_ACR_ONTW}; nc -w 5 -zv ${BENK_ACR_ONTW} 443"
+        }
 
         stage("Checkout") {
             checkout scm
@@ -27,6 +33,7 @@ node('GOBBUILD') {
 
         stage('Test') {
             tryStep "test", {
+
                 sh "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml build --no-cache && " +
                    "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml run -u root --rm test"
 
@@ -50,6 +57,22 @@ node('GOBBUILD') {
         }
 
         String BRANCH = "${env.BRANCH_NAME}"
+        if (BRANCH == "develop" || BRANCH == "49006-push-to-acr") {
+            stage("Push develop image to ACR") {
+                tryStep "image tagging", {
+                    // Create credentials for the ACR:
+                    // az acr token create --registry=<registry_name> --name=jenkins-build-token --scope-map=_repositories_push
+                    withCredentials([usernamePassword(credentialsId: 'BENK_ONTW_ACR_JENKINS', usernameVariable: 'ACR_USERNAME', passwordVariable: 'ACR_TOKEN')]) {
+                        echo "Push image to ${ACR_USERNAME}@${BENK_ACR_ONTW}"
+                        docker.withRegistry("https://${BENK_ACR_ONTW}", 'BENK_ONTW_ACR_JENKINS') {
+                            def image = docker.image("${DOCKER_IMAGE_NAME}")
+                            image.push("develop")
+                            image.push("test")
+                        }
+                    }
+                }
+            }
+        }
 
         if (BRANCH == "develop") {
 
