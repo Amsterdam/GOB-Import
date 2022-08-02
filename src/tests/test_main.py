@@ -64,10 +64,6 @@ class TestMain(TestCase):
 
         }, self.mock_msg)
 
-        # should not raise
-        mock_import_client.import_dataset.side_effect = GOBException
-        handle_import_msg(self.mock_msg)
-
     @patch("gobimport.__main__.WorkflowCommands")
     @patch("gobimport.__main__.logger")
     @patch("gobimport.__main__.ImportClient")
@@ -112,25 +108,6 @@ class TestMain(TestCase):
             logger=mock_logger,
         )
         mock_import_client_instance.import_dataset.assert_called_with("CAT/ENT")
-
-    @patch("gobimport.__main__.WorkflowCommands")
-    @patch("gobimport.__main__.logger")
-    @patch("gobimport.__main__.ImportClient")
-    @patch("gobimport.__main__.extract_dataset_from_msg")
-    def test_standalone_raises(self, mock_extract_dataset, mock_import_client, mock_logger, mock_wfc):
-        mock_import_client_instance = MagicMock()
-        mock_import_client.return_value.__enter__.return_value = mock_import_client_instance
-        mock_import_client_instance.import_dataset.side_effect = GOBException
-        mock_extract_dataset.return_value = {
-            "source": {
-                "name": "Some source",
-                "application": "The application",
-            },
-            "catalogue": "CAT",
-            "entity": "ENT"
-        }
-        with self.assertRaises(GOBException):
-            run_as_standalone({})
 
     @patch("gobimport.__main__.logger")
     @patch("gobimport.__main__.MappinglessConverterAdapter")
