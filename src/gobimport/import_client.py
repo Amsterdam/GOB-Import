@@ -116,8 +116,13 @@ class ImportClient:
         }
 
         log_msg = f"Import dataset {self.entity} from {self.source_app} completed. "
+
         if self.mode == ImportMode.DELETE:
             log_msg += "0 records imported, all known entities will be marked as deleted."
+
+            # Triggers full dump, prevents out of sync
+            header["full"] = True
+
         else:
             log_msg += f"{summary['num_records']} records were read from the source."
 

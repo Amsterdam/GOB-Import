@@ -63,7 +63,9 @@ class TestImportClient(TestCase):
         msg1 = f"Import dataset {entity} from {app} (mode = DELETE) started"
         logger.info.assert_called_with(msg1)
 
-        self.import_client.get_result_msg()
+        result_msg = self.import_client.get_result_msg()
+        self.assertTrue(result_msg["header"]["full"])
+
         msg2 = f"Import dataset {entity} from {app} completed. " \
                "0 records imported, all known entities will be marked as deleted."
         logger.info.assert_called_with(msg2, kwargs={'data': {'num_records': 0}})
