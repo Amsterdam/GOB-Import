@@ -175,20 +175,39 @@ class TestImportClient(TestCase):
             self.assertEqual(len(_self.logger.error.call_args_list), 2)
             mock_traceback.format_exc.assert_called_once_with(limit=-5)
 
-    def test_contextmanager(self):
+    @patch("gobimport.import_client.ImportClient.import_dataset")
+    def test_contextmanager(self, mock_import_dataset):
         logger = MagicMock()
         client = ImportClient(self.mock_dataset, self.mock_msg, logger)
 
-        # no exception
+        mock_import_dataset.side_effect = Exception
+
+        # no exception, with logs
         with client:
-            self.assertNone(client.row)
-            self.assertFalse(client.raise_exception)
+            client.raise_exception = False
+            client.import_dataset()
+        logger.error.assert_called()
 
-            client.filename.side_effect = Exception
-            assert client.filename
+        logger.error.reset_mock()
 
-        # exception
+        # exception, with logs
         with self.assertRaises(Exception):
             with client:
                 client.raise_exception = True
-                client.filename.side_effect = Exception
+                client.import_dataset()
+        logger.error.assert_called()
+
+        logger.error.reset_mock()
+        mock_import_dataset.side_effect = [{}, {}]
+
+        # no exception, no logs
+        with client:
+            client.raise_exception = False
+            client.import_dataset()
+
+        # no excption, no logs
+        with client:
+            client.raise_exception = True
+            client.import_dataset()
+
+        logger.error.assert_not_called()

@@ -14,6 +14,7 @@ Todo: improve type conversion
 
 import datetime
 import traceback
+from types import TracebackType
 
 from gobcore.enum import ImportMode
 from gobcore.message_broker.offline_contents import ContentsWriter
@@ -27,7 +28,7 @@ from gobimport.merger import Merger
 from gobimport.reader import Reader
 from gobimport.validator import Validator
 
-from typing import Optional
+from typing import Optional, Type
 
 
 class ImportClient:
@@ -38,11 +39,11 @@ class ImportClient:
     """
 
     n_rows = 0
+    raise_exception: bool = False
 
     def __init__(self, dataset, msg, logger, mode: ImportMode = ImportMode.FULL):
         self.mode = mode
         self.logger = logger
-        self.raise_exception = False
 
         self.init_dataset(dataset)
 
@@ -75,7 +76,15 @@ class ImportClient:
         self.row = None
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+            self,
+            exc_type: Optional[Type[BaseException]],
+            exc_val: Optional[BaseException],
+            exc_tb: Optional[TracebackType]
+    ) -> bool:
+        if exc_type is None:
+            return True  # do nothing
+
         # Print error message, the message that caused the error and a short stacktrace
         stacktrace = traceback.format_exc(limit=-5)
         print(f"Import failed at row {self.n_rows}: {exc_type}", stacktrace)
@@ -85,7 +94,7 @@ class ImportClient:
             "Import has failed",
             {
                 "data": {
-                    "error": exc_val,  # Include a short error description,
+                    "error": str(exc_val),  # Include a short error description,
                     "row number": self.n_rows,
                     self.source_id: "" if self.row is None else self.row[self.source_id],
                 }

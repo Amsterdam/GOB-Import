@@ -73,6 +73,8 @@ def handle_import_msg(msg: dict) -> dict:
 
 def handle_import_object_msg(msg):
     logger.configure(msg, "IMPORT OBJECT")
+    logger.add_message_broker_handler()
+
     logger.info("Start import object")
     importer = MappinglessConverterAdapter(msg['header'].get('catalogue'), msg['header'].get('entity'),
                                            msg['header'].get('entity_id_attr'))

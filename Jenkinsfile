@@ -23,9 +23,6 @@ node('GOBBUILD') {
         "BENK_ACR_ONTW=benkweuacrofkl2hn5eivwy.azurecr.io"
         ]) {
 
-        stage("Test Connection") {
-            sh "nslookup ${BENK_ACR_ONTW}; nc -w 5 -zv ${BENK_ACR_ONTW} 443"
-        }
 
         stage("Checkout") {
             checkout scm
