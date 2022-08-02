@@ -167,8 +167,26 @@ class TestImportClient(TestCase):
         writer.side_effect = Exception('Boom')
         mock_ContentsWriter.return_value.__enter__ = writer
 
-        res = ImportClient.import_dataset(_self)
+        with self.assertRaises(Exception):
+            ImportClient.import_dataset(_self)
 
-        self.assertEqual(res, 'res')
-        self.assertEqual(len(_self.logger.error.call_args_list), 2)
-        mock_traceback.format_exc.assert_called_once_with(limit=-5)
+            self.assertEqual(len(_self.logger.error.call_args_list), 2)
+            mock_traceback.format_exc.assert_called_once_with(limit=-5)
+
+    def test_contextmanager(self):
+        logger = MagicMock()
+        client = ImportClient(self.mock_dataset, self.mock_msg, logger)
+
+        # no exception
+        with client:
+            self.assertNone(client.row)
+            self.assertFalse(client.raise_exception)
+
+            client.filename.side_effect = Exception
+            assert client.filename
+
+        # exception
+        with self.assertRaises(Exception):
+            with client:
+                client.raise_exception = True
+                client.filename.side_effect = Exception
