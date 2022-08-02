@@ -90,6 +90,21 @@ class TestEntityValidator(unittest.TestCase):
             validator.validate(entity)
         self.assertFalse(validator.result())
 
+    def test_validate_entity_state_volgnummer_none(self):
+        self.entities = [
+            {
+                'identificatie': '1234567890',
+                'volgnummer': None,
+                'begin_geldigheid': datetime.datetime(2018, 1, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1),
+            }
+        ]
+
+        validator = StateValidator('catalogue', 'collection', 'identificatie')
+        for entity in self.entities:
+            validator.validate(entity)
+        self.assertFalse(validator.result())
+
     def test_validate_entity_state_duplicate_volgnummer(self):
         self.entities = [
             {
