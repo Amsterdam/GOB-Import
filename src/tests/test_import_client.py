@@ -63,7 +63,9 @@ class TestImportClient(TestCase):
         msg1 = f"Import dataset {entity} from {app} (mode = DELETE) started"
         logger.info.assert_called_with(msg1)
 
-        self.import_client.get_result_msg()
+        result_msg = self.import_client.get_result_msg()
+        self.assertTrue(result_msg["header"]["full"])
+
         msg2 = f"Import dataset {entity} from {app} completed. " \
                "0 records imported, all known entities will be marked as deleted."
         logger.info.assert_called_with(msg2, kwargs={'data': {'num_records': 0}})
@@ -167,8 +169,45 @@ class TestImportClient(TestCase):
         writer.side_effect = Exception('Boom')
         mock_ContentsWriter.return_value.__enter__ = writer
 
-        res = ImportClient.import_dataset(_self)
+        with self.assertRaises(Exception):
+            ImportClient.import_dataset(_self)
 
-        self.assertEqual(res, 'res')
-        self.assertEqual(len(_self.logger.error.call_args_list), 2)
-        mock_traceback.format_exc.assert_called_once_with(limit=-5)
+            self.assertEqual(len(_self.logger.error.call_args_list), 2)
+            mock_traceback.format_exc.assert_called_once_with(limit=-5)
+
+    @patch("gobimport.import_client.ImportClient.import_dataset")
+    def test_contextmanager(self, mock_import_dataset):
+        logger = MagicMock()
+        client = ImportClient(self.mock_dataset, self.mock_msg, logger)
+
+        mock_import_dataset.side_effect = Exception
+
+        # no exception, with logs
+        with client:
+            client.raise_exception = False
+            client.import_dataset()
+        logger.error.assert_called()
+
+        logger.error.reset_mock()
+
+        # exception, with logs
+        with self.assertRaises(Exception):
+            with client:
+                client.raise_exception = True
+                client.import_dataset()
+        logger.error.assert_called()
+
+        logger.error.reset_mock()
+        mock_import_dataset.side_effect = [{}, {}]
+
+        # no exception, no logs
+        with client:
+            client.raise_exception = False
+            client.import_dataset()
+
+        # no excption, no logs
+        with client:
+            client.raise_exception = True
+            client.import_dataset()
+
+        logger.error.assert_not_called()
