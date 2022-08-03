@@ -71,7 +71,7 @@ class TestMain(TestCase):
     def test_run_as_standalone(self, mock_extract_dataset, mock_import_client, mock_logger, mock_wfc):
         mock_import_client_instance = MagicMock()
         mock_import_client.return_value.__enter__.return_value = mock_import_client_instance
-        mock_import_client_instance.import_dataset.return_value.get = lambda x: "/path"
+        mock_import_client_instance.get_result_msg.return_value.get = lambda x: "/path"
         mock_extract_dataset.return_value = {
             "source": {
                 "name": "Some source",
@@ -221,11 +221,12 @@ class TestMain(TestCase):
             self.assertRaisesRegex(SystemExit, "2", main)
             self.assertEqual(err, mock_stderr.getvalue().splitlines()[-1])
 
-    @patch("gobimport.__main__.ImportClient.import_dataset")
-    def test_main_entry_standalone_writes_xcom(self, mock_import_dataset):
+    @patch("gobimport.__main__.ImportClient.import_dataset", MagicMock())
+    @patch("gobimport.__main__.ImportClient.get_result_msg")
+    def test_main_entry_standalone_writes_xcom(self, mock_result_msg):
         from gobimport.__main__ import sys
         contents_ref = f"/path/to/nap/peilmerken/20220726.130856.{uuid4()}"
-        mock_import_dataset.return_value = {
+        mock_result_msg.return_value = {
             "contents_ref": contents_ref
         }
 

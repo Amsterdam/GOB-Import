@@ -131,9 +131,8 @@ class TestImportClient(TestCase):
         progress = MagicMock()
         mock_ProgressTicker.return_value.__enter__.return_value = progress
 
-        res = ImportClient.import_dataset(_self)
+        ImportClient.import_dataset(_self)
 
-        self.assertEqual(res, 'res')
         mock_ProgressTicker.called_once()
         _self.merger.prepare.assert_called_once_with(progress)
         self.assertEqual(_self.filename, filename)
@@ -157,7 +156,6 @@ class TestImportClient(TestCase):
         _self.merger.assert_not_called()
         _self.import_rows.assert_not_called()
         _self.entity_validator.assert_not_called()
-        _self.get_result_msg.assert_called_once()
 
     @patch('gobimport.import_client.ContentsWriter')
     @patch('gobimport.import_client.ProgressTicker')
@@ -175,8 +173,9 @@ class TestImportClient(TestCase):
             self.assertEqual(len(_self.logger.error.call_args_list), 2)
             mock_traceback.format_exc.assert_called_once_with(limit=-5)
 
+    @patch("gobimport.import_client.ImportClient.get_result_msg")
     @patch("gobimport.import_client.ImportClient.import_dataset")
-    def test_contextmanager(self, mock_import_dataset):
+    def test_contextmanager(self, mock_import_dataset, mock_get_result_msg):
         logger = MagicMock()
         client = ImportClient(self.mock_dataset, self.mock_msg, logger)
 
@@ -186,6 +185,7 @@ class TestImportClient(TestCase):
         with client:
             client.raise_exception = False
             client.import_dataset()
+
         logger.error.assert_called()
 
         logger.error.reset_mock()
@@ -211,3 +211,5 @@ class TestImportClient(TestCase):
             client.import_dataset()
 
         logger.error.assert_not_called()
+
+        mock_get_result_msg.assert_not_called()
