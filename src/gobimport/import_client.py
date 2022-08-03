@@ -35,7 +35,14 @@ class ImportClient:
     """Main class for an import client
 
     This class serves as the main client for which the import can be configured in a dataset.json
+    Enclose the `import_dataset` function call in an `ImportClient` contextmanager.
 
+    Usage:
+    ---------
+    with ImportClient(*args) as client:
+        client.import_dataset()
+
+    client.get_result_message()
     """
 
     n_rows = 0
@@ -82,14 +89,21 @@ class ImportClient:
             exc_val: Optional[BaseException],
             exc_tb: Optional[TracebackType]
     ) -> bool:
+        """
+        Exit handler for an import client.
+        - if no exception in suite, this returns immediately
+        - if execption raised: print the error, stacktrace and row failed at
+
+        If the `ImportClient.raise_exception` flag is set to True, reraise the caught exception, otherwise continue.
+        """
         if exc_type is None:
             return True  # do nothing
 
         # Print error message, the message that caused the error and a short stacktrace
         stacktrace = traceback.format_exc(limit=-5)
-        print(f"Import failed at row {self.n_rows}: {exc_type}", stacktrace)
+        print(f"Import failed at row {self.n_rows}: {exc_type.__name__}\n", stacktrace)
         # Log the error and a short error description
-        self.logger.error(f'Import failed at row {self.n_rows}: {exc_type}')
+        self.logger.error(f'Import failed at row {self.n_rows}: {exc_type.__name__}')
         self.logger.error(
             "Import has failed",
             {
@@ -102,8 +116,10 @@ class ImportClient:
 
         return not self.raise_exception  # False reraises
 
-    def get_result_msg(self):
+    def get_result_msg(self) -> dict:
         """The result of the import needs to be published.
+
+        Call this method after you have exited the ImportClient __exit__ handler.
 
         Publication includes a header, summary and results
         The header is for identification purposes
@@ -199,5 +215,3 @@ class ImportClient:
                 self.import_rows(writer.write, progress)
                 self.merger.finish(writer.write)
                 self.entity_validator.result()
-
-        return self.get_result_msg()

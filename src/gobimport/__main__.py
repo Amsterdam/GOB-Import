@@ -68,7 +68,9 @@ def handle_import_msg(msg: dict) -> dict:
     mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
 
     with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
-        return import_client.import_dataset()
+        import_client.import_dataset()
+
+    return import_client.get_result_msg()
 
 
 def handle_import_object_msg(msg):
@@ -120,7 +122,9 @@ def run_as_standalone(args: dict):
     # Create a new import client and start the process
     with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
         import_client.raise_exception = True
-        result = import_client.import_dataset(str(dest))
+        import_client.import_dataset(str(dest))
+
+    result = import_client.get_result_msg()
 
     if full_path := result.get("contents_ref"):
         logger.info(f"Imported collection to: {full_path}")
