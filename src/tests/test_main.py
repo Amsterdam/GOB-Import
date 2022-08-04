@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import uuid4
 
 from pathlib import Path
@@ -227,7 +228,16 @@ class TestMain(TestCase):
         from gobimport.__main__ import sys
         contents_ref = f"/path/to/nap/peilmerken/20220726.130856.{uuid4()}"
         mock_result_msg.return_value = {
-            "contents_ref": contents_ref
+            "header": {
+                "catalogue": "rel",
+                "collection": "my_collection",
+                "entity": "entity_name",
+                "source": "GOB",
+                "application": "GOB",
+                "version": "0.1",
+                "timestamp": datetime.utcnow().isoformat()
+            },
+            "contents_ref": contents_ref,
         }
 
         with patch.object(sys, "argv", ["gobimport", "import", "bag", "ligplaatsen", "Neuron"]):
@@ -236,3 +246,4 @@ class TestMain(TestCase):
         with Path("/airflow/xcom/return.json").open("r") as fp:
             data = json.load(fp)
             assert data["contents_ref"] == contents_ref
+            assert data["header"]["catalogue"] == "rel"
