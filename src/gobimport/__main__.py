@@ -128,7 +128,7 @@ def run_as_standalone(args: dict):
 
     if full_path := result.get("contents_ref"):
         logger.info(f"Imported collection to: {full_path}")
-        XComDataStore().write({"contents_ref": full_path})
+        XComDataStore().write(result)
 
     return result
 
