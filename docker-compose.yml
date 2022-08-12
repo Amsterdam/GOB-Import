@@ -17,8 +17,6 @@ services:
       BAGEXTRACT_DATABASE_HOST_OVERRIDE: bagextract_database
       SECURE_SALT: insecure
       SECURE_PASSWORD: insecure
-      GOB_IMPORT_DATABASE_HOST: gobimport_database
-      GOB_IMPORT_DATABASE_PORT: 5432
     env_file: .env
     volumes:
       - gob-volume:/app/shared
@@ -26,21 +24,7 @@ services:
       - ./src/tests:/app/tests
       - ${GOB_CORE_DIR-../GOB-Core}:/app/GOB-Core
       - ${GOB_CONFIG_DIR-../GOB-Config}:/app/GOB-Config
-    depends_on:
-      - gobimport_database
 
-  gobimport_database:
-    image: amsterdam/postgres11
-    ports:
-      - "5412:5432"
-    container_name: gobimport_database
-    environment:
-      POSTGRES_PASSWORD: insecure
-      POSTGRES_DB: gob_import
-      POSTGRES_USER: gob_import
-    volumes:
-      - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
-    shm_size: '1gb'
 
 volumes:
   gob-volume:
