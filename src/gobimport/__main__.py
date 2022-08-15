@@ -54,6 +54,7 @@ def handle_import_msg(msg: dict) -> dict:
     :param msg: valid (import) message
     :return: result msg
     """
+    print("## Import msg", msg)
     dataset = extract_dataset_from_msg(msg)
     msg['header'] |= {
         'source': dataset['source']['name'],
@@ -70,7 +71,10 @@ def handle_import_msg(msg: dict) -> dict:
     with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
         import_client.import_dataset()
 
-    return import_client.get_result_msg()
+    result_msg = import_client.get_result_msg()
+    print("## Result message:")
+    print(result_msg)
+    return result_msg
 
 
 def handle_import_object_msg(msg):
@@ -127,6 +131,7 @@ def run_as_standalone(args: dict):
     result = import_client.get_result_msg()
 
     if full_path := result.get("contents_ref"):
+        print(Path(full_path).read_text())
         logger.info(f"Imported collection to: {full_path}")
         XComDataStore().write(result)
 
