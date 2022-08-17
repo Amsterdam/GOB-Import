@@ -2,11 +2,12 @@
 
 This component imports data sources
 """
+import json
+
 import sys
 from pathlib import Path
 
 from gobconfig.import_.import_config import get_import_definition
-from gobcore.datastore.xcom_data_store import XComDataStore
 from gobcore.enum import ImportMode
 from gobcore.exceptions import GOBException
 from gobcore.logging.logger import logger
@@ -54,7 +55,6 @@ def handle_import_msg(msg: dict) -> dict:
     :param msg: valid (import) message
     :return: result msg
     """
-    print("## Import msg", msg)
     dataset = extract_dataset_from_msg(msg)
     msg['header'] |= {
         'source': dataset['source']['name'],
@@ -72,8 +72,6 @@ def handle_import_msg(msg: dict) -> dict:
         import_client.import_dataset()
 
     result_msg = import_client.get_result_msg()
-    print("## Result message:")
-    print(result_msg)
     return result_msg
 
 
@@ -111,6 +109,7 @@ def run_as_standalone(args: dict):
     msg = {"header": args}
     dataset = extract_dataset_from_msg(msg)
 
+
     msg["header"] |= {
         "source": dataset["source"]["name"],
         "application": dataset["source"]["application"],
@@ -124,6 +123,7 @@ def run_as_standalone(args: dict):
     dest = Path(msg["header"].get("catalogue"), msg["header"].get("entity", ""))
 
     # Create a new import client and start the process
+    # Move this to callback
     with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
         import_client.raise_exception = True
         import_client.import_dataset(str(dest))
@@ -131,9 +131,18 @@ def run_as_standalone(args: dict):
     result = import_client.get_result_msg()
 
     if full_path := result.get("contents_ref"):
-        print(Path(full_path).read_text())
         logger.info(f"Imported collection to: {full_path}")
-        XComDataStore().write(result)
+        # TODO: Use _write_message from gob-upload here
+        # This parser option can be generic, same as --message-data
+        # parser.add_argument(
+        #         "--message-result-path",
+        #         default="/airflow/xcom/return.json",
+        #         help="Path to store result message."
+        #     )
+        message_dir = Path("/airflow/xcom/return.json")
+        message_dir.parent.mkdir(exist_ok=True)
+        with message_dir.open("w") as fp:
+            json.dump(result, fp=fp)
 
     return result
 
