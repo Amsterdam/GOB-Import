@@ -5,6 +5,7 @@ This component imports data sources
 import json
 
 import sys
+from gobcore.standalone import default_parser, run_as_standalone, write_message
 from pathlib import Path
 
 from gobconfig.import_.import_config import get_import_definition
@@ -15,6 +16,7 @@ from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, \
     IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
 from gobcore.workflow.start_commands import WorkflowCommands
+from typing import Any, Callable, Dict
 
 from gobimport.converter import MappinglessConverterAdapter
 from gobimport.import_client import ImportClient
@@ -33,7 +35,8 @@ def extract_dataset_from_msg(msg):
        }
     }
 
-    Where 'application' is optional when there is only one known application for given catalogue and collection
+    Where 'application' is optional when there is only one known application for given
+    catalogue and collection
 
     :param msg:
     :return:
@@ -75,6 +78,24 @@ def handle_import_msg(msg: dict) -> dict:
     return result_msg
 
 
+def handle_import_sa_msg(msg: dict[str, Any], args) -> dict[str, Any]:
+    """Standalone variation of handle_import_msg.
+
+    TODO: see if we can pass raise_exception as an argument. Maybe with a partial.
+    """
+    dest = Path(msg["header"].get("catalogue"), msg["header"].get("entity", ""))
+    mode = ImportMode(args.pop("mode", ImportMode.FULL.value))
+    dataset = extract_dataset_from_msg(msg)
+    # Create a new import client and start the process
+    # Move this to callback
+    with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
+        # This differs with handle_import_msg
+        import_client.raise_exception = True
+        import_client.import_dataset(str(dest))
+
+    return import_client.get_result_msg()
+
+
 def handle_import_object_msg(msg):
     logger.configure(msg, "IMPORT OBJECT")
     logger.add_message_broker_handler()
@@ -95,21 +116,9 @@ def handle_import_object_msg(msg):
     }
 
 
-def run_as_standalone(args: dict):
-    """
-    Run gob-import as stand-alone application. Parses and processes the cli arguments to a result message.
-    Logging is send to stdout.
-
-    example: python -m gobimport import gebieden wijken DGDialog
-
-    :return: result message
-    """
-    mode = ImportMode(args.pop("mode", ImportMode.FULL.value))
-
+def _construct_message(args):
     msg = {"header": args}
     dataset = extract_dataset_from_msg(msg)
-
-
     msg["header"] |= {
         "source": dataset["source"]["name"],
         "application": dataset["source"]["application"],
@@ -117,37 +126,22 @@ def run_as_standalone(args: dict):
         "entity": dataset["entity"],
     }
     msg["header"].pop("collection", None)  # collection == entity
+    return msg
 
-    logger.configure(msg, "IMPORT")
 
-    dest = Path(msg["header"].get("catalogue"), msg["header"].get("entity", ""))
-
-    # Create a new import client and start the process
-    # Move this to callback
-    with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
-        import_client.raise_exception = True
-        import_client.import_dataset(str(dest))
-
-    result = import_client.get_result_msg()
-
-    if full_path := result.get("contents_ref"):
-        logger.info(f"Imported collection to: {full_path}")
-        # TODO: Use _write_message from gob-upload here
-        # This parser option can be generic, same as --message-data
-        # parser.add_argument(
-        #         "--message-result-path",
-        #         default="/airflow/xcom/return.json",
-        #         help="Path to store result message."
-        #     )
-        message_dir = Path("/airflow/xcom/return.json")
-        message_dir.parent.mkdir(exist_ok=True)
-        with message_dir.open("w") as fp:
-            json.dump(result, fp=fp)
-
-    return result
+def _get_handler(args):
+    return SERVICEDEFINITION.get(args.handler)["handler"]
 
 
 SERVICEDEFINITION = {
+    'import': {  # Alias for import_request to support 'gobimport import'
+        'queue': IMPORT_QUEUE,
+        'handler': handle_import_sa_msg,
+        'report': {
+            'exchange': WORKFLOW_EXCHANGE,
+            'key': IMPORT_RESULT_KEY,
+        },
+    },
     'import_request': {
         'queue': IMPORT_QUEUE,
         'handler': handle_import_msg,
@@ -171,11 +165,22 @@ def main():
     if len(sys.argv) == 1:
         print("No arguments found, wait for messages on the message broker.")
         messagedriven_service(SERVICEDEFINITION, "Import")
-
     else:
         print("Arguments found, start in stand-alone mode.")
-        args = WorkflowCommands(["import"]).parse_arguments()
-        run_as_standalone(args)
+        default_args = default_parser(SERVICEDEFINITION)
+        if default_args.message_data:
+            run_as_standalone(
+                args=default_args,
+                handler=_get_handler(default_args),
+                message_data=json.loads(default_args.message_data)
+            )
+        else:
+            args = WorkflowCommands([default_args.handler]).parse_arguments()
+            run_as_standalone(
+                args=args,
+                handler=_get_handler(args),
+                message_data=_construct_message(args)
+            )
 
         # TODO: Handle result message, process_issues
 
