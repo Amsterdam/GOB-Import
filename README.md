@@ -13,39 +13,39 @@ Importing data consists of the following steps:
 
 # Infrastructure
 
-A running [GOB infrastructure](https://github.com/Amsterdam/GOB-Infra)
-is required to run this component.
+A running [GOB infrastructure](https://github.com/Amsterdam/GOB-Infra) is required to run this component.
 
 ## Secure data
 
 In order to encrypt secure data you need to define environment variables:
-- SECURE_SALT and SECURE_PASSWORD
-  - shared with GOB API (symmetrical encryption).
+
+- `SECURE_SALT` and `SECURE_PASSWORD`
+  - shared with [GOB API](https://github.com/Amsterdam/GOB-API) (symmetrical encryption).
     GOB Import is responsable for the encryption and GOB API uses the secrets for decryption
 
 # Docker
 
 ## Requirements
 
-* docker-compose >= 1.17
-* docker ce >= 18.03
+* docker compose >= 1.25
+* Docker CE >= 18.09
 
 ## Neuron database
 
-Connect to the neuron database with credentials retrieved with help of
+Connect to the Neuron database with credentials retrieved with help of
 [this guide](https://dev.azure.com/CloudCompetenceCenter/Datateam%20Basis%20en%20Kernregistraties/_wiki/wikis/Datateam-Basis-en-Kernregistraties.wiki/1700/Verbinden-met-acceptatieomgeving-en-bronsystemen).
 
-When running the project in docker, edit the .env file and set NRBIN_* parameters to the params retrieved from the previous guide.
+When running the project in Docker, edit the `.env` file and set `NRBIN_*` parameters to the params retrieved from the previous guide.
 
-Set the NRBIN host to host.docker.internal:
+Set the NRBIN host to `host.docker.internal`:
 
-```
+```bash
 NRBIN_DATABASE_HOST=host.docker.internal
 ```
 
 Forward the port using SSH:
 
-```shell
+```bash
 ssh -L 0.0.0.0:1521:$DB:1521 $HOST
 ```
 
@@ -54,24 +54,24 @@ ssh -L 0.0.0.0:1521:$DB:1521 $HOST
 
 Finally, start docker.
 
-```shell
-docker-compose build
-docker-compose up
+```bash
+docker compose build
+docker compose up
 ```
 
 
 ## Tests
 
 ```bash
-docker-compose -f src/.jenkins/test/docker-compose.yml build
-docker-compose -f src/.jenkins/test/docker-compose.yml run test
+docker compose -f src/.jenkins/test/docker-compose.yml build
+docker compose -f src/.jenkins/test/docker-compose.yml run test
 ```
 
 # Local
 
 ## Requirements
 
-* python >= 3.6
+* Python >= 3.6
 
 ## Initialisation
 
@@ -83,7 +83,7 @@ source venv/bin/activate
 pip install -r src/requirements.txt
 ```
 
-Or activate the previously created virtual environment
+Or activate the previously created virtual environment:
 
 ```bash
 source venv/bin/activate
@@ -117,4 +117,4 @@ sh test.sh
 
 ## Trigger imports
 
-Imports are triggered by the GOB-Workflow module. See the GOB-Workflow README for more details
+Imports are triggered by the [GOB-Workflow](https://github.com/Amsterdam/GOB-Workflow) module. See the GOB-Workflow README for more details.
