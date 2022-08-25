@@ -12,7 +12,7 @@ from gobcore.logging.logger import logger
 from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, \
     IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
-from gobcore.standalone import build_message, run_as_standalone, parent_argument_parser
+from gobcore.standalone import run_as_standalone, parent_argument_parser
 
 from gobimport.converter import MappinglessConverterAdapter
 from gobimport.import_client import ImportClient
@@ -33,7 +33,8 @@ def argument_parser() -> argparse.ArgumentParser:
     )
     import_parser.add_argument(
         "--collection",
-        help="The name of the data collection (example: \"metingen\")"
+        help="The name of the data collection (example: \"metingen\"), "
+             "also known as 'entity'."
     )
     import_parser.add_argument(
         "--application",
@@ -43,8 +44,8 @@ def argument_parser() -> argparse.ArgumentParser:
         "--mode",
         required=False,
         help="The mode to use. Defaults to update",
-        default="update",
-        choices=["update", "full"]
+        default="full",
+        choices=["delete", "full", "recent"]
     )
     return parser
 
@@ -96,9 +97,9 @@ def handle_import_msg(msg: dict, raise_exception=False) -> dict:
     logger.configure(msg, "IMPORT")
     logger.add_message_broker_handler()
 
-    mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
+    # mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
 
-    with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
+    with ImportClient(dataset=dataset, msg=msg, mode=ImportMode.FULL, logger=logger) as import_client:
         import_client.raise_exception = raise_exception
         import_client.import_dataset()
 
