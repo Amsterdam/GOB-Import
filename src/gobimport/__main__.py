@@ -78,7 +78,7 @@ def extract_dataset_from_msg(msg):
     return get_import_definition(header['catalogue'], header['collection'], header.get('application'))
 
 
-def handle_import_msg(msg: dict, raise_exception=False) -> dict:
+def handle_import_msg(msg: dict) -> dict:
     """
     Handles an import message from the message broker queue.
 
@@ -95,12 +95,10 @@ def handle_import_msg(msg: dict, raise_exception=False) -> dict:
     }
 
     logger.configure(msg, "IMPORT")
-    logger.add_message_broker_handler()
+    logger.add_message_broker_handler()  # move
 
-    # mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
-
-    with ImportClient(dataset=dataset, msg=msg, mode=ImportMode.FULL, logger=logger) as import_client:
-        import_client.raise_exception = raise_exception
+    mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
+    with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
         import_client.import_dataset()
 
     return import_client.get_result_msg()
@@ -130,9 +128,6 @@ SERVICEDEFINITION = {
     'import': {
         'queue': IMPORT_QUEUE,
         'handler': handle_import_msg,
-        'handler_kwargs': {
-            "raise_exception": False
-        },
         'report': {
             'exchange': WORKFLOW_EXCHANGE,
             'key': IMPORT_RESULT_KEY,
@@ -159,11 +154,7 @@ def main():
         parser = argument_parser()
         args = parser.parse_args()
         # Configure import handler to raise an exception when running standalone.
-        import_handler_kwargs = SERVICEDEFINITION["import"]["handler_kwargs"]
-        import_handler_kwargs.update({
-            "raise_exception": True
-        })
-        print(run_as_standalone(args, SERVICEDEFINITION))
+        sys.exit(run_as_standalone(args, SERVICEDEFINITION))
 
 
 if __name__ == "__main__":
