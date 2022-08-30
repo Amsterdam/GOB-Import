@@ -95,7 +95,6 @@ def handle_import_msg(msg: dict) -> dict:
     }
 
     logger.configure(msg, "IMPORT")
-    logger.add_message_broker_handler()  # move
 
     mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
     with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
@@ -106,9 +105,8 @@ def handle_import_msg(msg: dict) -> dict:
 
 def handle_import_object_msg(msg):
     logger.configure(msg, "IMPORT OBJECT")
-    logger.add_message_broker_handler()
-
     logger.info("Start import object")
+
     importer = MappinglessConverterAdapter(msg['header'].get('catalogue'), msg['header'].get('entity'),
                                            msg['header'].get('entity_id_attr'))
     entity = importer.convert(msg['contents'])
