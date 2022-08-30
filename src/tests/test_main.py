@@ -1,16 +1,17 @@
+import pytest
+from argparse import Namespace
 from uuid import uuid4
 
 from pathlib import Path
 
 import json
 
-from io import StringIO
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 from gobcore.exceptions import GOBException
-from gobimport.__main__ import ImportMode, extract_dataset_from_msg, handle_import_msg, handle_import_object_msg, \
-    SERVICEDEFINITION, main, run_as_standalone
+from gobimport.__main__ import ImportMode, extract_dataset_from_msg, handle_import_msg, \
+    handle_import_object_msg, SERVICEDEFINITION, main, run_as_standalone
 
 
 class TestMain(TestCase):
@@ -40,7 +41,6 @@ class TestMain(TestCase):
         }
         handle_import_msg(self.mock_msg)
 
-        mock_logger.add_message_broker_handler.assert_called_once()
         mock_extract_dataset.assert_called_with(self.mock_msg)
 
         mock_import_client.assert_called_with(
@@ -63,51 +63,6 @@ class TestMain(TestCase):
             }
 
         }, self.mock_msg)
-
-    @patch("gobimport.__main__.WorkflowCommands")
-    @patch("gobimport.__main__.logger")
-    @patch("gobimport.__main__.ImportClient")
-    @patch("gobimport.__main__.extract_dataset_from_msg")
-    def test_run_as_standalone(self, mock_extract_dataset, mock_import_client, mock_logger, mock_wfc):
-        mock_import_client_instance = MagicMock()
-        mock_import_client.return_value.__enter__.return_value = mock_import_client_instance
-        mock_import_client_instance.get_result_msg.return_value.get = lambda x: "/path"
-        mock_extract_dataset.return_value = {
-            "source": {
-                "name": "Some source",
-                "application": "The application",
-            },
-            "catalogue": "CAT",
-            "entity": "ENT"
-        }
-        args = {
-            "catalogue": "CAT",
-            "collection": "ENT",
-            "application": "The application",
-            "mode": "recent"
-        }
-        run_as_standalone(args)
-
-        mock_logger.add_message_broker_handler.assert_not_called()
-        mock_logger.info(f"Imported collection to: /path")
-        mock_extract_dataset.assert_called_with({"header": args})
-
-        msg = {
-            "header": {
-                "catalogue": "CAT",
-                "source": "Some source",
-                "application": "The application",
-                "entity": "ENT",
-            }
-        }
-
-        mock_import_client.assert_called_with(
-            dataset=mock_extract_dataset.return_value,
-            msg=msg,
-            mode=ImportMode.RECENT,
-            logger=mock_logger,
-        )
-        mock_import_client_instance.import_dataset.assert_called_with("CAT/ENT")
 
     @patch("gobimport.__main__.logger")
     @patch("gobimport.__main__.MappinglessConverterAdapter")
@@ -182,44 +137,18 @@ class TestMain(TestCase):
     def test_main_entry_standalone(self, mock_run):
         from gobimport.__main__ import sys
 
-        with patch.object(sys, "argv", ["gobimport", "import", "bag", "ligplaatsen", "Neuron"]):
+        sys.argv = [
+            "gobimport", "import", "--catalogue", "bag", "--collection", "ligplaatsen",
+            "--application", "Neuron"
+        ]
+        with pytest.raises(SystemExit):
             main()
-            mock_run.assert_called_with(
-                {
-                    "catalogue": "bag",
-                    "collection": "ligplaatsen",
-                    "application": "Neuron",
-                    "mode": "full"
-                }
-            )
 
-        args = ["gobimport", "import", "bag", "ligplaatsen", "Neuron", "recent"]
-        with patch.object(sys, "argv", args):
-            main()
-            mock_run.assert_called_with(
-                {
-                    "catalogue": "bag",
-                    "collection": "ligplaatsen",
-                    "application": "Neuron",
-                    "mode": "recent"
-                }
-            )
-
-        with (
-            patch.object(sys, "argv", ["gobimport", "import", "gebieden"]),
-            patch('sys.stderr', new_callable=StringIO) as mock_stderr
-        ):
-            err = "gobimport: error: the following arguments are required: collection"
-            self.assertRaisesRegex(SystemExit, "2", main)
-            self.assertEqual(err, mock_stderr.getvalue().splitlines()[-1])
-
-        with (
-            patch.object(sys, "argv", ["gobimport", "import"]),
-            patch('sys.stderr', new_callable=StringIO) as mock_stderr
-        ):
-            err = "gobimport: error: the following arguments are required: catalogue, collection"
-            self.assertRaisesRegex(SystemExit, "2", main)
-            self.assertEqual(err, mock_stderr.getvalue().splitlines()[-1])
+        argparse: Namespace = mock_run.call_args.args[0]
+        assert argparse.catalogue == "bag"
+        assert argparse.collection == "ligplaatsen"
+        assert argparse.application == "Neuron"
+        assert argparse.mode == "full"
 
     @patch("gobimport.__main__.ImportClient.import_dataset", MagicMock())
     @patch("gobimport.__main__.ImportClient.get_result_msg")
@@ -230,7 +159,11 @@ class TestMain(TestCase):
             "contents_ref": contents_ref
         }
 
-        with patch.object(sys, "argv", ["gobimport", "import", "bag", "ligplaatsen", "Neuron"]):
+        sys.argv = [
+            "gobimport", "import", "--catalogue", "bag", "--collection",
+            "ligplaatsen", "--application", "Neuron"
+        ]
+        with pytest.raises(SystemExit):
             main()
 
         with Path("/airflow/xcom/return.json").open("r") as fp:
