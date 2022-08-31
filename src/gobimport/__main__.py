@@ -33,17 +33,19 @@ def argument_parser() -> argparse.ArgumentParser:
     )
     import_parser.add_argument(
         "--collection",
+        required=True
         help="The name of the data collection (example: \"metingen\"), "
              "also known as 'entity'."
     )
     import_parser.add_argument(
         "--application",
+        required=False,
         help="The name of the application to import from"
     )
     import_parser.add_argument(
         "--mode",
         required=False,
-        help="The mode to use. Defaults to update",
+        help="The mode to use. Defaults to full",
         default="full",
         choices=["delete", "full", "recent"]
     )
