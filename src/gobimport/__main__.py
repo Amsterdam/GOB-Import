@@ -2,21 +2,54 @@
 
 This component imports data sources
 """
+import argparse
 import sys
-from pathlib import Path
 
 from gobconfig.import_.import_config import get_import_definition
-from gobcore.datastore.xcom_data_store import XComDataStore
 from gobcore.enum import ImportMode
 from gobcore.exceptions import GOBException
 from gobcore.logging.logger import logger
 from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, \
     IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
-from gobcore.workflow.start_commands import WorkflowCommands
+from gobcore.standalone import run_as_standalone, parent_argument_parser
 
 from gobimport.converter import MappinglessConverterAdapter
 from gobimport.import_client import ImportClient
+
+
+def argument_parser() -> argparse.ArgumentParser:
+    parser, subparsers = parent_argument_parser()
+
+    # import handler parser
+    import_parser = subparsers.add_parser(
+        name="import",
+        description="Start an import job for a collection"
+    )
+    import_parser.add_argument(
+        "--catalogue",
+        required=True,
+        help="The name of the data catalogue (example: \"meetbouten\")"
+    )
+    import_parser.add_argument(
+        "--collection",
+        required=True,
+        help="The name of the data collection (example: \"metingen\"), "
+             "also known as 'entity'."
+    )
+    import_parser.add_argument(
+        "--application",
+        required=False,
+        help="The name of the application to import from"
+    )
+    import_parser.add_argument(
+        "--mode",
+        required=False,
+        help="The mode to use. Defaults to full",
+        default="full",
+        choices=["delete", "full", "recent"]
+    )
+    return parser
 
 
 def extract_dataset_from_msg(msg):
@@ -52,6 +85,7 @@ def handle_import_msg(msg: dict) -> dict:
     Handles an import message from the message broker queue.
 
     :param msg: valid (import) message
+    :param raise_exception: do not catch all exceptions, raise an error instead
     :return: result msg
     """
     dataset = extract_dataset_from_msg(msg)
@@ -63,10 +97,8 @@ def handle_import_msg(msg: dict) -> dict:
     }
 
     logger.configure(msg, "IMPORT")
-    logger.add_message_broker_handler()
 
     mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
-
     with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
         import_client.import_dataset()
 
@@ -75,9 +107,8 @@ def handle_import_msg(msg: dict) -> dict:
 
 def handle_import_object_msg(msg):
     logger.configure(msg, "IMPORT OBJECT")
-    logger.add_message_broker_handler()
-
     logger.info("Start import object")
+
     importer = MappinglessConverterAdapter(msg['header'].get('catalogue'), msg['header'].get('entity'),
                                            msg['header'].get('entity_id_attr'))
     entity = importer.convert(msg['contents'])
@@ -93,48 +124,8 @@ def handle_import_object_msg(msg):
     }
 
 
-def run_as_standalone(args: dict):
-    """
-    Run gob-import as stand-alone application. Parses and processes the cli arguments to a result message.
-    Logging is send to stdout.
-
-    example: python -m gobimport import gebieden wijken DGDialog
-
-    :return: result message
-    """
-    mode = ImportMode(args.pop("mode", ImportMode.FULL.value))
-
-    msg = {"header": args}
-    dataset = extract_dataset_from_msg(msg)
-
-    msg["header"] |= {
-        "source": dataset["source"]["name"],
-        "application": dataset["source"]["application"],
-        "catalogue": dataset["catalogue"],
-        "entity": dataset["entity"],
-    }
-    msg["header"].pop("collection", None)  # collection == entity
-
-    logger.configure(msg, "IMPORT")
-
-    dest = Path(msg["header"].get("catalogue"), msg["header"].get("entity", ""))
-
-    # Create a new import client and start the process
-    with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
-        import_client.raise_exception = True
-        import_client.import_dataset(str(dest))
-
-    result = import_client.get_result_msg()
-
-    if full_path := result.get("contents_ref"):
-        logger.info(f"Imported collection to: {full_path}")
-        XComDataStore().write({"contents_ref": full_path})
-
-    return result
-
-
 SERVICEDEFINITION = {
-    'import_request': {
+    'import': {
         'queue': IMPORT_QUEUE,
         'handler': handle_import_msg,
         'report': {
@@ -160,10 +151,10 @@ def main():
 
     else:
         print("Arguments found, start in stand-alone mode.")
-        args = WorkflowCommands(["import"]).parse_arguments()
-        run_as_standalone(args)
-
-        # TODO: Handle result message, process_issues
+        parser = argument_parser()
+        args = parser.parse_args()
+        # Configure import handler to raise an exception when running standalone.
+        sys.exit(run_as_standalone(args, SERVICEDEFINITION))
 
 
 if __name__ == "__main__":
