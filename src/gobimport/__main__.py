@@ -33,7 +33,7 @@ def argument_parser() -> argparse.ArgumentParser:
     )
     import_parser.add_argument(
         "--collection",
-        required=True
+        required=True,
         help="The name of the data collection (example: \"metingen\"), "
              "also known as 'entity'."
     )
