@@ -1,17 +1,15 @@
-import pytest
-from argparse import Namespace
-from uuid import uuid4
-
-from pathlib import Path
+from unittest import TestCase
 
 import json
-
-from unittest import TestCase
-from unittest.mock import MagicMock, patch
-
+import pytest
+from argparse import Namespace
 from gobcore.exceptions import GOBException
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+from uuid import uuid4
+
 from gobimport.__main__ import ImportMode, extract_dataset_from_msg, handle_import_msg, \
-    handle_import_object_msg, SERVICEDEFINITION, main, run_as_standalone
+    handle_import_object_msg, SERVICEDEFINITION, main
 
 
 class TestMain(TestCase):
