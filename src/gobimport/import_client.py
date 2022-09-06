@@ -89,12 +89,13 @@ class ImportClient:
             exc_val: Optional[BaseException],
             exc_tb: Optional[TracebackType]
     ) -> bool:
-        """
-        Exit handler for an import client.
-        - if no exception in suite, this returns immediately
-        - if execption raised: print the error, stacktrace and row failed at
+        """Exit handler for an import client.
 
-        If the `ImportClient.raise_exception` flag is set to True, reraise the caught exception, otherwise continue.
+        - if no exception in suite, this returns immediately
+        - if exception raised: print the error, stacktrace and row failed at
+
+        If the `ImportClient.raise_exception` flag is set to True, reraise the
+        caught exception, otherwise continue.
         """
         if exc_type is None:
             return True  # do nothing
@@ -114,7 +115,7 @@ class ImportClient:
                 }
             })
 
-        return not self.raise_exception  # False reraises
+        return not self.raise_exception  # False re-raises
 
     def get_result_msg(self) -> dict:
         """The result of the import needs to be published.
