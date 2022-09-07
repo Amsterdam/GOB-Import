@@ -21,7 +21,7 @@ In order to encrypt secure data you need to define environment variables:
 
 - `SECURE_SALT` and `SECURE_PASSWORD`
   - shared with [GOB API](https://github.com/Amsterdam/GOB-API) (symmetrical encryption).
-    GOB Import is responsable for the encryption and GOB API uses the secrets for decryption
+    GOB Import is responsible for the encryption and GOB API uses the secrets for decryption
 
 # Docker
 
@@ -56,7 +56,7 @@ Finally, start docker.
 
 ```bash
 docker compose build
-docker compose up
+docker compose up -d
 ```
 
 
@@ -64,14 +64,14 @@ docker compose up
 
 ```bash
 docker compose -f src/.jenkins/test/docker-compose.yml build
-docker compose -f src/.jenkins/test/docker-compose.yml run test
+docker compose -f src/.jenkins/test/docker-compose.yml run --rm test
 ```
 
 # Local
 
 ## Requirements
 
-* Python >= 3.6
+* Python >= 3.9
 
 ## Initialisation
 
