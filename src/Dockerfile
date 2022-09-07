@@ -25,11 +25,13 @@ RUN rm -rf /opt/wheelhouse
 # Copy gobimport module
 COPY gobimport gobimport
 
+USER datapunt
 CMD ["python", "-m", "gobimport"]
 
 
 # Development.
 FROM application as development
+USER root
 # Install GOB-Core and GOB-Config in development mode. Will be overridden with
 # mounts from the developer filesystem. Changes made to GOB-Core and GOB-Config
 # will be available immediately.
@@ -37,20 +39,26 @@ RUN rm -rf GOB-Core && git clone --depth=1 --branch master https://github.com/Am
 RUN LIBGDAL_VERSION=$(gdal-config --version) pip install -e /app/GOB-Core
 RUN git clone --depth=1 https://github.com/Amsterdam/GOB-Config.git
 RUN pip install -e /app/GOB-Config
+USER datapunt
 
 
 # Test.
 FROM application as test
+USER root
+
 # Remove gobcore/gobconfig tests
 RUN rm -rf /app/src/gobcore/tests
 RUN rm -rf /app/src/gobconfig/tests
 
-# Copy tests
+# Copy test module and tests.
+COPY test.sh .flake8 pytest.ini ./
 COPY tests tests
-COPY .flake8 .flake8
-COPY test.sh test.sh
 
-# Copy jenkins files
+# Copy Jenkins files.
 COPY .jenkins /.jenkins
 
-RUN mkdir -p /app/shared/message_broker
+RUN mkdir -m 2755 -p /app/shared/message_broker && chown datapunt.datapunt /app/shared /app/shared/message_broker
+# Airflow (standalone).
+RUN mkdir -m 2755 /airflow && chown datapunt.datapunt /airflow
+
+USER datapunt
