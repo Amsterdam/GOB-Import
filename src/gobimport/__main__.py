@@ -12,8 +12,8 @@ from gobcore.logging.logger import logger
 from gobcore.message_broker.config import IMPORT_OBJECT_QUEUE, \
     IMPORT_OBJECT_RESULT_KEY, IMPORT_QUEUE, IMPORT_RESULT_KEY, WORKFLOW_EXCHANGE
 from gobcore.message_broker.messagedriven_service import messagedriven_service
+from gobcore.message_broker.typing import ServiceDefinition
 from gobcore.standalone import run_as_standalone, parent_argument_parser
-
 from gobimport.converter import MappinglessConverterAdapter
 from gobimport.import_client import ImportClient
 
@@ -85,7 +85,6 @@ def handle_import_msg(msg: dict) -> dict:
     Handles an import message from the message broker queue.
 
     :param msg: valid (import) message
-    :param raise_exception: do not catch all exceptions, raise an error instead
     :return: result msg
     """
     dataset = extract_dataset_from_msg(msg)
@@ -96,8 +95,6 @@ def handle_import_msg(msg: dict) -> dict:
         'entity': dataset['entity'],
     }
 
-    logger.configure(msg, "IMPORT")
-
     mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
     with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
         import_client.import_dataset()
@@ -105,8 +102,7 @@ def handle_import_msg(msg: dict) -> dict:
     return import_client.get_result_msg()
 
 
-def handle_import_object_msg(msg):
-    logger.configure(msg, "IMPORT OBJECT")
+def handle_import_object_msg(msg: dict) -> dict:
     logger.info("Start import object")
 
     importer = MappinglessConverterAdapter(msg['header'].get('catalogue'), msg['header'].get('entity'),
@@ -124,23 +120,23 @@ def handle_import_object_msg(msg):
     }
 
 
-SERVICEDEFINITION = {
-    'import': {
-        'queue': IMPORT_QUEUE,
-        'handler': handle_import_msg,
-        'report': {
-            'exchange': WORKFLOW_EXCHANGE,
-            'key': IMPORT_RESULT_KEY,
-        },
+SERVICEDEFINITION: ServiceDefinition = {
+    "import": {
+        "queue": IMPORT_QUEUE,
+        "handler": handle_import_msg,
+        "report": {
+            "exchange": WORKFLOW_EXCHANGE,
+            "key": IMPORT_RESULT_KEY
+        }
     },
-    'import_single_object_request': {
-        'queue': IMPORT_OBJECT_QUEUE,
-        'handler': handle_import_object_msg,
-        'report': {
-            'exchange': WORKFLOW_EXCHANGE,
-            'key': IMPORT_OBJECT_RESULT_KEY,
-        },
-    },
+    "import_single_object_request": {
+        "queue": IMPORT_OBJECT_QUEUE,
+        "handler": handle_import_object_msg,
+        "report": {
+            "exchange": WORKFLOW_EXCHANGE,
+            "key": IMPORT_OBJECT_RESULT_KEY
+        }
+    }
 }
 
 
