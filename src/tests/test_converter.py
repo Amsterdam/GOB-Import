@@ -1,12 +1,13 @@
 import unittest
 from unittest import mock
-
 from decimal import Decimal
-from gobcore.model import GOBModel
+
 from gobcore.model.metadata import FIELD
+from gobcore.exceptions import GOBException, GOBTypeException
+
+from gobimport import gob_model
 from gobimport.converter import _apply_filters, _extract_references, _is_object_reference, _split_object_reference, \
                                 Converter, _json_safe_value, _get_value, _clean_references, _extract_field, _goblike_row, MappinglessConverterAdapter
-from gobcore.exceptions import GOBException, GOBTypeException
 from tests.fixtures import random_string
 
 
@@ -297,7 +298,7 @@ class TestConverter(unittest.TestCase):
         for arg, result in testcases:
             self.assertEqual(result, _json_safe_value(arg))
 
-    @mock.patch("gobimport.converter.GOBModel", mock.MagicMock(spec=GOBModel))
+    @mock.patch("gobimport.converter.gob_model", mock.MagicMock(spec=gob_model))
     def test_convert(self):
         row = {
             "id": random_string(),
@@ -421,12 +422,18 @@ class TestConverter(unittest.TestCase):
 class TestMappinglessConverterAdapter(unittest.TestCase):
 
     @mock.patch("gobimport.converter.Converter")
-    @mock.patch("gobimport.converter.GOBModel")
+    @mock.patch("gobimport.converter.gob_model")
     def test_init_convert(self, mock_model, mock_converter):
-        mock_model.return_value.get_collection.return_value = {
+        fields = {
             'fields': {
                 'fieldA': '',
                 'fieldB': '',
+            }
+        }
+        mock_model.__getitem__.return_value = {
+            'collections': {
+                'empty col': {},
+                'the col': fields
             }
         }
 

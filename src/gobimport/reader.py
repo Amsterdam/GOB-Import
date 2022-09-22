@@ -5,12 +5,13 @@ Contains logic to connect and read from a variety of datasources
 """
 from gobcore.typesystem import GOB_SECURE_TYPES
 from gobcore.enum import ImportMode
-from gobcore.model import GOBModel
 from gobcore.secure.crypto import read_protect
-
 from gobcore.logging.logger import logger
-from gobconfig.datastore.config import get_datastore_config
 from gobcore.datastore.factory import DatastoreFactory
+
+from gobconfig.datastore.config import get_datastore_config
+
+from gobimport import gob_model
 
 
 class Reader:
@@ -35,8 +36,10 @@ class Reader:
 
         catalogue = dataset['catalogue']
         entity = dataset['entity']
-        gob_attributes = GOBModel().get_collection(catalogue, entity)["all_fields"]
-
+        try:
+            gob_attributes = gob_model[catalogue]['collections'][entity]
+        except KeyError:
+            gob_attributes = None
         self.secure_attributes = []
         self.set_secure_attributes(mapping, gob_attributes)
 

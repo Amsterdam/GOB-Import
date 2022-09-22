@@ -7,20 +7,24 @@ Todo:
 
 """
 import re
-
 from decimal import Decimal
+
 from gobcore.typesystem import get_value, get_gob_type_from_info
-from gobcore.model import GOBModel
 from gobcore.model.metadata import FIELD
 from gobcore.exceptions import GOBException, GOBTypeException
 from gobcore.logging.logger import logger
+
+from gobimport import gob_model
 
 
 class Converter:
 
     def __init__(self, catalog_name, entity_name, input_spec):
-        self.gob_model = GOBModel()
-        collection = self.gob_model.get_collection(catalog_name, entity_name)
+        self.gob_model = gob_model
+        try:
+            collection = self.gob_model[catalog_name]['collections'][entity_name]
+        except KeyError:
+            collection = None
 
         self.input_spec = input_spec
         self.mapping = input_spec['gob_mapping']
@@ -41,7 +45,7 @@ class Converter:
         :return: entity in GOB format
         """
 
-        # extract source fields into entity
+        # Extract source fields into entity
         entity = {field: _extract_field(row,
                                         field,
                                         self.mapping[field],
@@ -52,7 +56,7 @@ class Converter:
         # Convert GOBTypes to python objects
         entity = get_value(entity)
 
-        # add explicit source id, as string, to entity
+        # Add explicit source id, as string, to entity
         entity['_source_id'] = self.gob_model.get_source_id(entity=row, input_spec=self.input_spec)
 
         return entity
@@ -71,7 +75,10 @@ class MappinglessConverterAdapter:
         :param entity_name:
         :param entity_id_attr: The name of the attribute that serves as the entity_id
         """
-        self.collection = GOBModel().get_collection(catalogue_name, entity_name)
+        try:
+            self.collection = gob_model[catalogue_name]['collections'][entity_name]
+        except KeyError:
+            self.collection = None
         self.fields = self.collection['fields']
 
         mapping = {
@@ -147,8 +154,8 @@ def _split_object_reference(field: str):
     try:
         source, attr = field.split(".")
         return source, attr
-    except ValueError:
-        raise GOBException("Object reference should contain exactly one dot (.)")
+    except ValueError as exc:
+        raise GOBException("Object reference should contain exactly one dot (.)") from exc
 
 
 def _literal_value(field):
@@ -174,12 +181,11 @@ def _get_value(row, field):
     if _is_literal(field):
         # Literal value
         return _literal_value(field)
-    elif _is_object_reference(field):
+    if _is_object_reference(field):
         column, _ = _split_object_reference(field)
         return row.get(column)
-    else:
-        # Source value
-        return row.get(field)
+    # Source value
+    return row.get(field)
 
 
 def _json_safe_value(value):
@@ -297,11 +303,10 @@ def _extract_source_info(value):
     # Only add broninfo if there are additional fields
     if len(source_info.keys()) == 0:
         return {**source_value}
-    else:
-        return {
-            **source_value,
-            FIELD.SOURCE_INFO: source_info
-        }
+    return {
+        **source_value,
+        FIELD.SOURCE_INFO: source_info
+    }
 
 
 def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_field=None):

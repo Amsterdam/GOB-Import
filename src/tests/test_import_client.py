@@ -1,16 +1,16 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch, call, mock_open
 
-from gobcore.model import GOBModel
+from gobcore.enum import ImportMode
+
+from gobimport import gob_model
 from gobimport.import_client import ImportClient
 from tests import fixtures
 
-from gobcore.enum import ImportMode
 
-
-@patch('gobimport.converter.GOBModel', MagicMock(spec=GOBModel))
-@patch.object(GOBModel, 'has_states', MagicMock())
-@patch.object(GOBModel, 'get_collection', MagicMock())
+@patch('gobimport.converter.gob_model', MagicMock(spec=gob_model))
+@patch.object(gob_model, 'has_states', MagicMock())
+@patch.object(gob_model, '__getitem__', MagicMock())
 class TestImportClient(TestCase):
 
     import_client = None

@@ -15,7 +15,6 @@ from tests import fixtures
 @mock.patch("gobcore.logging.logger.logger.warning", mock.MagicMock())
 @mock.patch("gobcore.logging.logger.logger.error", mock.MagicMock())
 @mock.patch("gobimport.validator.log_issue", mock.MagicMock())
-@mock.patch("gobimport.validator.GOBModel", mock.MagicMock())
 class TestValidator(unittest.TestCase):
 
     def setUp(self):
@@ -82,7 +81,7 @@ class TestValidator(unittest.TestCase):
             }
         }
 
-        valid_entity = [{'_source_id': '1234.1','identificatie': '1234', 'nummervolg': '1'}]
+        valid_entity = [{'_source_id': '1234.1', 'identificatie': '1234', 'nummervolg': '1'}]
         validator = Validator('source_app', 'bag', 'woonplaatsen', mock_input_spec)
 
         for entity in valid_entity:
@@ -133,7 +132,7 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(validator.collection_qa['num_invalid_identificatie'], 1)
 
     def test_missing_warning_data(self):
-        missing_attr_meetbouten = self.valid_meetbouten[0].pop('status')
+        self.valid_meetbouten[0].pop('status')
         validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
 
         for entity in self.valid_meetbouten:
@@ -143,7 +142,7 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(validator.collection_qa['num_invalid_status.code'], 1)
 
     def test_missing_fatal_data(self):
-        missing_attr_meetbouten = self.valid_meetbouten[0].pop('publiceerbaar')
+        self.valid_meetbouten[0].pop('publiceerbaar')
         validator = Validator('source_app', 'meetbouten', 'meetbouten', self.mock_input_spec)
 
         for entity in self.valid_meetbouten:
