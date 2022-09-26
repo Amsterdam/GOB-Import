@@ -61,7 +61,7 @@ ENTITY_CHECKS = {
                     "level": QA_LEVEL.FATAL,
                 },
             ],
-            "hoort_bij_meetbout.bronwaarde": [
+            "hoort_bij_meetbouten_meetbout.bronwaarde": [
                 {
                     **QA_CHECK.Format_N8,
                     "level": QA_LEVEL.FATAL,

@@ -10,7 +10,7 @@ class TestEnricher(unittest.TestCase):
         self.entities = [
             {
                 'identificatie': '1234',
-                'hoort_bij_meetbout': '1',
+                'hoort_bij_meetbouten_meetbout': '1',
                 'datum': '2000-01-01',
                 'hoogte_tov_nap': decimal.Decimal(0.1),
                 'refereert_aan_refpunt': '123;456'
@@ -41,7 +41,7 @@ class TestEnricher(unittest.TestCase):
         self.entities.append(
             {
                 'identificatie': '1235',
-                'hoort_bij_meetbout': '1',
+                'hoort_bij_meetbouten_meetbout': '1',
                 'datum': '2000-01-11',
                 'hoogte_tov_nap': decimal.Decimal(0.2)
             }
