@@ -40,7 +40,7 @@ class MeetboutenEnricher(Enricher):
             'zakkingssnelheid'
         ]
 
-        meetboutid = meting['hoort_bij_meetbouten_meetbout']
+        meetboutid = meting['hoort_bij_meetbout']
 
         huidige_datum = datetime.datetime.strptime(meting['datum'], '%Y-%m-%d')
 
