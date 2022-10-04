@@ -1,4 +1,4 @@
-""" Entity validation
+"""Entity validation.
 
 Validation will take place after the imported data has been converted into the GOBModel.
 This is done to be able to perform comparisons between dates in the imported data or
@@ -14,8 +14,7 @@ from gobimport.entity_validator.bag import BAGValidator
 class EntityValidator:
 
     def __init__(self, catalog_name, entity_name, source_id):
-        """
-        Select all applicable entity validators for the given catalog and entity
+        """Select all applicable entity validators for the given catalog and entity.
 
         :param catalog_name:
         :param entity_name:
@@ -30,8 +29,7 @@ class EntityValidator:
                 self.validators.append(Validator(catalog_name, entity_name, source_id))
 
     def validate(self, entity):
-        """
-        Validate the entity for all applicable validation tests
+        """Validate the entity for all applicable validation tests.
 
         :param entity:
         :return: None
@@ -40,10 +38,9 @@ class EntityValidator:
             validator.validate(entity)
 
     def result(self):
-        """
-        Checks for fatal errors
+        """Checks for fatal errors.
 
-        Any non-True result for any of the validators raises an exception
+        Any non-True result for any of the validators raises an exception.
 
         :return:
         """
