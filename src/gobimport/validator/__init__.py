@@ -281,10 +281,7 @@ class Validator:
         self.source_app = source_app
         self.catalogue = catalogue
         self.entity_name = entity_name
-        try:
-            self.entity_id = gob_model[self.catalogue]['collections'][self.entity_name].get('entity_id')
-        except KeyError:
-            self.entity_id = None
+        self.entity_id = gob_model[self.catalogue]['collections'][self.entity_name].get('entity_id')
         self.input_spec = input_spec
 
         self.qa_checks = ENTITY_CHECKS.get(catalogue, {}).get(entity_name, {})

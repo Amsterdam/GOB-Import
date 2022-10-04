@@ -298,7 +298,7 @@ class TestConverter(unittest.TestCase):
         for arg, result in testcases:
             self.assertEqual(result, _json_safe_value(arg))
 
-    @mock.patch("gobimport.converter.gob_model", mock.MagicMock(spec=gob_model))
+    @mock.patch("gobimport.converter.gob_model", mock.MagicMock(spec_set=gob_model))
     def test_convert(self):
         row = {
             "id": random_string(),

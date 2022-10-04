@@ -10,7 +10,7 @@ echo "Running unit tests"
 coverage run --source=./gobimport -m pytest tests/
 
 echo "Coverage report"
-coverage report --show-missing --fail-under=95
+coverage report --show-missing --fail-under=96
 
 echo "Running style checks"
 flake8 ./gobimport
