@@ -2,9 +2,7 @@ import datetime
 import unittest
 from unittest.mock import MagicMock, patch
 
-from gobcore.exceptions import GOBException
-from gobcore.model import GOBModel
-from gobcore.typesystem import GOB
+from gobimport import gob_model
 from gobimport.entity_validator import StateValidator
 
 
@@ -15,21 +13,23 @@ from gobimport.entity_validator import StateValidator
 class TestEntityValidator(unittest.TestCase):
 
     def setUp(self):
-        self.mock_model = MagicMock(spec=GOBModel)
+        self.mock_model = MagicMock(spec=gob_model)
 
         self.entities = []
 
-    @patch('gobimport.entity_validator.state.GOBModel')
-    def test_entity_validate_without_state(self, mock_model):
-        mock_model.return_value = self.mock_model
-        self.mock_model.has_states.return_value = False
-        self.assertFalse(StateValidator.validates('catalogue', 'collection'))
+    @patch('gobimport.entity_validator.state.gob_model.has_states')
+    def test_entity_validate_without_state(self, mock_has_states):
+        mock_has_states.return_value = False
+        result = StateValidator.validates('catalogue', 'collection')
+        mock_has_states.assert_called_with('catalogue', 'collection')
+        self.assertFalse(result)
 
-    @patch('gobimport.entity_validator.state.GOBModel')
-    def test_entity_validate_with_state(self, mock_model):
-        mock_model.return_value = self.mock_model
-        self.mock_model.has_states.return_value = True
-        self.assertTrue(StateValidator.validates('catalogue', 'collection'))
+    @patch('gobimport.entity_validator.state.gob_model.has_states')
+    def test_entity_validate_with_state(self, mock_has_states):
+        mock_has_states.return_value = True
+        result = StateValidator.validates('catalogue', 'collection')
+        mock_has_states.assert_called_with('catalogue', 'collection')
+        self.assertTrue(result)
 
     def test_validate_entity_state_valid(self):
         self.entities = [

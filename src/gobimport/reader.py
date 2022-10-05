@@ -1,16 +1,17 @@
-"""
-Reader
+"""Reader.
 
-Contains logic to connect and read from a variety of datasources
+Contains logic to connect and read from a variety of datasources.
 """
+
 from gobcore.typesystem import GOB_SECURE_TYPES
 from gobcore.enum import ImportMode
-from gobcore.model import GOBModel
 from gobcore.secure.crypto import read_protect
-
 from gobcore.logging.logger import logger
-from gobconfig.datastore.config import get_datastore_config
 from gobcore.datastore.factory import DatastoreFactory
+
+from gobconfig.datastore.config import get_datastore_config
+
+from gobimport import gob_model
 
 
 class Reader:
@@ -35,16 +36,14 @@ class Reader:
 
         catalogue = dataset['catalogue']
         entity = dataset['entity']
-        gob_attributes = GOBModel().get_collection(catalogue, entity)["all_fields"]
-
+        gob_attributes = gob_model[catalogue]['collections'][entity]['all_fields']
         self.secure_attributes = []
         self.set_secure_attributes(mapping, gob_attributes)
 
         self.datastore = None
 
     def set_secure_attributes(self, mapping, gob_attributes):
-        """
-        Get the secure attributes so that they are read protected as soon as they are read
+        """Get the secure attributes so that they are read protected as soon as they are read.
 
         :param mapping:
         :param gob_attributes:
@@ -60,14 +59,16 @@ class Reader:
                 self.set_secure_attributes(source_mapping, gob_attr['secure'])
 
     def connect(self):  # noqa: C901
-        """The first step of every import is a technical step. A connection need to be setup to
-        connect to a database, filesystem, API, ...
+        """The first step of every import is a technical step.
+
+        A connection need to be setup to connect to a database, filesystem, API, ...
 
         :return:
         """
 
         # Get manually added config, or config based on application name
-        datastore_config = self.source.get('application_config') or get_datastore_config(self.source['application'])
+        datastore_config = self.source.get('application_config') or get_datastore_config(
+                self.source['application'])
 
         read_config = {**self.source.get('read_config', {}), 'mode': self.mode}
         self.datastore = DatastoreFactory.get_datastore(datastore_config, read_config)
@@ -89,7 +90,7 @@ class Reader:
             yield from query
 
     def read(self):  # noqa: C901
-        """Read the data from the data source
+        """Read the data from the data source.
 
         :return: iterable dataset
         """
@@ -104,9 +105,9 @@ class Reader:
             try:
                 # Optionally populated with the mode, eg partial, random, ...
                 source_query += self.source[self.mode.value]
-            except KeyError as e:
+            except KeyError as exc:
                 logger.error(f"Unknown import mode for the collection: {self.mode.value}")
-                raise e
+                raise exc
 
         # Name the cursor to activate server-side-cursor (only postgresql datastore)
         results = self.datastore.query("\n".join(source_query), arraysize=2000, name='import_cursor', withhold=True)

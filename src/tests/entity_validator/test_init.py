@@ -9,16 +9,13 @@ from gobimport.entity_validator import EntityValidator, StateValidator, Gebieden
 @patch("gobimport.entity_validator.gebieden.logger", MagicMock())
 class TestEntityValidator(unittest.TestCase):
 
-    def setUp(self):
-        pass
-
-    def test_entity_validate_ok(self):
-        with patch.object(StateValidator, 'validates', lambda *args: True),\
+    def test_entity_result_ok(self):
+        with patch.object(StateValidator, 'validates', lambda *args: True), \
              patch.object(GebiedenValidator, 'validate', lambda *args: True):
             validator = EntityValidator("catalog", "collection", "id")
             self.assertTrue(validator.result())
 
-    def test_entity_validate_error(self):
+    def test_entity_result_error(self):
         with patch.object(StateValidator, 'validates', lambda *args: True), \
              patch.object(GebiedenValidator, 'validates', lambda *args: True), \
              patch.object(StateValidator, 'result', lambda *args: True), \
@@ -34,3 +31,12 @@ class TestEntityValidator(unittest.TestCase):
              self.assertRaises(GOBException):
             validator = EntityValidator("catalog", "collection", "id")
             validator.result()
+
+    def test_entity_validate(self):
+        with patch.object(StateValidator, 'validates', lambda *args: True), \
+             patch.object(StateValidator, 'validate', lambda *args: True), \
+             patch.object(GebiedenValidator, 'validates', lambda *args: True), \
+             patch.object(GebiedenValidator, 'validate', lambda *args: False):
+            validator = EntityValidator("catalog", "collection", "id")
+            self.assertEqual(len(validator.validators), 2)
+            self.assertIsNone(validator.validate("collection"))

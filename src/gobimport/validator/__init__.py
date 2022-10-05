@@ -1,21 +1,21 @@
-""" Validator
+"""Validator.
 
-Basic validation logic
+Basic validation logic.
 
-The first version implements only the most basic validation logic
-In order to prepare a more generic validation approach the validation has been set up by means of regular expressions.
-
+The first version implements only the most basic validation logic.
+In order to prepare a more generic validation approach the validation has been set up
+by means of regular expressions.
 """
+
 import re
 
-from gobimport.utils import get_nested_item, split_field_reference
-
 from gobcore.exceptions import GOBException
-from gobcore.model import GOBModel
 from gobcore.model.metadata import FIELD
 from gobcore.logging.logger import logger
-
 from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
+
+from gobimport import gob_model
+from gobimport.utils import get_nested_item, split_field_reference
 
 
 # Log message formats
@@ -281,7 +281,7 @@ class Validator:
         self.source_app = source_app
         self.catalogue = catalogue
         self.entity_name = entity_name
-        self.entity_id = GOBModel().get_collection(self.catalogue, self.entity_name).get('entity_id')
+        self.entity_id = gob_model[self.catalogue]['collections'][self.entity_name].get('entity_id')
         self.input_spec = input_spec
 
         self.qa_checks = ENTITY_CHECKS.get(catalogue, {}).get(entity_name, {})
@@ -311,8 +311,7 @@ class Validator:
         logger.info("Quality assurance passed")
 
     def validate(self, entity):
-        """
-        Validate a single entity
+        """Validate a single entity.
 
         :param self:
         :return:
@@ -324,8 +323,9 @@ class Validator:
         self._validate_quality(entity)
 
     def _validate_primary_key(self, entity):
-        """
-        Validate a primary key, this should be unique for source_id + seqnr if the collection has states
+        """Validate a primary key.
+
+        Primary key should be unique for source_id + seqnr if the collection has states.
 
         :param entity:
         :return:
@@ -340,12 +340,11 @@ class Validator:
                 self.duplicates.add(entity_source_id)
 
     def _validate_entity(self, entity):
-        """
-        Validate a single entity.
+        """Validate a single entity.
 
-        Fails on any fatal validation check
-        Warns on any warning validation check
-        All info validation checks are counted
+        Fails on any fatal validation check.
+        Warns on any warning validation check.
+        All info validation checks are counted.
 
         :param entity_name: the entity name
         :param entity: a single entity
@@ -386,8 +385,7 @@ class Validator:
                 return False
         return True
 
-    # TODO: fix too complex
-    def _qa_check(self, check, attr, entity):   # noqa: C901
+    def _qa_check(self, check, attr, entity):
         level = check["level"]
         key_list = split_field_reference(attr)
         value = get_nested_item(entity, *key_list)
@@ -417,7 +415,7 @@ class Validator:
         allow_null = check.get('allow_null')
         if allow_null and value is None:
             return True
-        elif not allow_null and value is None:
+        if not allow_null and value is None:
             return False
         return re.compile(check['pattern']).match(str(value))
 
@@ -430,24 +428,23 @@ class Validator:
         values = check.get('values')
         assert values, 'Geometry values should be configured for this check'
         coords = re.findall(r'([0-9]+\.[0-9]+)', value)
-        # Loop through all coords and check if they fill within the supplied range
+        # Loop through all coords and check if they fill within the supplied range.
         # Even coords are x values, uneven are y values
         coord_types = ['x', 'y']
         for count, coord in enumerate(coords):
             # Get the coord type
             coord_type = coord_types[count % 2]
             # If the coord is outside of the boundaries, retun false
-            if not(values[coord_type]['min'] <= float(coord) <= values[coord_type]['max']):
+            if not values[coord_type]['min'] <= float(coord) <= values[coord_type]['max']:
                 return False
         return True
 
     def _validate_quality(self, entity):
-        """
-        Validate an entity.
+        """Validate an entity.
 
-        Fails on any fatal validation check
-        Warns on any warning validation check
-        All info validation checks are counted
+        Fails on any fatal validation check.
+        Warns on any warning validation check.
+        All info validation checks are counted.
 
         :param entity_name: the entity name
         :param entity: a single entity

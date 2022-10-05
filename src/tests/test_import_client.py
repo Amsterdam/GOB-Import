@@ -1,16 +1,17 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch, call, mock_open
 
-from gobcore.model import GOBModel
+from gobcore.enum import ImportMode
+
+from gobimport import gob_model
 from gobimport.import_client import ImportClient
 from tests import fixtures
 
-from gobcore.enum import ImportMode
 
+mock_model = MagicMock(spec_set=gob_model)
 
-@patch('gobimport.converter.GOBModel', MagicMock(spec=GOBModel))
-@patch.object(GOBModel, 'has_states', MagicMock())
-@patch.object(GOBModel, 'get_collection', MagicMock())
+@patch('gobimport.converter.gob_model', mock_model)
+@patch('gobimport.validator.gob_model', mock_model)
 class TestImportClient(TestCase):
 
     import_client = None
@@ -30,6 +31,11 @@ class TestImportClient(TestCase):
             'entity': fixtures.random_string(),
             'gob_mapping': {}
         }
+        mock_model.__getitem__.return_value = {
+                'collections': {
+                    self.mock_dataset['entity']: {'all_fields': {}},
+                }
+            }
 
         self.mock_msg = {
             'header': {}
@@ -140,8 +146,7 @@ class TestImportClient(TestCase):
         _self.merger.finish.assert_called_once_with('write')
         _self.entity_validator.result.assert_called_once()
 
-    @patch("gobimport.import_client.ProgressTicker")
-    def test_import_dataset_mode_delete(self, mock_progress_ticker):
+    def test_import_dataset_mode_delete(self):
         _self = MagicMock()
         _self.mode = ImportMode.DELETE
 
@@ -158,9 +163,8 @@ class TestImportClient(TestCase):
         _self.entity_validator.assert_not_called()
 
     @patch('gobimport.import_client.ContentsWriter')
-    @patch('gobimport.import_client.ProgressTicker')
     @patch('gobimport.import_client.traceback')
-    def test_import_dataset_exception(self, mock_traceback, mock_ProgressTicker, mock_ContentsWriter):
+    def test_import_dataset_exception(self, mock_traceback, mock_ContentsWriter):
         _self = MagicMock()
         _self.get_result_msg.return_value = 'res'
         writer = MagicMock()
