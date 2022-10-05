@@ -1,8 +1,10 @@
 from collections import defaultdict
 
-from gobcore.model import GOBModel, FIELD
+from gobcore.model import FIELD
 from gobcore.logging.logger import logger
 from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
+
+from gobimport import gob_model
 
 
 class StateValidator:
@@ -16,7 +18,7 @@ class StateValidator:
         :param entity_name:
         :return:
         """
-        return GOBModel().has_states(catalog_name, entity_name)
+        return gob_model.has_states(catalog_name, entity_name)
 
     def __init__(self, catalog_name, entity_name, source_id):
         self.source_id = source_id

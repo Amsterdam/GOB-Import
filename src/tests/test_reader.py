@@ -1,12 +1,10 @@
-import unittest
-
-from unittest import mock
+from unittest import TestCase, mock
 
 from gobimport.reader import Reader, ImportMode
 
 
 @mock.patch('gobimport.reader.logger', mock.MagicMock())
-class TestReader(unittest.TestCase):
+class TestReader(TestCase):
 
     def setUp(self):
         self.source = {
@@ -83,7 +81,6 @@ class TestReader(unittest.TestCase):
         query_kwargs = {'arraysize': 2000, 'name': 'import_cursor', 'withhold': True}
 
         result = reader.read()
-
         self.assertEqual(reader._maybe_protect_rows.return_value, result)
         reader._maybe_protect_rows.assert_called_with(reader.datastore.query.return_value)
         reader.datastore.query.assert_called_with('a\nb\nc', **query_kwargs)
@@ -92,6 +89,11 @@ class TestReader(unittest.TestCase):
         reader.mode = ImportMode.RECENT
         reader.read()
         reader.datastore.query.assert_called_with('a\nb\nc\nd\ne', **query_kwargs)
+
+        reader.source = {'query': ['a', 'b', 'c'], 'delete': ['d', 'e']}
+        reader.mode = ImportMode.UPDATE
+        with self.assertRaises(KeyError):
+            reader.read()
 
     def test_set_secure_attributes(self):
         reader = Reader(self.source, self.app, self.dataset())
