@@ -97,6 +97,9 @@ class Merger:
 
             self.merge_def = merge_def
 
+    def is_merged(self, entity) -> bool:
+        return self.merge_def and entity[self.merge_def["on"]] in self.merged
+
     def merge(self, entity, write):
         """
         If a merge definition exists for the current dataset, the entity is merged with the entities in merge_items
@@ -106,12 +109,9 @@ class Merger:
         """
         if self.merge_def:
             on = self.merge_def["on"]
-            merge_item = self.merge_items.get(entity[on])
-            if merge_item:
-                entities = merge_item["entities"]
 
-                self.merge_func(entity, write, entities)
-
+            if merge_item := self.merge_items.get(entity[on]):
+                self.merge_func(entity, write, merge_item["entities"])
                 self.merged.append(entity[on])
 
     def finish(self, write):

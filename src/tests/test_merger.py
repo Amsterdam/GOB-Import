@@ -116,6 +116,17 @@ class TestMerger(unittest.TestCase):
         }, merge_def)
         self.assertEqual(len(merger.merge_items["b"]["entities"]), 2)
 
+    def test_is_merged(self):
+        merger = Merger(None)
+        entity = {"b": "value2", "volgnummer": 1}
+        self.assertFalse(merger.is_merged(entity))
+
+        merger.merge_def = {"on": "b"}
+        self.assertFalse(merger.is_merged(entity))
+
+        merger.merged = ["value2"]
+        self.assertTrue(merger.is_merged(entity))
+
     @mock.patch('gobimport.merger.get_import_definition_by_filename', mock.MagicMock())
     def test_merge(self):
         mock_client = mock.MagicMock(spec=ImportClient)
@@ -152,6 +163,3 @@ class TestMerger(unittest.TestCase):
         self.assertIsNone(merger.merge_items.get(1))
         self.assertIsNone(merger.merge_items.get(2))
         self.assertEqual(len(finished), 1)
-
-    def test_finish(self):
-        pass

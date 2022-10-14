@@ -150,3 +150,47 @@ class TestEntityValidator(unittest.TestCase):
 
             # Expect Log Issue to be called
             mock_log_issue.assert_called()
+
+    def test_drop(self):
+        self.entities = [
+            {
+                'identificatie': '1234567890',
+                'volgnummer': 1,
+                'begin_geldigheid': datetime.datetime(2018, 1, 1),
+                'eind_geldigheid': datetime.datetime(2019, 1, 1),
+            },
+            {
+                'identificatie': '1234567890',
+                'volgnummer': 2,
+                'begin_geldigheid': datetime.datetime(2019, 1, 1),
+                'eind_geldigheid': None,
+            }
+        ]
+        validator = StateValidator('catalogue', 'collection', 'identificatie')
+        for entity in self.entities:
+            validator.validate(entity, drop=True)
+
+        # entity not in cache, assert not dropped
+        validator._drop({"identificatie": 18, "volgnummer": 10})
+        self.assertNotIn(18, validator.volgnummers)
+
+        for entity in self.entities:
+            id_ = entity["identificatie"]
+            self.assertIn(id_, validator.volgnummers)
+            self.assertIn(entity["volgnummer"], validator.volgnummers[id_])
+
+        self.assertIn(self.entities[1]["identificatie"], validator.end_date)
+
+        # first entity in cache dropped
+        validator._drop(self.entities[0])
+        id_ = self.entities[0]["identificatie"]
+        self.assertIn(id_, validator.volgnummers)
+        self.assertNotIn(self.entities[0]["volgnummer"], validator.volgnummers[id_])
+        self.assertIn(self.entities[1]["volgnummer"], validator.volgnummers[id_])
+
+        # second entity in cache dropped
+        validator._drop(self.entities[1])
+        id_ = self.entities[1]["identificatie"]
+        self.assertIn(id_, validator.volgnummers)
+        self.assertNotIn(self.entities[1]["volgnummer"], validator.volgnummers[id_])
+        self.assertFalse(validator.end_date[id_])

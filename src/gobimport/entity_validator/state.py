@@ -27,10 +27,20 @@ class StateValidator:
         self.volgnummers = defaultdict(set)
         self.end_date = {}
 
+    def _drop(self, entity):
+        id_ = entity[self.source_id]
+        seqnr = entity[FIELD.SEQNR]
+
+        if id_ in self.volgnummers and seqnr in self.volgnummers[id_]:
+            self.volgnummers[id_].remove(seqnr)
+
+        if self.end_date.get(id_) and entity[FIELD.END_VALIDITY] is None:
+            self.end_date[id_] = False
+
     def result(self):
         return self.validated
 
-    def validate(self, entity):
+    def validate(self, entity, drop: bool = False):
         """
         Validate entity with state to see if generic validations for states are correct.
 
@@ -39,22 +49,17 @@ class StateValidator:
         - begin_geldigheid should not be after eind_geldigheid (when filled)
         - volgnummer should be a positive number and unique in the collection
 
+        Allow dropping the cached entity, in case of merged entities
+
         :param entity: a GOB entity
+        :param drop: bool
         :return:
         """
+        if drop:
+            self._drop(entity)
+
         self._validate_begin_geldigheid(entity)
-
-        # Volgnummer can't be empty -> Fatal
-        if entity[FIELD.SEQNR] is None:
-            log_issue(logger, QA_LEVEL.FATAL,
-                      Issue(QA_CHECK.Value_not_empty, entity, self.source_id, FIELD.SEQNR))
-            self.validated = False
-
-        # volgnummer should a positive number and unique in the collection
-        elif entity[FIELD.SEQNR] < 1:
-            log_issue(logger, QA_LEVEL.ERROR,
-                      Issue(QA_CHECK.Format_numeric, entity, self.source_id, FIELD.SEQNR))
-            self.validated = False
+        self._validate_volgnummer(entity)
 
         identificatie = str(entity[self.source_id])
         if entity[FIELD.SEQNR] in self.volgnummers[identificatie]:
@@ -71,6 +76,19 @@ class StateValidator:
 
         # Add the volgnummer to the set for this entity identificatie
         self.volgnummers[identificatie].add(entity[FIELD.SEQNR])
+
+    def _validate_volgnummer(self, entity):
+        # Volgnummer can't be empty -> Fatal
+        if entity[FIELD.SEQNR] is None:
+            log_issue(logger, QA_LEVEL.FATAL,
+                      Issue(QA_CHECK.Value_not_empty, entity, self.source_id, FIELD.SEQNR))
+            self.validated = False
+
+        # volgnummer should a positive number and unique in the collection
+        elif entity[FIELD.SEQNR] < 1:
+            log_issue(logger, QA_LEVEL.ERROR,
+                      Issue(QA_CHECK.Format_numeric, entity, self.source_id, FIELD.SEQNR))
+            self.validated = False
 
     def _validate_begin_geldigheid(self, entity):
         if entity[FIELD.START_VALIDITY]:
