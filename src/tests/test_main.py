@@ -41,6 +41,8 @@ class TestMain(TestCase):
 
         mock_extract_dataset.assert_called_with(self.mock_msg)
 
+        mock_logger.update_default_args_from_msg.assert_called_with(self.mock_msg)
+
         mock_import_client.assert_called_with(
             dataset=mock_extract_dataset.return_value,
             msg=self.mock_msg,

@@ -92,8 +92,9 @@ def handle_import_msg(msg: dict) -> dict:
         'source': dataset['source']['name'],
         'application': dataset['source']['application'],
         'catalogue': dataset['catalogue'],
-        'entity': dataset['entity'],
+        'entity': dataset['entity']
     }
+    logger.update_default_args_from_msg(msg)
 
     mode = ImportMode(msg["header"].get('mode', ImportMode.FULL.value))
     with ImportClient(dataset=dataset, msg=msg, mode=mode, logger=logger) as import_client:
