@@ -47,6 +47,6 @@ class TestEntityValidator(unittest.TestCase):
         validator = EntityValidator("catalog", "collection", "id")
         validator.validate("collection", custom_kwarg="kwarg1")
 
-        self.assertEquals(2, len(validator.validators))
+        self.assertEqual(2, len(validator.validators))
         for val in validator.validators:
             val.validate.assert_called_with("collection", custom_kwarg="kwarg1")
