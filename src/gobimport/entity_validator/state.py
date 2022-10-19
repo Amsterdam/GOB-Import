@@ -27,20 +27,10 @@ class StateValidator:
         self.volgnummers = defaultdict(set)
         self.end_date = {}
 
-    def _drop(self, entity):
-        id_ = entity[self.source_id]
-        seqnr = entity[FIELD.SEQNR]
-
-        if id_ in self.volgnummers and seqnr in self.volgnummers[id_]:
-            self.volgnummers[id_].remove(seqnr)
-
-        if self.end_date.get(id_) and entity[FIELD.END_VALIDITY] is None:
-            self.end_date[id_] = False
-
     def result(self):
         return self.validated
 
-    def validate(self, entity, drop: bool = False):
+    def validate(self, entity, merged: bool = False):
         """
         Validate entity with state to see if generic validations for states are correct.
 
@@ -49,33 +39,34 @@ class StateValidator:
         - begin_geldigheid should not be after eind_geldigheid (when filled)
         - volgnummer should be a positive number and unique in the collection
 
-        Allow dropping the cached entity, in case of merged entities
+        When `entity` is merged, return early because this is entity is already checked.
 
         :param entity: a GOB entity
-        :param drop: bool
+        :param merged: bool
         :return:
         """
-        if drop:
-            self._drop(entity)
-
         self._validate_begin_geldigheid(entity)
         self._validate_volgnummer(entity)
-
         identificatie = str(entity[self.source_id])
+
+        if merged:
+            # in case Merger.prepare set this id to True and the current entity has end validity yes/no
+            self.end_date[identificatie] = entity[FIELD.END_VALIDITY] is None
+            return
+
         if entity[FIELD.SEQNR] in self.volgnummers[identificatie]:
             log_issue(logger, QA_LEVEL.ERROR,
                       Issue(QA_CHECK.Value_unique, entity, self.source_id, FIELD.SEQNR))
             self.validated = False
 
-        # Only one eind_geldigheid may be empty per entity
+        self.volgnummers[identificatie].add(entity[FIELD.SEQNR])
+
+        # Only one eind_geldigheid may be empty per entity (non-merged)
         if entity[FIELD.END_VALIDITY] is None:
             if self.end_date.get(identificatie):
                 log_issue(logger, QA_LEVEL.WARNING,
                           Issue(QA_CHECK.Value_empty_once, entity, self.source_id, FIELD.END_VALIDITY))
             self.end_date[identificatie] = True
-
-        # Add the volgnummer to the set for this entity identificatie
-        self.volgnummers[identificatie].add(entity[FIELD.SEQNR])
 
     def _validate_volgnummer(self, entity):
         # Volgnummer can't be empty -> Fatal

@@ -188,8 +188,7 @@ class ImportClient:
 
             self.validator.validate(entity)
 
-            # if the current entity is also merged, drop the first cached entity
-            self.entity_validator.validate(entity, drop=self.merger.is_merged(entity))
+            self.entity_validator.validate(entity, merged=self.merger.is_merged(entity))
 
             write(entity)
 
