@@ -16,6 +16,7 @@ When large data collections need to be merged then GOB-Prepare is considered a b
 Data can then be merged using a database
 """
 from gobconfig.import_.import_config import get_import_definition_by_filename
+from gobcore.model import FIELD
 
 
 class Merger:
@@ -30,7 +31,7 @@ class Merger:
         self.import_client = import_client
         self.merge_def = None
         self.merge_items = {}
-        self.merged = []
+        self.merged = set()
 
     def _collect_entity(self, entity, merge_def):
         """
@@ -59,6 +60,7 @@ class Merger:
 
         if entity["volgnummer"] == 1:
             # Write the previous entities before the first new entity
+            # This will skip merge_entity defined above
             for diva_entity in entities[:-1]:
                 write(diva_entity)
 
@@ -97,6 +99,25 @@ class Merger:
 
             self.merge_def = merge_def
 
+    def is_merged(self, entity) -> bool:
+        """
+        Returns whether an entity is a 'merged' entity.
+        This is the case if True:
+         - key is added to self.merged
+         - the last volgnummer from merge_entities is equal to `entity` volgnummer
+        """
+        if self.merge_def is None:
+            return False
+
+        on = self.merge_def["on"]
+        key = entity[on]
+        return (
+            key in self.merged and
+            key in self.merge_items and  # Merger.prepare: not all merge_items are populated yet
+            self.merge_items[key]["entities"] and
+            self.merge_items[key]["entities"][-1][FIELD.SEQNR] == entity[FIELD.SEQNR]
+        )
+
     def merge(self, entity, write):
         """
         If a merge definition exists for the current dataset, the entity is merged with the entities in merge_items
@@ -106,13 +127,10 @@ class Merger:
         """
         if self.merge_def:
             on = self.merge_def["on"]
-            merge_item = self.merge_items.get(entity[on])
-            if merge_item:
-                entities = merge_item["entities"]
 
-                self.merge_func(entity, write, entities)
-
-                self.merged.append(entity[on])
+            if merge_item := self.merge_items.get(entity[on]):
+                self.merge_func(entity, write, merge_item["entities"])
+                self.merged.add(entity[on])
 
     def finish(self, write):
         """

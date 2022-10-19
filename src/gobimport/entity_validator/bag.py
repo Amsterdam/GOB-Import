@@ -52,7 +52,7 @@ class BAGValidator:
     def result(self):
         return self.validated
 
-    def validate(self, entity):
+    def validate(self, entity, **kwargs):
         # Only validate objects from Amsterdam (0363) since Weesp does not have the plus-gegevens
         if entity.get('identificatie', '').startswith('0363'):
             self.validate_entity(entity)
