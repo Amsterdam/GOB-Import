@@ -124,13 +124,6 @@ ENTITY_CHECKS = {
     },
     "gebieden": {
         "bouwblokken": {
-            # "_source_id": [
-            #     {
-            #         "source_app": "DGDialog",
-            #         **QA_CHECK.Format_4_2_2_2_6_HEX_SEQ,
-            #         "level": QA_LEVEL.WARNING
-            #     }
-            # ],
             "code": [
                 {
                     **QA_CHECK.Format_AANN,

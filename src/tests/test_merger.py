@@ -124,7 +124,13 @@ class TestMerger(unittest.TestCase):
         merger.merge_def = {"on": "b"}
         self.assertFalse(merger.is_merged(entity))
 
-        merger.merged = ["value2"]
+        merger.merged = {"value2"}
+        self.assertFalse(merger.is_merged(entity))
+
+        merger.merge_items["value2"] = {"entities": []}
+        self.assertFalse(merger.is_merged(entity))
+
+        merger.merge_items["value2"] = {"entities": [entity]}
         self.assertTrue(merger.is_merged(entity))
 
     @mock.patch('gobimport.merger.get_import_definition_by_filename', mock.MagicMock())

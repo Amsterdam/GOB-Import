@@ -121,7 +121,7 @@ class TestImportClient(TestCase):
         _self.merger.is_merged = lambda x: True
 
         ImportClient.import_rows(_self, write, progress)
-        _self.entity_validator.validate.assert_called_with("Entity", drop=True)
+        _self.entity_validator.validate.assert_called_with("Entity", merged=True)
 
     @patch('gobimport.import_client.Reader')
     def test_import_row_too_few_records(self, mock_Reader):

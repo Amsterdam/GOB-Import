@@ -114,6 +114,7 @@ class Merger:
         return (
             key in self.merged and
             key in self.merge_items and  # Merger.prepare: not all merge_items are populated yet
+            self.merge_items[key]["entities"] and
             self.merge_items[key]["entities"][-1][FIELD.SEQNR] == entity[FIELD.SEQNR]
         )
 

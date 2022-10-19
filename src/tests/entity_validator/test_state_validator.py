@@ -151,46 +151,30 @@ class TestEntityValidator(unittest.TestCase):
             # Expect Log Issue to be called
             mock_log_issue.assert_called()
 
-    def test_drop(self):
-        self.entities = [
+    def test_validate_merged(self):
+        entity = \
             {
                 'identificatie': '1234567890',
                 'volgnummer': 1,
                 'begin_geldigheid': datetime.datetime(2018, 1, 1),
-                'eind_geldigheid': datetime.datetime(2019, 1, 1),
-            },
-            {
-                'identificatie': '1234567890',
-                'volgnummer': 2,
-                'begin_geldigheid': datetime.datetime(2019, 1, 1),
                 'eind_geldigheid': None,
             }
-        ]
-        validator = StateValidator('catalogue', 'collection', 'identificatie')
-        for entity in self.entities:
-            validator.validate(entity, drop=True)
+        source_id = "identificatie"
 
-        # entity not in cache, assert not dropped
-        validator._drop({"identificatie": 18, "volgnummer": 10})
-        self.assertNotIn(18, validator.volgnummers)
+        with patch("gobimport.entity_validator.state.log_issue") as mock_log_issue:
+            validator = StateValidator('catalogue', 'collection', source_id)
+            validator.validate(entity, merged=True)
 
-        for entity in self.entities:
-            id_ = entity["identificatie"]
-            self.assertIn(id_, validator.volgnummers)
-            self.assertIn(entity["volgnummer"], validator.volgnummers[id_])
+            self.assertTrue(validator.result())
+            self.assertNotIn(entity[source_id], validator.volgnummers)
+            self.assertTrue(validator.end_date[entity[source_id]])
+            mock_log_issue.assert_not_called()
 
-        self.assertIn(self.entities[1]["identificatie"], validator.end_date)
+            # eind_geldigheid is not None
+            entity["eind_geldigheid"] = datetime.datetime(2020, 10, 10, 12)
+            validator.validate(entity, merged=True)
 
-        # first entity in cache dropped
-        validator._drop(self.entities[0])
-        id_ = self.entities[0]["identificatie"]
-        self.assertIn(id_, validator.volgnummers)
-        self.assertNotIn(self.entities[0]["volgnummer"], validator.volgnummers[id_])
-        self.assertIn(self.entities[1]["volgnummer"], validator.volgnummers[id_])
-
-        # second entity in cache dropped
-        validator._drop(self.entities[1])
-        id_ = self.entities[1]["identificatie"]
-        self.assertIn(id_, validator.volgnummers)
-        self.assertNotIn(self.entities[1]["volgnummer"], validator.volgnummers[id_])
-        self.assertFalse(validator.end_date[id_])
+            self.assertTrue(validator.result())
+            self.assertNotIn(entity[source_id], validator.volgnummers)
+            self.assertFalse(validator.end_date[entity[source_id]])
+            mock_log_issue.assert_not_called()
