@@ -36,7 +36,7 @@ class GebiedenValidator:
     def result(self):
         return self.validated
 
-    def validate(self, entity):
+    def validate(self, entity, **kwargs):
         self.validate_entity(entity)
 
     def validate_bouwblok(self, entity):

@@ -106,6 +106,24 @@ class TestImportClient(TestCase):
         self.assertEqual(len(_self.logger.info.call_args_list), 3)
 
     @patch('gobimport.import_client.Reader')
+    def test_import_rows_merged(self, mock_Reader):
+        mock_reader = MagicMock()
+        mock_Reader.return_value = mock_reader
+        rows = ((1, 2), (3, 4))
+        mock_reader.read.return_value = rows
+
+        progress = MagicMock()
+        write = MagicMock()
+
+        _self = MagicMock()
+        _self.converter.convert.return_value = 'Entity'
+
+        _self.merger.is_merged = lambda x: True
+
+        ImportClient.import_rows(_self, write, progress)
+        _self.entity_validator.validate.assert_called_with("Entity", merged=True)
+
+    @patch('gobimport.import_client.Reader')
     def test_import_row_too_few_records(self, mock_Reader):
         reader = MagicMock()
         mock_Reader.return_value = reader

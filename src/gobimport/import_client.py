@@ -186,10 +186,9 @@ class ImportClient:
 
             entity = self.converter.convert(row)
 
-            # validator and entity_validator build up sets of primary keys from the dataset
-            # -> higher memory consumption
             self.validator.validate(entity)
-            self.entity_validator.validate(entity)
+
+            self.entity_validator.validate(entity, merged=self.merger.is_merged(entity))
 
             write(entity)
 

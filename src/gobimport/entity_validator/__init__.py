@@ -28,14 +28,14 @@ class EntityValidator:
             if Validator.validates(catalog_name, entity_name):
                 self.validators.append(Validator(catalog_name, entity_name, source_id))
 
-    def validate(self, entity):
+    def validate(self, entity, **kwargs):
         """Validate the entity for all applicable validation tests.
 
         :param entity:
         :return: None
         """
         for validator in self.validators:
-            validator.validate(entity)
+            validator.validate(entity, **kwargs)
 
     def result(self):
         """Checks for fatal errors.

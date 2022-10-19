@@ -150,3 +150,31 @@ class TestEntityValidator(unittest.TestCase):
 
             # Expect Log Issue to be called
             mock_log_issue.assert_called()
+
+    def test_validate_merged(self):
+        entity = \
+            {
+                'identificatie': '1234567890',
+                'volgnummer': 1,
+                'begin_geldigheid': datetime.datetime(2018, 1, 1),
+                'eind_geldigheid': None,
+            }
+        source_id = "identificatie"
+
+        with patch("gobimport.entity_validator.state.log_issue") as mock_log_issue:
+            validator = StateValidator('catalogue', 'collection', source_id)
+            validator.validate(entity, merged=True)
+
+            self.assertTrue(validator.result())
+            self.assertNotIn(entity[source_id], validator.volgnummers)
+            self.assertTrue(validator.end_date[entity[source_id]])
+            mock_log_issue.assert_not_called()
+
+            # eind_geldigheid is not None
+            entity["eind_geldigheid"] = datetime.datetime(2020, 10, 10, 12)
+            validator.validate(entity, merged=True)
+
+            self.assertTrue(validator.result())
+            self.assertNotIn(entity[source_id], validator.volgnummers)
+            self.assertFalse(validator.end_date[entity[source_id]])
+            mock_log_issue.assert_not_called()
