@@ -330,7 +330,7 @@ def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_f
         report_row = _goblike_row(row, entity_id_field, seqnr_field)
         report_row[field] = value
 
-        id = report_row[FIELD.ID] + (f".{report_row[FIELD.SEQNR]}" if seqnr_field else "")
+        id = f"{report_row[FIELD.ID]}" + (f".{report_row[FIELD.SEQNR]}" if seqnr_field else "")
         logger.error(f"Error importing object with id {id}. Can't extract value for field {field}")
         return gob_type.from_value_secure(None, typeinfo, **kwargs)
 
