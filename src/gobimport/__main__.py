@@ -127,7 +127,10 @@ SERVICEDEFINITION: ServiceDefinition = {
         "report": {
             "exchange": WORKFLOW_EXCHANGE,
             "key": IMPORT_RESULT_KEY
-        }
+        },
+        'pass_args_standalone': [
+            'mode',
+        ],
     },
     "import_single_object_request": {
         "queue": IMPORT_OBJECT_QUEUE,
