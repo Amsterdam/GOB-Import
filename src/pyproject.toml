@@ -56,3 +56,10 @@ addopts = [
     "--doctest-modules",
     "--cache-clear"
 ]
+
+[tool.flake8]
+exclude = "__pycache__"
+max-complexity = 6
+max-line-length = 100
+show_source = true
+count = true
