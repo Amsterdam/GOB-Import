@@ -58,8 +58,24 @@ addopts = [
 ]
 
 [tool.flake8]
-exclude = "__pycache__"
+exclude = [
+    ".git",
+    "__pycache__",
+    ".mypy_cache",
+    ".pytest",
+    "venv",
+    "tests"
+]
 max-complexity = 6
 max-line-length = 100
 show_source = true
-count = true
+ignore = [
+    # Missing docstring in __init__
+    "D107",
+    # Missing docstring in public package
+    "D104",
+    # Missing docstring in module
+    "D100",
+    # line break before binary operator
+    "W503"
+]
