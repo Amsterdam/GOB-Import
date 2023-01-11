@@ -1,16 +1,25 @@
 #!/usr/bin/env bash
+set -e
+set -u
 
-set -u # crash on missing env
-set -e # stop on any error
+export COVERAGE_FILE="/tmp/.coverage"
 
-# Coverage 6: coverage run --data-file=/tmp/.coveragerc …
-export COVERAGE_FILE=/tmp/.coverage
+echo "Running mypy"
+mypy gobimport
 
 echo "Running unit tests"
-coverage run --source=./gobimport -m pytest tests/
+coverage run -m pytest
 
-echo "Coverage report"
-coverage report --show-missing --fail-under=96
+echo "Reporting coverage"
+coverage report --fail-under=96
 
-echo "Running style checks"
-flake8 ./gobimport
+echo "Check if black finds no potential reformat fixes"
+black --check gobimport
+
+echo "Check for potential import sort"
+isort --check --diff gobimport
+
+echo "Running flake8"
+flake8 gobimport
+
+echo "Checks complete"
