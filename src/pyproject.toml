@@ -2,7 +2,13 @@
 line-length = 120
 
 [tool.coverage.run]
-omit = ["tests/*", "**/GOB-Core/*", "**/GOB-Config/*"]
+omit = [
+    "tests/*",
+    "**/GOB-Core/*",
+    "**/GOB-Config/*",
+    "**/gobcore/*",
+    "**/gobconfig/*"
+]
 
 [tool.coverage.report]
 show_missing = true
