@@ -32,7 +32,7 @@ echo "Running mypy"
 mypy "${FILES[@]}"
 
 echo "Running unit tests"
-coverage run -m pytest
+coverage run --source=gobimport -m pytest
 
 echo "Reporting coverage"
 coverage report --fail-under=96
