@@ -38,7 +38,7 @@ echo "Reporting coverage"
 coverage report --fail-under=96
 
 echo "Check if black finds no potential reformat fixes"
-black --verbose --check "${FILES[@]}"
+black --check --diff "${FILES[@]}"
 
 echo "Check for potential import sort"
 isort --check --diff "${FILES[@]}"
