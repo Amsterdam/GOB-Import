@@ -8,7 +8,7 @@ Todo:
 
 import re
 from decimal import Decimal
-from typing import Any, Union, cast
+from typing import Any, Literal, Union, overload
 
 from gobcore.exceptions import GOBException, GOBTypeException
 from gobcore.logging.logger import logger
@@ -186,9 +186,27 @@ def _json_safe_value(value):
     return value
 
 
+FieldType = dict[Any, Any]
+FieldListType = list[FieldType]
+
+
+@overload
+def _extract_references(
+    row: list[str], field_source: dict[Any, Any], field_type: str, force_list: Literal[True]
+) -> FieldListType:
+    ...
+
+
+@overload
+def _extract_references(
+    row: list[str], field_source: dict[Any, Any], field_type: Literal["GOB.ManyReference"]
+) -> FieldListType:
+    ...
+
+
 def _extract_references(  # noqa: C901
     row: list[str], field_source: dict[Any, Any], field_type: str, force_list: bool = False
-) -> Union[dict[Any, Any], list[dict[Any, Any]]]:
+) -> Union[FieldType, FieldListType]:
     """Create the dictionary as defined in field_source.
 
     Returns a list of dictionaries if field_type is GOB.ManyReference or force_list is True
@@ -200,6 +218,7 @@ def _extract_references(  # noqa: C901
     :return:
     """
     FORMAT = "format"  # Optional parameter for ManyReference single string values
+    value: Union[FieldType, FieldListType]
     if field_type == "GOB.ManyReference" or force_list:
         value = []
         # For each attribute in the source mapping, loop through all values and add them to the correct dict
@@ -238,14 +257,14 @@ def _extract_references(  # noqa: C901
                     except IndexError:
                         value.append({attribute: v})
     else:
-        value = cast(dict[Any, Any], {})  # type: ignore
+        value = {}
 
         for attribute, source_mapping in field_source.items():
             source_value = _json_safe_value(_get_value(row, source_mapping))
 
             if _is_object_reference(source_mapping) and source_value:
                 if not value:
-                    value = {**source_value}  # type: ignore
+                    value = {**source_value}
 
                 column, attr = _split_object_reference(source_mapping)
 
