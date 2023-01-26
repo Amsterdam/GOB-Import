@@ -14,6 +14,7 @@ from gobcore.exceptions import GOBException, GOBTypeException
 from gobcore.logging.logger import logger
 from gobcore.model.metadata import FIELD
 from gobcore.typesystem import get_gob_type_from_info, get_value
+
 from gobimport import gob_model
 
 

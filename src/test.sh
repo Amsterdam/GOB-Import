@@ -21,8 +21,7 @@ FILES=(
 #  "gobimport/entity_validator/__init__.py"
 #  "gobimport/entity_validator/gebieden.py"
 #  "gobimport/entity_validator/state.py"
-#  "gobimport/validator/config.py"
-#  "gobimport/validator/__init__.py"
+  "gobimport/validator/__init__.py"
   "gobimport/converter.py"
   "gobimport/__init__.py"
 #  "gobimport/import_client.py"
@@ -46,7 +45,7 @@ echo "\nCheck if Black finds no potential reformat fixes"
 black --check --diff "${FILES[@]}"
 
 echo "\nCheck for potential import sort"
-isort --check --diff "${FILES[@]}"
+isort --check --diff --src-path=gobimport "${FILES[@]}"
 
 echo "\nRunning Flake8 style checks"
 flake8 "${FILES[@]}"
