@@ -8,22 +8,21 @@ by means of regular expressions.
 """
 
 import re
+from typing import Any
 
 from gobcore.exceptions import GOBException
-from gobcore.model.metadata import FIELD
 from gobcore.logging.logger import logger
+from gobcore.model.metadata import FIELD
 from gobcore.quality.issue import QA_CHECK, QA_LEVEL, Issue, log_issue
 
 from gobimport import gob_model
 from gobimport.utils import get_nested_item, split_field_reference
 
-
 # Log message formats
 MISSING_ATTR_FMT = "{attr} missing in entity: {entity}"
 QA_CHECK_FAILURE_FMT = "{msg}. Value was: {value}"
 
-
-ENTITY_CHECKS = {
+ENTITY_CHECKS: dict[str, dict[Any, Any]] = {
     "test_entity": {},
     "meetbouten": {
         "meetbouten": {
@@ -91,7 +90,7 @@ ENTITY_CHECKS = {
                     "level": QA_LEVEL.WARNING,
                 },
             ],
-        }
+        },
     },
     "nap": {
         "peilmerken": {
@@ -119,23 +118,18 @@ ENTITY_CHECKS = {
                     "allow_null": True,
                     "level": QA_LEVEL.FATAL,
                 },
-            ]
+            ],
         }
     },
     "gebieden": {
         "bouwblokken": {
-            "code": [
-                {
-                    **QA_CHECK.Format_AANN,
-                    "level": QA_LEVEL.FATAL
-                }
-            ],
+            "code": [{**QA_CHECK.Format_AANN, "level": QA_LEVEL.FATAL}],
             "geometrie": [
                 {
                     **QA_CHECK.Value_geometry_in_NL,
                     "level": QA_LEVEL.FATAL,
                 }
-            ]
+            ],
         },
         "buurten": {
             "geometrie": [
@@ -144,20 +138,10 @@ ENTITY_CHECKS = {
                     "level": QA_LEVEL.FATAL,
                 },
             ],
-            "naam": [
-                {
-                    **QA_CHECK.Value_not_empty,
-                    "level": QA_LEVEL.WARNING
-                }
-            ],
+            "naam": [{**QA_CHECK.Value_not_empty, "level": QA_LEVEL.WARNING}],
         },
         "wijken": {
-            "code": [
-                {
-                    **QA_CHECK.Value_not_empty,
-                    "level": QA_LEVEL.FATAL
-                }
-            ]
+            "code": [{**QA_CHECK.Value_not_empty, "level": QA_LEVEL.FATAL}]
             # Temporary fix, turn back on when values will be filled again.
             # "documentnummer": [
             #     {
@@ -189,7 +173,7 @@ ENTITY_CHECKS = {
                     "level": QA_LEVEL.WARNING,
                 },
             ],
-        }
+        },
     },
     "bag": {
         "brondocumenten": {
@@ -202,32 +186,16 @@ ENTITY_CHECKS = {
         },
         "verblijfsobjecten": {
             "toegang": [
-                {
-                    "source_app": "Neuron",
-                    **QA_CHECK.Value_not_empty,
-                    "level": QA_LEVEL.WARNING
-                },
+                {"source_app": "Neuron", **QA_CHECK.Value_not_empty, "level": QA_LEVEL.WARNING},
             ],
             "aantal_bouwlagen": [
-                {
-                    "source_app": "Neuron",
-                    **QA_CHECK.Value_not_empty,
-                    "level": QA_LEVEL.WARNING
-                },
+                {"source_app": "Neuron", **QA_CHECK.Value_not_empty, "level": QA_LEVEL.WARNING},
             ],
             "verdieping_toegang": [
-                {
-                    "source_app": "Neuron",
-                    **QA_CHECK.Value_not_empty,
-                    "level": QA_LEVEL.WARNING
-                },
+                {"source_app": "Neuron", **QA_CHECK.Value_not_empty, "level": QA_LEVEL.WARNING},
             ],
             "redenopvoer.omschrijving": [
-                {
-                    "source_app": "Neuron",
-                    **QA_CHECK.Value_not_empty,
-                    "level": QA_LEVEL.WARNING
-                },
+                {"source_app": "Neuron", **QA_CHECK.Value_not_empty, "level": QA_LEVEL.WARNING},
             ],
         },
         "openbareruimtes": {
@@ -239,17 +207,11 @@ ENTITY_CHECKS = {
             #     }
             # ],
             "geometrie": [
-                {
-                    "source_app": "Neuron",
-                    **QA_CHECK.Value_not_empty,
-                    "level": QA_LEVEL.WARNING
-                },
+                {"source_app": "Neuron", **QA_CHECK.Value_not_empty, "level": QA_LEVEL.WARNING},
             ],
         },
-        "ligplaatsen": {
-        },
-        "standplaatsen": {
-        },
+        "ligplaatsen": {},
+        "standplaatsen": {},
         "woonplaatsen": {
             # "identificatie": [
             #     {
@@ -268,19 +230,19 @@ ENTITY_CHECKS = {
             #     }
             # ],
         },
-        "panden": {
-        }
-    }
+        "panden": {},
+    },
 }
 
 
 class Validator:
+    """Quality validator."""
 
     def __init__(self, source_app, catalogue, entity_name, input_spec):
         self.source_app = source_app
         self.catalogue = catalogue
         self.entity_name = entity_name
-        self.entity_id = gob_model[self.catalogue]['collections'][self.entity_name].get('entity_id')
+        self.entity_id = gob_model[self.catalogue]["collections"][self.entity_name].get("entity_id")
         self.input_spec = input_spec
 
         self.qa_checks = ENTITY_CHECKS.get(catalogue, {}).get(entity_name, {})
@@ -291,21 +253,21 @@ class Validator:
         self.duplicates = set()
 
         self.validate_functions = {
-            'boolean': self._is_boolean,
-            'regex': self._regex_check,
-            'between': self._between_check,
-            'geometry': self._geometry_check,
+            "boolean": self._is_boolean,
+            "regex": self._regex_check,
+            "between": self._between_check,
+            "geometry": self._geometry_check,
         }
 
     def result(self):
+        """Return validation result."""
         if self.fatal:
-            raise GOBException(
-                f"Quality assurance failed for {self.entity_name}"
-            )
+            raise GOBException(f"Quality assurance failed for {self.entity_name}")
 
         if self.duplicates:
-            raise GOBException(f"Duplicate primary key(s) found in source: "
-                               f"[{', '.join([str(dup) for dup in self.duplicates])}]")
+            raise GOBException(
+                f"Duplicate primary key(s) found in source: " f"[{', '.join([str(dup) for dup in self.duplicates])}]"
+            )
 
         logger.info("Quality assurance passed")
 
@@ -389,7 +351,7 @@ class Validator:
         key_list = split_field_reference(attr)
         value = get_nested_item(entity, *key_list)
 
-        validate_function = self.validate_functions.get(check['type'])
+        validate_function = self.validate_functions[check["type"]]
         is_correct = validate_function(check, value)
 
         # If the value doesn't pass the qa check, handle the correct way
@@ -404,37 +366,37 @@ class Validator:
 
     def _is_boolean(self, check, value):
         # Check if Null values are allowed else return true if value is a boolean.
-        allow_null = check.get('allow_null')
+        allow_null = check.get("allow_null")
         if allow_null and value is None:
             return True
         return isinstance(value, bool)
 
     def _regex_check(self, check, value):
         # Check if Null values are allowed
-        allow_null = check.get('allow_null')
+        allow_null = check.get("allow_null")
         if allow_null and value is None:
             return True
         if not allow_null and value is None:
             return False
-        return re.compile(check['pattern']).match(str(value))
+        return re.compile(check["pattern"]).match(str(value))
 
     def _between_check(self, check, value):
-        values = check.get('values')
-        assert values, 'Between values should be configured for this check'
+        values = check.get("values")
+        assert values, "Between values should be configured for this check"
         return values[0] <= float(value) <= values[1] if value is not None else False
 
     def _geometry_check(self, check, value):
-        values = check.get('values')
-        assert values, 'Geometry values should be configured for this check'
-        coords = re.findall(r'([0-9]+\.[0-9]+)', value)
+        values = check.get("values")
+        assert values, "Geometry values should be configured for this check"
+        coords = re.findall(r"([0-9]+\.[0-9]+)", value)
         # Loop through all coords and check if they fill within the supplied range.
         # Even coords are x values, uneven are y values
-        coord_types = ['x', 'y']
+        coord_types = ["x", "y"]
         for count, coord in enumerate(coords):
             # Get the coord type
             coord_type = coord_types[count % 2]
             # If the coord is outside of the boundaries, retun false
-            if not values[coord_type]['min'] <= float(coord) <= values[coord_type]['max']:
+            if not values[coord_type]["min"] <= float(coord) <= values[coord_type]["max"]:
                 return False
         return True
 
