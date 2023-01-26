@@ -1,38 +1,40 @@
-"""Data converion logic.
+"""Data conversion logic.
 
 This module contains the logic to convert input data to GOB typed data.
 
 Todo:
     The current logic is bound to CSV files (especially the pandas.isnull logic to test for null values)
-
 """
+
 import re
 from decimal import Decimal
+from typing import Any, Literal, Union, overload
 
-from gobcore.typesystem import get_value, get_gob_type_from_info
-from gobcore.model.metadata import FIELD
 from gobcore.exceptions import GOBException, GOBTypeException
 from gobcore.logging.logger import logger
+from gobcore.model.metadata import FIELD
+from gobcore.typesystem import get_gob_type_from_info, get_value
 
 from gobimport import gob_model
 
 
 class Converter:
+    """Convert data to GOB entity."""
 
     def __init__(self, catalog_name, entity_name, input_spec):
         self.gob_model = gob_model
-        collection = self.gob_model[catalog_name]['collections'][entity_name]
+        collection = self.gob_model[catalog_name]["collections"][entity_name]
 
         self.input_spec = input_spec
-        self.mapping = input_spec['gob_mapping']
-        self.fields = collection['all_fields']
+        self.mapping = input_spec["gob_mapping"]
+        self.fields = collection["all_fields"]
 
         # Get the fieldnames for the id and seqnr fields
-        self.entity_id = input_spec['source']['entity_id']
-        self.seqnr = self.mapping.get(FIELD.SEQNR, {}).get('source_mapping')
+        self.entity_id = input_spec["source"]["entity_id"]
+        self.seqnr = self.mapping.get(FIELD.SEQNR, {}).get("source_mapping")
 
         # Extract the fields that have a source mapping defined
-        self.extract_fields = [field for field, meta in self.mapping.items() if 'source_mapping' in meta]
+        self.extract_fields = [field for field, meta in self.mapping.items() if "source_mapping" in meta]
 
     def convert(self, row):
         """Convert the given data using the definitions in the dataset.
@@ -40,20 +42,17 @@ class Converter:
         :param row: data in external format
         :return: entity in GOB format
         """
-
         # Extract source fields into entity
-        entity = {field: _extract_field(row,
-                                        field,
-                                        self.mapping[field],
-                                        self.fields[field],
-                                        self.entity_id,
-                                        self.seqnr) for field in self.extract_fields}
+        entity = {
+            field: _extract_field(row, field, self.mapping[field], self.fields[field], self.entity_id, self.seqnr)
+            for field in self.extract_fields
+        }
 
-        # Convert GOBTypes to python objects
+        # Convert GOBTypes to Python objects
         entity = get_value(entity)
 
         # Add explicit source id, as string, to entity
-        entity['_source_id'] = self.gob_model.get_source_id(entity=row, input_spec=self.input_spec)
+        entity["_source_id"] = self.gob_model.get_source_id(entity=row, input_spec=self.input_spec)
 
         return entity
 
@@ -66,34 +65,32 @@ class MappinglessConverterAdapter:
     """
 
     def __init__(self, catalogue_name: str, entity_name: str, entity_id_attr: str):
-        """
+        """Initialize Adapter for the Mappingless Converter.
 
         :param catalogue_name:
         :param entity_name:
         :param entity_id_attr: The name of the attribute that serves as the entity_id
         """
-        self.collection = gob_model[catalogue_name]['collections'][entity_name]
-        self.fields = self.collection['fields']
+        self.collection = gob_model[catalogue_name]["collections"][entity_name]
+        self.fields = self.collection["fields"]
 
-        mapping = {
-            field: {
-                'source_mapping': field,
-            }
-            for field in self.fields.keys()
-        }
+        mapping = {field: {"source_mapping": field} for field in self.fields.keys()}
 
         input_spec = {
-            'gob_mapping': mapping,
-            'catalogue': catalogue_name,
-            'entity': entity_name,
-            'source': {
-                'entity_id': entity_id_attr,
-            }
+            "gob_mapping": mapping,
+            "catalogue": catalogue_name,
+            "entity": entity_name,
+            "source": {"entity_id": entity_id_attr},
         }
 
         self.converter = Converter(catalogue_name, entity_name, input_spec)
 
-    def convert(self, row: dict):
+    def convert(self, row: dict[str, Any]):
+        """Convert the given data using the definitions in the dataset.
+
+        :param row: data in external format
+        :return: entity in GOB format
+        """
         return self.converter.convert(row)
 
 
@@ -123,7 +120,7 @@ def _is_literal(field):
 
 
 def _is_object_reference(field: str):
-    """Returns whether the field references an object attribute.
+    """Check whether field references an object attribute.
 
     Used when the input value is a JSON column with a list of objects and we are
     referencing an attribute of these objects.
@@ -139,7 +136,7 @@ def _is_object_reference(field: str):
 
 
 def _split_object_reference(field: str):
-    """Splits the object reference in the source column and attribute name.
+    """Split the object reference in the source column and attribute name.
 
     :param field:
     :return:
@@ -152,7 +149,7 @@ def _split_object_reference(field: str):
 
 
 def _literal_value(field):
-    """Returns the literal value of a literal field.
+    """Return the literal value of a literal field.
 
     Example: '=geometrie' returns 'geometrie'
 
@@ -163,7 +160,7 @@ def _literal_value(field):
 
 
 def _get_value(row, field):
-    """Gets the value for a field in a row.
+    """Get the value for a field in a row.
 
     :param row: row of fields
     :param field: field name
@@ -180,7 +177,7 @@ def _get_value(row, field):
 
 
 def _json_safe_value(value):
-    """Transforms value to a type that is safe for JSON serialisation.
+    """Transform value to a type that is safe for JSON serialisation.
 
     :param value:
     :return:
@@ -190,8 +187,28 @@ def _json_safe_value(value):
     return value
 
 
-def _extract_references(row, field_source, field_type, force_list=False):   # noqa: C901
-    """Creates the dictionary as defined in field_source.
+FieldType = dict[Any, Any]
+FieldListType = list[FieldType]
+
+
+@overload
+def _extract_references(
+    row: list[str], field_source: dict[Any, Any], field_type: str, force_list: Literal[True]
+) -> FieldListType:
+    ...
+
+
+@overload
+def _extract_references(
+    row: list[str], field_source: dict[Any, Any], field_type: Literal["GOB.ManyReference"]
+) -> FieldListType:
+    ...
+
+
+def _extract_references(  # noqa: C901
+    row: list[str], field_source: dict[Any, Any], field_type: str, force_list: bool = False
+) -> Union[FieldType, FieldListType]:
+    """Create the dictionary as defined in field_source.
 
     Returns a list of dictionaries if field_type is GOB.ManyReference or force_list is True
 
@@ -202,7 +219,8 @@ def _extract_references(row, field_source, field_type, force_list=False):   # no
     :return:
     """
     FORMAT = "format"  # Optional parameter for ManyReference single string values
-    if field_type == 'GOB.ManyReference' or force_list:
+    value: Union[FieldType, FieldListType]
+    if field_type == "GOB.ManyReference" or force_list:
         value = []
         # For each attribute in the source mapping, loop through all values and add them to the correct dict
         for attribute, source_mapping in field_source.items():
@@ -227,7 +245,7 @@ def _extract_references(row, field_source, field_type, force_list=False):   # no
                 # Accept a single string as Many Reference
                 # If a format has been specified then apply the format
                 # Currently only the split format is recognized
-                format = field_source.get(FORMAT, {}).get('split')
+                format = field_source.get(FORMAT, {}).get("split")
                 source_values = source_value.split(format) if format else [source_value]
                 for v in sorted(list(set(source_values))):
                     # unique values
@@ -262,7 +280,7 @@ def _extract_references(row, field_source, field_type, force_list=False):   # no
 
 
 def _clean_references(value):
-    """Cleans the references to return a dict with bronwaarde and broninfo.
+    """Clean the references to return a dict with bronwaarde and broninfo.
 
     :param value: The reference or manyreference
     :return: the cleaned reference
@@ -277,7 +295,7 @@ def _clean_references(value):
 
 
 def _extract_source_info(value):
-    """Extracts broninfo from the references.
+    """Extract broninfo from the references.
 
     :param value: The reference
     :return: the cleaned reference
@@ -291,10 +309,7 @@ def _extract_source_info(value):
     # Only add broninfo if there are additional fields
     if len(source_info.keys()) == 0:
         return {**source_value}
-    return {
-        **source_value,
-        FIELD.SOURCE_INFO: source_info
-    }
+    return {**source_value, FIELD.SOURCE_INFO: source_info}
 
 
 def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_field=None):
@@ -305,20 +320,20 @@ def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_f
     :param typeinfo: the GOB model info
     :return: the string value of a field specified by the field's metadata, based on the values in row
     """
-    field_type = typeinfo['type']
-    field_source = metadata['source_mapping']
+    field_type = typeinfo["type"]
+    field_source = metadata["source_mapping"]
 
     gob_type = get_gob_type_from_info(typeinfo)
 
-    kwargs = {k: v for k, v in metadata.items() if k not in ['type', 'source_mapping', 'filters']}
+    kwargs = {k: v for k, v in metadata.items() if k not in ["type", "source_mapping", "filters"]}
 
     if isinstance(field_source, dict):
-        value = _extract_references(row, field_source, field_type, metadata.get('force_list', False))
+        value = _extract_references(row, field_source, field_type, metadata.get("force_list", False))
     else:
         value = _get_value(row, field_source)
 
     # Clean all references
-    if field_type in ('GOB.Reference', 'GOB.ManyReference') and value is not None:
+    if field_type in ("GOB.Reference", "GOB.ManyReference") and value is not None:
         value = _clean_references(value)
 
     value = _apply_field_filters(metadata, value)
@@ -326,7 +341,7 @@ def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_f
     try:
         return gob_type.from_value_secure(value, typeinfo, **kwargs)
     except GOBTypeException:
-        # Convert the raw source row into a GOB-like row
+        # The row is still in the source format.
         report_row = _goblike_row(row, entity_id_field, seqnr_field)
         report_row[field] = value
 
@@ -336,7 +351,7 @@ def _extract_field(row, field, metadata, typeinfo, entity_id_field=None, seqnr_f
 
 
 def _goblike_row(row, entity_id_field, seqnr_field=None):
-    """The row is still in the source format.
+    """Convert the raw source row into a GOB-like row.
 
     Construct a "GOB-row" to report the issue.
 
@@ -356,8 +371,8 @@ def _goblike_row(row, entity_id_field, seqnr_field=None):
 def _apply_field_filters(metadata, value):
     if "filters" in metadata:
         # If we are dealing with a dict, apply filters to the correct attribute
-        if isinstance(metadata['filters'], dict):
-            for attribute, filters in metadata['filters'].items():
+        if isinstance(metadata["filters"], dict):
+            for attribute, filters in metadata["filters"].items():
                 value[attribute] = _apply_filters(value[attribute], filters)
         else:
             # Apply any filters to the raw value
