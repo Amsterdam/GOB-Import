@@ -29,7 +29,7 @@ FILES=(
   "gobimport/utils.py"
 #  "gobimport/injections.py"
 #  "gobimport/__main__.py"
-#  "gobimport/merger.py"
+  "gobimport/merger.py"
 )
 
 echo "Running mypy"
