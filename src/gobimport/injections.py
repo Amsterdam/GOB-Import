@@ -1,18 +1,22 @@
-"""Injections
+"""Injections.
 
-Conversion logic to populate a source with fixed data
+Conversion logic to populate a source with fixed data.
 
-This van be used when importing data from new sources
-The data in the new source can be populated so that it joins the previous source
+This can be used when importing data from new sources.
+The data in the new source can be populated so that it joins the previous source.
 
-ToDo: handle data that has states (key consists of multiple items)
+ToDo: handle data that has states (key consists of multiple items).
 """
+
+
 import json
 
 
 class Injector:
+    """Inject a data source with fixed data."""
 
     def __init__(self, inject_spec):
+        """Initialise Injector."""
         self.inject_spec = inject_spec
 
         if inject_spec:
@@ -43,6 +47,7 @@ class Injector:
             self.injections = {injection[self.inject_on]: injection for injection in injections}
 
     def inject(self, row):
+        """Inject data row."""
         # {
         #     "<key value>": {
         #         "<any fieldname>" : "<any value>",
@@ -61,7 +66,7 @@ class Injector:
             self._apply(row=row, key=key, operator=operator, value=inject_spec[key])
 
     def _apply(self, row, key, operator, value):
-        """Apply an injection
+        """Apply an injection.
 
         :param row: the data row to which the injection should be applied
         :param key: the key

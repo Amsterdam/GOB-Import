@@ -27,7 +27,7 @@ FILES=(
 #  "gobimport/import_client.py"
   "gobimport/reader.py"
   "gobimport/utils.py"
-#  "gobimport/injections.py"
+  "gobimport/injections.py"
 #  "gobimport/__main__.py"
   "gobimport/merger.py"
 )
