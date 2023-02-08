@@ -25,7 +25,7 @@ FILES=(
   "gobimport/converter.py"
   "gobimport/__init__.py"
 #  "gobimport/import_client.py"
-#  "gobimport/reader.py"
+  "gobimport/reader.py"
   "gobimport/utils.py"
 #  "gobimport/injections.py"
 #  "gobimport/__main__.py"
@@ -41,7 +41,7 @@ coverage run --source=gobimport -m pytest
 echo "Coverage report"
 coverage report --fail-under=96
 
-echo "\nCheck if Black finds no potential reformat fixes"
+echo "\nCheck if Black finds potential reformat fixes"
 black --check --diff "${FILES[@]}"
 
 echo "\nCheck for potential import sort"
