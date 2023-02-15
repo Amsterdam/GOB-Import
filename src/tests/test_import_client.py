@@ -172,9 +172,7 @@ class TestImportClient(TestCase):
             ImportClient.import_dataset(_self)
 
             m.assert_called_once()
-            m.mock_calls[1] = call().write("[")
-            m.mock_calls[2] = call().write("]")
-            m.mock_calls[3] = call().close()
+            m.mock_calls[1] = call().close()
 
         _self.merger.assert_not_called()
         _self.import_rows.assert_not_called()
