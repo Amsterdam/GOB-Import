@@ -11,12 +11,12 @@ export COVERAGE_FILE="/tmp/.coverage"
 
 # Uncomment files to pass through checks
 FILES=(
-#  "gobimport/enricher/bag.py"
-#  "gobimport/enricher/meetbouten.py"
-#  "gobimport/enricher/test_catalogue.py"
-#  "gobimport/enricher/__init__.py"
-#  "gobimport/enricher/enricher.py"
-#  "gobimport/enricher/gebieden.py"
+  "gobimport/enricher/bag.py"
+  "gobimport/enricher/meetbouten.py"
+  "gobimport/enricher/test_catalogue.py"
+  "gobimport/enricher/__init__.py"
+  "gobimport/enricher/enricher.py"
+  "gobimport/enricher/gebieden.py"
   "gobimport/entity_validator/bag.py"
   "gobimport/entity_validator/__init__.py"
   "gobimport/entity_validator/gebieden.py"
