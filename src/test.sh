@@ -24,7 +24,7 @@ FILES=(
   "gobimport/validator/__init__.py"
   "gobimport/converter.py"
   "gobimport/__init__.py"
-#  "gobimport/import_client.py"
+  "gobimport/import_client.py"
   "gobimport/reader.py"
   "gobimport/utils.py"
   "gobimport/injections.py"
