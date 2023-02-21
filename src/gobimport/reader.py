@@ -1,23 +1,25 @@
 """Reader.
 
-Contains logic to connect and read from a variety of datasources.
+Contains logic to connect and read from a variety of data sources.
 """
 
-from gobcore.typesystem import GOB_SECURE_TYPES
-from gobcore.enum import ImportMode
-from gobcore.secure.crypto import read_protect
-from gobcore.logging.logger import logger
-from gobcore.datastore.factory import DatastoreFactory
 
 from gobconfig.datastore.config import get_datastore_config
+from gobcore.datastore.factory import Datastore, DatastoreFactory
+from gobcore.enum import ImportMode
+from gobcore.logging.logger import logger
+from gobcore.secure.crypto import read_protect
+from gobcore.typesystem import GOB_SECURE_TYPES
 
 from gobimport import gob_model
 
 
 class Reader:
+    """Data source reader."""
 
     def __init__(self, source, app, dataset, mode: ImportMode = ImportMode.FULL):
-        """
+        """Initialise Reader.
+
         source:
         type :       type of source, e.g. file, database, ...
         application: name of the application or source that holds the data, e.g. Neuron, DIVA, ...
@@ -34,15 +36,15 @@ class Reader:
         self.secure_types = [f"GOB.{type.name}" for type in GOB_SECURE_TYPES]
         mapping = dataset["gob_mapping"]
 
-        catalogue = dataset['catalogue']
-        entity = dataset['entity']
-        gob_attributes = gob_model[catalogue]['collections'][entity]['all_fields']
-        self.secure_attributes = []
+        catalogue = dataset["catalogue"]
+        entity = dataset["entity"]
+        gob_attributes = gob_model[catalogue]["collections"][entity]["all_fields"]
+        self.secure_attributes: list[str] = []
         self.set_secure_attributes(mapping, gob_attributes)
 
-        self.datastore = None
+        self.datastore: Datastore = None
 
-    def set_secure_attributes(self, mapping, gob_attributes):
+    def set_secure_attributes(self, mapping, gob_attributes) -> None:
         """Get the secure attributes so that they are read protected as soon as they are read.
 
         :param mapping:
@@ -53,24 +55,23 @@ class Reader:
             gob_attr = gob_attributes.get(maps_on)
             if gob_attr and gob_attr["type"] in self.secure_types:
                 self.secure_attributes.append(map_spec["source_mapping"])
-            if isinstance(map_spec['source_mapping'], dict) and gob_attr.get('secure'):
-                # dictionary of source mappings (normally a reference with secure attributes
-                source_mapping = {k: {'source_mapping': v} for k, v in map_spec['source_mapping'].items()}
-                self.set_secure_attributes(source_mapping, gob_attr['secure'])
+            if isinstance(map_spec["source_mapping"], dict) and gob_attr.get("secure"):
+                # Dictionary of source mappings (normally a reference with secure attributes).
+                source_mapping = {k: {"source_mapping": v} for k, v in map_spec["source_mapping"].items()}
+                self.set_secure_attributes(source_mapping, gob_attr["secure"])
 
     def connect(self):  # noqa: C901
-        """The first step of every import is a technical step.
+        """Connect to a database, filesystem, API, ...
 
-        A connection need to be setup to connect to a database, filesystem, API, ...
+        The first step of every import is a technical step.
+        A connection needs to be set up.
 
         :return:
         """
-
         # Get manually added config, or config based on application name
-        datastore_config = self.source.get('application_config') or get_datastore_config(
-                self.source['application'])
+        datastore_config = self.source.get("application_config") or get_datastore_config(self.source["application"])
 
-        read_config = {**self.source.get('read_config', {}), 'mode': self.mode}
+        read_config = {**self.source.get("read_config", {}), "mode": self.mode}
         self.datastore = DatastoreFactory.get_datastore(datastore_config, read_config)
         self.datastore.connect()
 
@@ -94,8 +95,9 @@ class Reader:
 
         :return: iterable dataset
         """
-        assert self.datastore is not None, "No datastore, datastore should be initialised first. " \
-                                           "Have you called connect?"
+        assert self.datastore is not None, (
+            "No datastore, datastore should be initialised first. " "Have you called connect?"
+        )
 
         # The source query is the query (only db-like connections have one)
         source_query = self.source.get("query", [])
@@ -110,6 +112,6 @@ class Reader:
                 raise exc
 
         # Name the cursor to activate server-side-cursor (only postgresql datastore)
-        results = self.datastore.query("\n".join(source_query), arraysize=2000, name='import_cursor', withhold=True)
+        results = self.datastore.query("\n".join(source_query), arraysize=2000, name="import_cursor", withhold=True)
 
         return self._maybe_protect_rows(results)

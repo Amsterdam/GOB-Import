@@ -13,7 +13,7 @@ class TestMerger(unittest.TestCase):
 
     def test_constructor(self):
         merger = Merger("Any import client")
-        self.assertIsNone(merger.merge_def)
+        self.assertEqual(merger.merge_def, {})
         self.assertEqual(merger.merge_items, {})
 
     def test_merge_diva_into_dgdialog(self):
@@ -82,7 +82,7 @@ class TestMerger(unittest.TestCase):
         mock_client.source = {}
         merger = Merger(mock_client)
         merger.prepare(progress=None)
-        self.assertEqual(merger.merge_def, None)
+        self.assertEqual(merger.merge_def, {})
 
     @mock.patch('gobimport.merger.get_import_definition_by_filename', mock.MagicMock())
     def test_prepare_with_merge_def(self):
