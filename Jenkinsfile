@@ -29,13 +29,15 @@ node('GOBBUILD') {
         }
 
         stage('Test') {
-            tryStep "test", {
+            lock("gob-import-test") {
+                tryStep "test", {
 
-                sh "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml build --no-cache && " +
-                   "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml run --rm test"
+                    sh "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml build --no-cache && " +
+                       "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml run --rm test"
 
-            }, {
-                sh "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml down"
+                }, {
+                    sh "docker-compose -p gob_import_client -f src/.jenkins/test/docker-compose.yml down"
+                }
             }
         }
 
