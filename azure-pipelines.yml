@@ -1,0 +1,45 @@
+
+trigger:
+  branches:
+    include:
+      - develop
+      - master
+  tags:
+    include:
+      - v1.*
+
+resources:
+  repositories:
+    - repository: benk-infra
+      type: git
+      name: benk-infra
+
+stages:
+  - stage: BuildOnt
+    displayName: Build and push develop image to ontwikkel and test
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/develop') )
+    jobs:
+      - template: templates/build_image.yaml@benk-infra
+        parameters:
+          environment: ont
+          dockerImageName: datapunt/gob-import
+          dockerImageTag: develop
+          dockerOpts: --no-cache
+
+      - template: templates/build_image.yaml@benk-infra
+        parameters:
+          environment: tst
+          dockerImageName: datapunt/gob-import
+          dockerImageTag: develop
+          dockerOpts: --no-cache
+
+  - stage: BuildAcc
+    displayName: Build and push develop image to acceptance
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master') )
+    jobs:
+      - template: templates/build_image.yaml@benk-infra
+        parameters:
+          environment: acc
+          dockerImageName: datapunt/gob-import
+          dockerImageTag: develop
+          dockerOpts: --no-cache
