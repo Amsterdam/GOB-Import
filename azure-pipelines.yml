@@ -1,4 +1,3 @@
-
 trigger:
   branches:
     include:
@@ -24,14 +23,16 @@ stages:
           environment: ont
           dockerImageName: datapunt/gob-import
           dockerImageTag: develop
-          dockerOpts: --no-cache
+          dockerOpts: --no-cache --target application
+          srcPath: src
 
       - template: templates/build_image.yaml@benk-infra
         parameters:
           environment: tst
           dockerImageName: datapunt/gob-import
           dockerImageTag: develop
-          dockerOpts: --no-cache
+          dockerOpts: --no-cache --target application
+          srcPath: src
 
   - stage: BuildAcc
     displayName: Build and push develop image to acceptance
@@ -42,4 +43,5 @@ stages:
           environment: acc
           dockerImageName: datapunt/gob-import
           dockerImageTag: develop
-          dockerOpts: --no-cache
+          dockerOpts: --no-cache --target application
+          srcPath: src
