@@ -3,9 +3,17 @@ trigger:
     include:
       - develop
       - master
-  tags:
+
+pr:
+  drafts: true
+  branches:
     include:
-      - v1.*
+      - develop
+      - master
+  paths:
+    include:
+      - src/*
+      - azure-pipelines.yml
 
 resources:
   repositories:
@@ -14,9 +22,17 @@ resources:
       name: benk-infra
 
 stages:
+  - stage: Test
+    jobs:
+      - template: templates/test.yaml@benk-infra
+        parameters:
+          projectName: amsterdam-gob-import
+          composeFile: src/.jenkins/test/docker-compose.yml
+
   - stage: BuildOnt
-    displayName: Build and push develop image to ontwikkel and test
-    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/develop') )
+    displayName: Build and push develop image to ontwikkel
+    dependsOn: Test
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/develop'))
     jobs:
       - template: templates/build_image.yaml@benk-infra
         parameters:
@@ -26,17 +42,24 @@ stages:
           dockerOpts: --no-cache --target application
           srcPath: src
 
-      - template: templates/build_image.yaml@benk-infra
+  - stage: BuildTst
+    displayName: Build and push develop image to test
+    dependsOn:
+      - Test
+      - BuildOnt
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/develop'))
+    jobs:
+      - template: templates/tag_image.yaml@benk-infra
         parameters:
-          environment: tst
+          sourceEnvironment: ont
+          destEnvironment: tst
           dockerImageName: datapunt/gob-import
           dockerImageTag: develop
-          dockerOpts: --no-cache --target application
-          srcPath: src
 
   - stage: BuildAcc
     displayName: Build and push develop image to acceptance
-    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master') )
+    dependsOn: Test
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
     jobs:
       - template: templates/build_image.yaml@benk-infra
         parameters:
