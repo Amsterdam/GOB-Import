@@ -169,3 +169,9 @@ class TestReader(TestCase):
             'protected(a)',
             'protected(b)',
         ], list(reader._maybe_protect_rows(query)))
+
+    def test_disconnect(self):
+        with Reader(self.source, self.app, self.dataset()) as reader:
+            reader.datastore = mock.MagicMock()
+
+        reader.datastore.disconnect.assert_called_once()

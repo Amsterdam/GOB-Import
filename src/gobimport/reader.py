@@ -2,7 +2,7 @@
 
 Contains logic to connect and read from a variety of data sources.
 """
-
+from typing import Optional
 
 from gobconfig.datastore.config import get_datastore_config
 from gobcore.datastore.factory import Datastore, DatastoreFactory
@@ -42,7 +42,17 @@ class Reader:
         self.secure_attributes: list[str] = []
         self.set_secure_attributes(mapping, gob_attributes)
 
-        self.datastore: Datastore = None
+        self.datastore: Optional[Datastore] = None
+
+    def __enter__(self):
+        """Enter Reader context."""
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Exit Reader context, always disconnect from datastore."""
+        if self.datastore is not None:
+            self.datastore.disconnect()
+            logger.info(f"Disconnected from {self.app} {self.datastore.user}")
 
     def set_secure_attributes(self, mapping, gob_attributes) -> None:
         """Get the secure attributes so that they are read protected as soon as they are read.

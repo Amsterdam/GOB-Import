@@ -10,6 +10,7 @@ from tests import fixtures
 
 mock_model = MagicMock(spec_set=gob_model)
 
+
 @patch('gobimport.converter.gob_model', mock_model)
 @patch('gobimport.validator.gob_model', mock_model)
 class TestImportClient(TestCase):
@@ -76,12 +77,12 @@ class TestImportClient(TestCase):
                "0 records imported, all known entities will be marked as deleted."
         logger.info.assert_called_with(msg2, kwargs={'data': {'num_records': 0}})
 
-    @patch('gobimport.import_client.Reader')
+    @patch('gobimport.import_client.Reader', autospec=True)
     def test_import_rows(self, mock_Reader):
         mock_reader = MagicMock()
         mock_Reader.return_value = mock_reader
         rows = ((1, 2), (3, 4))
-        mock_reader.read.return_value = rows
+        mock_reader.__enter__.return_value.read.return_value = rows
 
         progress = MagicMock()
         write = MagicMock()
@@ -105,12 +106,21 @@ class TestImportClient(TestCase):
         _self.validator.result.called_once_with()
         self.assertEqual(len(_self.logger.info.call_args_list), 3)
 
+        mock_reader.__exit__.assert_called()
+
+        # exception
+        mock_reader.reset_mock()
+        _self.injector.inject.side_effect = Exception
+        with self.assertRaises(Exception):
+            ImportClient.import_rows(_self, write, progress)
+        mock_reader.__exit__.assert_called()
+
     @patch('gobimport.import_client.Reader')
     def test_import_rows_merged(self, mock_Reader):
         mock_reader = MagicMock()
         mock_Reader.return_value = mock_reader
         rows = ((1, 2), (3, 4))
-        mock_reader.read.return_value = rows
+        mock_reader.__enter__.return_value.read.return_value = rows
 
         progress = MagicMock()
         write = MagicMock()
