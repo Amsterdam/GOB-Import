@@ -167,30 +167,31 @@ class ImportClient:
     def import_rows(self, write, progress: ProgressTicker) -> None:
         """Import rows from source application."""
         self.logger.info(f"Connect to {self.source_app}")
-        reader = Reader(self.source, self.source_app, self.dataset, self.mode)
-        reader.connect()
 
-        self.logger.info(f"Start import from {self.source_app}")
-        self.n_rows = 0
-        for row in reader.read():
-            progress.tick()
+        with Reader(self.source, self.source_app, self.dataset, self.mode) as reader:
+            reader.connect()
 
-            self.row = row
-            self.n_rows += 1
+            self.logger.info(f"Start import from {self.source_app}")
+            self.n_rows = 0
+            for row in reader.read():
+                progress.tick()
 
-            self.injector.inject(row)
+                self.row = row
+                self.n_rows += 1
 
-            self.enricher.enrich(row)
+                self.injector.inject(row)
 
-            self.merger.merge(row, write)
+                self.enricher.enrich(row)
 
-            entity = self.converter.convert(row)
+                self.merger.merge(row, write)
 
-            self.validator.validate(entity)
+                entity = self.converter.convert(row)
 
-            self.entity_validator.validate(entity, merged=self.merger.is_merged(entity))
+                self.validator.validate(entity)
 
-            write(entity)
+                self.entity_validator.validate(entity, merged=self.merger.is_merged(entity))
+
+                write(entity)
 
         self.validator.result()
 
