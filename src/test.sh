@@ -16,7 +16,7 @@ mypy gobimport
 echo "\nRunning unit tests"
 coverage run --source=gobimport -m pytest
 
-echo "Coverage report"
+echo "\nCoverage report"
 coverage report --fail-under=96
 
 echo "\nCheck if Black finds potential reformat fixes"
