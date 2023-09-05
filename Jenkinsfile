@@ -18,11 +18,7 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
 
 
 node('GOBBUILD') {
-    withEnv([
-        "DOCKER_IMAGE_NAME=datapunt/gob_import:${env.BUILD_NUMBER}",
-        "BENK_ACR_ONTW=benkweuacrofkl2hn5eivwy.azurecr.io"
-        ]) {
-
+    withEnv(["DOCKER_IMAGE_NAME=datapunt/gob_import:${env.BUILD_NUMBER}"]) {
 
         stage("Checkout") {
             checkout scm
@@ -56,31 +52,6 @@ node('GOBBUILD') {
         }
 
         String BRANCH = "${env.BRANCH_NAME}"
-        if (BRANCH == "develop") {
-
-            stage('Push develop image') {
-                tryStep "image tagging", {
-                    docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-                        def image = docker.image("${DOCKER_IMAGE_NAME}")
-                        image.pull()
-                        image.push("develop")
-                        image.push("test")
-                    }
-                }
-            }
-
-            stage("Deploy to TEST") {
-                tryStep "deployment", {
-                    build job: 'Subtask_Openstack_Playbook',
-                        parameters: [
-                            [$class: 'StringParameterValue', name: 'INVENTORY', value: 'test'],
-                            [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy.yml'],
-                            [$class: 'StringParameterValue', name: 'PLAYBOOKPARAMS', value: "-e cmdb_id=app_gob-import"],
-                        ]
-                }
-            }
-
-        }
 
         if (BRANCH == "master") {
 
