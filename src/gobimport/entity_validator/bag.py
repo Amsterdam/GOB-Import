@@ -128,7 +128,7 @@ class BAGValidator:
     def validate_standplaats(self, entity):
         """Validate standplaats (maar eigenlijk 'gebruiksdoel')."""
         gebruiksdoelen = [
-            gebruiksdoel.get("omschrijving", "").lower() for gebruiksdoel in entity.get("gebruiksdoel", [])
+            gebruiksdoel.get("omschrijving", "").lower() for gebruiksdoel in (entity.get("gebruiksdoel", []) or [])
         ]
         self._check_gebruiksdoelen_exist(entity, gebruiksdoelen)
         self._check_gebruiksdoelen_duplicates(entity, gebruiksdoelen)
@@ -136,7 +136,7 @@ class BAGValidator:
     def validate_ligplaats(self, entity):
         """Validate ligplaats (maar eigenlijk 'gebruiksdoel')."""
         gebruiksdoelen = [
-            gebruiksdoel.get("omschrijving", "").lower() for gebruiksdoel in entity.get("gebruiksdoel", [])
+            gebruiksdoel.get("omschrijving", "").lower() for gebruiksdoel in (entity.get("gebruiksdoel", []) or [])
         ]
         self._check_gebruiksdoelen_exist(entity, gebruiksdoelen)
         self._check_gebruiksdoelen_duplicates(entity, gebruiksdoelen)
@@ -177,7 +177,7 @@ class BAGValidator:
         # Check both woonfunctie and gezondheidszorgfunctie
         for check_value in ["woonfunctie", "gezondheidszorgfunctie"]:
             attribute_name = f"gebruiksdoel_{check_value}"
-            attribute_value = entity.get(attribute_name, {}).get("omschrijving")
+            attribute_value = (entity.get(attribute_name, {}) or {}).get("omschrijving")
 
             if attribute_value and check_value not in gebruiksdoelen:
                 log_issue(
@@ -190,7 +190,7 @@ class BAGValidator:
         aantal_eenheden_complex = entity.get("aantal_eenheden_complex")
 
         check_attributes = ["gebruiksdoel_woonfunctie", "gebruiksdoel_gezondheidszorgfunctie"]
-        check_values = [entity.get(attr, {}).get("omschrijving", "") or "" for attr in check_attributes]
+        check_values = [(entity.get(attr, {}) or {}).get("omschrijving", "") or "" for attr in check_attributes]
 
         # If aantal_eenheden_complex is filled and complex not in the check values log a data warning
         if aantal_eenheden_complex is not None and all("complex" not in value.lower() for value in check_values):
