@@ -137,7 +137,7 @@ class TestMain(TestCase):
 
         sys.argv = [
             "gobimport", "import", "--catalogue", "bag", "--collection", "ligplaatsen",
-            "--application", "Neuron"
+            "--application", "GOBPrepare"
         ]
         with pytest.raises(SystemExit):
             main()
@@ -145,7 +145,7 @@ class TestMain(TestCase):
         argparse: Namespace = mock_run.call_args.args[0]
         assert argparse.catalogue == "bag"
         assert argparse.collection == "ligplaatsen"
-        assert argparse.application == "Neuron"
+        assert argparse.application == "GOBPrepare"
         assert argparse.mode == "full"
 
     @patch("gobimport.__main__.ImportClient.import_dataset", MagicMock())
@@ -159,7 +159,7 @@ class TestMain(TestCase):
 
         sys.argv = [
             "gobimport", "import", "--catalogue", "bag", "--collection",
-            "ligplaatsen", "--application", "Neuron"
+            "ligplaatsen", "--application", "GOBPrepare"
         ]
         with pytest.raises(SystemExit):
             main()
